@@ -92,7 +92,7 @@ install() {
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
-    sudo nixos-rebuild switch --flake .#${HOST} #&>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
+    sudo nixos-rebuild switch --flake .#${HOST} --show-trace #&>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
 }
 
 main() {
