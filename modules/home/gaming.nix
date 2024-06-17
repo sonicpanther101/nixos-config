@@ -1,6 +1,10 @@
-{ pkgs, config, inputs, ... }: 
 {
-  home.packages = with pkgs;[
+  pkgs,
+  config,
+  inputs,
+  ...
+}: {
+  home.packages = with pkgs; [
     ## Utils
     # gamemode
     # gamescope
@@ -11,7 +15,7 @@
     _2048-in-terminal
     vitetris
     nethack
-    
+
     ## Celeste
     celeste-classic
     celeste-classic-pm

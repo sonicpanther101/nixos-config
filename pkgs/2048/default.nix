@@ -1,5 +1,9 @@
-{ stdenv, lib, stdenv, fetchFromGitHub, ... }:
-
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  ...
+}:
 stdenv.mkDerivation rec {
   pname = "2048";
   version = "1.0";
@@ -12,7 +16,6 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-
   ];
 
   buildPhase = ''

@@ -113,7 +113,7 @@ main() {
 
     init
 
-    print_header
+    #print_header
 
     get_username
     set_username
