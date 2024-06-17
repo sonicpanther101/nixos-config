@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 init() {
     # Vars
     CURRENT_USERNAME='frostphoenix'
@@ -84,39 +86,31 @@ install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
     sleep 0.2
 
-    # Create basic directories
-    echo -e "Creating folders:"
-    echo -e "    - ${MAGENTA}~/Music${NORMAL}"
-    echo -e "    - ${MAGENTA}~/Documents${NORMAL}"
-    echo -e "    - ${MAGENTA}~/Pictures/wallpapers/others${NORMAL}"
-    mkdir -p ~/Music
-    mkdir -p ~/Documents
-    mkdir -p ~/Pictures/wallpapers/others
-    sleep 0.2
-
-    # Copy the wallpapers
-    echo -e "Copying all ${MAGENTA}wallpapers${NORMAL}"
-    cp -r wallpapers/wallpaper.png ~/Pictures/wallpapers
-    cp -r wallpapers/otherWallpaper/catppuccin/* ~/Pictures/wallpapers/others/
-    cp -r wallpapers/otherWallpaper/nixos/* ~/Pictures/wallpapers/others/
-    cp -r wallpapers/otherWallpaper/others/* ~/Pictures/wallpapers/others/
-    sleep 0.2
-
-    # Get the hardware configuration
-    echo -e "Copying ${MAGENTA}/etc/nixos/hardware-configuration.nix${NORMAL} to ${MAGENTA}./hosts/${HOST}/${NORMAL}\n"
-    cp /etc/nixos/hardware-configuration.nix hosts/${HOST}/hardware-configuration.nix
-    sleep 0.2
-
     # Last Confirmation
     echo -en "You are about to start the system build, do you want to process ? "
     confirm
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
-    sudo nixos-rebuild switch --flake .#${HOST}
+    sudo nixos-rebuild switch --flake .#${HOST} &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
 }
 
 main() {
+
+    # Early return if no changes were detected (thanks @singiamtel!)
+    if git diff --quiet '*.nix'; then
+        echo "No changes detected, exiting."
+        popd
+        exit 0
+    fi
+
+    # Autoformat your nix files
+    alejandra . &>/dev/null \
+      || ( alejandra . ; echo "formatting failed!" && exit 1)
+
+    # Shows your changes
+    git diff -U0 '*.nix'
+
     init
 
     print_header
@@ -126,6 +120,15 @@ main() {
     get_host
 
     install
+
+    # Get current generation metadata
+    current=$(nixos-rebuild list-generations | grep current)
+
+    # Commit all changes witih the generation metadata
+    git commit -am "$current"
+
+    # Notify all OK!
+    notify-send -e "NixOS Rebuilt OK!" --icon=software-update-available
 }
 
 main && exit 0
