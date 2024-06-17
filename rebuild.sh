@@ -92,17 +92,17 @@ install() {
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
-    sudo nixos-rebuild switch --flake .#${HOST} &>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
+    sudo nixos-rebuild switch --flake .#${HOST} #&>nixos-switch.log || (cat nixos-switch.log | grep --color error && exit 1)
 }
 
 main() {
 
     # Early return if no changes were detected (thanks @singiamtel!)
-    if git diff --quiet '*.nix'; then
-        echo "No changes detected, exiting."
-        popd
-        exit 0
-    fi
+    #if git diff --quiet '*.nix'; then
+    #    echo "No changes detected, exiting."
+    #    popd
+    #    exit 0
+    #fi
 
     # Autoformat your nix files
     alejandra . &>/dev/null \
