@@ -16,7 +16,6 @@
   #------------------------------------------------------------
   # [4070]
 
-  #normal setup (flickers on vivaldi and minecraft)
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
     version = "555.52.04";
     sha256_64bit = "sha256-nVOubb7zKulXhux9AruUTVBQwccFFuYGWrU1ZiakRAI=";

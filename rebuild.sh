@@ -52,7 +52,7 @@ print_header() {
 }
 
 get_username() {
-    username="John"  # Set username to a fixed value
+    username="adam"  # Set username to a fixed value
     echo -en "Using username: $username\n"
 }
 
