@@ -65,4 +65,5 @@
       env = GDK_SCALE,2
       env = XCURSOR_SIZE,32
     ";
+  };
 }
