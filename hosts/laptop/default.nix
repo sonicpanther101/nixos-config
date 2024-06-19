@@ -52,4 +52,17 @@
       ]
       ++ [pkgs.cpupower-gui];
   };
+
+  wayland.windowManager.hyprland = {
+    extraConfig = "
+      monitor=,preferred,auto,1.9
+
+      xwayland {
+        force_zero_scaling = true
+      }
+
+      # toolkit-specific scale
+      env = GDK_SCALE,2
+      env = XCURSOR_SIZE,32
+    ";
 }
