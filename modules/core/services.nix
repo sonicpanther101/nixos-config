@@ -12,7 +12,6 @@
 
   services.automatic-timezoned.enable = true;
 
-  location.provider = "geoclue2";
   services.redshift = {
     enable = true;
     brightness = {
