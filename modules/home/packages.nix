@@ -62,5 +62,9 @@
     xdg-utils
     xxd
     inputs.alejandra.defaultPackage.${system}
+
+    # added myself
+    bottles
+    spotify
   ];
 }
