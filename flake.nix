@@ -34,6 +34,8 @@
       url = "github:catppuccin/starship";
       flake = false;
     };
+
+    kaizen.url = "github:thericecold/kaizen";
   };
 
   outputs = { nixpkgs, self, ...} @ inputs:
@@ -52,18 +54,9 @@
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         inherit system;
+        extraSpecialArgs = { inherit kaizen; };
         modules = [ (import ./hosts/desktop) ];
         specialArgs = { host="desktop"; inherit self inputs username ; };
-      };
-      laptop = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [ (import ./hosts/laptop) ];
-        specialArgs = { host="laptop"; inherit self inputs username ; };
-      };
-       vm = nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = [ (import ./hosts/vm) ];
-        specialArgs = { host="vm"; inherit self inputs username ; };
       };
     };
   };
