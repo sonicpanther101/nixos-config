@@ -73,8 +73,6 @@ install() {
 main() {
     init
 
-    print_header
-
     get_username
     set_username
     get_host
