@@ -55,10 +55,10 @@
   {
     overlays.default = selfPkgs.overlay;
     nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
+      laptop = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ (import ./hosts/desktop) ];
-        specialArgs = { host="desktop"; inherit self inputs kaizen username ; };
+        modules = [ (import ./hosts/laptop) ];
+        specialArgs = { host="laptop"; inherit self inputs username ; };
       };
     };
   };
