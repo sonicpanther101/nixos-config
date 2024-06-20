@@ -54,9 +54,8 @@
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         inherit system;
-        extraSpecialArgs = { inherit kaizen; };
         modules = [ (import ./hosts/desktop) ];
-        specialArgs = { host="desktop"; inherit self inputs username ; };
+        specialArgs = { host="desktop"; inherit self inputs kaizen username ; };
       };
     };
   };
