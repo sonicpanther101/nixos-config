@@ -50,11 +50,7 @@ print_header() {
 }
 
 get_username() {
-    echo -en "Enter your$GREEN username$NORMAL : $YELLOW"
-    read username
-    echo -en "$NORMAL"
-    echo -en "Use$YELLOW "$username"$NORMAL as ${GREEN}username${NORMAL} ? "
-    confirm
+    username="adam"
 }
 
 set_username() {
@@ -63,47 +59,11 @@ set_username() {
 }
 
 get_host() {
-    echo -en "Choose a ${GREEN}host${NORMAL} - [${YELLOW}D${NORMAL}]esktop, [${YELLOW}L${NORMAL}]aptop or [${YELLOW}V${NORMAL}]irtual machine: "
-    read -n 1 -r
-    echo
-
-    if [[ $REPLY =~ ^[Dd]$ ]]; then
-        HOST='desktop'
-    elif [[ $REPLY =~ ^[Ll]$ ]]; then
-        HOST='laptop'
-     elif [[ $REPLY =~ ^[Vv]$ ]]; then
-        HOST='vm'
-    else
-        echo "Invalid choice. Please select 'D' for desktop, 'L' for laptop or 'V' for virtual machine."
-        exit 1
-    fi
-    
-    echo -en "$NORMAL"
-    echo -en "Use the$YELLOW "$HOST"$NORMAL ${GREEN}host${NORMAL} ? "
-    confirm
+    HOST="desktop"
 }
 
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
-    sleep 0.2
-
-    # Create basic directories
-    echo -e "Creating folders:"
-    echo -e "    - ${MAGENTA}~/Music${NORMAL}"
-    echo -e "    - ${MAGENTA}~/Documents${NORMAL}"
-    echo -e "    - ${MAGENTA}~/Pictures/wallpapers/others${NORMAL}"
-    mkdir -p ~/Music
-    mkdir -p ~/Documents
-    mkdir -p ~/Pictures/wallpapers/others
-    sleep 0.2
-
-    # Copy the wallpapers
-    echo -e "Copying all ${MAGENTA}wallpapers${NORMAL}"
-    cp -r wallpapers/wallpaper.png ~/Pictures/wallpapers
-    cp -r wallpapers/otherWallpaper/catppuccin/* ~/Pictures/wallpapers/others/
-    cp -r wallpapers/otherWallpaper/nixos/* ~/Pictures/wallpapers/others/
-    cp -r wallpapers/otherWallpaper/others/* ~/Pictures/wallpapers/others/
-    sleep 0.2
 
     # Get the hardware configuration
     echo -e "Copying ${MAGENTA}/etc/nixos/hardware-configuration.nix${NORMAL} to ${MAGENTA}./hosts/${HOST}/${NORMAL}\n"
