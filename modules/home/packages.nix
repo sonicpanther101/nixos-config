@@ -62,5 +62,6 @@
 
     bottles
     spotify
+    protonvpn-gui
   ]);
 }
