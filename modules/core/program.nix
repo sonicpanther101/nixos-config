@@ -1,4 +1,4 @@
-{ pkgs, ... }: 
+{ pkgs, kaizen, ... }: 
 {
   programs.dconf.enable = true;
   programs.zsh.enable = true;
@@ -6,5 +6,9 @@
     enable = true;
     enableSSHSupport = true;
     # pinentryFlavor = "";
+  };
+  imports = [ kaizen.homeManagerModules.default; ]; 
+  programs.kaizen = {
+    enable = true;
   };
 }
