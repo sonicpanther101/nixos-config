@@ -38,7 +38,7 @@
     kaizen.url = "github:thericecold/kaizen";
   };
 
-  outputs = { nixpkgs, self, ...} @ inputs:
+  outputs = { nixpkgs, kaizen, self, ...} @ inputs:
   let
     selfPkgs = import ./pkgs;
     username = "frostphoenix";
