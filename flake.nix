@@ -36,6 +36,9 @@
     };
 
     kaizen.url = "github:thericecold/kaizen";
+    ags.url = "github:aylur/ags";
+    matugen.url = "github:iniox/matugen";
+    gtk-session-lock.url = "github:Cu3PO42/gtk-session-lock";
   };
 
   outputs = { nixpkgs, kaizen, self, ...} @ inputs:
