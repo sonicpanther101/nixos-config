@@ -14,6 +14,7 @@
       temperature.night = 1501;
     };
   };
+  location.provider = "geoclue2";
   services.logind.extraConfig = ''
     # don’t shutdown when power button is short-pressed
     HandlePowerKey=ignore
