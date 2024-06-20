@@ -59,5 +59,8 @@
     xdg-utils
     xxd
     inputs.alejandra.defaultPackage.${system}
+
+    bottles
+    spotify
   ]);
 }
