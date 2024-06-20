@@ -7,7 +7,7 @@
     enableSSHSupport = true;
     # pinentryFlavor = "";
   };
-  imports = [ kaizen.homeManagerModules.default; ]; 
+  imports = [ kaizen.homeManagerModules.default ]; 
   programs.kaizen = {
     enable = true;
   };
