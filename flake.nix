@@ -58,7 +58,7 @@
       laptop = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [ (import ./hosts/laptop) ];
-        specialArgs = { host="laptop"; inherit self inputs username ; };
+        specialArgs = { host="laptop"; inherit self inputs kaizen username ; };
       };
     };
   };
