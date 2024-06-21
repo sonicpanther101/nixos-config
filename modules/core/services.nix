@@ -19,7 +19,7 @@
       }
       {
         event = "before-sleep";
-        command = 'loginctl lock-session $XDG_SESSION_ID';
+        command = "loginctl lock-session $XDG_SESSION_ID";
       }
       {
         event = "before-sleep";
