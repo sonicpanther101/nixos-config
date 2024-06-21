@@ -17,6 +17,10 @@
     };
   };
 
+  environment.sessionVariables = {
+    FLAKE = "/home/adam/nixos-config";
+  };
+
   users.users.${username} = {
     isNormalUser = true;
     description = "${username}";
