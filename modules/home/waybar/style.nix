@@ -30,13 +30,12 @@ in
 
     #workspaces {
         font-size: 18px;
-        padding-left: 7.5px;
-        padding-right: 7.5px;
+        padding-left: 15px;
     }
     #workspaces button {
         color: ${custom.text_color};
         padding-left:  6px;
-        padding-right: 6px;
+        padding-right: 10px;
     }
     #workspaces button.empty {
         color: #6c7086;
