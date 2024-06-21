@@ -67,7 +67,7 @@ install() {
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
-    nh os switch
+    nh os switch -H laptop ./
 }
 
 main() {
