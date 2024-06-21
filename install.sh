@@ -2,7 +2,7 @@
 
 init() {
     # Vars
-    CURRENT_USERNAME='frostphoenix'
+    CURRENT_USERNAME='adam'
 
     # Colors
     NORMAL=$(tput sgr0)
