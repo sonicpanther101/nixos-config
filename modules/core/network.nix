@@ -1,7 +1,7 @@
 { pkgs, ... }: 
 {
   networking = {
-    hostName = "nixos";
+    hostName = "laptop";
     networkmanager.enable = true;
     nameservers = [ "1.1.1.1" ];
     firewall = {
