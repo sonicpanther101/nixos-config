@@ -5,12 +5,12 @@
     package = pkgs.swaylock-effects;
     settings = {
       clock = true;
-      timestr = "%r";
+      timestr = "%l:%M %p";
       datestr = "%d/%m/%y";
       screenshots = true;
       
       indicator = true;
-      indicator-radius = 100;
+      indicator-radius = 125;
       indicator-thickness = 7;
       
       effect-blur = "7x5";
