@@ -34,17 +34,12 @@
       url = "github:catppuccin/starship";
       flake = false;
     };
-
-    kaizen.url = "github:thericecold/kaizen";
-    ags.url = "github:aylur/ags";
-    matugen.url = "github:iniox/matugen";
-    gtk-session-lock.url = "github:Cu3PO42/gtk-session-lock";
   };
 
-  outputs = { nixpkgs, kaizen, self, ...} @ inputs:
+  outputs = { nixpkgs, self, ...} @ inputs:
   let
     selfPkgs = import ./pkgs;
-    username = "frostphoenix";
+    username = "adam";
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
@@ -58,7 +53,7 @@
       desktop = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [ (import ./hosts/desktop) ];
-        specialArgs = { host="desktop"; inherit self inputs kaizen username ; };
+        specialArgs = { host="desktop"; inherit self inputs username ; };
       };
     };
   };
