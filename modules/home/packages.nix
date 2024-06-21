@@ -66,7 +66,4 @@
     mangohud
     nh
   ]);
-  environment.sessionVariables = {
-    FLAKE = "/home/username/nixos-config";
-  };
 }
