@@ -64,5 +64,7 @@
     spotify
     protonvpn-gui
     nh
+    nvd
+    nix-output-monitor
   ]);
 }
