@@ -125,7 +125,7 @@
       format-icons = {
           Playing = " ";
           Paused = " ";
-      },
+      };
       max-length = 70;
       exec = "playerctl -a metadata --format '{\"text\": \"{{playerName}}: {{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
       on-click = "playerctl play-pause";
