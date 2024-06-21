@@ -66,6 +66,6 @@
     nh
   ]);
   environment.sessionVariables = {
-    FLAKE = "/home/username/nixos-config";
+    FLAKE = "/home/adam/nixos-config";
   };
 }
