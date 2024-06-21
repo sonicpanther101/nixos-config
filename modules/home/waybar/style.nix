@@ -86,9 +86,9 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
-        background-color: rgba(180,190,254,0.5);
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        background-color: rgba(180,190,254,0.3);
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 
     #custom-launcher {
