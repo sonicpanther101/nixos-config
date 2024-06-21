@@ -31,21 +31,21 @@ in
     #workspaces {
         font-size: 18px;
         padding-left: 15px;
-        
     }
     #workspaces button {
         color: ${custom.text_color};
         padding-left:  6px;
-        padding-right: 6px;
+        padding-right: 10px;
     }
     #workspaces button.empty {
         color: #6c7086;
     }
     #workspaces button.active {
         color: #b4befe;
+        border-top: 2px solid #b4befe
     }
 
-    #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery {
+    #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
         font-size: ${custom.font_size};
         color: ${custom.text_color};
     }
@@ -86,19 +86,18 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
-        background: #1a1a1a;
-    }
-
-    #custom-fade-left, #custom-fade-right {
-        color: #1a1a1a;
+        background-color: rgba(180,190,254,0.3);
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
 
     #custom-launcher {
         font-size: 20px;
-        color: #b4befe;
         font-weight: ${custom.font_weight};
         padding-left: 10px;
         padding-right: 15px;
+        background-color: rgba(180,190,254,0.3);
+        border-bottom-right-radius: 10px;
     }
   '';
 }
