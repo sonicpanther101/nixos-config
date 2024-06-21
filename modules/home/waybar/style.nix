@@ -30,8 +30,8 @@ in
 
     #workspaces {
         font-size: 18px;
-        padding-left: 15px;
-        
+        padding-left: 7.5px;
+        padding-right: 7.5px;
     }
     #workspaces button {
         color: ${custom.text_color};
