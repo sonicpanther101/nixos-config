@@ -43,6 +43,7 @@ in
     }
     #workspaces button.active {
         color: #b4befe;
+        border-top: 2px solid #b4befe
     }
 
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery {
