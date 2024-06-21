@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.waybar.settings.mainBar = {
-    position= "bottom";
+    position= "top";
     layer= "top";
     height= 5;
     margin-top= 0;
@@ -13,17 +13,15 @@
         "hyprland/workspaces"
     ];
     modules-center= [
-        "custom/fade-left"
         "clock"
-        "custom/fade-right"
     ];
     modules-right= [
+        "custom/media"
         "tray" 
         "cpu"
         "memory"
         "disk"
         "pulseaudio" 
-        "battery"
         "network"
     ];
     clock= {
@@ -120,13 +118,17 @@
         on-click-right= "pkill wofi || wallpaper-picker"; 
         tooltip= "false";
     };
-    "custom/fade-left" = {
-        format = "░▒▓";
-        tooltip = "false";
-    };
-    "custom/fade-right" = {
-        format = "▓▒░";
-        tooltip = "false";
+    "custom/media" = {
+      format = "{icon}{}";
+      return-type = "json";
+      tooltip= "false";
+      format-icons = {
+          Playing = " ";
+          Paused = " ";
+      };
+      max-length = 70;
+      exec = "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
+      on-click = "playerctl play-pause";
     };
   };
 }
