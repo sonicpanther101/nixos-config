@@ -65,15 +65,6 @@ get_host() {
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
-    # Get the hardware configuration
-    echo -e "Copying ${MAGENTA}/etc/nixos/hardware-configuration.nix${NORMAL} to ${MAGENTA}./hosts/${HOST}/${NORMAL}\n"
-    cp /etc/nixos/hardware-configuration.nix hosts/${HOST}/hardware-configuration.nix
-    sleep 0.2
-
-    # Last Confirmation
-    echo -en "You are about to start the system build, do you want to process ? "
-    confirm
-
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
     sudo nixos-rebuild switch --flake .#${HOST}
