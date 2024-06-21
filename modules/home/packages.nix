@@ -65,7 +65,4 @@
     protonvpn-gui
     nh
   ]);
-  environment.sessionVariables = {
-    FLAKE = "/home/adam/nixos-config";
-  };
 }
