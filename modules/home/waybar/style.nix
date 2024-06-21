@@ -86,6 +86,11 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
+        background: #1a1a1a;
+    }
+
+    #custom-fade-left, #custom-fade-right {
+        color: #1a1a1a;
     }
 
     #custom-launcher {
