@@ -17,7 +17,7 @@
       effect-vignette = "0.5:0.5";
       effect-pixelate = 5;
       
-      color="1e1e2e";
+      image = "/home/adam/nixos-config/wallpapers/wallpaper.png";
       bs-hl-color="f5e0dc";
       key-hl-color="a6e3a1";
       caps-lock-bs-hl-color="f5e0dc";
