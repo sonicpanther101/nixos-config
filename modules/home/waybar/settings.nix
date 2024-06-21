@@ -16,6 +16,7 @@
         "clock"
     ];
     modules-right= [
+        "custom/media"
         "tray" 
         "cpu"
         "memory"
@@ -116,6 +117,17 @@
         on-click= "pkill wofi || wofi --show drun";
         on-click-right= "pkill wofi || wallpaper-picker"; 
         tooltip= "false";
+    };
+    "custom/media": {
+      "format": "{icon}{}",
+      "return-type": "json",
+      "format-icons": {
+          "Playing": " ",
+          "Paused": " ",
+      },
+      "max-length":70,
+      "exec": "playerctl -a metadata --format '{\"text\": \"{{playerName}}: {{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+      "on-click": "playerctl play-pause",
     };
   };
 }
