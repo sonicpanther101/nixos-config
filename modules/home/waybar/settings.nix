@@ -13,7 +13,9 @@
         "hyprland/workspaces"
     ];
     modules-center= [
+        "custom/fade-left"
         "clock"
+        "custom/fade-right"
     ];
     modules-right= [
         "tray" 
@@ -117,6 +119,14 @@
         on-click= "pkill wofi || wofi --show drun";
         on-click-right= "pkill wofi || wallpaper-picker"; 
         tooltip= "false";
+    };
+    "custom/fade-left" = {
+        format = "░▒▓";
+        tooltip = "false";
+    };
+    "custom/fade-right" = {
+        format = "▓▒░";
+        tooltip = "false";
     };
   };
 }
