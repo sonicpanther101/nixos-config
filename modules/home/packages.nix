@@ -63,6 +63,5 @@
     bottles
     spotify
     protonvpn-gui
-    swayidle
   ]);
 }
