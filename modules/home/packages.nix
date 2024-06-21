@@ -63,5 +63,9 @@
     bottles
     spotify
     protonvpn-gui
+    nh
   ]);
+  environment.sessionVariables = {
+    FLAKE = "/home/username/nixos-config";
+  };
 }
