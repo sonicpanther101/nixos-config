@@ -64,6 +64,5 @@
     spotify
     protonvpn-gui
     mangohud
-    swayidle
   ]);
 }
