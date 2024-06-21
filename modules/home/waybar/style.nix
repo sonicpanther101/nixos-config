@@ -43,6 +43,14 @@ in
     }
     #workspaces button.active {
         color: #b4befe;
+        &::before {
+            content: "";
+            width: calc(100% - 20px);
+            height: 10px;
+            background-color: #b4befe;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
     }
 
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery {
