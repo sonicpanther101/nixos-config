@@ -45,7 +45,7 @@ in
         border-top: 2px solid #b4befe
     }
 
-    #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery {
+    #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
         font-size: ${custom.font_size};
         color: ${custom.text_color};
     }
@@ -93,10 +93,11 @@ in
 
     #custom-launcher {
         font-size: 20px;
-        color: #b4befe;
         font-weight: ${custom.font_weight};
         padding-left: 10px;
         padding-right: 15px;
+        background-color: rgba(180,190,254,0.3);
+        border-bottom-right-radius: 10px;
     }
   '';
 }
