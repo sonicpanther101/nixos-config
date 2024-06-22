@@ -68,7 +68,7 @@
     nix-output-monitor
     tor-browser
     suwayomi-server
-    icu
+    #icu
     appimage-run
     (appimage-run.override {
       extraPkgs = pkgs: [ pkgs.icu ];
