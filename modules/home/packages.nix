@@ -65,7 +65,6 @@
     protonvpn-gui
     mangohud
     nh
-    nvd
-    nix-output-monitor
+    tor
   ]);
 }
