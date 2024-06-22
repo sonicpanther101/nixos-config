@@ -69,5 +69,6 @@
     nix-output-monitor
     tor-browser
     suwayomi-server
+    icu
   ]);
 }
