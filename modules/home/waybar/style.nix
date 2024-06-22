@@ -28,7 +28,7 @@ in
         background: none;
     }
 
-    #custom-workspacesContainer {
+    #hyprland {
         background-color: rgba(54, 56, 67, 0.3);
         border-radius: 50px;
     }
