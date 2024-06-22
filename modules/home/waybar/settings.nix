@@ -10,7 +10,9 @@
     margin-right= 0;
     modules-left= [
         "custom/launcher" 
+        "custom/left"
         "hyprland/workspaces"
+        "custom/right"
     ];
     modules-center= [
         "clock"
@@ -127,8 +129,16 @@
           Paused = " ";
       };
       max-length = 70;
-      exec = "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
+      exec = "playerctl -a metadata --format '{\"text\": \"{{markup_escape(title)}} - {{artist}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
       on-click = "playerctl play-pause";
+    };
+    "custom/left" = {
+      format = " ";
+      tooltip = "false";
+    };
+    "custom/right" = {
+      format = " ";
+      tooltip = "false";
     };
   };
 }
