@@ -28,11 +28,14 @@ in
         background: none;
     }
 
+    #hyprland-workspaces {
+        background-color: rgba(54, 56, 67, 0.3);
+        border-radius: 50px;
+    }
+
     #workspaces {
         font-size: 18px;
         padding-left: 15px;
-        background-color: rgba(54, 56, 67, 0.3);
-        border-radius: 50px;
     }
     #workspaces button {
         color: ${custom.text_color};
