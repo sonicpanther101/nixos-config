@@ -31,18 +31,22 @@ in
     #workspaces {
         font-size: 18px;
         padding-left: 15px;
+        background-color: rgba(54, 56, 67, 0.3);
+        border-radius: 50px;
     }
     #workspaces button {
         color: ${custom.text_color};
+        background-color: rgba(108, 112, 134, 0.3);
         padding-left:  6px;
-        padding-right: 10px;
+        padding-right: 9px;
+        border-radius: 50px;
     }
     #workspaces button.empty {
         color: #6c7086;
     }
     #workspaces button.active {
         color: #b4befe;
-        border-top: 2px solid #b4befe
+        background-color: rgba(205, 214, 244, 0.3);
     }
 
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
@@ -86,6 +90,7 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
+        margin-right: 10px;
         background-color: rgba(180,190,254,0.3);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
