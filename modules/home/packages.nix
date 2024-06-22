@@ -70,5 +70,6 @@
     tor-browser
     suwayomi-server
     icu
+    appimage-run
   ]);
 }
