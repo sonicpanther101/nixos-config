@@ -70,5 +70,8 @@
     suwayomi-server
     icu
     appimage-run
+    (appimage-run.override {
+      extraPkgs = pkgs: [ pkgs.icu ];
+    })
   ]);
 }
