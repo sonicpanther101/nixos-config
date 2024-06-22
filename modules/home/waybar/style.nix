@@ -28,11 +28,6 @@ in
         background: none;
     }
 
-    #hyprland {
-        background-color: rgba(54, 56, 67, 0.3);
-        border-radius: 50px;
-    }
-
     #workspaces {
         font-size: 18px;
         padding-left: 15px;
@@ -42,14 +37,27 @@ in
         background-color: rgba(108, 112, 134, 0.3);
         padding-left:  6px;
         padding-right: 9px;
-        border-radius: 50px;
     }
     #workspaces button.empty {
         color: #6c7086;
     }
     #workspaces button.active {
         color: #b4befe;
-        background-color: rgba(205, 214, 244, 0.3);
+        background-color: rgba(180,190,254,0.3);
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
+
+    #custom-left {
+        background-color: rgba(108, 112, 134, 0.3);
+        border-bottom-left-radius: 50px;
+        border-top-left-radius: 50px;
+    }
+
+    #custom-right {
+        background-color: rgba(108, 112, 134, 0.3);
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
     }
 
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
