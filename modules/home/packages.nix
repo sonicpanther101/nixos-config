@@ -73,5 +73,6 @@
       extraPkgs = pkgs: [ pkgs.icu ];
     })
     guitarix
+    apt
   ]);
 }
