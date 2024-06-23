@@ -30,11 +30,11 @@ in
 
     #workspaces {
         font-size: 18px;
-        padding-left: 15px;
+        background-color: rgba(108, 112, 134, 0.3);
     }
     #workspaces button {
         color: ${custom.text_color};
-        background-color: rgba(108, 112, 134, 0.3);
+        /*background-color: rgba(108, 112, 134, 0.3);*/
         padding-left:  6px;
         padding-right: 9px;
     }
@@ -112,6 +112,7 @@ in
         font-weight: ${custom.font_weight};
         padding-left: 10px;
         padding-right: 15px;
+        margin-right: 15px;
         background-color: rgba(180,190,254,0.3);
         border-bottom-right-radius: 10px;
     }
