@@ -36,6 +36,8 @@ in
         color: ${custom.text_color};
         padding-left:  6px;
         padding-right: 9px;
+        border-bottom-left-radius: 50px;
+        border-bottom-right-radius: 50px;
     }
     #workspaces button.empty {
         color: #6c7086;
@@ -43,8 +45,6 @@ in
     #workspaces button.active {
         color: #b4befe;
         background-color: rgba(180,190,254,0.3);
-        border-bottom-left-radius: 50px;
-        border-bottom-right-radius: 50px;
     }
 
     #custom-left {
@@ -102,18 +102,18 @@ in
         padding-right: 15px;
         margin-right: 10px;
         background-color: rgba(108, 112, 134, 0.3);
-        border-bottom-left-radius: 50px;
-        border-bottom-right-radius: 50px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
 
     #custom-launcher {
         font-size: 20px;
         font-weight: ${custom.font_weight};
-        padding-left: 10px;
+        padding-left: 5px;
         padding-right: 15px;
         margin-right: 25px;
         background-color: rgba(108, 112, 134, 0.3);
-        border-bottom-right-radius: 50px;
+        border-bottom-right-radius: 15px;
     }
   '';
 }
