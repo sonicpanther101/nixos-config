@@ -34,7 +34,6 @@ in
     }
     #workspaces button {
         color: ${custom.text_color};
-        /*background-color: rgba(108, 112, 134, 0.3);*/
         padding-left:  6px;
         padding-right: 9px;
     }
