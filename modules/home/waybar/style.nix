@@ -30,7 +30,7 @@ in
 
     #workspaces {
         font-size: 18px;
-        background-color: rgba(108, 112, 134, 0.3);
+        /*background-color: rgba(108, 112, 134, 0.3);*/
     }
     #workspaces button {
         color: ${custom.text_color};
@@ -101,7 +101,7 @@ in
         padding-left: 9px;
         padding-right: 15px;
         margin-right: 10px;
-        background-color: rgba(180,190,254,0.3);
+        background-color: rgba(108, 112, 134, 0.3);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
     }
@@ -112,7 +112,7 @@ in
         padding-left: 10px;
         padding-right: 15px;
         margin-right: 15px;
-        background-color: rgba(180,190,254,0.3);
+        background-color: rgba(108, 112, 134, 0.3);
         border-bottom-right-radius: 10px;
     }
   '';
