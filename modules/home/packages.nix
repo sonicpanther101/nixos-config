@@ -72,8 +72,5 @@
     (appimage-run.override {
       extraPkgs = pkgs: [ pkgs.icu ];
     })
-    guitarix
-    alsa-scarlett-gui
-    qjackctl
   ]);
 }
