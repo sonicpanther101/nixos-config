@@ -22,24 +22,24 @@
       };
     };
     theme = {
-      name = "catppuccin-mocha-blue-standard+default";
+      name = "Catppuccin-Mocha-Compact-Lavender-Dark";
       package = pkgs.catppuccin-gtk.override {
-        accents = [ "blue" ];
+        accents = [ "lavender" ];
         size = "compact";
         # tweaks = [ "rimless" ];
         variant = "mocha";
       };
     };
     cursorTheme = {
-      name = "catppuccin-mocha-blue-cursors";
-      package = pkgs.catppuccin-cursors.mochaBlue;
+      name = "Nordzy-cursors";
+      package = pkgs.nordzy-cursor-theme;
       size = 22;
     };
   };
   
   home.pointerCursor = {
-    name = "catppuccin-mocha-blue-cursors";
-    package = pkgs.catppuccin-cursors.mochaBlue;
+    name = "Nordzy-cursors";
+    package = pkgs.nordzy-cursor-theme;
     size = 22;
   };
 }
