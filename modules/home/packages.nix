@@ -73,6 +73,6 @@
       extraPkgs = pkgs: [ pkgs.icu ];
     })
     guitarix
-    apt
+    alsa-scarlett-gui
   ]);
 }
