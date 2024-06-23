@@ -1,4 +1,4 @@
 { pkgs, ... }: 
 {
-  #home.packages = (with pkgs; [ vivaldi ]);
+  home.packages = (with pkgs; [ vivaldi ]);
 }
