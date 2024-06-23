@@ -18,11 +18,11 @@
       name = "Papirus-Dark";
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "mocha";
-        accent = "blue";
+        accent = "lavender";
       };
     };
     theme = {
-      name = "Catppuccin-Mocha-Compact-Lavender-Dark";
+      name = "catppuccin-mocha-blue-standard+default";
       package = pkgs.catppuccin-gtk.override {
         accents = [ "blue" ];
         size = "compact";
@@ -31,14 +31,14 @@
       };
     };
     cursorTheme = {
-      name = "Catppuccin-Cursor-Mocha-Blue";
+      name = "catppuccin-mocha-blue-cursors";
       package = pkgs.catppuccin-cursors.mochaBlue;
       size = 22;
     };
   };
   
   home.pointerCursor = {
-    name = "catppuccin-cursors";
+    name = "catppuccin-mocha-blue-cursors";
     package = pkgs.catppuccin-cursors.mochaBlue;
     size = 22;
   };
