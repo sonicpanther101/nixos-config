@@ -7,4 +7,5 @@
   hardware.opengl.extraPackages = with pkgs; [
     
   ];
+  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
 }
