@@ -36,8 +36,7 @@ in
         color: ${custom.text_color};
         padding-left:  6px;
         padding-right: 9px;
-        border-bottom-left-radius: 50px;
-        border-bottom-right-radius: 50px;
+        border-radius: 50px;
     }
     #workspaces button.empty {
         color: #6c7086;
@@ -62,6 +61,7 @@ in
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
         font-size: ${custom.font_size};
         color: ${custom.text_color};
+        background-color: rgba(108, 112, 134, 0.3);
     }
 
     #cpu {
@@ -100,8 +100,7 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
-        margin-right: 10px;
-        background-color: rgba(108, 112, 134, 0.3);
+        margin-right: 30px;
         border-bottom-left-radius: 15px;
         border-bottom-right-radius: 15px;
     }
@@ -112,7 +111,6 @@ in
         padding-left: 5px;
         padding-right: 15px;
         margin-right: 25px;
-        background-color: rgba(108, 112, 134, 0.3);
         border-bottom-right-radius: 15px;
     }
   '';
