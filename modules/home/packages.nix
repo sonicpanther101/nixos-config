@@ -72,5 +72,6 @@
     (appimage-run.override {
       extraPkgs = pkgs: [ pkgs.icu ];
     })
+    guitarix
   ]);
 }
