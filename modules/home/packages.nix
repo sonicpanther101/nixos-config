@@ -74,5 +74,6 @@
     })
     guitarix
     alsa-scarlett-gui
+    qjackctl
   ]);
 }
