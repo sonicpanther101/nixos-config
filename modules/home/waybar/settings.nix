@@ -133,11 +133,11 @@
       on-click = "playerctl play-pause";
     };
     "custom/left" = {
-      format = "  ";
+      format = "  ";
       tooltip = "false";
     };
     "custom/right" = {
-      format = "  ";
+      format = "  ";
       tooltip = "false";
     };
   };
