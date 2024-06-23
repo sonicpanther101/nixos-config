@@ -18,6 +18,7 @@
         "clock"
     ];
     modules-right= [
+        "custom/left"
         "custom/media"
         "tray" 
         "cpu"
