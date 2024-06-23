@@ -31,6 +31,7 @@ in
     #workspaces {
         font-size: 18px;
         background-color: rgba(108, 112, 134, 0.3);
+        border-radius: 50px;
     }
     #workspaces button {
         color: ${custom.text_color};
@@ -67,7 +68,6 @@ in
     #cpu {
         padding-left: 15px;
         padding-right: 9px;
-        margin-left: 7px;
     }
     #memory {
         padding-left: 9px;
@@ -80,13 +80,11 @@ in
 
     #tray {
         padding: 0 20px;
-        margin-left: 7px;
     }
 
     #pulseaudio {
-        padding-left: 15px;
+        padding-left: 9px;
         padding-right: 9px;
-        margin-left: 7px;
     }
     #battery {
         padding-left: 9px;
