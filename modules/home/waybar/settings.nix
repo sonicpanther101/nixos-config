@@ -16,12 +16,13 @@
         "clock"
     ];
     modules-right= [
+        "custom/left"
         "custom/media"
         "tray" 
         "cpu"
         "memory"
         "disk"
-        "pulseaudio"
+        "pulseaudio" 
         "network"
     ];
     clock= {
@@ -46,7 +47,7 @@
             "5"= "󰙯";
             "6"= "";
             "7"= "";
-            "8"= "";
+            "8"= " ";
             "10"="";
             urgent= "";
             default = "";
@@ -127,8 +128,16 @@
           Paused = " ";
       };
       max-length = 70;
-      exec = "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
+      exec = "playerctl -a metadata --format '{\"text\": \"{{markup_escape(title)}} - {{artist}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F";
       on-click = "playerctl play-pause";
+    };
+    "custom/left" = {
+      format = "  ";
+      tooltip = "false";
+    };
+    "custom/right" = {
+      format = "  ";
+      tooltip = "false";
     };
   };
 }
