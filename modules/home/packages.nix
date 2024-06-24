@@ -68,10 +68,7 @@
     nvd
     nix-output-monitor
     suwayomi-server
-    alsa-scarlett-gui
-    lmms
-    guitarix
-    rakarrack
+    guitarix # https://medium.com/@margitai.i/how-to-set-up-an-open-source-guitar-rig-on-linux-5a5cce7bd916
     qjackctl
   ]);
 }
