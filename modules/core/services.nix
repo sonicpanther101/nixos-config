@@ -14,5 +14,9 @@
     enable = true;
     acceleration = "cuda";
   };
-  services.udev.extraRules = builtins.readFile ./60-openrgb.rules;
+  services = {
+    udev.packages = with pkgs; [ 
+      openrgb-with-all-plugins
+    ];
+  };
 }
