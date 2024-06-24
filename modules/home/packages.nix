@@ -72,5 +72,6 @@
     qjackctl
     openrgb-with-all-plugins
     i2c-tools
+    usbutils
   ]);
 }
