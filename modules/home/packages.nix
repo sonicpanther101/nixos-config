@@ -72,5 +72,6 @@
     lmms
     guitarix
     rakarrack
+    qjackctl
   ]);
 }
