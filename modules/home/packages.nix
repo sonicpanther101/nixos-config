@@ -71,6 +71,5 @@
     libinput
     iptsd
     lsof
-    nextjs-ollama-llm-ui
   ]);
 }
