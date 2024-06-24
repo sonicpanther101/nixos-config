@@ -68,5 +68,6 @@
     nvd
     nix-output-monitor
     suwayomi-server
+    alsa-scarlett-gui
   ]);
 }
