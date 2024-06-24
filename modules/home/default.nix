@@ -24,6 +24,5 @@
     ++ [(import ./vscodium.nix)]                  # vscode forck
     ++ [(import ./waybar)]                        # status bar
     ++ [(import ./wofi.nix)]                      # launcher
-    ++ [(import ./zsh.nix)]                       # shell
-    ++ [(import ./openrgb.nix)];                  # openrgb
+    ++ [(import ./zsh.nix)];                      # shell
 }
