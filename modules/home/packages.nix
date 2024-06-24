@@ -70,5 +70,6 @@
     suwayomi-server
     qdirstat
     libinput
+    iptsd
   ]);
 }
