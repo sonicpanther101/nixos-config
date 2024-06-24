@@ -70,5 +70,7 @@
     suwayomi-server
     alsa-scarlett-gui
     lmms
+    guitarix
+    rakarrack
   ]);
 }
