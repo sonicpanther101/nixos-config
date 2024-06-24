@@ -18,6 +18,7 @@
   location.longitude = 173.95;
   services.logind.extraConfig = ''
     # don’t shutdown when power button is short-pressed
-    HandlePowerKey=ignore
+    HandlePowerKey=ignore\n
+    HandleLidSwitchDocked=suspend
   '';
 }
