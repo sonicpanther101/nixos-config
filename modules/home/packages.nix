@@ -69,5 +69,6 @@
     tor-browser
     suwayomi-server
     qdirstat
+    libinput
   ]);
 }
