@@ -69,8 +69,6 @@
     nix-output-monitor
     tor-browser
     suwayomi-server
-    (appimage-run.override {
-      extraPkgs = pkgs: [ pkgs.icu ];
-    })
+    open-webui
   ]);
 }
