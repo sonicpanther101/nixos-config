@@ -67,7 +67,7 @@ install() {
 
     # Build the system (flakes + home manager)
     echo -e "\nBuilding the system...\n"
-    sudo nixos-rebuild switch --flake .#${HOST}
+    nh os switch -H desktop ./
 }
 
 main() {
