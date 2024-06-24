@@ -14,4 +14,5 @@
     enable = true;
     acceleration = "cuda";
   };
+  services.udev.extraRules = builtins.readFile ./60-openrgb.rules;
 }
