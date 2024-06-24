@@ -12,6 +12,6 @@
     ++ [ (import ./system.nix) ]
     ++ [ (import ./user.nix) ]
     ++ [ (import ./wayland.nix) ]
-    ++ [ (import ./openrgb.nix) ];
+    ++ [ (import ./openrgb.nix) ]
     ++ [ (import ./virtualization.nix) ];
 }
