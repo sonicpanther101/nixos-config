@@ -11,7 +11,7 @@ let
 in {
   config = {
     services.udev.packages = [ pkgs.openrgb ];
-    #boot.kernelModules = [ "i2c-dev" ];
+    boot.kernelModules = [ "i2c-dev" ];
     hardware.i2c.enable = true;
 
     systemd.services.no-rgb = {
