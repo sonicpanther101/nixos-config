@@ -70,5 +70,6 @@
     qdirstat
     libinput
     iptsd
+    lsof
   ]);
 }
