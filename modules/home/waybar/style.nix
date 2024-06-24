@@ -30,30 +30,44 @@ in
 
     #workspaces {
         font-size: 18px;
-        padding-left: 15px;
+        background-color: rgba(108, 112, 134, 0.3);
+        border-radius: 50px;
     }
     #workspaces button {
         color: ${custom.text_color};
         padding-left:  6px;
-        padding-right: 10px;
+        padding-right: 9px;
+        border-radius: 50px;
     }
     #workspaces button.empty {
         color: #6c7086;
     }
     #workspaces button.active {
         color: #b4befe;
-        border-top: 2px solid #b4befe
+        background-color: rgba(180,190,254,0.3);
+    }
+
+    #custom-left {
+        background-color: rgba(108, 112, 134, 0.3);
+        border-bottom-left-radius: 50px;
+        border-top-left-radius: 50px;
+    }
+
+    #custom-right {
+        background-color: rgba(108, 112, 134, 0.3);
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
     }
 
     #tray, #pulseaudio, #network, #cpu, #memory, #disk, #clock, #battery, #custom-launcher {
         font-size: ${custom.font_size};
         color: ${custom.text_color};
+        background-color: rgba(108, 112, 134, 0.3);
     }
 
     #cpu {
         padding-left: 15px;
         padding-right: 9px;
-        margin-left: 7px;
     }
     #memory {
         padding-left: 9px;
@@ -66,13 +80,11 @@ in
 
     #tray {
         padding: 0 20px;
-        margin-left: 7px;
     }
 
     #pulseaudio {
-        padding-left: 15px;
+        padding-left: 9px;
         padding-right: 9px;
-        margin-left: 7px;
     }
     #battery {
         padding-left: 9px;
@@ -86,18 +98,18 @@ in
     #clock {
         padding-left: 9px;
         padding-right: 15px;
-        background-color: rgba(180,190,254,0.3);
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px;
+        margin-right: 30px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
     }
 
     #custom-launcher {
         font-size: 20px;
         font-weight: ${custom.font_weight};
-        padding-left: 10px;
+        padding-left: 5px;
         padding-right: 15px;
-        background-color: rgba(180,190,254,0.3);
-        border-bottom-right-radius: 10px;
+        margin-right: 25px;
+        border-bottom-right-radius: 15px;
     }
   '';
 }
