@@ -71,5 +71,6 @@
     libinput
     iptsd
     lsof
+    open-webui
   ]);
 }
