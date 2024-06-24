@@ -67,7 +67,6 @@
     nh
     nvd
     nix-output-monitor
-    tor-browser
     suwayomi-server
   ]);
 }
