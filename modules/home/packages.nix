@@ -73,5 +73,6 @@
     libinput
     iptsd
     lsof
+    SDL2
   ]);
 }
