@@ -17,10 +17,4 @@
   #    openrgb-with-all-plugins
   #  ];
   #};
-
-  services.ollama = {
-    enable = true;
-    acceleration = "cuda";
-  };
-  services.nextjs-ollama-llm-ui.enable = true;
 }
