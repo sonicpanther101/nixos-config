@@ -74,5 +74,6 @@
     iptsd
     lsof
     SDL2
+    SDL
   ]);
 }
