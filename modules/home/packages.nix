@@ -73,4 +73,9 @@
     i2c-tools
     usbutils
   ]);
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
+  services.nextjs-ollama-llm-ui.enable = true;
 }
