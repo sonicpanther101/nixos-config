@@ -150,6 +150,8 @@
         "$mainMod, G,exec, $HOME/.local/bin/toggle_layout"
         "$mainMod, W,exec, pkill wofi || wallpaper-picker"
         "$mainMod SHIFT, W, exec, vm-start"
+        "$mainMod, Tab, workspace, m+1"
+        "$mainMod SHIFT, Tab, workspace, m-1"
 
         # screenshot
         "$mainMod, Print, exec, grimblast --notify --cursor save area ~/Pictures/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
