@@ -61,6 +61,7 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
 
+    neofetch
     bottles
     spotify
     protonvpn-gui
