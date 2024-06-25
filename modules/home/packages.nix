@@ -35,6 +35,7 @@
 
     # Python
     python312
+    python312Packages.pygame
 
     bleachbit                         # cache cleaner
     cmatrix
