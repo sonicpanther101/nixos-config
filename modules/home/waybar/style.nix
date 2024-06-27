@@ -111,5 +111,9 @@ in
         margin-right: 25px;
         border-bottom-right-radius: 15px;
     }
+
+    #custom-media {
+        background-color: rgba(108, 112, 134, 0.3);
+    }
   '';
 }
