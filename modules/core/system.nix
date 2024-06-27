@@ -33,7 +33,7 @@
 
   system.activationScripts = {
     script.text = ''
-      install -d -m 755 /home/USER/open-webui/data -o root -g root
+      install -d -m 755 /home/adam/open-webui/data -o root -g root
     '';
    };
 }
