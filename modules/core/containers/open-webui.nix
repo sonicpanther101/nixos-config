@@ -15,11 +15,11 @@
     "127.0.0.1:3000:8080" # Ensures we listen only on localhost
   ];
 
-  extraOptions = [
+  #extraOptions = [
   #  "--pull=newer" # Pull if the image on the registry is newer
-    "--name=open-webui"
-    "--hostname=open-webui"
-    "--network=host"
-    "--add-host=host.containers.internal:host-gateway"
-  ];
+  #  "--name=open-webui"
+  #  "--hostname=open-webui"
+  #  "--network=host"
+  #  "--add-host=host.containers.internal:host-gateway"
+  #];
 }
