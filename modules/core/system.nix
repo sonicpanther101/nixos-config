@@ -30,4 +30,10 @@
   i18n.defaultLocale = "en_US.UTF-8";
   nixpkgs.config.allowUnfree = true;
   system.stateVersion = "23.05";
+
+  system.activationScripts = {
+    script.text = ''
+      install -d -m 755 /home/USER/open-webui/data -o root -g root
+    '';
+   };
 }
