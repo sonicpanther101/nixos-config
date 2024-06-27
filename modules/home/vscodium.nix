@@ -84,6 +84,7 @@
       "C_Cpp.workspaceParsingPriority" = "medium";
       "C_Cpp.clang_format_sortIncludes" = true;
       "C_Cpp.doxygen.generatedStyle" = "/**";
+      "git.allowForcePush" = true;
     };
     # Keybindings
     keybindings = [
