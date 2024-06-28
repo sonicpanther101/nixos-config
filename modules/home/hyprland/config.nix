@@ -151,8 +151,7 @@
         "$mainMod SHIFT, W, exec, vm-start"
 
         # screenshot
-        "$$mainMod SHIFT, S, exec, grimblast --notify --cursor save area ~/Pictures/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
-        "$mainMod, S, exec, grimblast --notify --cursor  copy area"
+        "$$mainMod, S, exec, grimblast --notify --cursor save area ~/Pictures/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
 
         # switch focus
         "$mainMod, left, movefocus, l"
