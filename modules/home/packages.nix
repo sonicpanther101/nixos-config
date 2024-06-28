@@ -72,5 +72,6 @@
     qjackctl
     i2c-tools
     usbutils
+    resources
   ]);
 }
