@@ -139,7 +139,6 @@
         "$mainMod, Space, togglefloating,"
         "$mainMod, D, exec, pkill wofi || wofi --show drun"
         "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 4 silent] discord'"
-        "$mainMod SHIFT, S, exec, hyprctl dispatch exec '[workspace 5 silent] SoundWireServer'"
         "$mainMod, Escape, exec, swaylock"
         "$mainMod SHIFT, Escape, exec, shutdown-script"
         "$mainMod, P, pseudo,"
@@ -152,8 +151,8 @@
         "$mainMod SHIFT, W, exec, vm-start"
 
         # screenshot
-        "$mainMod, Print, exec, grimblast --notify --cursor save area ~/Pictures/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
-        ",Print, exec, grimblast --notify --cursor  copy area"
+        "$$mainMod SHIFT, S, exec, grimblast --notify --cursor save area ~/Pictures/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
+        "$mainMod, S, exec, grimblast --notify --cursor  copy area"
 
         # switch focus
         "$mainMod, left, movefocus, l"
