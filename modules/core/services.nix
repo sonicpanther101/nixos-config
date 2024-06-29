@@ -21,6 +21,7 @@
       openrgb-with-all-plugins
     ];
   };
+  hardware.i2c.enable = true;
   environment.systemPackages = [ pkgs.i2c-tools ];
   users.groups.i2c.members = [ "adam" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
