@@ -1,10 +1,6 @@
 { pkgs, config, lib, ... }:
-let
-  openrgb-rules = builtins.fetchurl {
-    url = "https://openrgb.org/releases/release_0.9/60-openrgb.rules";
-    sha256 = "0f5bmz0q8gs26mhy4m55gvbvcyvd7c0bf92aal4dsyg9n7lyq6xp";
-  };
-in {
+
+{
   services = {
     gvfs.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -20,12 +16,11 @@ in {
     enable = true;
     package = pkgs.openrgb-with-all-plugins;
   };
-  services.udev.extraRules =  builtins.readFile openrgb-rules;
-  #services = {
-  #  udev.packages = with pkgs; [ 
-  #    openrgb-with-all-plugins
-  #  ];
-  #};
+  services = {
+    udev.packages = with pkgs; [ 
+      openrgb-with-all-plugins
+    ];
+  };
   environment.systemPackages = [ pkgs.i2c-tools ];
   users.groups.i2c.members = [ "adam" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
