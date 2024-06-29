@@ -29,7 +29,7 @@
   boot.kernelPatches = [
     {
       name = "NCT6775 driver";
-      patch = true; # no patch needed if zen-kernel is enabled
+      patch = "i2c-nct6775"; # no patch needed if zen-kernel is enabled
       extraStructuredConfig = with lib.kernel; {
         I2C_NCT6775 = lib.mkForce yes;
       };
