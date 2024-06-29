@@ -138,7 +138,7 @@
         "$mainMod SHIFT, F, fullscreen, 1"
         "$mainMod, Space, togglefloating,"
         "$mainMod, D, exec, pkill wofi || wofi --show drun"
-        "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 4 silent] discord'"
+        "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] discord'"
         "$mainMod, Escape, exec, swaylock"
         "$mainMod SHIFT, Escape, exec, shutdown-script"
         "$mainMod, P, pseudo,"
