@@ -2,7 +2,7 @@
 let
   openrgb-rules = builtins.fetchurl {
     url = "https://openrgb.org/releases/release_0.9/60-openrgb.rules";
-    sha256 = "606b0668759319f90cb0affc33dd6cc7fd58cd086ed130b85451233701d9dd5a";
+    sha256 = "0f5bmz0q8gs26mhy4m55gvbvcyvd7c0bf92aal4dsyg9n7lyq6xp";
   };
 in {
   services = {
