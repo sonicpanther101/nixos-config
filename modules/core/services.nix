@@ -26,15 +26,15 @@
   environment.systemPackages = [ pkgs.i2c-tools ];
   users.groups.i2c.members = [ "adam" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
-  #boot.kernelPatches = [
-  #  {
-  #    name = "NCT6775 driver";
-  #    patch = null; # no patch needed if zen-kernel is enabled
-  #    extraStructuredConfig = with lib.kernel; {
-  #      I2C_NCT6775 = lib.mkForce yes;
-  #    };
-  #  }
-  #];
+  boot.kernelPatches = [
+    {
+      name = "NCT6775 driver";
+      patch = true; # no patch needed if zen-kernel is enabled
+      extraStructuredConfig = with lib.kernel; {
+        I2C_NCT6775 = lib.mkForce yes;
+      };
+    }
+  ];
 
   services.ollama = {
     #package = pkgs.unstable.ollama; # Uncomment if you want to use the unstable channel, see https://fictionbecomesfact.com/nixos-unstable-channel
