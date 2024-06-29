@@ -22,6 +22,7 @@
     ];
   };
   hardware.i2c.enable = true;
+  hardware.i2c.group = "adam";
   environment.systemPackages = [ pkgs.i2c-tools ];
   users.groups.i2c.members = [ "adam" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
