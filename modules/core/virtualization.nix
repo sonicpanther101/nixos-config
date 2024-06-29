@@ -40,6 +40,7 @@
  
       containers = {
         open-webui = import ./containers/open-webui.nix;
+        openrgb = import ./containers/openrgb.nix;
       };
     };
   };
