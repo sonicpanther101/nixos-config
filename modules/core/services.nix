@@ -1,5 +1,9 @@
 { pkgs, config, lib, ... }:
-{
+let
+  openrgb-rules = builtins.fetchurl {
+    url = "https://gitlab.com/CalcProgrammer1/OpenRGB/-/raw/master/60-openrgb.rules";
+  }
+in {
   services = {
     gvfs.enable = true;
     gnome.gnome-keyring.enable = true;
@@ -15,11 +19,12 @@
     enable = true;
     package = pkgs.openrgb-with-all-plugins;
   };
-  services = {
-    udev.packages = with pkgs; [ 
-      openrgb-with-all-plugins
-    ];
-  };
+  services.udev.extraRules =  builtins.readFile openrgb-rules;
+  #services = {
+  #  udev.packages = with pkgs; [ 
+  #    openrgb-with-all-plugins
+  #  ];
+  #};
   environment.systemPackages = [ pkgs.i2c-tools ];
   users.groups.i2c.members = [ "adam" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
