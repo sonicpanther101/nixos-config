@@ -1,7 +1,7 @@
 { pkgs, config, lib, ... }:
 let
   openrgb-rules = builtins.fetchurl {
-    url = "https://gitlab.com/CalcProgrammer1/OpenRGB/-/raw/master/60-openrgb.rules";
+    url = "https://openrgb.org/releases/release_0.9/60-openrgb.rules";
   };
 in {
   services = {
