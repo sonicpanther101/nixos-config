@@ -11,12 +11,15 @@
     HandlePowerKey=ignore
   '';
 
-  services.hardware.openrgb.enable = true;
-  #services = {
-  #  udev.packages = with pkgs; [ 
-  #    openrgb-with-all-plugins
-  #  ];
-  #};
+  services.hardware.openrgb = {
+    enable = true;
+    package = pkgs.openrgb-with-all-plugins;
+  };
+  services = {
+    udev.packages = with pkgs; [ 
+      openrgb-with-all-plugins
+    ];
+  };
 
   services.ollama = {
     #package = pkgs.unstable.ollama; # Uncomment if you want to use the unstable channel, see https://fictionbecomesfact.com/nixos-unstable-channel
