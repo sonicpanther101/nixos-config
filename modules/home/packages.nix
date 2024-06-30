@@ -74,6 +74,7 @@
     usbutils
     resources
     qdirstat
+    geekbench
     #furmark
   ]);
 }
