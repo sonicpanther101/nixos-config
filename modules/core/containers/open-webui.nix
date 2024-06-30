@@ -12,7 +12,7 @@
   ];
 
   ports = [
-    "127.0.0.1:3000:8080" # Ensures we listen only on localhost
+    "127.0.0.1:3000:8081" # Ensures we listen only on localhost
   ];
 
   extraOptions = [
