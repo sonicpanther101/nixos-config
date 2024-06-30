@@ -75,6 +75,7 @@
     resources
     qdirstat
     geekbench
+    phoronix-test-suite
     #furmark
   ]);
 }
