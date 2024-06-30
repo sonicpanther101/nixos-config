@@ -74,5 +74,6 @@
     usbutils
     resources
     qdirstat
+    local-ai
   ]);
 }
