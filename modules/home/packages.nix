@@ -75,5 +75,6 @@
     resources
     qdirstat
     unigine-valley
+    hpl
   ]);
 }
