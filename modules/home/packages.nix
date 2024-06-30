@@ -75,6 +75,6 @@
     resources
     qdirstat
     unigine-valley
-    hpl
+    geekbench
   ]);
 }
