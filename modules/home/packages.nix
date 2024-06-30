@@ -74,6 +74,6 @@
     usbutils
     resources
     qdirstat
-    docker
+    phoronix-test-suite
   ]);
 }
