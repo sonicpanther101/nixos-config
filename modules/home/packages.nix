@@ -74,6 +74,6 @@
     usbutils
     resources
     qdirstat
-    bench
+    geekbench_5
   ]);
 }
