@@ -100,5 +100,6 @@
     zlib
     # for xformers
     gcc
+    gperftools
   ]);
 }
