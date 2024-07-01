@@ -7,10 +7,10 @@
   boot.loader.grub.device = "nodev";
   boot.loader.grub.efiSupport = true;
 
-  boot.loader.grub = { ... };
-  boot.loader.grub2-theme = {
-    enable = true;
-    theme = "stylish";
-    footer = true;
-  };
+  #boot.loader.grub = { ... };
+  #boot.loader.grub2-theme = {
+  #  enable = true;
+  #  theme = "stylish";
+  #  footer = true;
+  #};
 }
