@@ -1,9 +1,11 @@
 { inputs, config, pkgs, lib, ... }:
 {
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.configurationLimit = 10;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.device = "nodev";
+  boot.loader.grub.efiSupport = true;
 
   boot.loader.grub = { ... };
   boot.loader.grub2-theme = {
