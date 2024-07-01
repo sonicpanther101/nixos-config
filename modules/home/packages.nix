@@ -87,6 +87,7 @@
     procps gnumake util-linux m4 gperf unzip
     libGLU libGL
     glib
+    glibc
 
     cudatoolkit
     linuxPackages.nvidia_x11
