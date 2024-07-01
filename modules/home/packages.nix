@@ -102,5 +102,6 @@
     # for xformers
     gcc
     gperftools
+    gcc-unwrapped.lib
   ]);
 }
