@@ -34,9 +34,13 @@
       url = "github:catppuccin/starship";
       flake = false;
     };
+
+    grub2-themes = {
+      url = "github:vinceliuice/grub2-themes";
+    };
   };
 
-  outputs = { nixpkgs, self, ...} @ inputs:
+  outputs = { nixpkgs, self, grub2-themes, ...} @ inputs:
   let
     selfPkgs = import ./pkgs;
     username = "adam";
@@ -52,7 +56,7 @@
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ (import ./hosts/laptop) ];
+        modules = [ (import ./hosts/laptop) grub2-themes.nixosModules.default];
         specialArgs = { host="laptop"; inherit self inputs username ; };
       };
     };
