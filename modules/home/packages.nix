@@ -76,5 +76,13 @@
     qdirstat
     unigine-valley
     geekbench
+
+    git gitRepo gnupg autoconf curl
+    procps util-linux m4 gperf unzip
+    cudatoolkit linuxPackages.nvidia_x11
+    libGLU libGL
+    xorg.libXi xorg.libXmu freeglut
+    xorg.libXext xorg.libX11 xorg.libXv xorg.libXrandr zlib 
+    ncurses5 stdenv.cc binutils
   ]);
 }
