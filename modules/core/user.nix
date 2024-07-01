@@ -19,7 +19,7 @@
 
   environment.sessionVariables = {
     FLAKE = "/home/adam/nixos-config";
-    CUDA_PATH = ${pkgs.cudatoolkit};
+    CUDA_PATH = pkgs.cudatoolkit;
     LD_LIBRARY_PATH = "/usr/lib/wsl/lib:${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.ncurses5}/lib";
     EXTRA_LDFLAGS = "-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib";
     EXTRA_CCFLAGS = "-I/usr/include";
