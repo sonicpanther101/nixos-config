@@ -73,9 +73,6 @@
     libinput
     iptsd
     lsof
-    SDL2
-    SDL
-    SDL2_ttf
-    SDL2_image
+    imagemagick
   ]);
 }
