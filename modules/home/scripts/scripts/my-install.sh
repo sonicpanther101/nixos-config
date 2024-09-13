@@ -82,7 +82,7 @@ if [[ $no_check == false ]]; then
     git diff -U0 '*'
 fi
 
-if git status -uno | grep "Your branch is up to date with 'origin/combined'."; then
+if git status -uno | grep "Your branch is up to date with 'origin/main'."; then
     echo "Up to date, continuing..."
 else
     echo "Not up to date, please pull, exiting."
