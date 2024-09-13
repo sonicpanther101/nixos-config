@@ -1,0 +1,26 @@
+.gemini-ui-window {
+    background-color: #24273a;
+}
+
+.message {
+    border-color: #89b4fa;
+    border-radius: 10px;
+    border-width: 3px;
+    border-style: solid;
+    padding: 5px;
+    margin: 5px;
+}
+
+.left-message {
+    background-color: #24273a;
+    color: #89b4fa;
+    border-bottom-left-radius: 0px;
+    margin-right: 30px;
+}
+
+.right-message {
+    background-color: #89b4fa;
+    color: #24273a;
+    border-bottom-right-radius: 0px;
+    margin-left: 30px;
+}

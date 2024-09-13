@@ -1,0 +1,106 @@
+.dashboard-window {
+    /* background-color: rgba(108, 112, 134, 0.3); */
+}
+
+.dashboard-menu {
+    background-color: rgba(34,36,42,0.8);
+}
+
+.dashboard-menu-label {
+    margin: 20px;
+    font-weight: bold;
+    font-size: 25px;
+    color: #cdd6f4;
+    padding-bottom: 20px;
+    border-bottom: 10px rgba(108, 112, 134, 0.3) solid;
+}
+
+.dashboard-menu-item {
+    margin: 20px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.dashboard-button {
+    background-color: transparent;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
+}
+
+.dashboard-button:hover {
+    background-color: rgba(108, 112, 134, 0.3);
+}
+
+.dashboard-button:focus {
+    background-color: rgba(108, 112, 134, 0.5);
+}
+
+.dashboard-home, 
+.dashboard-tasks,
+.dashboard-journal,
+.dashboard-budget,
+.dashboard-events,
+.dashboard-goals, 
+.dashboard-life {
+    background-color: rgba(108, 112, 134, 0.3);
+}
+
+.dashboard-home-label,
+.dashboard-tasks-label,
+.dashboard-journal-label,
+.dashboard-budget-label,
+.dashboard-events-label,
+.dashboard-goals-label,
+.dashboard-life-label {
+    margin: 20px;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.task-label {
+    margin: 20px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.tasks-scroll {
+    min-width: 500px;
+    min-height: 500px;
+}
+
+.even-scroll {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.odd-scroll {
+    background-color: rgba(43, 43, 43, 0.5);
+}
+
+.task-edit {
+    padding: 0px 20px;
+    border-top-right-radius: 500px;
+    border-bottom-right-radius: 500px;
+}
+
+.task-delete {
+    padding: 0px 20px;
+    border-top-left-radius: 500px;
+    border-bottom-left-radius: 500px;
+}
+
+.task-edit-label,
+.task-delete-label {
+    font-weight: bold;
+    font-size: 30px;
+    background-color: transparent;
+}
+
+.task-edit:hover,
+.task-delete:hover {
+    background-color: rgba(108, 112, 134, 0.3);
+}
+
+.task-edit:focus,
+.task-delete:focus {
+    background-color: rgba(108, 112, 134, 0.5);
+}
