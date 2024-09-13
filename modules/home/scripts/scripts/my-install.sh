@@ -99,7 +99,7 @@ changes=$(git diff --name-only)
 
 git commit -am "Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
 
-git push -u origin combined
+git push -u origin main
 
 if [[ $ags == true ]]; then
     echo "Restarting AGS"
