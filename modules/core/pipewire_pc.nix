@@ -1,4 +1,4 @@
-{ username, ... }: 
+{ pkgs, username, ... }: 
 {
   services.jack = {
     jackd.enable = true;
@@ -14,12 +14,15 @@
     };
   };
 
-  hardware.pulseaudio.enable = false;
+  users.extraUsers.${username}.extraGroups = [ "jackaudio" ];
+  boot.kernelModules = [ "snd-seq" "snd-rawmidi" ];
+
+  # hardware.pulseaudio.enable = true;
   services.pipewire = {
     enable = true;
     pulse.enable = true;
   };
-
-  users.extraUsers.${username}.extraGroups = [ "jackaudio" ];
-  boot.kernelModules = [ "snd-seq" "snd-rawmidi" ];
+  environment.systemPackages = with pkgs; [
+    pulseaudioFull
+  ];
 }

@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }: 
 {
   home.packages = (with pkgs; [
+    guitarix
     jq
     ddcutil
     nodejs_22
