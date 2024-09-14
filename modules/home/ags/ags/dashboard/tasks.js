@@ -6,6 +6,7 @@ Utils.readFileAsync('/home/adam/.cache/ags/task_list.txt').then((data) => {
 }).catch(err => print(err))
 
 const refresh = Widget.Button({
+    class_name: "task-refresh",
     label: "↻",
     on_clicked: () => {
         Utils.readFileAsync('/home/adam/.cache/ags/task_list.txt').then((data) => {
@@ -76,6 +77,7 @@ const list = Widget.Box({
 
 const entry = Widget.Entry({
     hexpand: true,
+    class_name: "tasks-entry",
 
     on_accept: () => {
         if (entry.text === "") {

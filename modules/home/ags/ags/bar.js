@@ -71,7 +71,6 @@ function StartButton() {
             Widget.MenuItem({
                 label: 'Restart AGS',
                 on_activate: () => Utils.execAsync(['my-ags']),
-                visible: battery.bind("available"),
             }),
             Widget.MenuItem({
                 label: 'Change Wallpaper',

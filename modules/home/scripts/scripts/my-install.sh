@@ -103,8 +103,7 @@ git push -u origin main
 
 if [[ $ags == true ]]; then
     echo "Restarting AGS"
-    ags -q
-    hyprctl dispatch exec "[workspace 9 silent] kitty --hold sh -c 'ags'"
+    my-ags
 fi
 
 popd
