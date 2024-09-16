@@ -78,6 +78,10 @@
       "color-highlight.matchHslWithNoFunction" = true;
       "color-highlight.matchRgbWithNoFunction" = true;
       "diffEditor.ignoreTrimWhitespace" = false;
+      "files.exclude" = {
+        "**/.vscode" = true;
+        "**/node_modules" = true;
+      };
 
       "editor.mouseWheelZoom" = true;
 
