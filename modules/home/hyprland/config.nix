@@ -19,7 +19,7 @@
           "poweralertd &"
           "wl-paste --watch cliphist store &"
           "wl-copy &"
-          "ags &"
+          "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
           "openrgb --startminimized -b 0 -m direct"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ] else [
@@ -33,7 +33,7 @@
           "poweralertd &"
           "wl-paste --watch cliphist store &"
           "wl-copy &"
-          "ags &"
+          "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ];
 
