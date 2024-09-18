@@ -357,7 +357,7 @@ function Volume() {
         class_name: "volume-label"
     }).hook(audio.speaker, self => {
         const vol = audio.speaker.volume * 100;
-        self.label = ` ${Math.round(vol)}%`;
+        self.label = ` ${Math.round(vol/2)*2}%`;
     })
 
     function audioChange(x) {
