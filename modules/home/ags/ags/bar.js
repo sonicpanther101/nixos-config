@@ -357,12 +357,13 @@ function Volume() {
         class_name: "volume-label"
     }).hook(audio.speaker, self => {
         const vol = audio.speaker.volume * 100;
-        self.label = ` ${Math.round(vol/2)*2}%`;
+        self.label = ` ${Math.round(vol)}%`;
     })
 
     function audioChange(x) {
+        const vol = Math.round(audio.speaker.volume*100)/100
         if (audio.speaker.volume < 0.98 || x < 0) {
-            audio.speaker.volume += x
+            audio.speaker.volume = vol + x
         } else {
             audio.speaker.volume = 1
         }
@@ -372,8 +373,8 @@ function Volume() {
         class_name: "volume",
         on_primary_click: () => audio.speaker.is_muted = !audio.speaker.is_muted,
         on_secondary_click: () => Utils.execAsync(["pavucontrol"]),
-        on_scroll_up: () => audioChange(0.02),
-        on_scroll_down: () => audioChange(-0.02),
+        on_scroll_up: () => audioChange(0.01),
+        on_scroll_down: () => audioChange(-0.01),
         child: Widget.Box({
             children: [icon, label],
         }),

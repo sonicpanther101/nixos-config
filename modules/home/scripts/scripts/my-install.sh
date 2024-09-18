@@ -18,8 +18,9 @@ Help()
 
 no_check=false
 ags=false
+message=""
 
-while getopts "anhH:" option; do
+while getopts "anhHm:" option; do
     case $option in
         h) # display Help
             Help
@@ -35,6 +36,11 @@ while getopts "anhH:" option; do
                 d) 
                     host="desktop";;
             esac;;
+        m)
+            message="$OPTARG";;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            exit;;
     esac
 done
 
@@ -97,7 +103,11 @@ install
 current=$(nixos-rebuild list-generations | grep current)
 changes=$(git diff --name-only)
 
-git commit -am "Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
+if [[ $message != "" ]]; then
+    git commit -am "${message} Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
+else
+    git commit -am "Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
+fi
 
 git push -u origin main
 
