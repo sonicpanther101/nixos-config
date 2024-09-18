@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }: 
+{ inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
     guitarix
@@ -34,8 +34,6 @@
     imagemagick
     resources
     qdirstat
-    # unigine-valley
-    geekbench
     bun
     torrential
     vivaldi
@@ -51,21 +49,6 @@
     #glib
     #glibc
     icu74
-
-    cudatoolkit
-    linuxPackages.nvidia_x11
-    xorg.libXi
-    xorg.libXmu
-    freeglut
-    xorg.libXext
-    xorg.libX11
-    xorg.libXv
-    xorg.libXrandr
-    zlib
-    # for xformers
-    gcc
-    gperftools
-    gcc-unwrapped.lib
 
     bitwise                           # cli tool for bit / hex manipulation
     eza                               # ls replacement
@@ -126,5 +109,22 @@
     xdg-utils
     xxd
     inputs.alejandra.defaultPackage.${system}
+  ] ++ lib.optionals (host == "desktop") [
+    cudatoolkit
+    linuxPackages.nvidia_x11
+    xorg.libXi
+    xorg.libXmu
+    freeglut
+    xorg.libXext
+    xorg.libX11
+    xorg.libXv
+    xorg.libXrandr
+    zlib
+    # for xformers
+    gcc
+    gperftools
+    gcc-unwrapped.lib
+    # unigine-valley
+    geekbench
   ]);
 }

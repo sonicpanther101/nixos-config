@@ -361,15 +361,10 @@ function Volume() {
     })
 
     function audioChange(x) {
-        let rounded = Math.round(audio.speaker.volume * 100)
-        if (rounded % 2 === 0) {
-            if (x > 0 && rounded >= 98) {
-                audio.speaker.volume = 1
-            } else {
-                audio.speaker.volume += (x)
-            }
+        if (audio.speaker.volume < 0.98 || x < 0) {
+            audio.speaker.volume += x
         } else {
-            audio.speaker.volume += (x / 2)
+            audio.speaker.volume = 1
         }
     }
 
