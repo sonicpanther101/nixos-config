@@ -13,7 +13,7 @@
           "hash dbus-update-activation-environment 2>/dev/null &"
           "dbus-update-activation-environment --systemd &"
           "nm-applet &"
-          "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f) &"
+          "swww-daemon&"
           "sleep 1 && swaylock"
           "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
