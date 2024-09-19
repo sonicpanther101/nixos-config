@@ -327,12 +327,15 @@
         # toolkit-specific scale
         env = GDK_SCALE,2
         env = XCURSOR_SIZE,32
+        env = TERM,kitty
       " else "
         monitor=,preferred,auto,auto
 
         xwayland {
           force_zero_scaling = true
         }
+
+        env = TERM,kitty
       ";
   };
 }
