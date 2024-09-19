@@ -107,6 +107,7 @@
     unzip
     wget
     xdg-utils
+    imagemagick
     xxd
     inputs.alejandra.defaultPackage.${system}
   ] ++ lib.optionals (host == "desktop") [

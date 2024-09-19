@@ -20,7 +20,7 @@ no_check=false
 ags=false
 message=""
 
-while getopts "anhHm:" option; do
+while getopts "anhH:m:" option; do  # anhH
     case $option in
         h) # display Help
             Help
@@ -29,20 +29,24 @@ while getopts "anhHm:" option; do
             no_check=true;;
         a) 
             ags=true;;
+        m)
+            message="$OPTARG"
+            ;;
         H)
+            echo "host: $OPTARG"
             case $OPTARG in
                 l) 
                     host="laptop";;
                 d) 
                     host="desktop";;
             esac;;
-        m)
-            message="$OPTARG";;
         \?) # Invalid option
             echo "Error: Invalid option"
             exit;;
     esac
 done
+
+echo "message: $message"
 
 set -e
 

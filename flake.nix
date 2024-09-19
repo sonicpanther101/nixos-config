@@ -43,6 +43,8 @@
     ags.url = "github:Aylur/ags";
 
     stylix.url = "github:danth/stylix";
+
+    swww.url = "github:LGFae/swww";
   };
 
   outputs = { nixpkgs, self, grub2-themes, catppuccin, nixos-hardware, ...} @ inputs:
