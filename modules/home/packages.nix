@@ -1,11 +1,9 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
-    guitarix
     jq
     ddcutil
     nodejs_22
-    qmk
     vesktop
     wlsunset
     gnufdisk
@@ -111,6 +109,9 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
   ] ++ lib.optionals (host == "desktop") [
+    guitarix
+    qmk
+
     cudatoolkit
     linuxPackages.nvidia_x11
     xorg.libXi

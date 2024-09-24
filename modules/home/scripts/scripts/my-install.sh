@@ -102,7 +102,15 @@ fi
 
 git add .
 
+if [[ $host == "laptop" ]]; then
+    ln -sf flake-laptop.lock flake.lock
+elif [[ $host == "desktop" ]]; then
+    ln -sf flake-desktop.lock flake.lock
+fi
+
 install
+
+rm flake.lock
 
 current=$(nixos-rebuild list-generations | grep current)
 changes=$(git diff --name-only)
