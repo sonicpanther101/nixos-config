@@ -30,12 +30,14 @@ const geminiUI = ({ spacing = 12, width = 500, height = 500 } = {}) => {
     // text entry
     const entry = Widget.Entry({
         hexpand: true,
+        vexpand: true,
         css: `margin-bottom: ${spacing}px;`,
 
         // to send to gemini on Enter
         on_accept: () => {
-            messages.push({'text': `${entry.text}`})
+            messages.push({'text': entry.text})
             list.children = message_box(messages)
+            entry.text = ""
 
             Utils.fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`, {
                 method: "POST",
@@ -55,9 +57,8 @@ const geminiUI = ({ spacing = 12, width = 500, height = 500 } = {}) => {
                 console.log(data);
                 let message = data["candidates"][0]["content"]["parts"][0]["text"]
                 console.log(message);
-                messages.push({'text': `${message}`})
+                messages.push({'text': message})
                 list.children = message_box(messages)
-                entry.text = ""
             }).catch(err => print(err));
         },
     })

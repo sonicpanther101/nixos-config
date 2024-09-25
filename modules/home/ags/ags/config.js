@@ -28,6 +28,23 @@ App.config({
     windows: [dashboard()],
 })
 
+import { NotificationPopups } from "./notificationPopups.js"
+
+Utils.timeout(100, () => Utils.notify({
+    summary: "Notification Popup Example",
+    iconName: "info-symbolic",
+    body: "Lorem ipsum dolor sit amet, qui minim labore adipisicing "
+        + "minim sint cillum sint consectetur cupidatat.",
+    actions: {
+        "Cool": () => print("pressed Cool"),
+    },
+}))
+
+App.config({
+    style: App.configDir + "/styles/notificationPopups.css",
+    windows: [Array.from({ length: monitorNum }, (_, i) => i).map(i => NotificationPopups(i))],
+})
+
 export { }
 
 Utils.monitorFile(
@@ -41,6 +58,7 @@ Utils.monitorFile(
         const css2 = `/home/adam/.config/ags/styles/bar.css`
         const css3 = `/home/adam/.config/ags/styles/dashboard.css`
         const css4 = `/home/adam/.config/ags/styles/gemini-ui.css`
+        const css5 = `/home/adam/.config/ags/styles/notificationPopups.css`
 
         // reset, apply
         App.resetCss()
@@ -48,5 +66,6 @@ Utils.monitorFile(
         App.applyCss(css2)
         App.applyCss(css3)
         App.applyCss(css4)
+        App.applyCss(css5)
     },
 )
