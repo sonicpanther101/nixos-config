@@ -30,18 +30,18 @@ App.config({
 
 import { NotificationPopups } from "./notificationPopups.js"
 
-Utils.timeout(100, () => Utils.notify({
-    summary: "Notification Popup Example",
-    iconName: "info-symbolic",
-    body: "Lorem ipsum dolor sit amet, qui minim labore adipisicing "
-        + "minim sint cillum sint consectetur cupidatat.",
-    actions: {
-        "Cool": () => print("pressed Cool"),
-    },
-}))
+// Utils.timeout(100, () => Utils.notify({
+//     summary: "Notification Popup Example",
+//     iconName: "info-symbolic",
+//     body: "Lorem ipsum dolor sit amet, qui minim labore adipisicing "
+//         + "minim sint cillum sint consectetur cupidatat.",
+//     actions: {
+//         "Cool": () => print("pressed Cool"),
+//     },
+// }))
 
 App.config({
-    style: App.configDir + "/styles/notificationPopups.css",
+    style: "./styles/notificationPopups.css",
     windows: [Array.from({ length: monitorNum }, (_, i) => i).map(i => NotificationPopups(i))],
 })
 
@@ -49,16 +49,16 @@ export { }
 
 Utils.monitorFile(
     // directory that contains the scss files
-    `/home/adam/.config/ags/styles`,
+    `/home/adam/nixos-config/modules/home/ags/ags/styles`,
 
     // reload function
     function () {
         // css files
-        const css1 = `/home/adam/.config/ags/styles/applauncher.css`
-        const css2 = `/home/adam/.config/ags/styles/bar.css`
-        const css3 = `/home/adam/.config/ags/styles/dashboard.css`
-        const css4 = `/home/adam/.config/ags/styles/gemini-ui.css`
-        const css5 = `/home/adam/.config/ags/styles/notificationPopups.css`
+        const css1 = `/home/adam/nixos-config/modules/home/ags/ags/styles/applauncher.css`
+        const css2 = `/home/adam/nixos-config/modules/home/ags/ags/styles/bar.css`
+        const css3 = `/home/adam/nixos-config/modules/home/ags/ags/styles/dashboard.css`
+        const css4 = `/home/adam/nixos-config/modules/home/ags/ags/styles/gemini-ui.css`
+        const css5 = `/home/adam/nixos-config/modules/home/ags/ags/styles/notificationPopups.css`
 
         // reset, apply
         App.resetCss()

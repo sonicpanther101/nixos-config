@@ -93,7 +93,19 @@ const geminiUI = ({ spacing = 12, width = 500, height = 500 } = {}) => {
 }
 
 // import Gtk from "gi://Gtk?version=3.0"
-// const RegularWindow = Widget.subclass < typeof Gtk.Window, Gtk.Window.ConstructorProperties> (Gtk.Window)
+// // const RegularWindow = Widget.subclass < typeof Gtk.Window, Gtk.Window.ConstructorProperties> (Gtk.Window)
+
+// export const GeminiUI = new Gtk.Window({
+//     name: WINDOW_NAME,
+//     // setup: self => self.keybind("Escape", () => {
+//     //     App.closeWindow(WINDOW_NAME)
+//     // }),
+//     visible: false,
+//     // class_name: "gemini-ui",
+//     hexpand: true,
+//     vexpand: true,
+//     child: geminiUI(),
+// })
 
 export const GeminiUI = Widget.Window({
     name: WINDOW_NAME,
