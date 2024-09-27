@@ -1,10 +1,10 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    xscreensaver
     jq
     ddcutil
     nodejs_22
-    vesktop
     wlsunset
     gnufdisk
     nurl
@@ -14,9 +14,8 @@
     pipes
     neofetch
     bottles
-    spotify
+    # spotify
     protonvpn-gui
-    mangohud
     nh
     nvd
     nix-output-monitor
@@ -109,6 +108,7 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
   ] ++ lib.optionals (host == "desktop") [
+    mangohud
     guitarix
     qmk
 

@@ -439,9 +439,9 @@ function BatteryLabel() {
         css: checkBattery(battery.bind("available")),
         visible: battery.bind("available"),
         tooltip_text: Utils.merge([battery.bind("energy"), battery.bind("energy-full"), battery.bind("energy-rate"), battery.bind("charging"), battery.bind("charged"), battery.bind("time-remaining")],
-                                (energy, energyFull, energyRate, charging, charged, timeLeft) => {
-            return `${round1DP(energy)}Wh/${round1DP(energyFull)}Wh | ${round1DP(energyRate)}W ${chargiNG(charging)}charge rate | ${chargeD(charged, timeLeft, charging)}`
-        }),
+            (energy, energyFull, energyRate, charging, charged, timeLeft) => {
+                return `${round1DP(energy)}Wh/${round1DP(energyFull)}Wh | ${round1DP(energyRate)}W ${chargiNG(charging)}charge rate | ${chargeD(charged, timeLeft, charging)}`
+            }),
         children: [
             Widget.Icon({
                 class_name: "battery-icon",
@@ -455,6 +455,23 @@ function BatteryLabel() {
                 }),
             }),
         ],
+    }).bind('prop', battery, 'percent', percent => { 
+        if (percent < 10) {
+            Utils.notify({
+                summary: "Very Low Battery Warning",
+                iconName: "battery-level-10-symbolic",
+            })
+        } else if (percent < 20) {
+            Utils.notify({
+                summary: "Low Battery Warning",
+                iconName: "battery-level-20-symbolic",
+            })
+        } else if (percent === 100) {
+            Utils.notify({
+                summary: "Full Battery",
+                iconName: "battery-level-100-charged-symbolic",
+            })
+        }
     })
 }
 

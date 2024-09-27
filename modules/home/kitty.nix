@@ -3,7 +3,7 @@
   programs.kitty = {
     enable = true;
 
-    themeFile = "Catppuccin-Mocha";
+    theme = "Catppuccin-Mocha";
 
     settings = {
       confirm_os_window_close = 0;

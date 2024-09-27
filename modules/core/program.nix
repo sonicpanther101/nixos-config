@@ -18,7 +18,7 @@
   };
 
   programs.appimage = {
-    enable = true;
+    enable = false;
     binfmt = true;
     package = pkgs.appimage-run.override {
       # extraPkgs = pkgs: [ pkgs.ffmpeg pkgs.imagemagick ];

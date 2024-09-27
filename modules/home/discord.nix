@@ -1,7 +1,7 @@
 { pkgs, ... }: 
 {
   home.packages = with pkgs; [
-    vesktop
+    # vesktop
   ];
   xdg.configFile."Vencord/themes/custom.css".text = '' 
     /**
