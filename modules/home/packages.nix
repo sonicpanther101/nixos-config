@@ -108,6 +108,7 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
   ] ++ lib.optionals (host == "desktop") [
+    pyload-ng
     mangohud
     guitarix
     qmk
