@@ -107,6 +107,7 @@
     imagemagick
     xxd
     inputs.alejandra.defaultPackage.${system}
+    unrar-wrapper
   ] ++ lib.optionals (host == "desktop") [
     pyload-ng
     mangohud

@@ -16,6 +16,7 @@
     hyprland = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
+      rev = "9a09eac79b85c846e3a865a9078a3f8ff65a9259";
       submodules = true;
     };
   
@@ -43,8 +44,6 @@
     ags.url = "github:Aylur/ags";
 
     stylix.url = "github:danth/stylix";
-
-    swww.url = "github:LGFae/swww";
   };
 
   outputs = { nixpkgs, self, grub2-themes, catppuccin, nixos-hardware, ...} @ inputs:
