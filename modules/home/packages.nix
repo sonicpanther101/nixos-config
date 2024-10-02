@@ -1,6 +1,7 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    p7zip
     xscreensaver
     jq
     ddcutil
