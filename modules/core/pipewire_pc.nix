@@ -29,4 +29,6 @@
   users.extraUsers.${username}.extraGroups = [ "jackaudio" ];
 
   boot.kernelModules = [ "snd-seq" "snd-rawmidi" ];
+
+  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
 }
