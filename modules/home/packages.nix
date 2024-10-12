@@ -1,6 +1,8 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    guitarix
+    qjackctl
     p7zip
     xscreensaver
     jq
@@ -112,7 +114,6 @@
   ] ++ lib.optionals (host == "desktop") [
     pyload-ng
     mangohud
-    guitarix
     qmk
 
     cudatoolkit
