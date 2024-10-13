@@ -92,6 +92,16 @@ if [[ $no_check == false ]]; then
     git diff -U0 '*'
 fi
 
+if nmcli | grep "wlp2s0: connected"; then
+    echo "Wifi connected, continuing..."
+else
+    echo "Wifi not connected, exiting."
+    popd
+    exit 0
+fi
+
+git fetch
+
 if git status -uno | grep "Your branch is up to date with 'origin/main'."; then
     echo "Up to date, continuing..."
 else
@@ -130,4 +140,4 @@ fi
 
 popd
 
-notify-send -e "NixOS Rebuilt OK!" --icon=check-filled
+notify-send -e "NixOS Rebuilt OK\!" --icon=check-filled
