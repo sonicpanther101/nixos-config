@@ -8,9 +8,23 @@
     # inputs.nix-gaming.packages.${pkgs.system}.wine-ge
 
     ## Cli games
-    _2048-in-terminal
-    vitetris
+    tcl2048
+    bastet
     nethack
+    nethack-qt
+    nethack-x11
+    ninvaders
+    njam
+    nsnake
+    nudoku
+    dwarf-fortress
+    pong3d
+    solitaire-tui
+    dhewm3
+    xlife
+    bsdgames
+    gltron
+    veloren
     
     ## Celeste
     celeste-classic
@@ -18,11 +32,11 @@
 
     ## Doom
     # gzdoom
-    crispy-doom
+    # crispy-doom
 
     ## Emulation
-    sameboy
-    snes9x
+    # sameboy
+    # snes9x
     # cemu
     # dolphin-emu
   ];
