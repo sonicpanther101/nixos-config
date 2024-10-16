@@ -11,8 +11,16 @@
         nvidia-vaapi-driver
       ];
     };
+
     pulseaudio = {
       package = pkgs.pulseaudio.override { jackaudioSupport = true; };
     };
+
+    bluetooth = {
+      enable = true;
+      # powerOnBoot = true;
+    };
   };
+
+  services.blueman.enable = true;
 }
