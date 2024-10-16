@@ -1,16 +1,14 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
-    guitarix
-    qjackctl
+    unrar
     p7zip
-    xscreensaver
     jq
     ddcutil
     nodejs_22
     wlsunset
     gnufdisk
-    nurl
+    # nurl
     cowsay
     fortune
     cbonsai
@@ -57,7 +55,7 @@
     file                              # Show file information 
     fzf                               # fuzzy finder
     gtt                               # google translate TUI
-    gimp
+    # gimp
     gtrash                            # rm replacement, put deleted files in system trash
     hexdump
     jdk17                             # java
@@ -84,7 +82,7 @@
     # Python
     python312Full
     python312Packages.pydantic
-    uv
+    # uv
     mypy
 
     bleachbit                         # cache cleaner
@@ -114,6 +112,7 @@
   ] ++ lib.optionals (host == "desktop") [
     pyload-ng
     mangohud
+    guitarix
     qmk
 
     cudatoolkit

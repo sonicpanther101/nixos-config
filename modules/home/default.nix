@@ -12,7 +12,7 @@
     ++ [(import ./kitty.nix)]                     # terminal
     ++ [(import ./micro.nix)]                     # nano replacement
     ++ [(import ./packages.nix)]                  # other packages
-    ++ [(import ./retroarch.nix)]
+    # ++ [(import ./retroarch.nix)]
     ++ [(import ./scripts/scripts.nix)]           # personal scripts
     ++ [(import ./starship.nix)]                  # shell prompt
     ++ [(import ./swaylock.nix)]                  # lock screen
