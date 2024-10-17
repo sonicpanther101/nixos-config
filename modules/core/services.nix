@@ -16,13 +16,6 @@
   };
   systemd.sleep.extraConfig = "HibernateDelaySec=2h";
 
-  systemd.packages = [
-    pkgs.iptsd
-  ];
-  services.udev.packages = [
-    pkgs.iptsd
-  ];
-
   environment.sessionVariables = {
     # If your cursor becomes invisible
     WLR_NO_HARDWARE_CURSORS = "1";

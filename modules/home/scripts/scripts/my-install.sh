@@ -112,7 +112,9 @@ fi
 
 git add .
 
-rm flake.lock
+if [ -e "flake.lock" ]; then
+    rm flake.lock
+fi
 
 if [[ $host == "laptop" ]]; then
     cp flake-laptop.lock flake.lock

@@ -5,6 +5,12 @@
       if (host == "laptop") then
         true
       else false;
+  
+    services.thermald = lib.mkDefault {
+      enable = false;
+      configFile = ./thermal-conf.xml;
+    };
+
     # imports = [ inputs.nix-gaming.nixosModules.default ];
     nix = {
       settings = {
@@ -26,10 +32,15 @@
       ];
     };
 
-    environment.systemPackages = with pkgs; [
-      wget
-      git
-    ];
+    environment.systemPackages = with pkgs; 
+      if (host == "laptop") then [ 
+        surface-control 
+        wget
+        git
+      ] else [
+        wget
+        git
+      ];
 
     time.timeZone = "Pacific/Auckland";
     i18n.defaultLocale = "en_US.UTF-8";
