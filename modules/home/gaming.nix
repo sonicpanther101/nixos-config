@@ -11,20 +11,17 @@
     tcl2048
     bastet
     nethack
-    nethack-qt
-    nethack-x11
     ninvaders
     njam
     nsnake
-    nudoku
     dwarf-fortress
     pong3d
     solitaire-tui
     dhewm3
     xlife
-    bsdgames
+    # bsdgames
     gltron
-    veloren
+    # veloren
     
     ## Celeste
     celeste-classic

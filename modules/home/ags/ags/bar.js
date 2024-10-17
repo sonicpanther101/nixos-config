@@ -3,6 +3,7 @@ const mpris = await Service.import("mpris")
 const audio = await Service.import("audio")
 const battery = await Service.import("battery")
 const systemtray = await Service.import("systemtray")
+const network = await Service.import('network')
 
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
@@ -242,6 +243,71 @@ const media_background = Variable(0, {
     }]
 })
 
+let rotPlaying = false
+
+let rotTimer = 0
+
+function isRotPlaying(str) {
+    if (str.includes("YouTube") || str.includes("HiAnime")) {
+        return true
+    } else {
+        return false
+    }
+}
+
+const rotCounter = Variable("test", {
+    poll: [60000, ['bash', '-c', "hyprctl workspaces -j | grep 'lastwindowtitle'"], out => {
+
+        rotPlaying = isRotPlaying(out)
+        
+        if (rotPlaying) {
+            rotTimer += 1
+            print(`rotTimer: ${rotTimer}`)
+            if (rotTimer > 20) {
+                rotTimer = 0
+                Utils.notify({
+                    summary: "Stop",
+                    iconName: "mail-mark-junk-symbolic",
+                })
+            }
+        } else {
+            rotCounter.stopPoll()
+            print(`rotCounter.isPolling: ${rotCounter.isPolling}`)
+        }
+    }]
+})
+
+function checkRot() {
+    if (rotCounter.isPolling) {
+        return
+    }
+    Utils.execAsync('date +%H')
+        .then(hour => {
+        if (parseInt(hour) > 6) {
+            Utils.execAsync(['bash', '-c', 'hyprctl workspaces -j | grep "lastwindowtitle"'])
+                .then(out => {
+
+                    rotPlaying = isRotPlaying(out)
+
+                    if (rotPlaying) {
+                        rotCounter.startPoll()
+                        print(`rotCounter.isPolling: ${rotCounter.isPolling}`)
+                    }
+                })
+        }
+    })
+}
+
+function checkPositionPoller(string) {
+    if (media_background.isPolling && string === "stop") {
+        media_background.stopPoll()
+    } else if (!media_background.isPolling && string === "start") {
+        media_background.startPoll()
+    }
+}
+
+checkPositionPoller("stop")
+
 function Media() {
     const labele = Utils.watch("", mpris, "player-changed", () => {
         if (mpris.players[0]) {
@@ -250,17 +316,25 @@ function Media() {
                 return ""
             } else if (track_artists[0] === "") {
                 if (play_back_status === "Playing") {
+                    checkRot()
+                    checkPositionPoller("start")
                     return ` ${track_title}`
                 } else if (play_back_status === "Paused") {
+                    checkPositionPoller("stop")
                     return ` ${track_title}`
                 } else if (play_back_status === "Stopped") {
+                    checkPositionPoller("stop")
                     return `⯀ ${track_title}`
                 }
             } else if (play_back_status === "Playing") {
+                checkRot()
+                checkPositionPoller("start")
                 return ` ${track_title} - ${track_artists.join(", ")}`
             } else if (play_back_status === "Paused") {
+                checkPositionPoller("stop")
                 return ` ${track_title} - ${track_artists.join(", ")}`
             } else if (play_back_status === "Stopped") {
+                checkPositionPoller("stop")
                 return `⯀ ${track_title} - ${track_artists.join(", ")}`
             }
         } else {
@@ -455,26 +529,32 @@ function BatteryLabel() {
                 }),
             }),
         ],
-    }).bind('prop', battery, 'percent', percent => { 
-        if (percent < 10) {
-            Utils.notify({
-                summary: "Very Low Battery Warning",
-                iconName: "battery-level-10-symbolic",
-            })
-        } else if (percent < 20) {
-            Utils.notify({
-                summary: "Low Battery Warning",
-                iconName: "battery-level-20-symbolic",
-            })
-        } else if (percent === 100) {
-            Utils.notify({
-                summary: "Full Battery",
-                iconName: "battery-level-100-charged-symbolic",
-            })
+    }).hook(battery, self => {
+        if (battery.available) {
+            if (battery.charging && battery.percent === 100) {
+                Utils.notify({
+                    summary: "Full Battery",
+                    iconName: "battery-level-100-charged-symbolic",
+                })
+            } else if (!battery.charging) {
+                if (battery.percent < 10) {
+                    Utils.notify({
+                        summary: "Very Low Battery Warning",
+                        iconName: "battery-level-10-symbolic",
+                    })
+                } else if (battery.percent < 20) {
+                    Utils.notify({
+                        summary: "Low Battery Warning",
+                        iconName: "battery-level-20-symbolic",
+                    })
+                }
+            }
         }
-    })
+    }, "changed")
 }
 
+
+let lastWifiSSID = ''
 
 function SysTray() {
     const items = systemtray.bind("items")
@@ -489,6 +569,24 @@ function SysTray() {
     return Widget.Box({
         class_name: "tray",
         children: items,
+    }).hook(network.wifi, self => {
+        if (network.wifi.ssid === lastWifiSSID) {
+            return
+        }
+        lastWifiSSID = network.wifi.ssid
+        if (network.wifi.ssid.includes("MBC")) {
+            Utils.execAsync(['bash', '-c', 'hyprctl workspaces -j | grep "lastwindowtitle"'])
+                .then(out => {
+                    if (!out.includes("linewize")) {
+                        Utils.execAsync("my-linewize")
+                        Utils.notify({
+                            summary: "Started Linewize",
+                            iconName: "mail-mark-junk-symbolic",
+                        })
+                    }
+                })
+                .catch(err => print(err))
+        }
     })
 }
 
