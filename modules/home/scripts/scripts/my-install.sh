@@ -94,6 +94,8 @@ fi
 
 if nmcli | grep "wlp2s0: connected"; then
     echo "Wifi connected, continuing..."
+elif nmcli | grep "enp6s0: connected"; then
+    echo "Wifi connected, continuing..."
 else
     echo "Wifi not connected, exiting."
     popd
