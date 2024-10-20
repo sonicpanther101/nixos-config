@@ -1,24 +1,72 @@
 let task_list = []
+let gistID = ""
+let token = ""
 
-Utils.readFileAsync('/home/adam/.cache/ags/task_list.txt').then((data) => {
-    task_list = data.split("\n")
-    list.children = tasks_display(task_list)
+Utils.readFileAsync(`/home/adam/.cache/ags/secrets.txt`).then((secrets) => {
+    const secretsList = secrets.split("\n")
+    for (const secret of secretsList) {
+        const [name, value] = secret.split(":")
+        if (name === "todo_gist_id") {
+            gistID = value
+        } else if (name === "token") {
+            token = value
+        }
+    }
+    if (gistID === "") {
+        print("todo directory not found in secrets.txt")
+        return
+    } else if (token === "") {
+        print("token not found in secrets.txt")
+        return
+    }
+    readUpdate()
 }).catch(err => print(err))
 
 const refresh = Widget.Button({
     class_name: "task-refresh",
     label: "↻",
     on_clicked: () => {
-        Utils.readFileAsync('/home/adam/.cache/ags/task_list.txt').then((data) => {
-            task_list = data.split("\n")
-            list.children = tasks_display(task_list)
-        }).catch(err => print(err))
+        readUpdate()
     }
 })
 
-const tasks_display = (task_list) => {
+function readUpdate() {
+    Utils.execAsync(['bash', '-c', `curl -L \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer ${token}" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/gists/${gistID}`]).then(out => {
+        
+        const data = JSON.parse(out)["files"]["todo.txt"]["content"]
 
-    if (task_list.length === 0 || task_list[0] === "") {
+        Utils.writeFile(data, `/home/adam/.cache/ags/todo.txt`).catch(err => print(err))
+        
+        task_list = data.split("\n")
+        list.children = tasks_display()
+    }).catch(err => print(err))
+}
+
+function writeUpdate() {
+    list.children = tasks_display()
+    Utils.writeFile(task_list.join("\n"), `/home/adam/.cache/ags/todo.txt`).catch(err => print(err))
+    Utils.execAsync(['bash', '-c', `curl -L \
+  -X PATCH \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer ${token}" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  https://api.github.com/gists/${gistID} \
+  -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${task_list.join("\\n")}"}}}'`]).catch(err => print(err));
+}
+
+const readPoller = Variable("", {
+    poll: [60000, () => readUpdate()]
+})
+
+const tasks_display = () => {
+
+    task_list = task_list.filter(task => task !== "");
+
+    if (task_list.length === 0) {
         return [];
     }
 
@@ -35,14 +83,13 @@ const tasks_display = (task_list) => {
                                 label: '🞁',
                                 class_name: "task-up-label",
                             }),
-                            class_name: `task-up ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                            class_name: `task-up ${i % 2 === 0 ? "even-scroll" : "odd-scroll"} ${i === 0 ? "task-up-disabled" : ""}`,
                             on_clicked: () => {
                                 if (i > 0) {
                                     const temp = task_list[i];
                                     task_list.splice(i, 1);
                                     task_list.splice(i - 1, 0, temp);
-                                    list.children = tasks_display(task_list);
-                                    Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err));
+                                    writeUpdate()
                                 }
                             }
                         }),
@@ -51,14 +98,13 @@ const tasks_display = (task_list) => {
                                 label: '🞃',
                                 class_name: "task-down-label",
                             }),
-                            class_name: `task-down ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                            class_name: `task-down ${i % 2 === 0 ? "even-scroll" : "odd-scroll"} ${i === task_list.length - 1 ? "task-down-disabled" : ""}`,
                             on_clicked: () => {
                                 if (i < task_list.length - 1) {
                                     const temp = task_list[i];
                                     task_list.splice(i, 1);
                                     task_list.splice(i + 1, 0, temp);
-                                    list.children = tasks_display(task_list);
-                                    Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err));
+                                    writeUpdate()
                                 }
                             }
                         }),
@@ -74,8 +120,7 @@ const tasks_display = (task_list) => {
                         entry.text = task
                         entry.grab_focus()
                         task_list.splice(i, 1)
-                        list.children = tasks_display(task_list)
-                        Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err))
+                        writeUpdate()
                     }
                 }),
                 Widget.Label({
@@ -98,8 +143,7 @@ const tasks_display = (task_list) => {
                     class_name: `task-delete ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
                     on_clicked: () => {
                         task_list.splice(i, 1);
-                        list.children = tasks_display(task_list);
-                        Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err));
+                        writeUpdate()
                     }
                 }),
             ]
@@ -109,7 +153,7 @@ const tasks_display = (task_list) => {
 
 const list = Widget.Box({
     vertical: true,
-    children: tasks_display(task_list),
+    children: tasks_display(),
 })
 
 const entry = Widget.Entry({
@@ -121,9 +165,8 @@ const entry = Widget.Entry({
             return
         }
         task_list.unshift(`${entry.text}`)
-        list.children = tasks_display(task_list)
         entry.text = ""
-        Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err))
+        writeUpdate()
     },
 
     setup: self => self.hook(App, (_, visible) => {

@@ -1,33 +1,6 @@
 const { query } = await Service.import("applications")
 const WINDOW_NAME = "applauncher"
 
-function addTachidesk(list) {
-    return list.push(Widget.Button({
-        on_clicked: () => {
-            App.closeWindow(WINDOW_NAME)
-            Utils.execAsync("my-tachidesk")
-        },
-        attribute: { app: { name: "Tachidesk" } },
-        child: Widget.Box({
-            class_name: "app",
-            children: [
-                Widget.Icon({
-                    class_name: "app-icon",
-                    icon: "",
-                    size: 42,
-                }),
-                Widget.Label({
-                    class_name: "app-title",
-                    label: "Tachidesk",
-                    xalign: 0,
-                    vpack: "center",
-                    truncate: "end",
-                }),
-            ],
-        }),
-    }))
-}
-
 /** @param {import('resource:///com/github/Aylur/ags/service/applications.js').Application} app */
 const AppItem = app => Widget.Button({
     on_clicked: () => {

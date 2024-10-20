@@ -262,7 +262,6 @@ const rotCounter = Variable("test", {
         
         if (rotPlaying) {
             rotTimer += 1
-            print(`rotTimer: ${rotTimer}`)
             if (rotTimer > 20) {
                 rotTimer = 0
                 Utils.notify({
@@ -272,7 +271,6 @@ const rotCounter = Variable("test", {
             }
         } else {
             rotCounter.stopPoll()
-            print(`rotCounter.isPolling: ${rotCounter.isPolling}`)
         }
     }]
 })
@@ -291,7 +289,6 @@ function checkRot() {
 
                     if (rotPlaying) {
                         rotCounter.startPoll()
-                        print(`rotCounter.isPolling: ${rotCounter.isPolling}`)
                     }
                 })
         }

@@ -143,3 +143,8 @@
     border-bottom-right-radius: 50px;
     border-bottom-left-radius: 50px;
 }
+
+.task-up-disabled,
+.task-down-disabled {
+    opacity: 0.5;
+}
