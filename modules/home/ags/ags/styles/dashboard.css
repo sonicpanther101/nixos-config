@@ -91,14 +91,14 @@
 }
 
 .task-edit {
-    padding: 0px 20px;
+    padding: 0px 5px;
     border-top-right-radius: 500px;
     background-color: transparent;
     border-bottom-right-radius: 500px;
 }
 
 .task-delete {
-    padding: 0px 20px;
+    padding: 0px 10px;
     border-top-left-radius: 500px;
     background-color: transparent;
     border-bottom-left-radius: 500px;
@@ -114,12 +114,32 @@
 
 .task-edit:hover,
 .task-delete:hover,
-.task-refresh:hover {
+.task-refresh:hover,
+.task-up:hover,
+.task-down:hover {
     background-color: rgba(108, 112, 134, 0.3);
 }
 
 .task-edit:focus,
 .task-delete:focus,
-.task-refresh:focus {
+.task-refresh:focus,
+.task-up:focus,
+.task-down:focus {
     background-color: rgba(108, 112, 134, 0.5);
+}
+
+.task-up,
+.task-down {
+    padding: 0px;
+    font-size: 30px;
+    background-color: transparent;
+}
+
+.task-up {
+    border-top-right-radius: 50px;
+    border-top-left-radius: 50px;
+}
+.task-down {
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 50px;
 }
