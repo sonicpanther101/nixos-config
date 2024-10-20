@@ -55,7 +55,8 @@ function writeUpdate() {
   -H "Authorization: Bearer ${token}" \
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/gists/${gistID} \
-  -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${task_list.join("\\n")}"}}}'`]).catch(err => print(err));
+  -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${task_list.map(task => task
+      .replace(/\\/g, "\\\\").replace(/"/g, "\\\"").replace(/'/g, "\\'")).join("\\n")}"}}}'`]).catch(err => print(err));
 }
 
 const readPoller = Variable("", {
