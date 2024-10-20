@@ -148,3 +148,12 @@
 .task-down-disabled {
     opacity: 0.5;
 }
+
+.goals-edit-mode {
+    padding: 5px;
+    border-top-left-radius: 20px;
+}
+
+.goals-label {
+    font-size: 40px;
+}
