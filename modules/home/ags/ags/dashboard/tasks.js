@@ -27,6 +27,43 @@ const tasks_display = (task_list) => {
         hpack: "fill",
         start_widget: Widget.Box({
             children: [
+                Widget.Box({
+                    vertical: true,
+                    children: [
+                        Widget.Button({
+                            child: Widget.Label({
+                                label: '🞁',
+                                class_name: "task-up-label",
+                            }),
+                            class_name: `task-up ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                            on_clicked: () => {
+                                if (i > 0) {
+                                    const temp = task_list[i];
+                                    task_list.splice(i, 1);
+                                    task_list.splice(i - 1, 0, temp);
+                                    list.children = tasks_display(task_list);
+                                    Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err));
+                                }
+                            }
+                        }),
+                        Widget.Button({
+                            child: Widget.Label({
+                                label: '🞃',
+                                class_name: "task-down-label",
+                            }),
+                            class_name: `task-down ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                            on_clicked: () => {
+                                if (i < task_list.length - 1) {
+                                    const temp = task_list[i];
+                                    task_list.splice(i, 1);
+                                    task_list.splice(i + 1, 0, temp);
+                                    list.children = tasks_display(task_list);
+                                    Utils.writeFile(task_list.join("\n"), '/home/adam/.cache/ags/task_list.txt').catch(err => print(err));
+                                }
+                            }
+                        }),
+                    ]
+                }),
                 Widget.Button({
                     child: Widget.Label({
                         label: '✎',
