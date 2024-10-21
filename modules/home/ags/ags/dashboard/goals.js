@@ -1,7 +1,7 @@
 let goals_list = []
 let gistID = ""
 let token = ""
-const editMode = Variable(false);
+const editMode = Variable(true);
 
 Utils.readFileAsync(`/home/adam/.cache/ags/secrets.txt`).then((secrets) => {
     const secretsList = secrets.split("\n")
@@ -213,7 +213,7 @@ export const goals = Widget.Box({
                     list,
                     Widget.Label({
                         hpack: "start",
-                        visible: editMode.bind().as(editMode => editMode === false),
+                        visible: editMode.bind().as(editMode => !editMode),
                         class_name: "goals-label",
                         label: editMode.bind().as(editMode => {
                             return goals_list.map(task => task.replace("", "- ")).join("\n")
@@ -230,3 +230,5 @@ export const goals = Widget.Box({
         }),
     ]
 })
+
+editMode.setValue(false)

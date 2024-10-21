@@ -166,9 +166,17 @@
     border-bottom-right-radius: 200px;
 }
 
-.goals-entry {
+.goals-entry,
+.journal-entry {
     min-width: 500px;
     background-color: rgba(108, 112, 134, 0.5);
     padding: 5px;
+    margin: 5px;
     border-radius: 5px;
+    font-size: 25px;
+}
+
+.journal-entry-label {
+    font-size: 40px;
+    font-weight: bold;
 }

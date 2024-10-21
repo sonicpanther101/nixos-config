@@ -23,7 +23,7 @@ Utils.readFileAsync(`/home/adam/.cache/ags/secrets.txt`).then((secrets) => {
 }).catch(err => print(err))
 
 const refresh = Widget.Button({
-    class_name: "journal-refresh",
+    class_name: "task-refresh",
     label: "↻",
     on_clicked: () => {
         readUpdate()
@@ -46,6 +46,7 @@ function readUpdate() {
             print("journal.txt is not formatted correctly")
             return
         }
+        journal_list = []
         for (let i = 0; i < tempList.length; i += 3) {
             journal_list.push({
                 date: tempList[i],
@@ -67,7 +68,7 @@ function writeUpdate() {
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/gists/${gistID} \
   -d '{"description":"Updated Gist","files":{"journal.txt":{"content":"${journal_list.flatMap(Object.values).map(journal => journal
-        .replace(/\\/g, "\\\\").replace(/"/g, "\\\"").replace(/'/g, "\\'")).join("\\n")}"}}}'`]).catch(err => print(err));
+      .replace(/\\/g, "\\\\").replace(/"/g, "\\\"").replace(/'/g, "\\'")).join("\\n")}"}}}'`]).catch(err => print(err));
 }
 
 const readPoller = Variable("", {
@@ -82,59 +83,81 @@ const journals_display = () => {
         return [];
     }
 
-    return journal_list.map((journal, i) => Widget.CenterBox({
-        class_name: i % 2 === 0 ? "even-scroll" : "odd-scroll",
-        hpack: "fill",
-        start_widget: Widget.Box({
-            children: [
-                Widget.Button({
-                    child: Widget.Label({
-                        label: '✎',
-                        class_name: "journal-edit-label",
+    return journal_list.map((journal, i) => Widget.Box({
+        vertical: true,
+        children: [
+            Widget.Button({
+                on_clicked: () => {
+                    print(journal.content)
+                    // I want to toggle the visibility of the content label from this button
+                    const contentLabel = list.children[i].children[1]; // Get the content label
+                    contentLabel.visible = !contentLabel.visible; // Toggle visibility
+                },
+                child: Widget.CenterBox({
+                    class_name: i % 2 === 0 ? "even-scroll" : "odd-scroll",
+                    hpack: "fill",
+                    start_widget: Widget.Box({
+                        children: [
+                            Widget.Button({
+                                child: Widget.Label({
+                                    label: '✎',
+                                    class_name: "task-edit-label",
+                                }),
+                                class_name: `task-edit ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                                on_clicked: () => {
+                                    entry.text = journal.content
+                                    headingEntry.text = journal.heading
+                                    headingEntry.grab_focus()
+                                    journal_list.splice(i, 1)
+                                    writeUpdate()
+                                }
+                            }),
+                            Widget.Label({
+                                label: journal.heading,
+                                class_name: `task-label ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                                truncate: 'none',
+                                justification: 'left',
+                                wrap: true,
+                                useMarkup: true,
+                            })
+                        ]
                     }),
-                    class_name: `journal-edit ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
-                    on_clicked: () => {
-                        entry.text = journal.content
-                        headingEntry.text = journal.heading
-                        headingEntry.grab_focus()
-                        journal_list.splice(i, 1)
-                        writeUpdate()
-                    }
-                }),
-                Widget.Label({
-                    label: journal.heading,
-                    class_name: `journal-label ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
-                    truncate: 'none',
-                    justification: 'left',
-                    wrap: true,
-                    useMarkup: true,
-                })
-            ]
-        }),
-        end_widget: Widget.Box({ // Wrap delete button in a Box for right alignment
-            hpack: "end", // Set hpack to "end" for right alignment
-            children: [
-                Widget.Label({
-                    label: journal.date,
-                    class_name: `journal-label ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
-                    truncate: 'none',
-                    justification: 'left',
-                    wrap: true,
-                    useMarkup: true,
-                }),
-                Widget.Button({
-                    child: Widget.Label({
-                        label: '✕', //⨂
-                        class_name: "journal-delete-label",
+                    end_widget: Widget.Box({ // Wrap delete button in a Box for right alignment
+                        hpack: "end", // Set hpack to "end" for right alignment
+                        children: [
+                            Widget.Label({
+                                label: journal.date,
+                                class_name: `task-label ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                                truncate: 'none',
+                                justification: 'left',
+                                wrap: true,
+                                useMarkup: true,
+                            }),
+                            Widget.Button({
+                                child: Widget.Label({
+                                    label: '✕', //⨂
+                                    class_name: "task-delete-label",
+                                }),
+                                class_name: `task-delete ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                                on_clicked: () => {
+                                    journal_list.splice(i, 1);
+                                    writeUpdate()
+                                }
+                            }),
+                        ]
                     }),
-                    class_name: `journal-delete ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
-                    on_clicked: () => {
-                        journal_list.splice(i, 1);
-                        writeUpdate()
-                    }
                 }),
-            ]
-        }),
+            }),
+            Widget.Label({
+                visible: false,
+                label: journal.content,
+                class_name: `task-label ${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+                truncate: 'none',
+                hpack: "start",
+                wrap: true,
+                useMarkup: true,
+            }),
+        ]
     }))
 }
 
@@ -145,7 +168,7 @@ const list = Widget.Box({
 
 const entry = Widget.Entry({
     hexpand: true,
-    class_name: "journals-entry",
+    class_name: "journal-entry",
 
     on_accept: () => {
         if (entry.text === "" || headingEntry.text === "") {
@@ -173,7 +196,7 @@ const entry = Widget.Entry({
 
 const headingEntry = Widget.Entry({
     hexpand: true,
-    class_name: "journals-entry",
+    class_name: "journal-entry",
 })
 
 export const journal = () => {
@@ -190,14 +213,14 @@ export const journal = () => {
             }),
             Widget.Box({
                 vertical: true,
-                class_name: "journals-entry",
                 children: [
                     Widget.Box({
-                        class_name: "journals-entry",
-                        children: [Widget.Label({label: "Heading:"}), headingEntry],
+                        children: [Widget.Label({
+                            label: "Heading:",
+                            class_name: "journal-entry-label",
+                        }), headingEntry],
                     }),
                     Widget.Box({
-                        class_name: "journals-entry",
                         children: [refresh, entry],
                     })
                 ],
