@@ -184,7 +184,7 @@ function Workspaces() {
         class_name: "ws-button empty",
         on_primary_click: () => hyprland.messageAsync(`dispatch workspace ${i}`),
         child: Widget.Label({
-            label: `${workspaceIcon[i]}`,
+            label: workspaceIcon[i],
             class_name: "ws-button-label"
         })
     }).hook(hyprland, (button) => {

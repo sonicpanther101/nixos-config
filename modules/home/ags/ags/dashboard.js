@@ -132,7 +132,7 @@ const Dashboard = () => {
                     label: "Goals",
                     class_name: "dashboard-goals-label",
                 }),
-                goals(),
+                goals,
             ],
         })
     }

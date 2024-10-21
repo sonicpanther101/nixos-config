@@ -1,6 +1,7 @@
 let goals_list = []
 let gistID = ""
 let token = ""
+const editMode = Variable(false);
 
 Utils.readFileAsync(`/home/adam/.cache/ags/secrets.txt`).then((secrets) => {
     const secretsList = secrets.split("\n")
@@ -23,8 +24,12 @@ Utils.readFileAsync(`/home/adam/.cache/ags/secrets.txt`).then((secrets) => {
 }).catch(err => print(err))
 
 const refresh = Widget.Button({
-    class_name: "task-refresh",
-    label: "↻",
+    hpack: "start",
+    class_name: "goals-refresh",
+    child: Widget.Label({
+        class_name: "goals-refresh",
+        label: "↻",
+    }),
     on_clicked: () => {
         readUpdate()
     }
@@ -72,7 +77,7 @@ const goals_display = () => {
     }
 
     return goals_list.map((task, i) => Widget.CenterBox({
-        class_name: `${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+        class_name: i % 2 === 0 ? "even-scroll" : "odd-scroll",
         hpack: "fill",
         start_widget: Widget.Box({
             children: [
@@ -153,19 +158,21 @@ const goals_display = () => {
 }
 
 const list = Widget.Box({
+    visible: editMode.bind(),
     vertical: true,
     children: goals_display(),
 })
 
 const entry = Widget.Entry({
+    visible: editMode.bind(),
     hexpand: true,
-    class_name: "tasks-entry",
+    class_name: "goals-entry",
 
     on_accept: () => {
         if (entry.text === "") {
             return
         }
-        goals_list.unshift(`${entry.text}`)
+        goals_list.unshift(entry.text)
         entry.text = ""
         writeUpdate()
     },
@@ -192,46 +199,34 @@ const toggleEditMode = Widget.Button({
     }
 })
 
-const editMode = Variable(true);
-
-const fixer = setTimeout(() => { 
-    editMode.setValue(false)
- }, 1000)
-
-export const goals = () => {
-
-    return Widget.Box({
-        vertical: true,
-        vexpand: true,
-        children: editMode.bind().as(editMode => {
-            if (editMode === true) {
-                return [
-                    Widget.Scrollable({
-                        vexpand: true,
-                        // hscroll: "never",
-                        class_name: "tasks-scroll",
-                        child: list,
-                    }),
-                    Widget.Box({
-                        class_name: "tasks-entry",
-                        children: [refresh, entry],
-                    }),
-                    toggleEditMode
-                ]
-            } else {
-                return [
-                    Widget.Scrollable({
-                        vexpand: true,
-                        // hscroll: "never",
-                        class_name: "tasks-scroll",
-                        child: Widget.Label({
-                            class_name: "goals-label",
-                            label: goals_list.map(task => task.replace("", "- ")).join("\n"),
+export const goals = Widget.Box({
+    vertical: true,
+    vexpand: true,
+    children: [
+        Widget.Scrollable({
+            vexpand: true,
+            // hscroll: "never",
+            class_name: "tasks-scroll",
+            child: Widget.Box({
+                vertical: true,
+                children: [
+                    list,
+                    Widget.Label({
+                        hpack: "start",
+                        visible: editMode.bind().as(editMode => editMode === false),
+                        class_name: "goals-label",
+                        label: editMode.bind().as(editMode => {
+                            return goals_list.map(task => task.replace("", "- ")).join("\n")
                         }),
-                    }),
-                    toggleEditMode
+                    })
                 ]
-            }
+            }),
         }),
-    })
-}
+        Widget.CenterBox({
+            class_name: "tasks-entry",
+            startWidget: refresh,
+            centerWidget: entry,
+            endWidget: toggleEditMode
+        }),
+    ]
+})

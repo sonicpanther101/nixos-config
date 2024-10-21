@@ -151,9 +151,24 @@
 
 .goals-edit-mode {
     padding: 5px;
-    border-top-left-radius: 20px;
+    border-top-left-radius: 200px;
+    border-bottom-left-radius: 200px;
 }
 
 .goals-label {
     font-size: 40px;
+}
+
+.goals-refresh {
+    font-size: 30px;
+    padding: 5px;
+    border-top-right-radius: 200px;
+    border-bottom-right-radius: 200px;
+}
+
+.goals-entry {
+    min-width: 500px;
+    background-color: rgba(108, 112, 134, 0.5);
+    padding: 5px;
+    border-radius: 5px;
 }

@@ -72,7 +72,7 @@ const tasks_display = () => {
     }
 
     return task_list.map((task, i) => Widget.CenterBox({
-        class_name: `${i % 2 === 0 ? "even-scroll" : "odd-scroll"}`,
+        class_name: i % 2 === 0 ? "even-scroll" : "odd-scroll",
         hpack: "fill",
         start_widget: Widget.Box({
             children: [
@@ -165,7 +165,7 @@ const entry = Widget.Entry({
         if (entry.text === "") {
             return
         }
-        task_list.unshift(`${entry.text}`)
+        task_list.unshift(entry.text)
         entry.text = ""
         writeUpdate()
     },
