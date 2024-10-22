@@ -48,10 +48,10 @@ const Dashboard = () => {
             vertical: true,
             children: [
                 Widget.Label({
-                    label: "Home\nFix Gemini widget\nMake notification manager widget",
+                    label: "Home",
                     class_name: "dashboard-home-label",
                 }),
-                home(),
+                home,
             ],
         })
     }

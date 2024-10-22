@@ -180,3 +180,14 @@
     font-size: 40px;
     font-weight: bold;
 }
+
+.git-square {
+    min-width: 10px;
+    min-height: 10px;
+    margin: 2px;
+    border-radius: 1px;
+}
+
+.git-list {
+    background-color: rgba(108, 112, 134, 0.5);
+}
