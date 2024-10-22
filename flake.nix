@@ -13,10 +13,17 @@
   
     nix-gaming.url = "github:fufexan/nix-gaming";
   
-    hyprland = {
+    hyprland-laptop = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
       rev = "c86db7bbb0cf14d4955ee3a4d13c0ed9f8a0e0ae";
+      submodules = true;
+    };
+
+    hyprland-desktop = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      rev = "9a09eac79b85c846e3a865a9078a3f8ff65a9259";
       submodules = true;
     };
   
