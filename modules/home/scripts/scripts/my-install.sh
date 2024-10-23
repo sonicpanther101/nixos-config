@@ -152,4 +152,4 @@ fi
 
 popd
 
-notify-send -e "NixOS Rebuilt OK\!" --icon=check-filled
+notify-send -e "NixOS Rebuilt OK!" --icon=check-filled
