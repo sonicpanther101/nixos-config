@@ -11,7 +11,7 @@
       
       indicator = true;
       indicator-radius = 125;
-      indicator-thickness = 7;
+      indicator-thickness = 10;
       
       effect-blur = "7x5";
       effect-vignette = "0.5:0.5";

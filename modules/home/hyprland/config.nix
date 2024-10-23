@@ -156,6 +156,7 @@
         "$mainMod SHIFT, F, fullscreen, 1"
         "$mainMod, Space, togglefloating,"
         "$mainMod, D, exec, ags -t applauncher"
+        "$mainMod, G, exec, ags -t gemini-ui"
         "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] vesktop'"
         "$mainMod, Escape, exec, swaylock"
         "$mainMod SHIFT, Escape, exec, my-sleep"
