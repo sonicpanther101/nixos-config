@@ -12,15 +12,11 @@
     bastet
     nethack
     ninvaders
-    njam
     nsnake
     dwarf-fortress
     pong3d
     solitaire-tui
-    dhewm3
-    xlife
     # bsdgames
-    gltron
     # veloren
     
     ## Celeste
