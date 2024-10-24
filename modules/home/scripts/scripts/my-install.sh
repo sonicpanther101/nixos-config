@@ -124,8 +124,6 @@ elif [[ $host == "desktop" ]]; then
     cp flake-desktop.lock flake.lock
 fi
 
-sleep 2
-
 install
 
 if [[ $host == "laptop" ]]; then

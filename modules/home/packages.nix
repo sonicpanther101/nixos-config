@@ -1,6 +1,7 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    # realvnc-vnc-viewer
     p7zip
     jq
     ddcutil
