@@ -82,6 +82,7 @@
         "**/.vscode" = true;
         "**/node_modules" = true;
       };
+      "spotify.forceWebApiImplementation" = true;
 
       "editor.mouseWheelZoom" = true;
 
