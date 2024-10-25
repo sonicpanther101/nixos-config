@@ -82,10 +82,6 @@
         "**/.vscode" = true;
         "**/node_modules" = true;
       };
-      "spotify.forceWebApiImplementation" = true;
-      "spotify.showToggleRepeatingButton" = true;
-      "spotify.showToggleShufflingButton" = true;
-      "spotify.enableLogs" = true;
 
       "editor.mouseWheelZoom" = true;
 
