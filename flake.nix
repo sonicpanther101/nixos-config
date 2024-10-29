@@ -51,6 +51,40 @@
     ags.url = "github:Aylur/ags";
 
     stylix.url = "github:danth/stylix";
+
+    impurity.url = "github:outfoxxed/impurity.nix";
+    thorium.url = "github:end-4/nix-thorium";
+
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      # inputs.nixpkgs.follows = "hyprland";
+    };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    gross = {
+      url = "github:fufexan/gross";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-parts.follows = "flake-parts";
+    };
+    matugen = {
+      url = "github:/InioX/Matugen";
+      # ref = "refs/tags/matugen-v0.10.0"
+    };
+    more-waita = {
+      url = "github:somepaulo/MoreWaita";
+      flake = false;
+    };
+    firefox-gnome-theme = {
+      url = "github:rafaelmardojai/firefox-gnome-theme";
+      flake = false;
+    };
+    anyrun = {
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { nixpkgs, self, grub2-themes, catppuccin, nixos-hardware, ...} @ inputs:
