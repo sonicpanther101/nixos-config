@@ -253,7 +253,7 @@ in
           "Super+Alt, mouse_up, movetoworkspace, +1"
           "Super, F, fullscreen, 0"
           "Super, D, fullscreen, 1"
-          "Super_Alt, F, fakefullscreen, 0"
+          # "Super_Alt, F, fakefullscreen, 0"
           "Super, 1, workspace, 1"
           "Super, 2, workspace, 2"
           "Super, 3, workspace, 3"
@@ -362,9 +362,9 @@ in
         "noanim, sideright"
         "noanim, sideleft"
       ];
-      source = [
-        "./colors.conf"
-      ];
+      # source = [
+      #   "./colors.conf"
+      # ];
     };
   };
 }
