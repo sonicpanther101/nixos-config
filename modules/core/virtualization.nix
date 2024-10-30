@@ -12,7 +12,7 @@
       spice-protocol
       win-virtio
       win-spice
-      adwaita-icon-theme
+      # adwaita-icon-theme
     ];
 
     # Manage the virtualisation services

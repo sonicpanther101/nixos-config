@@ -39,15 +39,15 @@ in
   home = {
     packages = with pkgs; [
       # themes
-      adwaita-qt6
+      # adwaita-qt6
       adw-gtk3
-      material-symbols
+      # material-symbols
       nerdfonts
-      noto-fonts
+      # noto-fonts
       noto-fonts-cjk-sans
       google-fonts
       moreWaita
-      bibata-cursors
+      # bibata-cursors
       # morewaita-icon-theme
       # papirus-icon-theme
       # qogir-icon-theme
@@ -60,10 +60,10 @@ in
     ];
     sessionVariables = {
       XCURSOR_THEME = cursor-theme;
-      XCURSOR_SIZE = "24";
+      # XCURSOR_SIZE = "24";
     };
     pointerCursor = {
-      package = cursor-package;
+      # package = cursor-package;
       # name = cursor-theme;
       # size = 24;
       gtk.enable = true;
@@ -94,13 +94,13 @@ in
 
   gtk = {
     enable = true;
-    font.name = "Rubik";
+    # font.name = "Rubik";
     # theme.name = gtk-theme;
     cursorTheme = {
       # name = cursor-theme;
-      package = cursor-package;
+      # package = cursor-package;
     };
-    iconTheme.name = moreWaita.name;
+    # iconTheme.name = moreWaita.name;
     gtk3.extraCss = ''
       headerbar, .titlebar,
       .csd:not(.popup):not(tooltip):not(messagedialog) decoration{
@@ -111,6 +111,6 @@ in
 
   qt = {
     enable = true;
-    platformTheme = "kde";
+    # platformTheme = "kde";
   };
 }

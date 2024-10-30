@@ -7,17 +7,17 @@ in
     # Cachix
     # ./cachix.nix
     ## Dotfiles (manual)
-    ./dotfiles.nix
+    # ./dotfiles.nix
     # Stuff
     # ./ags.nix
-    ./anyrun.nix
-    ./dconf.nix
+    # ./anyrun.nix
+    # ./dconf.nix
     ./hyprland.nix
     ./mimelist.nix
     ./packages.nix
     # ./starship.nix
-    ./sway.nix
-    # ./theme.nix
+    # ./sway.nix
+    ./theme.nix
   ];
 
   home = {
@@ -37,9 +37,9 @@ in
 
   gtk = {
     font = {
-      name = "Rubik";
-      package = pkgs.google-fonts.override { fonts = [ "Rubik" ]; };
-      size = 11;
+      # name = "Rubik";
+      # package = pkgs.google-fonts.override { fonts = [ "Rubik" ]; };
+      # size = 11;
     };
     gtk3 = {
       bookmarks = [

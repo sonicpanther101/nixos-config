@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  hyprland = inputs.hyprland.packages.${pkgs.system}.hyprland;
+  hyprland = inputs.hyprland-laptop.packages.${pkgs.system}.hyprland;
   plugins = inputs.hyprland-plugins.packages.${pkgs.system};
 
   launcher = pkgs.writeShellScriptBin "hypr" ''
@@ -15,22 +15,22 @@ in
 {
   home.packages = with pkgs; [
     launcher
-    adoptopenjdk-jre-bin
+    temurin-jre-bin
   ];
 
-  xdg.desktopEntries."org.gnome.Settings" = {
-    name = "Settings";
-    comment = "Gnome Control Center";
-    icon = "org.gnome.Settings";
-    exec = "env XDG_CURRENT_DESKTOP=gnome ${pkgs.gnome.gnome-control-center}/bin/gnome-control-center";
-    categories = [ "X-Preferences" ];
-    terminal = false;
-  };
+  # xdg.desktopEntries."org.gnome.Settings" = {
+  #   name = "Settings";
+  #   comment = "Gnome Control Center";
+  #   icon = "org.gnome.Settings";
+  #   exec = "env XDG_CURRENT_DESKTOP=gnome ${pkgs.gnome.gnome-control-center}/bin/gnome-control-center";
+  #   categories = [ "X-Preferences" ];
+  #   terminal = false;
+  # };
 
   programs = {
     swaylock = {
       enable = true;
-      package = pkgs.swaylock-effects;
+      # package = pkgs.swaylock-effects;
     };
   };
 
