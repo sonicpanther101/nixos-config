@@ -5,7 +5,16 @@ const battery = await Service.import("battery")
 const systemtray = await Service.import("systemtray")
 const network = await Service.import('network')
 
+const time = Variable("", {
+    poll: [60000, 'date "+ %l:%M %p"'],
+})
+
 const studyMode = Variable(false)
+const studying = Variable(true);
+let timeLeftStudying = 31;
+const studyLabel = Utils.derive([studying, time], (studying, time) => {
+    return `${studying} ${time}`
+})
 
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
@@ -24,10 +33,6 @@ const nth = (d) => {
         default: return "th";
     }
 };
-
-const time = Variable("", {
-    poll: [60000, 'date "+ %l:%M %p"'],
-})
 
 // widgets can be only assigned as a child in one container
 // so to make a reuseable widget, make it a function
@@ -81,6 +86,7 @@ function StartButton() {
                     studyMode.value = !studyMode.value
                     if (studyMode.value) {
                         timeLeftStudying = 31
+                        studying.value = true
                     }
                 },
             }),
@@ -225,13 +231,6 @@ function ClientTitle() {
 }
 
 function Study() {
-
-    const studying = Variable(true);
-    let timeLeftStudying = 31;
-    const studyLabel = Utils.derive([studying, time], (studying, time) => {
-        return `${studying} ${time}`
-    })
-
     return Widget.Button({
         class_name: "study-button",
         on_primary_click: () => {
@@ -249,6 +248,7 @@ function Study() {
                         summary: studying.value ? "Start Studying" : "Stop Studying",
                         iconName: studying.value ? "easy-ebook-viewer" : "applications-games-symbolic",
                     })
+                    mpris.getPlayer("")?.playPause()
                 }
                 return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
             }),
