@@ -217,26 +217,31 @@ function ClientTitle() {
 
 function Study() {
 
-    let studying = true;
-    let timeLeftStudying = 30;
+    const studying = Variable(true);
+    let timeLeftStudying = 32;
+    const studyLabel = Utils.derive([studying, time], (studying, time) => {
+        return `${studying} ${time}`
+    })
 
-    return Widget.Label({
-        class_name: "study",
-        label: time.bind().as(time => {
-            timeLeftStudying -= 1
-            if (timeLeftStudying <= 0 && studying) {
-                studying = false
-                timeLeftStudying = 5
-            } else if (timeLeftStudying <= 0 && !studying) {
-                studying = true
-                timeLeftStudying = 30
-            }
-            if (studying) {
-                return ` ${timeLeftStudying}m`
-            } else {
-                return `  ${timeLeftStudying}m`
-            }
-        }),
+    return Widget.Button({
+        class_name: "study-button",
+        on_primary_click: () => {
+            timeLeftStudying = studying.value ? 6 : 31
+            studying.value = !studying.value
+            print(`manually updated to: ${studying.value ? '' : ' '} ${timeLeftStudying}m`)
+        },
+        child: Widget.Label({
+            class_name: "study",
+            label: studyLabel.bind().as(studyLabel => {
+                timeLeftStudying -= 1
+                if (timeLeftStudying <= 0) {
+                    studying.value = !studying.value
+                    timeLeftStudying = studying.value ? 31 : 6
+                }
+                print`updated to: ${studying.value ? '' : ' '} ${timeLeftStudying}m`
+                return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
+            }),
+        })
     })
 }
 

@@ -156,3 +156,17 @@ window.bar>highlight {
     color: rgba(108, 112, 134, 0.75);
     background-color: #cdd6f4;
 }
+
+.study {
+    padding: 0px 10px;
+    color: #cdd6f4;
+}
+
+.study-button {
+    border-radius: 50px;
+    background-color: rgba(108, 112, 134, 0.3);
+}
+
+.study-button:hover {
+    background-color: rgba(108, 112, 134, 0.5);
+}
