@@ -6,8 +6,8 @@
 
     # Install necessary packages
     environment.systemPackages = with pkgs; [
-      virt-manager
-      virt-viewer
+      # virt-manager
+      # virt-viewer
       spice spice-gtk
       spice-protocol
       win-virtio

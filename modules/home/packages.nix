@@ -1,6 +1,7 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    # realvnc-vnc-viewer
     p7zip
     jq
     ddcutil
@@ -29,7 +30,9 @@
     iptsd
     lsof
     imagemagick
-    resources
+    # resources
+    htop
+    btop
     qdirstat
     bun
     torrential
@@ -60,10 +63,11 @@
     # jdk17                             # java
     lazygit
     # libreoffice
-    nemo-with-extensions              # file manager
+    spacedrive                       # cloud storage
+    # nemo-with-extensions              # file manager
     nitch                             # systhem fetch util
     nix-prefetch-github
-    (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
+    # (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
     ripgrep                           # grep replacement
     soundwireserver                   # pass audio to android phone
     todo                              # cli todo list
