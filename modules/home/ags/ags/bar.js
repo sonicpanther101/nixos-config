@@ -5,6 +5,8 @@ const battery = await Service.import("battery")
 const systemtray = await Service.import("systemtray")
 const network = await Service.import('network')
 
+const studyMode = true
+
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
 })
@@ -213,6 +215,31 @@ function ClientTitle() {
     })
 }
 
+function Study() {
+
+    let studying = true;
+    let timeLeftStudying = 30;
+
+    return Widget.Label({
+        class_name: "study",
+        label: time.bind().as(time => {
+            timeLeftStudying -= 1
+            if (timeLeftStudying <= 0 && studying) {
+                studying = false
+                timeLeftStudying = 5
+            } else if (timeLeftStudying <= 0 && !studying) {
+                studying = true
+                timeLeftStudying = 30
+            }
+            if (studying) {
+                return ` ${timeLeftStudying}m`
+            } else {
+                return `  ${timeLeftStudying}m`
+            }
+        }),
+    })
+}
+
 
 function Clock() {
     return Widget.Label({
@@ -259,7 +286,7 @@ const rotCounter = Variable("test", {
     poll: [60000, ['bash', '-c', "hyprctl workspaces -j | grep 'lastwindowtitle'"], out => {
 
         rotPlaying = isRotPlaying(out)
-        
+
         if (rotPlaying) {
             rotTimer += 1
             if (rotTimer > 20) {
@@ -281,18 +308,18 @@ function checkRot() {
     }
     Utils.execAsync('date +%H')
         .then(hour => {
-        if (parseInt(hour) > 6) {
-            Utils.execAsync(['bash', '-c', 'hyprctl workspaces -j | grep "lastwindowtitle"'])
-                .then(out => {
+            if (parseInt(hour) > 6) {
+                Utils.execAsync(['bash', '-c', 'hyprctl workspaces -j | grep "lastwindowtitle"'])
+                    .then(out => {
 
-                    rotPlaying = isRotPlaying(out)
+                        rotPlaying = isRotPlaying(out)
 
-                    if (rotPlaying) {
-                        rotCounter.startPoll()
-                    }
-                })
-        }
-    })
+                        if (rotPlaying) {
+                            rotCounter.startPoll()
+                        }
+                    })
+            }
+        })
 }
 
 function checkPositionPoller(string) {
@@ -432,7 +459,7 @@ function Volume() {
     })
 
     function audioChange(x) {
-        const vol = Math.round(audio.speaker.volume*100)/100
+        const vol = Math.round(audio.speaker.volume * 100) / 100
         if (audio.speaker.volume < 0.98 || x < 0) {
             audio.speaker.volume = vol + x
         } else {
@@ -601,7 +628,10 @@ function Left() {
 
 function Center() {
     return Widget.Box({
-        children: [
+        children: studyMode ? [
+            Clock(),
+            Study(),
+        ] : [
             Clock(),
         ],
     })
