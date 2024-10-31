@@ -3,12 +3,6 @@ import Service from 'resource:///com/github/Aylur/ags/service.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 const { exec, execAsync } = Utils;
 
-const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-function fileExists(filePath) {
-    let file = Gio.File.new_for_path(filePath);
-    return file.query_exists(null);
-}
-
 class TodoService extends Service {
     static {
         Service.register(
@@ -64,7 +58,7 @@ class TodoService extends Service {
 
     constructor() {
         super();
-        this._todoPath = `${GLib.get_user_cache_dir()}/ags/user/todo.json`;
+        this._todoPath = `${GLib.get_user_state_dir()}/ags/user/todo.json`;
         try {
             const fileContents = Utils.readFile(this._todoPath);
             this._todoJson = JSON.parse(fileContents);

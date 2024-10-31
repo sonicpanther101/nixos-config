@@ -1,5 +1,5 @@
 let
-  browser = "firefox.desktop";
+  browser = "vivaldi.desktop";
   editor = "code.desktop";
   file-manager = "org.gnome.Nautilus.desktop";
   image-viewer = "org.gnome.Loupe.desktop";

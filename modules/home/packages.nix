@@ -63,8 +63,7 @@
     # jdk17                             # java
     lazygit
     # libreoffice
-    spacedrive                       # cloud storage
-    # nemo-with-extensions              # file manager
+    nemo-with-extensions              # file manager
     nitch                             # systhem fetch util
     nix-prefetch-github
     # (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher

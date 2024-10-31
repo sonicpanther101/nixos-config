@@ -5,7 +5,7 @@ const battery = await Service.import("battery")
 const systemtray = await Service.import("systemtray")
 const network = await Service.import('network')
 
-const studyMode = true
+const studyMode = Variable(false)
 
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
@@ -74,6 +74,15 @@ function StartButton() {
             Widget.MenuItem({
                 label: 'Restart AGS',
                 on_activate: () => Utils.execAsync(['my-ags']),
+            }),
+            Widget.MenuItem({
+                label: studyMode.bind().as(studyMode => studyMode ? 'Exit Study Mode' : 'Enter Study Mode'),
+                on_activate: () => {
+                    studyMode.value = !studyMode.value
+                    if (studyMode.value) {
+                        timeLeftStudying = 31
+                    }
+                },
             }),
             Widget.MenuItem({
                 label: 'Change Wallpaper',
@@ -218,7 +227,7 @@ function ClientTitle() {
 function Study() {
 
     const studying = Variable(true);
-    let timeLeftStudying = 32;
+    let timeLeftStudying = 31;
     const studyLabel = Utils.derive([studying, time], (studying, time) => {
         return `${studying} ${time}`
     })
@@ -228,7 +237,6 @@ function Study() {
         on_primary_click: () => {
             timeLeftStudying = studying.value ? 6 : 31
             studying.value = !studying.value
-            print(`manually updated to: ${studying.value ? '' : ' '} ${timeLeftStudying}m`)
         },
         child: Widget.Label({
             class_name: "study",
@@ -237,8 +245,11 @@ function Study() {
                 if (timeLeftStudying <= 0) {
                     studying.value = !studying.value
                     timeLeftStudying = studying.value ? 31 : 6
+                    Utils.notify({
+                        summary: studying.value ? "Start Studying" : "Stop Studying",
+                        iconName: studying.value ? "easy-ebook-viewer" : "applications-games-symbolic",
+                    })
                 }
-                print`updated to: ${studying.value ? '' : ' '} ${timeLeftStudying}m`
                 return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
             }),
         })
@@ -633,12 +644,12 @@ function Left() {
 
 function Center() {
     return Widget.Box({
-        children: studyMode ? [
+        children: studyMode.bind().as(studyMode => studyMode ? [
             Clock(),
             Study(),
         ] : [
             Clock(),
-        ],
+        ]),
     })
 }
 
