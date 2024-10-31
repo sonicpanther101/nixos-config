@@ -1,7 +1,7 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
-    # realvnc-vnc-viewer
+    protonmail-bridge
     p7zip
     jq
     ddcutil
