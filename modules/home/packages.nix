@@ -1,7 +1,6 @@
 { inputs, pkgs, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
-    protonmail-bridge
     p7zip
     jq
     ddcutil
