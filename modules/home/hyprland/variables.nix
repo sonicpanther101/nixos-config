@@ -23,7 +23,7 @@
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
     HYPRCURSOR_THEME = "catppuccin-mocha-dark-cursors";
-    HYPRCURSOR_SIZE = 22;
-    XCURSOR_SIZE = 22;
+    HYPRCURSOR_SIZE = 12;
+    XCURSOR_SIZE = 12;
   };
 }
