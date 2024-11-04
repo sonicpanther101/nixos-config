@@ -15,7 +15,7 @@
           "nm-applet &"
           "swww-daemon&"
           "sleep 1 && swaylock"
-          "hyprctl setcursor catppuccin-mocha-dark-cursors 18 &"
+          "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
           "wl-paste --watch cliphist store &"
           "wl-copy &"
@@ -29,7 +29,7 @@
           "nm-applet &"
           "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f) &"
           "sleep 1 && swaylock"
-          "hyprctl setcursor catppuccin-mocha-dark-cursors 18 &"
+          "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
           "wl-paste --watch cliphist store &"
           "wl-copy &"
@@ -331,7 +331,7 @@
 
         # toolkit-specific scale
         env = GDK_SCALE,2
-        env = XCURSOR_SIZE,32
+        env = XCURSOR_SIZE,22
         env = TERM,kitty
       " else "
         monitor=,preferred,auto,auto
