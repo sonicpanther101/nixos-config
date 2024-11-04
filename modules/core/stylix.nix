@@ -46,7 +46,7 @@
             package = pkgs.catppuccin-cursors.mochaDark;
             # name = "catppuccin-mocha-blue-cursors";
             name = "catppuccin-mocha-dark-cursors";
-            size = 12;
+            size = 22;
         };
     };
 
