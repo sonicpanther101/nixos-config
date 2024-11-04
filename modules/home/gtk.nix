@@ -17,11 +17,11 @@
         accent = "blue";
       };
     };
-    cursorTheme = {
-      name = "catppuccin-mocha-dark-cursors";
-      package = pkgs.catppuccin-cursors.mochaDark;
-      size = 22;
-    };
+    # cursorTheme = {
+    #   name = "catppuccin-mocha-dark-cursors";
+    #   package = pkgs.catppuccin-cursors.mochaDark;
+    #   size = 22;
+    # };
   };
 
   nixpkgs.overlays = [
