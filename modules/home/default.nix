@@ -18,6 +18,6 @@
     ++ [(import ./swaylock.nix)]                  # lock screen
     ++ [(import ./vscodium.nix)]                  # vscode fork
     ++ [(import ./ags)]                           # status bar
-    ++ [(import ./zsh.nix)]                       # shell
-    ++ [(import ./end_4)];
+    ++ [(import ./zsh.nix)];                      # shell
+    # ++ [(import ./end_4)];
 }

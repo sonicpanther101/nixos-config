@@ -11,9 +11,9 @@ const time = Variable("", {
 
 const studyMode = Variable(false)
 const studying = Variable(true);
-let timeLeftStudying = 31;
-const studyLabel = Utils.derive([studying, time], (studying, time) => {
-    return `${studying} ${time}`
+let timeLeftStudying = 32;
+const studyLabel = Utils.derive([studying, time], (a, b) => {
+    return `${a ? "Study" : "Stop"} ${b}`
 })
 
 const date = Variable("", {
@@ -230,7 +230,7 @@ function ClientTitle() {
     })
 }
 
-function Study() {
+function Study(monitor) {
     return Widget.Button({
         class_name: "study-button",
         on_primary_click: () => {
@@ -239,19 +239,20 @@ function Study() {
         },
         child: Widget.Label({
             class_name: "study",
-            label: studyLabel.bind().as(studyLabel => {
+            label: studyLabel.bind().as(a => {
+                if (monitor === 1) return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
                 timeLeftStudying -= 1
-                if (timeLeftStudying <= 0) {
+                if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
                     timeLeftStudying = studying.value ? 31 : 6
                     Utils.notify({
-                        summary: studying.value ? "Start Studying" : "Stop Studying",
+                        summary: studying.value ? "Start Studying" : "Start Break",
                         iconName: studying.value ? "easy-ebook-viewer" : "applications-games-symbolic",
                     })
                     mpris.getPlayer("")?.playPause()
                 }
                 return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
-            }),
+            })
         })
     })
 }
@@ -642,11 +643,11 @@ function Left() {
     })
 }
 
-function Center() {
+function Center(monitor) {
     return Widget.Box({
         children: studyMode.bind().as(studyMode => studyMode ? [
             Clock(),
-            Study(),
+            Study(monitor),
         ] : [
             Clock(),
         ]),
@@ -675,7 +676,7 @@ export function Bar(monitor = 0) {
         exclusivity: "exclusive",
         child: Widget.CenterBox({
             start_widget: Left(),
-            center_widget: Center(),
+            center_widget: Center(monitor),
             end_widget: Right(),
         }),
     })
