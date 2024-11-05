@@ -166,6 +166,7 @@
         "$mainMod, E, exec, nemo"
         "$mainMod, V, exec, codium"
         "$mainMod SHIFT, V, exec, codium ~/nixos-config"
+        "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
         "$mainMod, C ,exec, hyprpicker -a"
         "$mainMod, G,exec, $HOME/.local/bin/toggle_layout"
         "$mainMod, W,exec, pkill wofi || wallpaper-picker"
