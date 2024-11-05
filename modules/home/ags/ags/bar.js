@@ -245,7 +245,7 @@ function Study(monitor) {
             class_name: "study",
             label: studyLabel.bind().as(a => {
                 if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
-                timeLeftStudying -= (studyPaused.value || studyMode.value) ? 0 : 1
+                timeLeftStudying -= (studyPaused.value || !studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
                     timeLeftStudying = studying.value ? 30 : 5
