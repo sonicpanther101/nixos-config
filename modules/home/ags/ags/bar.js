@@ -16,6 +16,7 @@ const studyPaused = Variable(false)
 const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => {
     return `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`
 })
+let studyCycle = 0
 
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
@@ -249,10 +250,11 @@ function Study(monitor) {
                 timeLeftStudying -= (studyPaused.value || !studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
-                    timeLeftStudying = studying.value ? 31 : 6
+                    timeLeftStudying = studying.value ? 31 : (studyCycle%2 ? 6 : 11)
+                    studyCycle += 1
                     Utils.notify({
-                        summary: studying.value ? "Start Studying" : "Start Break",
-                        iconName: studying.value ? "easy-ebook-viewer" : "applications-games-symbolic",
+                        summary: studying.value ? "Start Studying" : (studyCycle%2 ? "Start Break" : "Get Up"),
+                        iconName: studying.value ? "easy-ebook-viewer" : (studyCycle%2 ? "applications-games-symbolic" : "emoji-food-symbolic"),
                     })
                     mpris.getPlayer("")?.playPause()
                 }
