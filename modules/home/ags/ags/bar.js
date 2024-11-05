@@ -11,7 +11,7 @@ const time = Variable("", {
 
 const studyMode = Variable(false)
 const studying = Variable(true);
-let timeLeftStudying = 32;
+let timeLeftStudying = 30;
 const studyPaused = Variable(false)
 const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => {
     return `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`
@@ -86,7 +86,7 @@ function StartButton() {
                 on_activate: () => {
                     studyMode.value = !studyMode.value
                     if (studyMode.value) {
-                        timeLeftStudying = 31
+                        timeLeftStudying = 30
                         studying.value = true
                     }
                 },
@@ -235,7 +235,7 @@ function Study(monitor) {
     return Widget.Button({
         class_name: "study-button",
         on_primary_click: () => {
-            timeLeftStudying = studying.value ? 6 : 31
+            timeLeftStudying = studying.value ? 5 : 30
             studying.value = !studying.value
         },
         on_secondary_click: () => {
@@ -245,17 +245,17 @@ function Study(monitor) {
             class_name: "study",
             label: studyLabel.bind().as(a => {
                 if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
-                timeLeftStudying -= (studyPaused.value || studyingMode.value) ? 0 : 1
+                timeLeftStudying -= (studyPaused.value || studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
-                    timeLeftStudying = studying.value ? 31 : 6
+                    timeLeftStudying = studying.value ? 30 : 5
                     Utils.notify({
                         summary: studying.value ? "Start Studying" : "Start Break",
                         iconName: studying.value ? "easy-ebook-viewer" : "applications-games-symbolic",
                     })
                     mpris.getPlayer("")?.playPause()
                 }
-                return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
+                return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
             })
         })
     })
