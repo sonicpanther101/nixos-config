@@ -12,8 +12,9 @@ const time = Variable("", {
 const studyMode = Variable(false)
 const studying = Variable(true);
 let timeLeftStudying = 32;
-const studyLabel = Utils.derive([studying, time], (a, b) => {
-    return `${a ? "Study" : "Stop"} ${b}`
+const studyPaused = Variable(false)
+const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => {
+    return `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`
 })
 
 const date = Variable("", {
@@ -237,11 +238,14 @@ function Study(monitor) {
             timeLeftStudying = studying.value ? 6 : 31
             studying.value = !studying.value
         },
+        on_secondary_click: () => {
+            studyPaused.value = !studyPaused.value
+        },
         child: Widget.Label({
             class_name: "study",
             label: studyLabel.bind().as(a => {
-                if (monitor === 1) return `${studying.value ? '' : ' '} ${timeLeftStudying}m`
-                timeLeftStudying -= 1
+                if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
+                timeLeftStudying -= (studyPaused.value || studyingMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
                     timeLeftStudying = studying.value ? 31 : 6
