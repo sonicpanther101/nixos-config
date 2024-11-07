@@ -237,6 +237,7 @@ function Study(monitor) {
         class_name: "study-button",
         on_primary_click: () => {
             timeLeftStudying = studying.value ? 6 : 31
+            ++studyCycle
             studying.value = !studying.value
         },
         on_secondary_click: () => {
@@ -250,8 +251,10 @@ function Study(monitor) {
                 timeLeftStudying -= (studyPaused.value || !studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
-                    timeLeftStudying = studying.value ? 31 : (studyCycle%2 ? 6 : 11)
-                    studyCycle += 1
+                    timeLeftStudying = studying.value ? 31 : (studyCycle % 4 ? 11 : 6)
+                    print(studyCycle)
+                    print(timeLeftStudying)
+                    ++studyCycle
                     Utils.notify({
                         summary: studying.value ? "Start Studying" : (studyCycle%2 ? "Start Break" : "Get Up"),
                         iconName: studying.value ? "easy-ebook-viewer" : (studyCycle%2 ? "applications-games-symbolic" : "emoji-food-symbolic"),
@@ -338,7 +341,7 @@ function checkRot() {
 
                         rotPlaying = isRotPlaying(out)
 
-                        if (rotPlaying) {
+                        if (rotPlaying && !rotCounter.isPolling) {
                             rotCounter.startPoll()
                         }
                     })
