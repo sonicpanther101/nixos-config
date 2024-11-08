@@ -16,7 +16,7 @@ const studyPaused = Variable(false)
 const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => {
     return `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`
 })
-let studyCycle = 0
+let studyCycle = -1
 
 const date = Variable("", {
     poll: [60000, 'date "+ %A the %eblank of %B"', out => out.replace("blank", nth(day))],
@@ -236,7 +236,7 @@ function Study(monitor) {
     return Widget.Button({
         class_name: "study-button",
         on_primary_click: () => {
-            timeLeftStudying = studying.value ? 6 : 31
+            timeLeftStudying = studying.value ? (studyCycle % 4 ? 11 : 6) : 31
             ++studyCycle
             studying.value = !studying.value
         },
@@ -247,21 +247,19 @@ function Study(monitor) {
         child: Widget.Label({
             class_name: "study",
             label: studyLabel.bind().as(a => {
-                if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
+                if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? Math.min(timeLeftStudying, 30) : (studyCycle % 4 ? Math.min(timeLeftStudying, 10) : Math.min(timeLeftStudying, 5))}m`
                 timeLeftStudying -= (studyPaused.value || !studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
                     timeLeftStudying = studying.value ? 31 : (studyCycle % 4 ? 11 : 6)
-                    print(studyCycle)
-                    print(timeLeftStudying)
                     ++studyCycle
                     Utils.notify({
-                        summary: studying.value ? "Start Studying" : (studyCycle%2 ? "Start Break" : "Get Up"),
-                        iconName: studying.value ? "easy-ebook-viewer" : (studyCycle%2 ? "applications-games-symbolic" : "emoji-food-symbolic"),
+                        summary: studying.value ? "Start Studying" : (studyCycle%4 ? "Get Up" : "Start Break"),
+                        iconName: studying.value ? "easy-ebook-viewer" : (studyCycle%4 ? "emoji-food-symbolic" : "applications-games-symbolic"),
                     })
                     mpris.getPlayer("")?.playPause()
                 }
-                return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${timeLeftStudying}m`
+                return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? Math.min(timeLeftStudying, 30) : (studyCycle % 4 ? Math.min(timeLeftStudying, 10) : Math.min(timeLeftStudying, 5))}m`
             })
         })
     })

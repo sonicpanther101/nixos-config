@@ -3,6 +3,7 @@ const currentDisplay = Variable('home')
 
 import { home } from "./dashboard/home.js"
 import { tasks } from "./dashboard/tasks.js"
+import { study } from "./dashboard/study.js"
 import { journal } from "./dashboard/journal.js"
 import { budget } from "./dashboard/budget.js"
 import { events } from "./dashboard/events.js"
@@ -11,7 +12,7 @@ import { life } from "./dashboard/life.js"
 
 const Dashboard = () => {
 
-    const menuItems = ["home", "tasks", "journal", "budget", "events", "goals", "life"]
+    const menuItems = ["home", "tasks", "study", "journal", "budget", "events", "goals", "life"]
 
     const menuItemButtons = () => { 
         return menuItems.map(item => Widget.Button({
@@ -69,6 +70,22 @@ const Dashboard = () => {
                     class_name: "dashboard-tasks-label",
                 }),
                 tasks(),
+            ],
+        })
+    }
+
+    const Study = () => {
+        return Widget.Box({
+            visible: currentDisplay.bind().as(item => item === "study"),
+            hexpand: true,
+            class_name: "dashboard-study",
+            vertical: true,
+            children: [
+                Widget.Label({
+                    label: "Study",
+                    class_name: "dashboard-study-label",
+                }),
+                study(),
             ],
         })
     }
@@ -159,6 +176,7 @@ const Dashboard = () => {
         children: [
             Home(),
             Tasks(),
+            Study(),
             Journal(),
             Budget(),
             Events(),
