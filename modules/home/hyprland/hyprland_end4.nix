@@ -174,7 +174,7 @@ in
         let SLURP_COMMAND = "$(slurp -d -c eedcf5BB -b 4f425644 -s 00000000)";
         in [
           "Super, C, exec, code --password-store=gnome"
-          "Super, T, exec, foot --override shell=fish"
+          "Super, T, exec, kitty"
           "Super, E, exec, nemo"
           "Super+Alt, E, exec, thunar"
           "Super, W, exec, firefox"

@@ -82,8 +82,8 @@
     gnumake
 
     # Python
-    python312Full
-    python312Packages.pydantic
+    # python312Full
+    # python312Packages.pydantic
     # uv
     mypy
 
