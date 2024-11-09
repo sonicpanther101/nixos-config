@@ -247,7 +247,7 @@ function Study(monitor) {
         child: Widget.Label({
             class_name: "study",
             label: studyLabel.bind().as(a => {
-                if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? Math.min(timeLeftStudying, 30) : (studyCycle % 4 ? Math.min(timeLeftStudying, 10) : Math.min(timeLeftStudying, 5))}m`
+                if (monitor === 1) return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
                 timeLeftStudying -= (studyPaused.value || !studyMode.value) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.value) {
                     studying.value = !studying.value
@@ -259,7 +259,7 @@ function Study(monitor) {
                     })
                     mpris.getPlayer("")?.playPause()
                 }
-                return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? Math.min(timeLeftStudying, 30) : (studyCycle % 4 ? Math.min(timeLeftStudying, 10) : Math.min(timeLeftStudying, 5))}m`
+                return `${studyPaused.value ? ' ' : ''}${studying.value ? '' : ' '} ${studying.value ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
             })
         })
     })
