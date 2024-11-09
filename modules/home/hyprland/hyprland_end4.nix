@@ -175,7 +175,7 @@ in
         in [
           "Super, C, exec, code --password-store=gnome"
           "Super, T, exec, foot --override shell=fish"
-          "Super, E, exec, nautilus --new-window"
+          "Super, E, exec, nemo"
           "Super+Alt, E, exec, thunar"
           "Super, W, exec, firefox"
           "Control+Super, W, exec, thorium-browser --ozone-platform-hint=wayland --gtk-version=4 --ignore-gpu-blocklist --enable-features=TouchpadOverscrollHistoryNavigation"
