@@ -1,6 +1,6 @@
 { inputs, pkgs, ... }:
 let
-  hyprland = inputs.hyprland-laptop.packages.${pkgs.system}.hyprland;
+  hyprland = inputs.hyprland-desktop.packages.${pkgs.system}.hyprland;
   plugins = inputs.hyprland-plugins.packages.${pkgs.system};
 
   launcher = pkgs.writeShellScriptBin "hypr" ''
@@ -18,14 +18,14 @@ in
     temurin-jre-bin
   ];
 
-  # xdg.desktopEntries."org.gnome.Settings" = {
-  #   name = "Settings";
-  #   comment = "Gnome Control Center";
-  #   icon = "org.gnome.Settings";
-  #   exec = "env XDG_CURRENT_DESKTOP=gnome ${pkgs.gnome.gnome-control-center}/bin/gnome-control-center";
-  #   categories = [ "X-Preferences" ];
-  #   terminal = false;
-  # };
+  xdg.desktopEntries."org.gnome.Settings" = {
+    name = "Settings";
+    comment = "Gnome Control Center";
+    icon = "org.gnome.Settings";
+    exec = "env XDG_CURRENT_DESKTOP=gnome ${pkgs.gnome.gnome-control-center}/bin/gnome-control-center";
+    categories = [ "X-Preferences" ];
+    terminal = false;
+  };
 
   programs = {
     swaylock = {
@@ -59,17 +59,17 @@ in
         "hyprctl setcursor Bibata-Modern-Classic 24"
       ];
       general = {
-        # gaps_in = 4;
-        # gaps_out = 5;
+        gaps_in = 4;
+        gaps_out = 5;
         gaps_workspaces = 50;
-        # border_size = 1;
+        border_size = 1;
         layout = "dwindle";
         resize_on_border = true;
         # "col.active_border" = "rgba(471868FF)";
         # "col.inactive_border" = "rgba(4f4256CC)";
       };
       dwindle = {
-        # preserve_split = true;
+        preserve_split = true;
         smart_resizing = false;
       };
       gestures = {
@@ -102,25 +102,25 @@ in
         follow_mouse = 1;
       };
       decoration = {
-        # rounding = 20;
+        rounding = 20;
 
         blur = {
           enabled = true;
           xray = true;
           special = false;
           new_optimizations = true;
-          # size = 5;
-          # passes = 4;
+          size = 5;
+          passes = 4;
           brightness = 1;
-          # noise = 1.0e-2;
-          # contrast = 1;
+          noise = 1.0e-2;
+          contrast = 1;
         };
         # Shadow
-        # drop_shadow = false;
+        drop_shadow = false;
         shadow_ignore_window = true;
         shadow_range = 20;
         shadow_offset = "0 2";
-        # shadow_render_power = 2;
+        shadow_render_power = 2;
         # "col.shadow" = "rgba(0000001A)";
 
         # Dim
@@ -159,7 +159,7 @@ in
         focus_on_activate = true;
         animate_manual_resizes = false;
         animate_mouse_windowdragging = false;
-        # enable_swallow = false;
+        enable_swallow = false;
         swallow_regex = "(foot|kitty|allacritty|Alacritty)";
 
         disable_hyprland_logo = true;
@@ -253,7 +253,7 @@ in
           "Super+Alt, mouse_up, movetoworkspace, +1"
           "Super, F, fullscreen, 0"
           "Super, D, fullscreen, 1"
-          # "Super_Alt, F, fakefullscreen, 0"
+          "Super_Alt, F, fakefullscreen, 0"
           "Super, 1, workspace, 1"
           "Super, 2, workspace, 2"
           "Super, 3, workspace, 3"
@@ -362,9 +362,9 @@ in
         "noanim, sideright"
         "noanim, sideleft"
       ];
-      # source = [
-      #   "./colors.conf"
-      # ];
+      source = [
+        "./colors.conf"
+      ];
     };
   };
 }
