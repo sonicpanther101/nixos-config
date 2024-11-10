@@ -6,6 +6,8 @@
 
   home.packages = with pkgs; [
     ollama
+    brightnessctl
+    ydotool
     pywal
     sassc
     (python311.withPackages (p: [
