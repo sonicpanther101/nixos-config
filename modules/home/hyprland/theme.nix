@@ -45,7 +45,7 @@ in
       nerdfonts
       # noto-fonts
       noto-fonts-cjk-sans
-      google-fonts
+      # google-fonts
       moreWaita
       # bibata-cursors
       # morewaita-icon-theme
