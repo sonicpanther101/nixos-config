@@ -102,7 +102,7 @@ in
         follow_mouse = 1;
       };
       decoration = {
-        rounding = 20;
+        rounding = 5;
 
         blur = {
           enabled = true;
