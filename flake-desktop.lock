@@ -1140,11 +1140,11 @@
     "more-waita": {
       "flake": false,
       "locked": {
-        "lastModified": 1731195673,
-        "narHash": "sha256-Xz8h7kFYb5DMBoio3NHLsROoJzUq6A5o5fe3u+41Q78=",
+        "lastModified": 1731196222,
+        "narHash": "sha256-mb3LjOm4eAyy9zFrdEi2NrqqBCrmgPLOI0pJT8sK+Js=",
         "owner": "somepaulo",
         "repo": "MoreWaita",
-        "rev": "de9a2a98a2c4bbc01b09829fe19a7aa06230d6ee",
+        "rev": "32a280466a1b0df9fe72df79660ae2ba5e149ea7",
         "type": "github"
       },
       "original": {
@@ -1315,11 +1315,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1731195237,
-        "narHash": "sha256-nJ7DxTJJ70rMACm1z6UAXyz99Xrhwhq/DciNYkDl2Hs=",
+        "lastModified": 1731199347,
+        "narHash": "sha256-5x3CRtAglOThiaQzaRCh4Yw1IlxVni7FmJvS01N59pM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ec1f3c7390dec2e0bcb052d9eae902426a5f6397",
+        "rev": "0dc5bb1584a5dccf6afcade90d8ce3e0afd502d9",
         "type": "github"
       },
       "original": {
