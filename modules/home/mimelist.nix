@@ -1,3 +1,4 @@
+# make symlink to /home/adam/.local/share/applications/defaults.list from /home/adam/.local/share/applications/mimeapps.list
 let
   browser = "vivaldi.desktop";
   editor = "codium.desktop";
@@ -85,6 +86,7 @@ in {
       };
       removed = {
         "x-scheme-handler/https" = "torbrowser.desktop";
+        "x-scheme-handler/http" = "torbrowser.desktop";
       };
     };
   };
