@@ -2,11 +2,11 @@ let
   browser = "vivaldi.desktop";
   editor = "codium.desktop";
   file-manager = "nemo.desktop";
-  image-viewer = "imv";
+  image-viewer = "imv.desktop";
   image-editor = "aseprite.desktop";
   torrent = "com.github.davidmhewitt.torrential";
 in {
-  xdg.mimeApps = rec {
+  xdg.mimeApps = {
     enable = true;
     associations.added = defaultApplications;
     defaultApplications = {
