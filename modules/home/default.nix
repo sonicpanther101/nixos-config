@@ -11,7 +11,7 @@
     ++ [(import ./hyprland)]                      # window manager
     ++ [(import ./kitty.nix)]                     # terminal
     ++ [(import ./micro.nix)]                     # nano replacement
-    ++ [(import ./mimelist.nix)]
+    # ++ [(import ./mimelist.nix)]
     ++ [(import ./packages.nix)]                  # other packages
     # ++ [(import ./retroarch.nix)]
     ++ [(import ./scripts/scripts.nix)]           # personal scripts
