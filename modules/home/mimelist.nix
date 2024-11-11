@@ -2,9 +2,9 @@ let
   browser = "vivaldi.desktop";
   editor = "codium.desktop";
   file-manager = "nemo.desktop";
-  image-viewer = "org.gnome.Loupe.desktop";
+  image-viewer = "imv";
   image-editor = "aseprite.desktop";
-  torrent = "transmission-gtk.desktop";
+  torrent = "com.github.davidmhewitt.torrential";
 in {
   xdg.mimeApps = rec {
     enable = true;
