@@ -1,4 +1,4 @@
-# make symlink to /home/adam/.local/share/applications/defaults.list from /home/adam/.local/share/applications/mimeapps.list
+# make symlink to /home/adam/.local/share/applications/defaults.list from /home/adam/.config/mimeapps.list
 let
   browser = "vivaldi.desktop";
   editor = "codium.desktop";
