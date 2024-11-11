@@ -30,7 +30,7 @@
     iptsd
     lsof
     imagemagick
-    # resources
+    resources
     htop
     btop
     qdirstat
