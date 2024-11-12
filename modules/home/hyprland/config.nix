@@ -330,10 +330,6 @@
           force_zero_scaling = true
         }
 
-        # toolkit-specific scale
-        env = GDK_SCALE,2
-        env = XCURSOR_SIZE,22
-        env = TERM,kitty
       " else "
         monitor=,preferred,auto,auto
 
@@ -341,7 +337,6 @@
           force_zero_scaling = true
         }
 
-        env = TERM,kitty
       ";
   };
 }
