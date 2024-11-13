@@ -80,7 +80,7 @@
         layout = "dwindle";
         gaps_in = 0;
         gaps_out = 0;
-        gaps_workspaces = 50;
+        gaps_workspaces = 0;
         border_size = 1;
         border_part_of_window = false;
         no_border_on_floating = false;
@@ -262,12 +262,6 @@
         "$mainMod, mouse_down, workspace, e-1"
         "$mainMod, mouse_up, workspace, e+1"
 
-        # laptop brigthness
-        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
-        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
-
         # desktop brightness
         ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | tail -c 3 | sed 's/\\(.\\).$/\\1/'` setvcp 10 + 10"
         ",code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | tail -c 3 | sed 's/\\(.\\).$/\\1/'` setvcp 10 - 10"
@@ -276,6 +270,16 @@
 
         # clipboard manager
         "$mainMod, V, exec, cliphist list | wofi --dmenu | cliphist decode | wl-copy"
+      ];
+
+      bindl = [
+        # laptop brigthness
+        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
+        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
+
+        ", switch:Lid Switch, exec, my-sleep"
       ];
 
       # mouse binding

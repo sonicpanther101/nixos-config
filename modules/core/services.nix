@@ -8,10 +8,9 @@
     fstrim.enable = true;
   };
   services.logind = {
-    lidSwitch = "suspend-then-hibernate";
+    lidSwitch = "ignore";
     extraConfig = ''
       HandlePowerKey=ignore
-      HandleLidSwitchDocked=suspend-then-hibernate
     '';
   };
   systemd.sleep.extraConfig = "HibernateDelaySec=2h";
