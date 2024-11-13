@@ -36,52 +36,6 @@ in
 
   wayland.windowManager.hyprland = {
     settings = {
-      binds = { scroll_event_delay = 0; };
-      input = {
-        # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut
-        kb_layout = "us";
-        # kb_options = grp:win_space_toggle;
-        numlock_by_default = true;
-        repeat_delay = 250;
-        repeat_rate = 35;
-
-        touchpad = {
-          natural_scroll = true;
-          disable_while_typing = true;
-          clickfinger_behavior = true;
-          scroll_factor = 0.5;
-        };
-
-        # special_fallthrough = true   # only in new hyprland versions. but they're hella fucked
-        follow_mouse = 1;
-      };
-      decoration = {
-        rounding = 0;
-
-        blur = {
-          enabled = true;
-          xray = true;
-          special = false;
-          new_optimizations = true;
-          size = 5;
-          passes = 4;
-          brightness = 1;
-          noise = 1.0e-2;
-          contrast = 1;
-        };
-        # Shadow
-        drop_shadow = false;
-        shadow_ignore_window = true;
-        shadow_range = 20;
-        shadow_offset = "0 2";
-        shadow_render_power = 2;
-        # "col.shadow" = "rgba(0000001A)";
-
-        # Dim
-        dim_inactive = false;
-        dim_strength = 0.1;
-        dim_special = 0;
-      };
       animations = {
         enabled = true;
         bezier = [

@@ -121,24 +121,27 @@
 
         blur = {
           enabled = true;
-          size = 1;
-          passes = 1;
-          # size = 4;
-          # passes = 2;
+          size = 5;
+          special = false;
+          passes = 4;
           brightness = 1;
-          contrast = 1.400;
+          contrast = 1;
           ignore_opacity = true;
-          noise = 0;
+          noise = 1.0e-2;
           new_optimizations = true;
           xray = true;
         };
 
-        drop_shadow = true;
+        drop_shadow = false;
 
         shadow_ignore_window = true;
         shadow_offset = "0 2";
         shadow_range = 20;
         shadow_render_power = 3;
+
+        dim_inactive = false;
+        dim_strength = 0.1;
+        dim_special = 0;
       };
 
       animations = {
