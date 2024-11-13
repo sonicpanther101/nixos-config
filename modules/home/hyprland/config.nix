@@ -121,9 +121,9 @@
 
         blur = {
           enabled = true;
-          size = 5;
+          size = 1;
           special = false;
-          passes = 4;
+          passes = 1;
           brightness = 1;
           contrast = 1;
           ignore_opacity = true;
