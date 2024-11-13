@@ -4,10 +4,6 @@
     enable = true;
     xwayland.enable = true;
 
-    plugins = [
-      "/home/adam/.config/hyprlens-main"
-    ];
-
     settings = {
       
       gestures = {
