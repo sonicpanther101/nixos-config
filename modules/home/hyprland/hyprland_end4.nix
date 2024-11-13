@@ -58,16 +58,6 @@ in
         "wl-paste --type image --watch cliphist store"
         "hyprctl setcursor Bibata-Modern-Classic 24"
       ];
-      general = {
-        gaps_in = 4;
-        gaps_out = 5;
-        gaps_workspaces = 50;
-        border_size = 1;
-        layout = "dwindle";
-        resize_on_border = true;
-        # "col.active_border" = "rgba(471868FF)";
-        # "col.inactive_border" = "rgba(4f4256CC)";
-      };
       dwindle = {
         preserve_split = true;
         smart_resizing = false;
