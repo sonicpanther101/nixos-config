@@ -30,20 +30,19 @@ App.config({
 
 import { NotificationPopups } from "./notificationPopups.js"
 
-// Utils.timeout(100, () => Utils.notify({
-//     summary: "Notification Popup Example",
-//     iconName: "info-symbolic",
-//     body: "Lorem ipsum dolor sit amet, qui minim labore adipisicing "
-//         + "minim sint cillum sint consectetur cupidatat.",
-//     actions: {
-//         "Cool": () => print("pressed Cool"),
-//     },
-// }))
-
 App.config({
     style: "./styles/notificationPopups.css",
     windows: [Array.from({ length: monitorNum }, (_, i) => i).map(i => NotificationPopups(i))],
 })
+
+import { ClipBoard } from "./clipboard.js"
+
+App.config({
+    style: './styles/clipboard.css',
+    windows: () => [
+        ClipBoard(),
+    ],
+});
 
 export { }
 
@@ -59,6 +58,7 @@ Utils.monitorFile(
         const css3 = `/home/adam/nixos-config/modules/home/ags/ags/styles/dashboard.css`
         const css4 = `/home/adam/nixos-config/modules/home/ags/ags/styles/gemini-ui.css`
         const css5 = `/home/adam/nixos-config/modules/home/ags/ags/styles/notificationPopups.css`
+        const css6 = `/home/adam/nixos-config/modules/home/ags/ags/styles/clipboard.css`
 
         // reset, apply
         App.resetCss()
@@ -67,5 +67,6 @@ Utils.monitorFile(
         App.applyCss(css3)
         App.applyCss(css4)
         App.applyCss(css5)
+        App.applyCss(css6)
     },
 )

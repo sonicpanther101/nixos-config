@@ -1,0 +1,31 @@
+/* * {
+  all: unset;
+} */
+
+scrolledwindow {
+  min-width: 500px;
+  min-height: 500px;
+  background: #24273a;
+}
+scrolledwindow scrollbar, .applauncher scrolledwindow scrollbar * {
+  all: unset;
+}
+scrolledwindow scrollbar.vertical {
+  transition: 200ms;
+  background-color: rgba(23, 23, 23, 0.3);
+  margin: 20px 0;
+}
+scrolledwindow scrollbar.vertical:hover {
+  background-color: rgba(23, 23, 23, 0.7);
+}
+scrolledwindow scrollbar.vertical:hover slider {
+  background-color: rgba(238, 238, 238, 0.7);
+  min-width: 0.6em;
+}
+scrolledwindow scrollbar.vertical slider {
+  background-color: rgba(238, 238, 238, 0.5);
+  border-radius: 9px;
+  min-width: 0.4em;
+  min-height: 2em;
+  transition: 200ms;
+}
