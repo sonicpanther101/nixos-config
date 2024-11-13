@@ -323,23 +323,10 @@
         "float,title:^(File Operation Progress)$"
       ];
 
+      monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [",preferred,auto,auto"];
+
+      xwayland.force_zero_scaling = true;
+
     };
-
-    extraConfig = 
-      if (host == "laptop") then "
-        monitor=,preferred,auto,1.9
-
-        xwayland {
-          force_zero_scaling = true
-        }
-
-      " else "
-        monitor=,preferred,auto,auto
-
-        xwayland {
-          force_zero_scaling = true
-        }
-
-      ";
   };
 }

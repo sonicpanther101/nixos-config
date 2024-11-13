@@ -35,17 +35,7 @@ in
   };
 
   wayland.windowManager.hyprland = {
-    enable = true;
     settings = {
-      env = [
-        "GTK_IM_MODULE, fcitx"
-        "QT_IM_MODULE, fcitx"
-        "XMODIFIERS, @im=fcitx"
-        "QT_QPA_PLATFORM, wayland"
-        "QT_QPA_PLATFORMTHEME, qt5ct"
-        "QT_STYLE_OVERRIDE,kvantum"
-        "WLR_NO_HARDWARE_CURSORS, 1"
-      ];
       monitor = [ ",preferred,auto,1" ];
       "exec-once" = [
         "ags"
@@ -58,10 +48,6 @@ in
         "wl-paste --type image --watch cliphist store"
         "hyprctl setcursor Bibata-Modern-Classic 24"
       ];
-      dwindle = {
-        preserve_split = true;
-        smart_resizing = false;
-      };
       gestures = {
         workspace_swipe = true;
         workspace_swipe_distance = 700;
