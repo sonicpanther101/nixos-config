@@ -1,2 +1,4 @@
+
+
 systemctl suspend
 swaylock
