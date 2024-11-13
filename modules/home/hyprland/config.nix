@@ -297,6 +297,7 @@
         "center,mpv"
         "size 1200 725,mpv"
         "tile,Aseprite"
+        "float,title:^(OpenRGB)$"
         "float,title:^(Open Folder)$"
         "center,title:^(Open Folder)$"
         "size 950 600,title:^(Open Folder)$"

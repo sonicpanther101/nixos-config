@@ -1,7 +1,7 @@
-if hyprctl monitors -j | grep "DP"; then
+if ps aux | grep openrgb | grep -v S+ > /dev/null; then
     sudo pkill openrgb
     openrgb --mode static --color 000000
-    sleep 0.5
 fi
 systemctl suspend
 swaylock
+openrgb --mode static --color 000000
