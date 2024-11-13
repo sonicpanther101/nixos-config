@@ -302,7 +302,7 @@ let rotTimer = 0
 function isRotPlaying(str) {
     if (str.includes("YouTube") || str.includes("HiAnime")) {
         return true
-    } else {a
+    } else {
         return false
     }
 }
