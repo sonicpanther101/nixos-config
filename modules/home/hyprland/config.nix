@@ -52,11 +52,13 @@
       general = {
         "$mainMod" = "SUPER";
         layout = "dwindle";
-        gaps_in = 0;
-        gaps_out = 0;
-        border_size = 2;
+        gaps_in = 4;
+        gaps_out = 5;
+        gaps_workspaces = 50;
+        border_size = 1;
         border_part_of_window = false;
         no_border_on_floating = false;
+        resize_on_border = true;
       };
 
       misc = {
