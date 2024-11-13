@@ -36,28 +36,6 @@ in
 
   wayland.windowManager.hyprland = {
     settings = {
-      monitor = [ ",preferred,auto,1" ];
-      "exec-once" = [
-        "ags"
-        "swww kill; swww init"
-        "fcitx5"
-        ''
-          swayidle -w timeout 300 'swaylock -f' timeout 450 'pidof java || systemctl suspend' before-sleep 'swaylock -f'
-        ''
-        "wl-paste --type text --watch cliphist store"
-        "wl-paste --type image --watch cliphist store"
-        "hyprctl setcursor Bibata-Modern-Classic 24"
-      ];
-      gestures = {
-        workspace_swipe = true;
-        workspace_swipe_distance = 700;
-        workspace_swipe_fingers = 4;
-        workspace_swipe_cancel_ratio = 0.2;
-        workspace_swipe_min_speed_to_force = 5;
-        workspace_swipe_direction_lock = true;
-        workspace_swipe_direction_lock_threshold = 10;
-        workspace_swipe_create_new = true;
-      };
       binds = { scroll_event_delay = 0; };
       input = {
         # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut

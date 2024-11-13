@@ -6,6 +6,17 @@
 
     settings = {
       
+      gestures = {
+        workspace_swipe = true;
+        workspace_swipe_distance = 700;
+        workspace_swipe_fingers = 4;
+        workspace_swipe_cancel_ratio = 0.2;
+        workspace_swipe_min_speed_to_force = 5;
+        workspace_swipe_direction_lock = true;
+        workspace_swipe_direction_lock_threshold = 10;
+        workspace_swipe_create_new = true;
+      };
+
       # autostart
       exec-once = 
         if (host == "desktop") then [
@@ -14,10 +25,13 @@
           "dbus-update-activation-environment --systemd &"
           "nm-applet &"
           "swww-daemon&"
-          "sleep 1 && swaylock"
+          ''
+          swayidle -w timeout 300 'swaylock -f' timeout 450 'pidof java || systemctl suspend' before-sleep 'swaylock -f'
+          ''
           "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
-          "wl-paste --watch cliphist store &"
+          "wl-paste --type text --watch cliphist store"
+          "wl-paste --type image --watch cliphist store"
           "wl-copy &"
           "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
           "openrgb --startminimized -b 0 -m direct"
@@ -28,23 +42,35 @@
           "dbus-update-activation-environment --systemd &"
           "nm-applet &"
           "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f) &"
-          "sleep 1 && swaylock"
+          ''
+          swayidle -w timeout 300 'swaylock -f' timeout 450 'pidof java || systemctl suspend' before-sleep 'swaylock -f'
+          ''
           "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
-          "wl-paste --watch cliphist store &"
+          "wl-paste --type text --watch cliphist store"
+          "wl-paste --type image --watch cliphist store"
           "wl-copy &"
           "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ];
 
+      binds = { scroll_event_delay = 0; };
       input = {
+        # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut
         kb_layout = "us";
+        # kb_options = grp:win_space_toggle;
         numlock_by_default = true;
-        follow_mouse = 1;
-        sensitivity = 0;
+        repeat_delay = 250;
+        repeat_rate = 35;
+
         touchpad = {
           natural_scroll = true;
+          disable_while_typing = true;
+          clickfinger_behavior = true;
+          scroll_factor = 0.5;
         };
+
+        follow_mouse = 1;
       };
 
       cursor.no_warps = true;
