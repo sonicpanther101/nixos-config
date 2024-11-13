@@ -1140,11 +1140,11 @@
     "more-waita": {
       "flake": false,
       "locked": {
-        "lastModified": 1731359534,
-        "narHash": "sha256-FNUbufQixkhF7hEsy+nwvf381eJ7gyzq3QH1ptIcON4=",
+        "lastModified": 1731478376,
+        "narHash": "sha256-YbVLz4V3/1SY/ITjiy919HCZOGCPmnQGsT8ZCJomuxI=",
         "owner": "somepaulo",
         "repo": "MoreWaita",
-        "rev": "b1d69d739f603ee09fac65f80f44a057a8c1d020",
+        "rev": "8f786ec7b7a691b9e77e2b8d164af9febd997b66",
         "type": "github"
       },
       "original": {
@@ -1315,11 +1315,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1731465952,
-        "narHash": "sha256-FD9f7oD6w8bdut1n053tdg1sn2jRXIUJx4rnSlq6lFQ=",
+        "lastModified": 1731483579,
+        "narHash": "sha256-IwAJ2oCoAjnw+D2s7WCzXWKuqAQYOFSI8UMZ9ybFgFM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "778d2657ecd625791c58890e082fcf7e29e1a6d6",
+        "rev": "367883be893d593928b535bb36559352296df2c9",
         "type": "github"
       },
       "original": {
@@ -1427,11 +1427,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1731463670,
-        "narHash": "sha256-ymR6S/HfTVB7jS+Cnx2dTgmPCCdpHtOSvkvCY08fNLs=",
+        "lastModified": 1731476497,
+        "narHash": "sha256-mOJooVeRALi61bQ2sWRCUliH2ouTH4yySqQeW39WNgM=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "a694577ccac1c786fbe702c9ec1b0f056156cd83",
+        "rev": "557c0eadd9e2a3f76b1d0426641c2f8e597cf939",
         "type": "github"
       },
       "original": {
