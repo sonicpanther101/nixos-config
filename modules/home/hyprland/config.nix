@@ -269,7 +269,7 @@
         "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | tail -c 3 | sed 's/\\(.\\).$/\\1/'` setvcp 10 0"
 
         # clipboard manager
-        "$mainMod, V, exec, ags -t clipboard"
+        "$ALT, V, exec, ags -t clipboard"
       ];
 
       bindl = [
