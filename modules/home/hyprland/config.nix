@@ -78,7 +78,6 @@
         split_width_multiplier = 1.0;
         use_active_for_splits = true;
         pseudotile = "yes";
-        preserve_split = "yes";
         preserve_split = true;
         smart_resizing = false;
       };
