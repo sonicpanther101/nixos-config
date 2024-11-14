@@ -49,6 +49,7 @@
     };
 
     ags.url = "github:Aylur/ags";
+    astal.url = "github:Aylur/astal";
     # ags.url = "https://github.com/Aylur/ags";
     # ags.type = "git";
     # ags.rev = "bb91f7c8fdd2f51c79d3af3f2881cacbdff19f60";
@@ -63,34 +64,13 @@
       # inputs.nixpkgs.follows = "hyprland";
     };
 
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs";
-    };
-    gross = {
-      url = "github:fufexan/gross";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-    };
     matugen = {
       url = "github:/InioX/Matugen";
       # ref = "refs/tags/matugen-v0.10.0"
     };
-    more-waita = {
-      url = "github:somepaulo/MoreWaita";
-      flake = false;
-    };
-    firefox-gnome-theme = {
-      url = "github:rafaelmardojai/firefox-gnome-theme";
-      flake = false;
-    };
-    anyrun = {
-      url = "github:Kirottu/anyrun";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { nixpkgs, self, grub2-themes, catppuccin, nixos-hardware, ...} @ inputs:
+  outputs = { nixpkgs, self, ...} @ inputs:
   let
     selfPkgs = import ./pkgs;
     username = "adam";
@@ -108,11 +88,11 @@
         inherit system;
         modules = [ 
           (import ./hosts/laptop) 
-          # grub2-themes.nixosModules.default
-          catppuccin.nixosModules.catppuccin
+          # inputs.grub2-themes.nixosModules.default
+          inputs.catppuccin.nixosModules.catppuccin
           inputs.stylix.nixosModules.stylix
-          # nixos-hardware.nixosModules.microsoft-surface-pro-intel
-          # catppuccin.homeManagerModules.catppuccin
+          # inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
+          # inputs.catppuccin.homeManagerModules.catppuccin
         ];
         specialArgs = { host="laptop"; inherit self inputs username ; };
       };
