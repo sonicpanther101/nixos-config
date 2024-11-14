@@ -326,7 +326,7 @@
         "size 700 450,title:^(Volume Control)$"
         "move 40 55%,title:^(Volume Control)$"
         "opacity 0.9,codium"
-        "opacity 0.9,vivadi"
+        "opacity 0.9,vivaldi"
       ];
 
       # windowrulev2
