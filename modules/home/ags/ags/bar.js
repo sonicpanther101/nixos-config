@@ -94,7 +94,7 @@ function StartButton() {
             }),
             Widget.MenuItem({
                 label: 'Change Wallpaper',
-                // on_activate: () => Utils.execAsync(['wallpaper-picker']),
+                on_activate: () => Utils.execAsync(['/home/adam/Pictures/wallpapers/wide.sh']),
             }),
             Widget.MenuItem({
                 label: 'Rotate Screen',
