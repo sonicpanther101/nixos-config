@@ -327,6 +327,8 @@
         "move 40 55%,title:^(Volume Control)$"
         "opacity 0.9,codium"
         "opacity 0.9,vivaldi"
+        "opacity 0.55,kitty"
+        "opacity 0.75,nemo"
       ];
 
       # windowrulev2
