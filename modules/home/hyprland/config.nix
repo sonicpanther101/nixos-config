@@ -138,6 +138,7 @@
         shadow_offset = "0 2";
         shadow_range = 20;
         shadow_render_power = 3;
+        shadow_color = "#000000";
 
         dim_inactive = false;
         dim_strength = 0.1;
