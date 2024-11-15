@@ -134,22 +134,38 @@ function BatteryLevel() {
 function Media() {
     const mpris = Mpris.get_default()
 
-    const title = bind(mpris, "players").as(ps => ps[0] ? ps[0].title : "")
-    const artist = bind(mpris, "players").as(ps => ps[0] ? ps[0].artist : "")
+    const onScroll: (_: Widget.Button, e: Astal.ScrollEvent, player: Player) => void = (_, e, player) => {
+        let direction: -1 | 1 | null = null;
+        if (e.direction == Gdk.ScrollDirection.SMOOTH) {
+            direction = Math.sign(e.delta_y) as 1 | -1;
+        } else if (e.direction == Gdk.ScrollDirection.UP) {
+            direction = 1;
+        } else if (e.direction == Gdk.ScrollDirection.DOWN) {
+            direction = -1;
+        }
+        if (direction === 1) {
+            player.previous()
+        } else if (direction === -1) {
+            player.next()
+        }
+    };
 
-    const text = Variable.derive(
-        [title, artist],
-        (t, a) => `${t} - ${a}`
-    )
-
-    return <button
-        onClicked={mpris.pause}
-        className="Media">
-        <box>
+    return <box>
         {bind(mpris, "players").as(ps => ps[0] ? (
-            <box>
+            <button
+            onClicked={()=>ps[0].play_pause()}
+            onScroll={(_, e) => onScroll(_, e, ps[0])}
+            className="Media">
+            <box
+            tooltipText={bind(ps[0], "album").as(String)}>
                 <label
-                    label={bind(text)}
+                    label={bind(Variable.derive(
+                        [bind(ps[0], "title").as(String), bind(ps[0], "artist").as(String), bind(ps[0], "playbackStatus").as(Boolean)],
+                        (t, a, p) => {
+                            return t ? (`${p ? " " : " "}${t}${a ? " - " : ""}${a}`) : ""
+                        }
+                    ))}
+                    truncate
                 />
                 <box
                     className="Cover"
@@ -159,11 +175,11 @@ function Media() {
                     )}
                 />
             </box>
+            </button>
         ) : (
             "Nothing Playing"
         ))}
     </box>
-    </button>
 }
 
 function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
@@ -180,7 +196,9 @@ function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
                 })}} 
                 onClicked={() => hyprland.get_focused_workspace().get_id() != id ? hyprland.dispatch("workspace", `${id}`) : null}
                 halign={Gtk.Align.CENTER}>
-                <label label={`${id}`} />
+                <label
+                    label={bind(hyprland, "focusedWorkspace").as(fw => fw && fw.id === id ? "●" : `${id}`)}
+                />
             </button>
         ))}
     </box>
