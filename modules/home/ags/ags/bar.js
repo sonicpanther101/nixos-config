@@ -13,9 +13,7 @@ const studyMode = Variable(false)
 const studying = Variable(true);
 let timeLeftStudying = 31;
 const studyPaused = Variable(false)
-const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => {
-    return `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`
-})
+const studyLabel = Utils.derive([studying, time, studyPaused], (a, b, studyPaused) => `${a ? "Study" : "Stop"} ${b} ${studyPaused ? "" : ""}`)
 let studyCycle = -1
 
 const date = Variable("", {
