@@ -5,4 +5,4 @@
 - [ ] Workspaces
 - [ ] Main Menu
 - [ ] Media
-- [ ] Bar scss
+- [x] Bar scss
