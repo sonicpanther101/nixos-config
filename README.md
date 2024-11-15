@@ -2,7 +2,7 @@
 ## Convert Ags -> Astal
 - [x] Clock
 - [x] Study
-- [ ] Workspaces
+- [x] Workspaces
 - [ ] Main Menu
 - [ ] Media
 - [x] Bar scss
