@@ -155,7 +155,17 @@ function Media() {
             <button
             onClicked={()=>ps[0].play_pause()}
             onScroll={(_, e) => onScroll(_, e, ps[0])}
-            className="Media">
+            className="Media"
+            css={bind(Variable.derive(
+                [bind(ps[0], "position").as(Number), bind(ps[0], "length").as(Number)],
+                (p, l) => {
+                    if (l === 0 || p === 0 || p / l === Infinity) {
+                        return ""
+                    } else {
+                        return `background: linear-gradient(90deg, rgba(0,0,0,0.7) ${100 * p / l}%, rgba(0,0,0,0) ${(100 * p / l) + 10}%);`
+                    }
+                }
+            ))}>
             <box
             tooltipText={bind(ps[0], "album").as(String)}>
                 <label
