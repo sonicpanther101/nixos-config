@@ -12,7 +12,10 @@ import Tray from "gi://AstalTray"
 function StartButton() {
     return <button
         className="StartButton"
-        onClicked="">
+        onClicked={() => {
+            studyMode.set(!studyMode.get())
+            studyPaused.set(studyMode.get() ? false : true)
+        }}>
         <label label=" " />
     </button>
 }
@@ -178,13 +181,14 @@ let studyCycle = -1
 
 function Study({ monitor }: { monitor: Gdk.Monitor }) {
     return <button
+        visible={studyMode((a) => a)}
         className="study-button"
         onClicked={() => {
             studyPaused.set(!studyPaused.get())
         }}>
         <label
             label={studyLabel((studyLabel) => {
-                if (monitor.model === "P240va") return `${studyPaused.get() ? ' ' : ''}${studying.get() ? '' : ' '} ${studying.get() ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
+                if (monitor.model === "HP P240va") return `${studyPaused.get() ? ' ' : ''}${studying.get() ? '' : ' '} ${studying.get() ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
                 timeLeftStudying -= (studyPaused.get() || !studyMode.get()) ? 0 : 1
                 if (timeLeftStudying <= 0 && studyMode.get()) {
                     studying.set(!studying.get())

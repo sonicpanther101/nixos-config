@@ -50,9 +50,6 @@
 
     ags.url = "github:Aylur/ags";
     astal.url = "github:Aylur/astal";
-    # ags.url = "https://github.com/Aylur/ags";
-    # ags.type = "git";
-    # ags.rev = "bb91f7c8fdd2f51c79d3af3f2881cacbdff19f60";
 
     stylix.url = "github:danth/stylix";
 

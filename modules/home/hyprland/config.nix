@@ -206,7 +206,7 @@
 
         # screenshot
         "$mainMod, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
-        "$mainMod SHIFT, S, exec, grimblast --notify --cursor edit area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
+        "$mainMod SHIFT, S, exec, kooha"
 
         # switch focus
         "$mainMod, left, movefocus, l"
