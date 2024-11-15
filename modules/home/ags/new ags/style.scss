@@ -2,6 +2,7 @@
 $bg: rgb(180,190,254);
 $fg: rgba(205,214,244,1);
 $accent: rgb(180,190,254);
+$grey: rgb(108, 112, 134);
 $radius: 0.8em;
 $rounded: 999px;
 
@@ -59,7 +60,15 @@ window.Bar {
             background-color: rgba($bg, .15);
         }
 
-        .focused {
+        button label {
+            color: $grey;
+        }
+
+        .occupied label {
+            color: $fg;
+        }
+
+        .active {
             background-color: rgba($bg, .15);
 
             label {

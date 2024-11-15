@@ -167,17 +167,20 @@ function Media() {
 }
 
 function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
-    const hypr = Hyprland.get_default()
+    const hyprland = Hyprland.get_default()
 
-    const aws = Variable(hypr.get_monitors().find((mon: Gdk.Monitor) => mon.model == monitor.model).active_workspace.id)
-
+    const currentWorkspace = () => hyprland.get_focused_workspace().get_id();
+    
     return <box className="Workspaces">
         {Array.from({ length: 10 }, (_, i) => i + 1).map(id => (
             <button
-                className={bind(hypr, "focusedWorkspace").as(fw =>
-                    fw && fw.id === id ? "focused" : "")}
-                onClicked={() => aws.set(id)}>
-                {id}
+                setup={(self)=> {self.hook(hyprland, "event",(self) => {
+                    self.toggleClassName("active", id === currentWorkspace())
+                    self.toggleClassName("occupied", hyprland.get_workspace(id)?.get_clients().length > 0)
+                })}} 
+                onClicked={() => hyprland.get_focused_workspace().get_id() != id ? hyprland.dispatch("workspace", `${id}`) : null}
+                halign={Gtk.Align.CENTER}>
+                <label label={`${id}`} />
             </button>
         ))}
     </box>
