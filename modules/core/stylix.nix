@@ -53,7 +53,7 @@
     home-manager.users.${username} = {
         stylix.targets = {
             vscode.enable = false;
-            hyprland.enable = false;
+            # hyprland.enable = false;
         };
     };
 }
