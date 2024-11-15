@@ -39,7 +39,7 @@ window.bar {
 
 .ws-button.active {
     color: #b4befe;
-    background-color: rgba(180, 190, 254, 0.3);
+    background-color: #b4befe4d;
 }
 
 .album-cover {

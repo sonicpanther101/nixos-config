@@ -224,6 +224,7 @@
         "$mainMod, 7, workspace, 7"
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
+        "$mainMod, 0, workspace, 10"
 
         # same as above, but switch to the workspace
         "$mainMod SHIFT, 1, movetoworkspacesilent, 1" # movetoworkspacesilent
@@ -235,6 +236,7 @@
         "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
         "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
         "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
+        "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
         "$mainMod CTRL, c, movetoworkspace, empty"
 
         # window control
