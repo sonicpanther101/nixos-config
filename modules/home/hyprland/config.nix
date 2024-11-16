@@ -381,6 +381,10 @@
         "float,title:^(File Operation Progress)$"
       ];
 
+      workspace = [
+        "r[11-20], monitor:DP-2"
+      ];
+
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [",preferred,auto,auto"];
 
       xwayland.force_zero_scaling = true;
