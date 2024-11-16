@@ -225,9 +225,19 @@
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
+        "$mainMod CTRL, 1, workspace, 11"
+        "$mainMod CTRL, 2, workspace, 12"
+        "$mainMod CTRL, 3, workspace, 13"
+        "$mainMod CTRL, 4, workspace, 14"
+        "$mainMod CTRL, 5, workspace, 15"
+        "$mainMod CTRL, 6, workspace, 16"
+        "$mainMod CTRL, 7, workspace, 17"
+        "$mainMod CTRL, 8, workspace, 18"
+        "$mainMod CTRL, 9, workspace, 19"
+        "$mainMod CTRL, 0, workspace, 20"
 
         # same as above, but switch to the workspace
-        "$mainMod SHIFT, 1, movetoworkspacesilent, 1" # movetoworkspacesilent
+        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
         "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
         "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
         "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
@@ -237,6 +247,16 @@
         "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
         "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
         "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
+        "$mainMod SHIFT CTRL, 1, movetoworkspacesilent, 11"
+        "$mainMod SHIFT CTRL, 2, movetoworkspacesilent, 12"
+        "$mainMod SHIFT CTRL, 3, movetoworkspacesilent, 13"
+        "$mainMod SHIFT CTRL, 4, movetoworkspacesilent, 14"
+        "$mainMod SHIFT CTRL, 5, movetoworkspacesilent, 15"
+        "$mainMod SHIFT CTRL, 6, movetoworkspacesilent, 16"
+        "$mainMod SHIFT CTRL, 7, movetoworkspacesilent, 17"
+        "$mainMod SHIFT CTRL, 8, movetoworkspacesilent, 18"
+        "$mainMod SHIFT CTRL, 9, movetoworkspacesilent, 19"
+        "$mainMod SHIFT CTRL, 0, movetoworkspacesilent, 20"
         "$mainMod CTRL, c, movetoworkspace, empty"
 
         # window control
