@@ -69,7 +69,6 @@
 
   outputs = { nixpkgs, self, ...} @ inputs:
   let
-    selfPkgs = import ./pkgs;
     username = "adam";
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -79,7 +78,6 @@
     lib = nixpkgs.lib;
   in
   {
-    overlays.default = selfPkgs.overlay;
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         inherit system;

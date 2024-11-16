@@ -273,19 +273,6 @@ function Study({ monitor }: { monitor: Gdk.Monitor }) {
 
     const mpris = Mpris.get_default()
 
-    const onScroll: Widget.ButtonProps["onScroll"] = (_, e: Astal.ScrollEvent) => {
-        let direction: -1 | 1 | null = null;
-        if (e.direction == Gdk.ScrollDirection.SMOOTH) {
-            direction = Math.sign(e.delta_y) as 1 | -1;
-        } else if (e.direction == Gdk.ScrollDirection.UP) {
-            direction = 1;
-        } else if (e.direction == Gdk.ScrollDirection.DOWN) {
-            direction = -1;
-        }
-        if (direction === null) return
-        timeLeftStudying = Math.min(30, Math.max(1, timeLeftStudying - direction));
-    };
-
     const onClick: Widget.ButtonProps["onClick"] = (_, e: Astal.ClickEvent) => {
         if (e.button === Gdk.BUTTON_PRIMARY) {
             timeLeftStudying = studying.get() ? (studyCycle % 4 ? 11 : 6) : 31
@@ -302,7 +289,7 @@ function Study({ monitor }: { monitor: Gdk.Monitor }) {
     return <button
         visible={studyMode((a) => a)}
         className="Study"
-        onClick={onClick} onScroll={onScroll}>
+        onClick={onClick}>
         <label
             label={studyLabel((studyLabel) => {
                 if (monitor.model === "HP P240va") return `${studyPaused.get() ? ' ' : ''}${studying.get() ? '' : ' '} ${studying.get() ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
