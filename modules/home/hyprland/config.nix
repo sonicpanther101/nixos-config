@@ -382,7 +382,16 @@
       ];
 
       workspace = [
-        "r[11-20], monitor:DP-2"
+        "11, monitor:DP-2"
+        "12, monitor:DP-2"
+        "13, monitor:DP-2"
+        "14, monitor:DP-2"
+        "15, monitor:DP-2"
+        "16, monitor:DP-2"
+        "17, monitor:DP-2"
+        "18, monitor:DP-2"
+        "19, monitor:DP-2"
+        "20, monitor:DP-2"
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [",preferred,auto,auto"];
