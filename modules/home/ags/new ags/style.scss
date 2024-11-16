@@ -1,5 +1,6 @@
 @use "sass:color";
 $bg: rgb(180,190,254);
+$solid_bg: rgb(33,33,50);
 $fg: rgba(205,214,244,1);
 $accent: rgb(180,190,254);
 $grey: rgb(108, 112, 134);
@@ -18,6 +19,15 @@ $rounded: 999px;
     background-image: none;
     box-shadow: none;
     text-shadow: none;
+}
+
+tooltip {
+    border-radius: $rounded;
+    background-color: rgba($solid_bg, 1);
+    label {
+        color: $bg;
+        font-weight: bold;
+    }
 }
 
 window.Bar {
@@ -103,10 +113,10 @@ window.Bar {
     }
 
     .Media {
-        padding-left: 0.8em;
+        padding-left:0.8em;
+        padding-right: 0.5em;
         background-color: transparent;
-        border-bottom-left-radius: $rounded;
-        border-top-left-radius: $rounded;
+        border-radius: $rounded;
 
         .Cover {
             margin-left: 0.2em;
@@ -119,7 +129,8 @@ window.Bar {
     }
 
     .Audio {
-        padding-left: 0.8em;
+        padding-left: 0.4em;
+        border-radius: $rounded;
         background-color: transparent;
     }
 

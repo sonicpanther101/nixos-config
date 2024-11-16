@@ -156,6 +156,7 @@ function Media() {
             onClicked={()=>ps[0].play_pause()}
             onScroll={(_, e) => onScroll(_, e, ps[0])}
             className="Media"
+            visible={bind(ps[0], "title").as(Boolean)}
             css={bind(Variable.derive(
                 [bind(ps[0], "position").as(Number), bind(ps[0], "length").as(Number)],
                 (p, l) => {
@@ -172,7 +173,7 @@ function Media() {
                     label={bind(Variable.derive(
                         [bind(ps[0], "title").as(String), bind(ps[0], "artist").as(String), bind(ps[0], "playbackStatus").as(Boolean)],
                         (t, a, p) => {
-                            return t ? (`${p ? " " : " "}${t}${a ? " - " : ""}${a}`) : ""
+                            return `${p ? " " : " "}${t}${a ? " - " : ""}${a}`
                         }
                     ))}
                     truncate
@@ -180,14 +181,12 @@ function Media() {
                 <box
                     className="Cover"
                     valign={Gtk.Align.CENTER}
-                    css={bind(ps[0], "coverArt").as(cover =>
-                        `background-image: url('${cover}');`
-                    )}
+                    css={bind(ps[0], "coverArt").as(cover => `background-image: url('${cover}');`)}
                 />
             </box>
             </button>
         ) : (
-            "Nothing Playing"
+            ""
         ))}
     </box>
 }
