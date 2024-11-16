@@ -67,7 +67,7 @@
     };
   };
 
-  outputs = { nixpkgs, self, ...} @ inputs:
+  outputs = { nixpkgs, self, grub2-themes, ...} @ inputs:
   let
     username = "adam";
     system = "x86_64-linux";
@@ -83,7 +83,7 @@
         inherit system;
         modules = [ 
           (import ./hosts/laptop) 
-          # inputs.grub2-themes.nixosModules.default
+          inputs.grub2-themes.nixosModules.default
           inputs.catppuccin.nixosModules.catppuccin
           inputs.stylix.nixosModules.stylix
           # inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
@@ -94,7 +94,7 @@
       desktop = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [ (import ./hosts/desktop) 
-                    # inputs.grub2-themes.nixosModules.default
+                    grub2-themes.nixosModules.default
                     inputs.stylix.nixosModules.stylix
                     ];
         specialArgs = { host="desktop"; inherit self inputs username ; };

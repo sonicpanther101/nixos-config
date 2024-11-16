@@ -6,7 +6,9 @@
             url = "https://raw.githubusercontent.com/sonicpanther101/RaspberryPi-Elecrow-Kit/main/nixos.png";
             sha256 = "sha256-vWh3HJe9s/q9pb7oMsfRG27124a+X5bbbJVa32UrZSs=";
         };
-        targets.grub.useImage = true;
+        # targets.grub.useImage = true;
+        autoEnable = true;
+        targets.grub.enable = false;
 
         polarity = "dark";
         base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
