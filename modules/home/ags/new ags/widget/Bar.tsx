@@ -1,8 +1,8 @@
 import { App } from "astal/gtk3"
 import { Variable, GLib, bind, execAsync, Binding } from "astal"
 import { Astal, Gtk, Gdk, Widget } from "astal/gtk3"
-import Hyprland from "gi://AstalHyprland"
 import Mpris from "gi://AstalMpris"
+import Hyprland from "gi://AstalHyprland"
 import Player from "gi://AstalMpris"
 import Battery from "gi://AstalBattery"
 import Wp from "gi://AstalWp"
@@ -20,7 +20,7 @@ function StartButton() {
                 studying.set(true)
             }
         }}>
-        <label label=" " />
+        <label label="" />
     </button>
 }
 
