@@ -1,1 +1,1 @@
-nix-shell github:aylur/ags#agsFull
+nix shell github:aylur/ags#agsFull --command "/etc/profiles/per-user/adam/bin/ags run /home/adam/nixos-config/modules/home/ags/new ags"
