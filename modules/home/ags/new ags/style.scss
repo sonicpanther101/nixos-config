@@ -97,6 +97,7 @@ window.Bar {
 
     .Right {
         background-color: rgba($bg, .15);
+        margin-left: 2em;
         border-bottom-left-radius: $rounded;
         border-top-left-radius: $rounded;
     }
@@ -104,6 +105,8 @@ window.Bar {
     .Media {
         padding-left: 0.8em;
         background-color: transparent;
+        border-bottom-left-radius: $rounded;
+        border-top-left-radius: $rounded;
 
         .Cover {
             margin-left: 0.2em;

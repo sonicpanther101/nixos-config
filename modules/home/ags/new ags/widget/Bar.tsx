@@ -1,5 +1,5 @@
 import { App } from "astal/gtk3"
-import { Variable, GLib, bind, execAsync } from "astal"
+import { Variable, GLib, bind, execAsync, Binding } from "astal"
 import { Astal, Gtk, Gdk, Widget } from "astal/gtk3"
 import Hyprland from "gi://AstalHyprland"
 import Mpris from "gi://AstalMpris"
@@ -272,17 +272,20 @@ let studyCycle = 0
 
 function Study({ monitor }: { monitor: Gdk.Monitor }) {
 
+    const mpris = Mpris.get_default()
+
     const onClick: Widget.ButtonProps["onClick"] = (_, e: Astal.ClickEvent) => {
         if (e.button === Gdk.BUTTON_PRIMARY) {
             timeLeftStudying = studying.get() ? (studyCycle % 4 ? 11 : 6) : 31
             ++studyCycle
-            print(studyCycle)
             studying.set(!studying.get())
         } else if (e.button === Gdk.BUTTON_SECONDARY) {
             studyPaused.set(!studyPaused.get())
             timeLeftStudying += studyPaused.get() ? 1 : 0
         }
     };
+
+    const player: Binding<Player> = bind(mpris, "players").as(ps => ps[0])
 
     return <button
         visible={studyMode((a) => a)}
@@ -296,9 +299,8 @@ function Study({ monitor }: { monitor: Gdk.Monitor }) {
                     studying.set(!studying.get())
                     timeLeftStudying = studying.get() ? 31 : (studyCycle % 4 ? 11 : 6)
                     ++studyCycle
-                    execAsync(["bash", "-c",
-`notify-send -e "${studying.get() ? "Start Studying" : (studyCycle % 4 ? "Get Up" : "Start Break")}" --icon=${studying.get() ? "easy-ebook-viewer" : (studyCycle%4 ? "emoji-food-symbolic" : "applications-games-symbolic")}`]).catch((err: any) => console.error(err))
-                    Player.pause()
+                    execAsync(["bash", "-c", `notify-send -e "${studying.get() ? "Start Studying" : (studyCycle % 4 ? "Get Up" : "Start Break")}" --icon=${studying.get() ? "easy-ebook-viewer" : (studyCycle%4 ? "emoji-food-symbolic" : "applications-games-symbolic")}`]).catch((err: any) => console.error(err))
+                    player.get().play_pause()
                 }
                 return `${studyPaused.get() ? ' ' : ''}${studying.get() ? '' : ' '} ${studying.get() ? timeLeftStudying : (studyCycle % 4 ? timeLeftStudying : timeLeftStudying)}m`
             })}
