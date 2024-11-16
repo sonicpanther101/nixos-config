@@ -206,7 +206,7 @@ function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
                 onClicked={() => hyprland.get_focused_workspace().get_id() != id ? hyprland.dispatch("workspace", `${id}`) : null}
                 halign={Gtk.Align.CENTER}>
                 <label
-                    label={bind(hyprland, "focusedWorkspace").as(fw => fw && fw.id === id ? "●" : `${(id -1) % 10}`)}
+                    label={bind(hyprland, "focusedWorkspace").as(fw => fw && fw.id === id ? "●" : `${id > 10 ? id - 10 : id}`)}
                 />
             </button>
         ))}
