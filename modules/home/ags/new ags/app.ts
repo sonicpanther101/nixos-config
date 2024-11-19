@@ -1,6 +1,8 @@
 import { App } from "astal/gtk3"
-import style from "./style.scss"
+import { monitorFile } from "astal/file";
+import style from "./css/main.scss"
 import Bar from "./widget/Bar"
+import AppLauncher from "./widget/Applauncher"
 
 App.start({
     css: style,
@@ -9,5 +11,14 @@ App.start({
         print(request)
         res("ok")
     },
-    main: () => App.get_monitors().map(Bar),
+    main: () => {
+        App.get_monitors().map(Bar)
+        AppLauncher()
+    },
 })
+
+const CSS_DIR = `${SRC}/css`;
+
+monitorFile(CSS_DIR, () => {
+  App.apply_css(`${CSS_DIR}/main.scss`, true);
+});

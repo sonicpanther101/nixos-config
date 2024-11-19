@@ -6,6 +6,15 @@ import { Astal, Gtk, Gdk, Widget } from "astal/gtk3"
 export default function Media() {
     const mpris = Mpris.get_default()
 
+    const onClick: (_: Widget.Button, e: Astal.ClickEvent, player: Player) => void = (_, e, player) => {
+        if (e.button === Gdk.BUTTON_PRIMARY) {
+            player.play_pause()
+        } else if (e.button === Gdk.BUTTON_SECONDARY) {
+            print(player.get_can_raise())
+            player.get_can_raise() && player.raise()
+        }
+    };
+
     const onScroll: (_: Widget.Button, e: Astal.ScrollEvent, player: Player) => void = (_, e, player) => {
         let direction: -1 | 1 | null = null;
         if (e.direction == Gdk.ScrollDirection.SMOOTH) {
@@ -25,7 +34,7 @@ export default function Media() {
     return <box>
         {bind(mpris, "players").as(ps => ps[0] ? (
             <button
-            onClicked={()=>ps[0].play_pause()}
+            onClick={(_, e) => onClick(_, e, ps[0])}
             onScroll={(_, e) => onScroll(_, e, ps[0])}
             className="Media"
             visible={bind(ps[0], "title").as(Boolean)}
@@ -55,7 +64,6 @@ export default function Media() {
                         valign={Gtk.Align.CENTER}
                         css={bind(ps[0], "coverArt").as(cover => `background-image: url('${cover}');`)}
                     />
-                    <slider></slider>
                 </box>    
             </button>
         ) : (
