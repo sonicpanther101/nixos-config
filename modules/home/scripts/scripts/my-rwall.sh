@@ -14,6 +14,8 @@ while getopts "n:" option; do
     esac
 done
 
+echo $random
+
 # split image
 if echo $random | grep -q widevideo-; then
     random="${random%.*}"
