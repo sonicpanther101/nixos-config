@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
   
     hypr-contrib.url = "github:hyprwm/contrib";
     hyprpicker.url = "github:hyprwm/hyprpicker";
@@ -67,11 +68,15 @@
     };
   };
 
-  outputs = { nixpkgs, self, grub2-themes, ...} @ inputs:
+  outputs = { nixpkgs, nixpkgs-stable, self, grub2-themes, ...} @ inputs:
   let
     username = "adam";
     system = "x86_64-linux";
     pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+    };
+    pkgs-stable = import nixpkgs-stable {
       inherit system;
       config.allowUnfree = true;
     };
@@ -81,7 +86,7 @@
     nixosConfigurations = {
       laptop = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ 
+        modules = [
           (import ./hosts/laptop) 
           inputs.grub2-themes.nixosModules.default
           inputs.catppuccin.nixosModules.catppuccin
@@ -89,15 +94,22 @@
           # inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
           # inputs.catppuccin.homeManagerModules.catppuccin
         ];
-        specialArgs = { host="laptop"; inherit self inputs username ; };
+        specialArgs = { 
+          host="laptop"; 
+          inherit self inputs username pkgs-stable; 
+        };
       };
       desktop = nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [ (import ./hosts/desktop) 
-                    grub2-themes.nixosModules.default
-                    inputs.stylix.nixosModules.stylix
-                    ];
-        specialArgs = { host="desktop"; inherit self inputs username ; };
+        modules = [
+          (import ./hosts/desktop) 
+          grub2-themes.nixosModules.default
+          inputs.stylix.nixosModules.stylix
+        ];
+        specialArgs = {
+          host="desktop";
+          inherit self inputs username pkgs-stable;
+        };
       };
     };
   };

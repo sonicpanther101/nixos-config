@@ -1,7 +1,8 @@
-{ inputs, pkgs, ... }: 
+{ inputs, pkgs, pkgs-stable, ... }: 
 {
   programs.cava = {
-    enable = true;  
+    enable = true;
+    package = pkgs-stable.cava;
   };
   
   # https://github.com/catppuccin/cava
