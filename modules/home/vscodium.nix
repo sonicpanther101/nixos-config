@@ -82,6 +82,7 @@
         "**/.vscode" = true;
         "**/node_modules" = true;
       };
+      "typescript.updateImportsOnFileMove.enabled" = "always";
 
       "editor.mouseWheelZoom" = true;
 
