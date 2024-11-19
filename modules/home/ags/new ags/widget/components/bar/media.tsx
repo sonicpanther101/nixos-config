@@ -39,7 +39,6 @@ export default function Media() {
                     }
                 }
             ))}>
-            <slider>
                 <box
                 tooltipText={bind(ps[0], "album").as(String)}>
                     <label
@@ -56,8 +55,8 @@ export default function Media() {
                         valign={Gtk.Align.CENTER}
                         css={bind(ps[0], "coverArt").as(cover => `background-image: url('${cover}');`)}
                     />
+                    <slider></slider>
                 </box>    
-            </slider>
             </button>
         ) : (
             ""
