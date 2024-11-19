@@ -44,7 +44,7 @@
     time.timeZone = "Pacific/Auckland";
     i18n.defaultLocale = "en_US.UTF-8";
     nixpkgs.config.allowUnfree = true;
-    nixpkgs.config.allowUnsupportedSystem = true;
+    # nixpkgs.config.allowUnsupportedSystem = true;
     system.stateVersion = "23.05";
 
     system.activationScripts = 
