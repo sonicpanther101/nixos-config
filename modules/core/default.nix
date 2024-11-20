@@ -10,7 +10,7 @@
       ++ [ (import ./program.nix) ]
       ++ [ (import ./security.nix) ]
       ++ [ (import ./services_pc.nix) ]
-      # ++ [ (import ./steam.nix) ]
+      ++ [ (import ./steam.nix) ]
       ++ [ (import ./stylix.nix) ]
       ++ [ (import ./system.nix) ]
       ++ [ (import ./user.nix) ]

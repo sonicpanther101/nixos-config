@@ -118,7 +118,7 @@
     guitarix
     qmk
 
-    # cudatoolkit
+    cudatoolkit
     linuxPackages.nvidia_x11
     xorg.libXi
     xorg.libXmu

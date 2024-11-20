@@ -45,7 +45,7 @@
     
         cursor = {
             # package = pkgs.catppuccin-cursors.mochaBlue;
-            # package = pkgs.catppuccin-cursors.mochaDark;
+            package = pkgs.catppuccin-cursors.mochaDark;
             # name = "catppuccin-mocha-blue-cursors";
             name = "catppuccin-mocha-dark-cursors";
             size = 22;
