@@ -69,7 +69,7 @@
         follow_mouse = 1;
       };
 
-      # cursor.no_warps = true;
+      cursor.no_warps = true;
 
       general = {
         "$mainMod" = "SUPER";

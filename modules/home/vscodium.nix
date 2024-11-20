@@ -18,7 +18,7 @@
       catppuccin.catppuccin-vsc-icons
 
       # Python
-      matangover.mypy
+      # matangover.mypy
       charliermarsh.ruff
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
     

@@ -86,7 +86,7 @@
     # python312Full
     # python312Packages.pydantic
     # uv
-    mypy
+    # mypy
 
     bleachbit                         # cache cleaner
     cmatrix
