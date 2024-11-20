@@ -24,7 +24,7 @@
       FLAKE = "/home/${username}/nixos-config";
       CUDA_PATH = 
         if (host == "desktop") then 
-          pkgs.cudatoolkit
+         "${pkgs.cudatoolkit}"
         else "";
       LD_LIBRARY_PATH = 
         if (host == "desktop") then
