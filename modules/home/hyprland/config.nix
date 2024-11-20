@@ -70,6 +70,7 @@
       };
 
       cursor.no_warps = true;
+      debug.disable_logs = false;
 
       general = {
         "$mainMod" = "SUPER";
