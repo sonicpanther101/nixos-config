@@ -33,7 +33,7 @@
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
           "wl-copy &"
-          "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
+          "ags run /home/adam/nixos-config/modules/home/ags/new\ ags"
           "openrgb --startminimized -b 0 -m direct"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ] else [
@@ -50,7 +50,7 @@
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
           "wl-copy &"
-          "ags -c ~/nixos-config/modules/home/ags/ags/config.js &"
+          "ags run /home/adam/nixos-config/modules/home/ags/new\ ags"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ];
 

@@ -1,9 +1,20 @@
-ags -q
+pkill gjs
 pkill -f ags-client
-hyprctl dispatch exec "[workspace 9 silent] kitty --title ags-client --hold sh -c 'ags -c ~/nixos-config/modules/home/ags/ags/config.js'"
-if playerctl status | grep "Playing"; then
-    sleep 5
-    playerctl pause
-    sleep 0.1
-    playerctl play
+
+log=false
+while getopts "l" option; do
+    case $option in
+        l)
+            log=true;;
+        \?)
+            echo "Error: Invalid option"
+            exit 1;;
+    esac
+done
+
+if $log; then
+    hyprctl dispatch exec "[workspace 9 silent] kitty --title ags-client --hold sh -c 'ags run /home/adam/nixos-config/modules/home/ags/new\ ags'"
+else
+    ags run /home/adam/nixos-config/modules/home/ags/new\ ags
+    pkill .ags-wrapped
 fi
