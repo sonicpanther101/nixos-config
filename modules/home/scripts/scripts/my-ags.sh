@@ -13,8 +13,10 @@ while getopts "l" option; do
 done
 
 if $log; then
-    hyprctl dispatch exec "[workspace 9 silent] kitty --title ags-client --hold sh -c 'ags run /home/adam/nixos-config/modules/home/ags/new\ ags'"
+    hyprctl dispatch exec "[workspace 20 silent] kitty --title ags-client --hold sh -c 'ags run /home/adam/nixos-config/modules/home/ags/new\ ags'"
 else
-    ags run /home/adam/nixos-config/modules/home/ags/new\ ags
+    ags run /home/adam/nixos-config/modules/home/ags/new\ ags&
+    sleep 1
     pkill .ags-wrapped
+    exit
 fi

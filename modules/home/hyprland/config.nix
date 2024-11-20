@@ -25,9 +25,7 @@
           "dbus-update-activation-environment --systemd &"
           "nm-applet &"
           "swww-daemon&"
-          ''
-          swayidle -w timeout 300 'swaylock -f' timeout 450 'pidof java || systemctl suspend' before-sleep 'swaylock -f'
-          ''
+          "sleep 1 && swaylock"
           "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
           "wl-paste --type text --watch cliphist store"
@@ -42,9 +40,7 @@
           "dbus-update-activation-environment --systemd &"
           "nm-applet &"
           "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f) &"
-          ''
-          swayidle -w timeout 300 'swaylock -f' timeout 450 'pidof java || systemctl suspend' before-sleep 'swaylock -f'
-          ''
+          "sleep 1 && swaylock"
           "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
           "poweralertd &"
           "wl-paste --type text --watch cliphist store"
@@ -174,35 +170,46 @@
         "$mainMod, F1, exec, show-keybinds"
 
         # keybindings
+        # terminal
         "$mainMod, Return, exec, kitty"
         "ALT, Return, exec, kitty --title float_kitty"
         "$mainMod SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
+        # browser
         "$mainMod, B, exec, hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
         "$mainMod SHIFT, B, exec, hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Profile 1\"'"
         "$mainMod SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
-        "$mainMod, Q, killactive,"
-        "$mainMod, F, fullscreen, 0"
-        "$mainMod SHIFT, F, fullscreen, 1"
-        "$mainMod, Space, togglefloating,"
+        # discord
+        "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] vesktop'"
+        "$mainMod, E, exec, nemo"
+        # ags
+        "$mainMod, R, exec, my-ags"
+        "$mainMod SHIFT, R, exec, my-ags -l"
         "$mainMod, D, exec, ags toggle app-launcher --instance astal"
         "$mainMod, G, exec, ags -t gemini-ui"
-        "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] vesktop'"
-        "$mainMod, Escape, exec, swaylock"
-        "$mainMod SHIFT, Escape, exec, my-sleep"
-        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
+        "$ALT, V, exec, ags -t clipboard"
+        # window controls
+        "$mainMod, Q, killactive,"
+        "$mainMod, F, fullscreen, 0"
+        "$mainMod, Space, togglefloating,"
         "$mainMod, P, pseudo,"
         "$mainMod, J, togglesplit,"
-        "$mainMod, E, exec, nemo"
-        "$mainMod, V, exec, codium"
-        "$mainMod SHIFT, V, exec, codium ~/nixos-config"
-        "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
-        "$mainMod, C ,exec, hyprpicker -a"
-        "$mainMod, G,exec, $HOME/.local/bin/toggle_layout"
-        "$mainMod, W,exec, pkill wofi || wallpaper-picker"
         "ALT, Tab, cyclenext"
         "ALT, Tab, bringactivetotop"
         "ALT SHIFT, Tab, cyclenext, prev"
         "ALT SHIFT, Tab, bringactivetotop"
+        # shutdown options
+        "$mainMod, Escape, exec, swaylock"
+        "$mainMod SHIFT, Escape, exec, my-sleep"
+        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
+        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
+        # vscode options
+        "$mainMod, V, exec, codium"
+        "$mainMod SHIFT, V, exec, codium ~/nixos-config"
+        "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
+        # misc
+        "$mainMod, C ,exec, hyprpicker -a"
+        "$mainMod, G,exec, $HOME/.local/bin/toggle_layout"
+        "$mainMod, W,exec, my-rwall"
 
         # screenshot
         "$mainMod, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
@@ -290,8 +297,6 @@
         "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | tail -c 3 | sed 's/\\(.\\).$/\\1/'` setvcp 10 100"
         "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | tail -c 3 | sed 's/\\(.\\).$/\\1/'` setvcp 10 0"
 
-        # clipboard manager
-        "$ALT, V, exec, ags -t clipboard"
       ];
 
       bindl = [
