@@ -23,12 +23,12 @@
   users.groups.i2c.members = [ username ];
 
   services.udev.packages = with pkgs; [
-    qmk-udev-rules
+    # qmk-udev-rules
   ];
 
   services.udev.extraRules = ''
     # Your rule goes here
-    SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", TAG+="uaccess", TAG+="V6"
+    # SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", TAG+="uaccess", TAG+="V6"
   '';
 
   hardware.xpadneo.enable = true;

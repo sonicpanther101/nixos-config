@@ -17,7 +17,7 @@
       inputs.ags.packages.${pkgs.system}.auth
       inputs.ags.packages.${pkgs.system}.battery
       inputs.ags.packages.${pkgs.system}.bluetooth
-      inputs.ags.packages.${pkgs.system}.cava
+      # inputs.ags.packages.${pkgs.system}.cava
       inputs.ags.packages.${pkgs.system}.greet
       inputs.ags.packages.${pkgs.system}.hyprland
       inputs.ags.packages.${pkgs.system}.mpris
