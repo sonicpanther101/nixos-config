@@ -32,7 +32,6 @@
   '';
 
   hardware.xpadneo.enable = true;
-  hardware.xone.enable = true;
 
   hardware.bluetooth.settings = {
     General = {
