@@ -2,7 +2,6 @@
 {
   imports = [
     inputs.ags.homeManagerModules.default
-
   ];
 
   home.packages = with pkgs; [
@@ -13,22 +12,22 @@
     configDir = null; # if ags dir is managed by home-manager, it'll end up being read-only. not too cool.
     # configDir = "./.config/ags";
 
-    extraPackages = with inputs.astal.packages.${pkgs.system}; [
+    extraPackages = with inputs.ags.packages.${pkgs.system}; [
       astal3
       io
 
       apps
-      auth
+      # auth
       battery
       bluetooth
-      cava
+      # cava
       greet
       hyprland
       mpris
       network
       notifd
       powerprofiles
-      river
+      # river
       tray
       wireplumber
     ];
