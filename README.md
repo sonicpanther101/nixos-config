@@ -1,8 +1,30 @@
 # TODO
 ## Convert Ags -> Astal
+### Bar
 - [x] Clock
 - [x] Study
 - [x] Workspaces
 - [ ] Main Menu
-- [ ] Media
+- [x] Media
 - [x] Bar scss
+### App Launcher
+- [ ] CSS
+- [ ] files as well (~, /)
+- [ ] maths as well (:)
+- [ ] gemini/other widgets (idk)
+### Gemini
+- [ ] api stuff
+- [ ] css
+- [ ] add other api's like end4
+- [ ] codeblocks like end4
+- [ ] integration with dashboard
+### Dashboard
+- [ ] get pages transferred
+- [ ] get api's working
+- [ ] make github io site for editing on vivaldi new page and phone
+### Astal launcher wheel
+- [ ] make from scratch
+- [ ] integrate other astal apps
+### Astal overview AI
+- [ ] integrate other apps
+- [ ] get ai to be able to manipulate data
