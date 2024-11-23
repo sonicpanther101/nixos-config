@@ -187,7 +187,7 @@
         # ags
         "$mainMod, R, exec, my-ags"
         "$mainMod SHIFT, R, exec, my-ags -l"
-        "$mainMod, D, exec, ags toggle app-launcher --instance astal"
+        "$mainMod, D, exec, ags toggle app-launcher"
         "$mainMod, G, exec, ags -t gemini-ui"
         "$ALT, V, exec, ags -t clipboard"
         # window controls
