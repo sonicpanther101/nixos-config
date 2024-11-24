@@ -1,34 +1,4 @@
-@use "sass:color";
-$bg: rgb(180,190,254);
-$solid_bg: rgb(33,33,50);
-$fg: rgba(205,214,244,1);
-$accent: rgb(180,190,254);
-$grey: rgb(108, 112, 134);
-$radius: 0.8em;
-$rounded: 999px;
-
-* {
-    margin: 0;
-    padding: 0;
-    border: none;
-    border-radius: 0;
-    min-height: 0;
-    font-family: "JetBrainsMono Nerd Font";
-    font-weight: bold;
-    opacity: 0.98;
-    background-image: none;
-    box-shadow: none;
-    text-shadow: none;
-}
-
-tooltip {
-    border-radius: $rounded;
-    background-color: rgba($solid_bg, 1);
-    label {
-        color: $bg;
-        font-weight: bold;
-    }
-}
+@use "variables" as *;
 
 window.Bar {
     border: none;

@@ -1,38 +1,50 @@
-/* App Launcher */
-.AppLauncher {
-    min-width: 450px;
-}
+@use "variables" as *;
 
-.AppLauncher>scrollable {
-    min-height: 510px;
-}
+window.app-launcher {
+    .AppLauncher {
+            min-width: 450px;
+            background-color: rgba($bg, .15);
+            padding: 20px 20px 0px 20px;
+            border-radius: $radius;
+            border: $accent 3px solid;
+        }
+    
+    .AppLauncher>scrollable {
+        min-height: 500px;
+    }
 
-.AppLauncher-Input {
-    padding: 0 20px;
-    margin: 5px 0 10px;
-    min-height: 40px;
-}
+    .Input {
+        padding: 0 20px;
+        margin: 5px 0 10px;
+        min-height: 40px;
+        border-radius: $rounded;
+        background-color: rgba($bg, .15);
+        color: $fg;
+        font-size: large;
+    }
 
-.AppLauncher-ItemName>button {
-    font-size: 2rem;
-    padding: 10px 0;
-    min-height: 50px;
-}
+    .ItemName>button {
+        font-size: 2rem;
+        padding: 10px 0;
+        min-height: 50px;
+        border-radius: $radius;
+        border: $accent 3px solid;
+        background-color: rgba($bg, .15);
+        color: $fg;
+    }
 
-.AppIcon {
-    margin: 0 20px;
-    font-size: 42px;
-}
+    .ItemName>button:hover {
+        background-color: rgba($bg, .35);
+        color: adjust-color($fg, $lightness: 10%);
+        border-color: adjust-color($accent, $lightness: -10%);
+    }
 
-.AppText {
-    padding-right: 20px;
-}
+    .AppIcon {
+        border-radius: $radius;
+        margin: 10px;
+    }
 
-.AppName {
-    font-size: 1.25em;
-    font-weight: 700;
-}
-
-.AppDescription {
-    font-size: 0.8em;
+    .AppDescription {
+        font-size: medium;
+    }
 }

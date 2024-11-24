@@ -8,9 +8,12 @@
 - [x] Media
 - [x] Bar scss
 ### App Launcher
-- [ ] CSS
+- [x] CSS
 - [ ] files as well (~, /)
-- [ ] maths as well (:)
+- [x] maths as well (:)
+- [ ] complex maths as well
+- [x] internet as well (.)
+- [ ] search suggeestions
 - [ ] gemini/other widgets (idk)
 ### Gemini
 - [ ] api stuff
