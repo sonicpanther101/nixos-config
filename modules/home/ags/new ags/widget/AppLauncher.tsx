@@ -2,8 +2,9 @@ import { bind, execAsync, exec, Variable,  } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Apps from "gi://AstalApps";
 
-const appID = "9W3X9L-JKJ7LVX6A3";
-const wolframURL = "https://api.wolframalpha.com/v1/result";
+const appID = "9W3X9L-P93G6KHG74";
+const wolframURL = "https://api.wolframalpha.com/v2/result";
+const wolframURLFull = "https://api.wolframalpha.com/v2/query";
 const suggestURL = "https://search.brave.com/api/suggest";
 const searchURL = "https://search.brave.com/search";
 
@@ -15,36 +16,39 @@ const query = Variable<string>("");
 
 const itemType = Variable.derive([query], (query) => {
   switch (query.charAt(0)) {
-    case ":":
-      return "maths";
-    case "/":
-      return "files-root";
-    case "~":
-      return "files-home";
-    case ".":
-      return "web";
-    default:
-      return "app";
+    case ":": return "maths-complex-full";
+    case ";": return "maths-complex";
+    case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9": return "maths";
+    case "/": return "files-root";
+    case "~": return "files-home";
+    case ".": return "web";
+    default: return "app";
   }
 });
 
 
 const entryText = Variable.derive([query], (query) => {
-  if (query.startsWith(":") || query.startsWith("/") || query.startsWith("~") || query.startsWith(".")) {
+  if (query.startsWith(":") || query.startsWith(";") || query.startsWith("/") || query.startsWith("~") || query.startsWith(".")) {
     return query.slice(1);
   }
   return query;
 });
 
 const answer = Variable.derive([itemType, entryText], (itemType, entryText) => {
-  if (itemType !== "maths") return "";
+  if (itemType !== "maths" && itemType !== "maths-complex" && itemType !== "maths-complex-full") return "";
 
   if (entryText === "") {
     return "";
-  } else if (/^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
+  } else if (itemType !== "maths" && /^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
     return eval(entryText.replace(/\^/g, "**"));
+  } else if (itemType === "maths-complex-full") {
+    let out = JSON.parse(exec(["bash", "-c", `curl -s "${wolframURLFull}?format=plaintext&output=JSON&appid=${appID}&input=${encodeURIComponent(entryText)}"`]));
+    print(out);
+    return out;
+  } else if (itemType === "maths-complex") {
+    return exec(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&input=${encodeURIComponent(entryText)}"`]);
   } else {
-    return exec(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&i=${encodeURIComponent(entryText)}"`]);
+    return "N/A";
   }
 });
 
@@ -72,8 +76,8 @@ export default function AppLauncher() {
       return appData.map((app: Apps.Application) => (
         <button
           on_Clicked={() => {
-            App.toggle_window(WINDOW_NAME);
             app.launch();
+            App.toggle_window(WINDOW_NAME);
           }}
         >
           <box hexpand={false}>
@@ -92,29 +96,52 @@ export default function AppLauncher() {
           </box>
         </button>
       ));
-    } else if (itemType.get() === "maths") {
+    } else if (itemType.get() === "maths" || itemType.get() === "maths-complex") {
       
       return answer.get() ? (
         <button
-          vexpand
           on_Clicked={() => {
-            App.toggle_window(WINDOW_NAME);
             execAsync(`wl-copy ${answer.get()}`);
+            App.toggle_window(WINDOW_NAME);
           }}
         >
-          <label vexpand wrap label={`${answer.get()}`} />
+          <label wrap label={`${answer.get()}`} />
         </button>
       ) : (<box />);
+    } else if (itemType.get() === "maths-complex-full") {
+      
+      return answer.get() ? answer.get().queryresult.pods.map((pod: any) => (
+        <button
+          vexpand
+          on_Clicked={() => {
+            execAsync(`wl-copy ${pod.subpods.plaintext}`);
+            App.toggle_window(WINDOW_NAME);
+          }}
+        >
+          <box className="AppText" vertical vexpand valign={Gtk.Align.CENTER}>
+              <label className="AppName" label={pod.title} xalign={0} vexpand wrap />
+              {pod.subpods && pod.subpods.map((subpod: any) => (
+                <label
+                  className="AppDescription"
+                  label={subpod.plaintext}
+                  xalign={0}
+                  vexpand
+                  wrap
+                />
+              ))}
+            </box>
+        </button>
+      )) : (<box />);
     } else if (itemType.get() === "files-home" || itemType.get() === "files-root") {
 
       return items.get().map((item) => (
         <button
           on_Clicked={() => {
-            App.toggle_window(WINDOW_NAME);
             execAsync(["bash", "-c", `xdg-open ${itemType.get() === "files-home" ? "/home/adam/" : "/"}${pre.get()}${item}`]);
+            App.toggle_window(WINDOW_NAME);
           }}
         >
-          <label label={`${item}`} />
+          <label label={item} />
         </button>
       ));
     } else if (itemType.get() === "web") {
@@ -125,8 +152,8 @@ export default function AppLauncher() {
       return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
         <button
           on_Clicked={() => {
-            App.toggle_window(WINDOW_NAME);
             execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(suggestion)}`);
+            App.toggle_window(WINDOW_NAME);
           }}
         >
           <label label={`${suggestion}`} />
@@ -146,14 +173,22 @@ export default function AppLauncher() {
       switch (itemType.get()) {
         case "app":
           appData[0]?.launch();
-        case "maths":
+          break;
+        case "maths": case "maths-complex":
           execAsync(`wl-copy ${answer.get()}`);
-        case "files-home":
-          execAsync(["bash", "-c", `xdg-open /home/adam/${pre.get()}${items.get()[0]}`]);
-        case "files-root":
-          execAsync(["bash", "-c", `xdg-open /${pre.get()}${items.get()[0]}`]);
+          break;
+        case "maths-complex-full":
+          execAsync(`wl-copy ${answer.get().queryresult.pods[0].subpods.plaintext}`);
+          break;
         case "web":
           execAsync(`xdg-open ${searchURL}?q=${query.get().slice(1).replace(/\ /g, "+")}`);
+          break;
+        case "files-home":
+          execAsync(["bash", "-c", `xdg-open /home/adam/${pre.get()}${items.get()[0]}`]);
+          break;
+        case "files-root":
+          execAsync(["bash", "-c", `xdg-open /${pre.get()}${items.get()[0]}`]);
+          break;
       }
       App.toggle_window(WINDOW_NAME);
     },
