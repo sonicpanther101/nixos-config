@@ -11,10 +11,9 @@
 - [x] CSS
 - [x] files as well (~, /)
 - [x] maths as well (:)
-- [ ] complex maths as well
+- [x] complex maths as well
 - [x] internet as well (.)
-- [ ] search suggeestions
-- [ ] gemini/other widgets (idk)
+- [x] search suggestions
 ### Gemini
 - [ ] api stuff
 - [ ] css

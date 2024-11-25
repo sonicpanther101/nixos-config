@@ -1,11 +1,11 @@
 import { bind, execAsync, exec, Variable,  } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Apps from "gi://AstalApps";
-import app from "../../../../../../../../nix/store/ii2w7wv88fjvmldn8kzz8ni20kzpkld4-astal-gjs/share/astal/gjs/gtk3/app";
 
 const appID = "9W3X9L-JKJ7LVX6A3";
 const wolframURL = "https://api.wolframalpha.com/v1/result";
 const suggestURL = "https://search.brave.com/api/suggest";
+const searchURL = "https://search.brave.com/search";
 
 const WINDOW_NAME = "app-launcher";
 
@@ -23,13 +23,14 @@ const itemType = Variable.derive([query], (query) => {
       return "files-home";
     case ".":
       return "web";
-    default:      return "app";
+    default:
+      return "app";
   }
 });
 
 
 const entryText = Variable.derive([query], (query) => {
-  if (query.startsWith(":") || query.startsWith("/") || query.startsWith("~")) {
+  if (query.startsWith(":") || query.startsWith("/") || query.startsWith("~") || query.startsWith(".")) {
     return query.slice(1);
   }
   return query;
@@ -43,21 +44,7 @@ const answer = Variable.derive([itemType, entryText], (itemType, entryText) => {
   } else if (/^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
     return eval(entryText.replace(/\^/g, "**"));
   } else {
-    return "No algebra support yet";
-    //   const params = {
-    //     input: entryText(),
-    //     appid : appID
-    //   };
-    //   const body = new URLSearchParams(params).toString();
-    //   const response = await fetch(url, {
-    //     method: "POST",
-    //     body,
-    //     headers: {
-    //       'Content-Type': 'application/x-www-form-urlencoded'
-    //     }
-    //   });
-    //   const result = await response.json();
-    //   return result;
+    return exec(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&i=${encodeURIComponent(entryText)}"`]);
   }
 });
 
@@ -70,8 +57,8 @@ const search = Variable.derive([itemType, entryText], (itemType, entryText) => {
   return entryText.includes("/") ? entryText.split("/")[entryText.split("/").length - 1] : entryText;
 });
 const items = Variable.derive([itemType, search, pre], (itemType, search, pre) => {
-  if (itemType !== "files-home" && itemType !== "files-root") return "";
-  return exec(["bash", "-c", `ls ${itemType === "files-home" ? "/home/adam/" : "/"}${pre} -a | grep "${search.replace(/\./g, "\\.")}"`]);
+  if (itemType !== "files-home" && itemType !== "files-root") return [];
+  return exec(["bash", "-c", `ls ${itemType === "files-home" ? "/home/adam/" : "/"}${pre} -a | grep "${search.replace(/\./g, "\\.")}"`]).split("\n").filter(function(value, index, arr){ return value !== "." && value !== "..";});
 });
 
 export default function AppLauncher() {
@@ -109,17 +96,18 @@ export default function AppLauncher() {
       
       return answer.get() ? (
         <button
+          vexpand
           on_Clicked={() => {
             App.toggle_window(WINDOW_NAME);
             execAsync(`wl-copy ${answer.get()}`);
           }}
         >
-          <label label={`${answer.get()}`} />
+          <label vexpand wrap label={`${answer.get()}`} />
         </button>
       ) : (<box />);
     } else if (itemType.get() === "files-home" || itemType.get() === "files-root") {
 
-      return items.get().split("\n").filter(function(value, index, arr){ return value !== "." && value !== "..";}).map((item) => (
+      return items.get().map((item) => (
         <button
           on_Clicked={() => {
             App.toggle_window(WINDOW_NAME);
@@ -131,32 +119,19 @@ export default function AppLauncher() {
       ));
     } else if (itemType.get() === "web") {
 
-      // const request = async () => {
-      //   const params = {
-      //     q: entryText(),
-      //   };
-      //   const body = new URLSearchParams(params).toString();
-      //   const response = await fetch(suggestURL, {
-      //     method: "POST",
-      //     body,
-      //     headers: {
-      //       'Content-Type': 'application/x-www-form-urlencoded'
-      //     }
-      //   });
-      //   const result = await response.json();
-      //   return result;
-      // }
+      const suggestions = query.slice(1) ? JSON.parse(exec(["bash", "-c", `curl -s "${suggestURL}?q=${encodeURIComponent(query.slice(1))}"`])) : [];
 
-      return (
+      // adding the original query to the suggestions
+      return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
         <button
           on_Clicked={() => {
             App.toggle_window(WINDOW_NAME);
-            execAsync(`xdg-open ${suggestURL}?${new URLSearchParams({q: entryText.get()}).toString()}`);
+            execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(suggestion)}`);
           }}
         >
-          <label label={`${entryText()}`} />
+          <label label={`${suggestion}`} />
         </button>
-      );
+      )) : (<box />);
     }
   });
 
@@ -176,7 +151,9 @@ export default function AppLauncher() {
         case "files-home":
           execAsync(["bash", "-c", `xdg-open /home/adam/${pre.get()}${items.get()[0]}`]);
         case "files-root":
-          execAsync(["bash", "-c", `xdg-open /${pre.get()}${items.get()[0]}`])
+          execAsync(["bash", "-c", `xdg-open /${pre.get()}${items.get()[0]}`]);
+        case "web":
+          execAsync(`xdg-open ${searchURL}?q=${query.get().slice(1).replace(/\ /g, "+")}`);
       }
       App.toggle_window(WINDOW_NAME);
     },
