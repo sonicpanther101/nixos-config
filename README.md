@@ -9,7 +9,7 @@
 - [x] Bar scss
 ### App Launcher
 - [x] CSS
-- [ ] files as well (~, /)
+- [x] files as well (~, /)
 - [x] maths as well (:)
 - [ ] complex maths as well
 - [x] internet as well (.)
