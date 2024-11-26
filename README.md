@@ -14,12 +14,20 @@
 - [x] complex maths as well
 - [x] internet as well (.)
 - [x] search suggestions
+### Clipboard
+- [x] CSS
+- [x] clipboard linked
+- [ ] fix overflow
+- [x] add search
+### Notifications
+- [ ] CSS
+- [ ] notifications linked
+- [ ] manager?
 ### Gemini
 - [ ] api stuff
 - [ ] css
 - [ ] add other api's like end4
 - [ ] codeblocks like end4
-- [ ] integration with dashboard
 ### Dashboard
 - [ ] get pages transferred
 - [ ] get api's working

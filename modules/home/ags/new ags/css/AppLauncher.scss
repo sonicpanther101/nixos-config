@@ -2,12 +2,12 @@
 
 window.app-launcher {
     .AppLauncher {
-            min-width: 450px;
-            background-color: rgba($bg, .15);
-            padding: 20px 20px 0px 20px;
-            border-radius: $radius;
-            border: $accent 3px solid;
-        }
+        min-width: 450px;
+        background-color: rgba($bg, .15);
+        padding: 20px 20px 0px 20px;
+        border-radius: $radius;
+        border: $accent 3px solid;
+    }
     
     .AppLauncher>scrollable {
         min-height: 500px;

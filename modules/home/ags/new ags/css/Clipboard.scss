@@ -1,0 +1,49 @@
+@use "variables" as *;
+
+window.clipboard {
+    .Clipboard {
+        min-width: 450px;
+        background-color: rgba($bg, .15);
+        padding: 20px 20px 0px 20px;
+        border-radius: $radius;
+        border: $accent 3px solid;
+    }
+
+    .Clipboard>scrollable {
+        min-height: 500px;
+    }
+
+    .Input {
+        padding: 0 20px;
+        margin: 5px 0 10px;
+        min-height: 40px;
+        border-radius: $rounded;
+        background-color: rgba($bg, .15);
+        color: $fg;
+        font-size: large;
+    }
+
+    .Clipboard-Item {
+        
+        &>button {
+            font-size: 2rem;
+            padding: 10px 0;
+            min-height: 50px;
+            border-radius: $radius;
+            border: $accent 3px solid;
+            background-color: rgba($bg, .15);
+            color: $fg;
+
+            &:hover {
+                background-color: rgba($bg, .35);
+                color: adjust-color($fg, $lightness: 10%);
+                border-color: adjust-color($accent, $lightness: -10%);
+            }
+
+            &>label {
+                padding: 3px;
+                font-size: medium;
+            }
+        }
+    }
+}
