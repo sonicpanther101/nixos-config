@@ -112,20 +112,18 @@ export default function AppLauncher() {
       
       return answer.get() ? answer.get().queryresult.pods.map((pod: any) => (
         <button
-          vexpand
           on_Clicked={() => {
             execAsync(`wl-copy ${pod.subpods.plaintext}`);
             App.toggle_window(WINDOW_NAME);
           }}
         >
-          <box className="AppText" vertical vexpand valign={Gtk.Align.CENTER}>
-              <label className="AppName" label={pod.title} xalign={0} vexpand wrap />
+          <box className="AppText" vertical valign={Gtk.Align.CENTER}>
+              <label className="AppName" label={pod.title} xalign={0} wrap />
               {pod.subpods && pod.subpods.map((subpod: any) => (
                 <label
                   className="AppDescription"
                   label={subpod.plaintext}
                   xalign={0}
-                  vexpand
                   wrap
                 />
               ))}
