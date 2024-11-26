@@ -3,12 +3,14 @@ import { monitorFile } from "astal/file";
 import style from "./css/main.scss"
 import Bar from "./widget/Bar"
 import AppLauncher from "./widget/AppLauncher"
+import Clipboard from "./widget/Clipboard";
 
 App.start({
     css: style,
     main: () => {
-        App.get_monitors().map(Bar)
-        AppLauncher()
+      App.get_monitors().map(Bar)
+      AppLauncher()
+      Clipboard()
     },
 })
 

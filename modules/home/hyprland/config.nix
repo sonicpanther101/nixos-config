@@ -189,7 +189,7 @@
         "$mainMod SHIFT, R, exec, my-ags -l"
         "$mainMod, D, exec, ags toggle app-launcher"
         "$mainMod, G, exec, ags -t gemini-ui"
-        "$ALT, V, exec, ags -t clipboard"
+        "$ALT, V, exec, ags toggle clipboard"
         # window controls
         "$mainMod, Q, killactive,"
         "$mainMod, F, fullscreen, 0"

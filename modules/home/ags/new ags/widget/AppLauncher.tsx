@@ -166,7 +166,6 @@ export default function AppLauncher() {
     canFocus: true,
     placeholderText: "Search",
     className: "Input",
-    // primaryIconName: "edit-find",
     onActivate: () => {
       switch (itemType.get()) {
         case "app":
@@ -202,7 +201,7 @@ export default function AppLauncher() {
       name={WINDOW_NAME}
       className={WINDOW_NAME}
       application={App}
-      visible={true}
+      visible={false}
       keymode={Astal.Keymode.EXCLUSIVE}
       layer={Astal.Layer.OVERLAY}
       vexpand={true}
