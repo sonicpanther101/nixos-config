@@ -25,18 +25,17 @@ window.app-launcher {
 
     .ItemName>button {
         font-size: 2rem;
-        padding: 10px 0;
         min-height: 50px;
         border-radius: $radius;
         border: $accent 3px solid;
         background-color: rgba($bg, .15);
         color: $fg;
-    }
 
-    .ItemName>button:hover {
-        background-color: rgba($bg, .35);
-        color: adjust-color($fg, $lightness: 10%);
-        border-color: adjust-color($accent, $lightness: -10%);
+        &:hover {
+            background-color: rgba($bg, .35);
+            color: adjust-color($fg, $lightness: 10%);
+            border-color: adjust-color($accent, $lightness: -10%);
+        }
     }
 
     .AppIcon {
@@ -46,5 +45,13 @@ window.app-launcher {
 
     .AppDescription {
         font-size: medium;
+    }
+
+    .Non-app  {
+        padding: 10px;
+    }
+
+    .app-button {
+        padding: 10px 0;
     }
 }

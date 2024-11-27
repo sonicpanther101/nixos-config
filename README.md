@@ -17,9 +17,9 @@
 ### Clipboard
 - [x] CSS
 - [x] clipboard linked
-- [ ] fix overflow
+- [x] fix overflow
 - [x] add search
-- [ ] images
+- [x] images
 ### Notifications
 - [ ] CSS
 - [ ] notifications linked

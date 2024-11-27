@@ -75,6 +75,7 @@ export default function AppLauncher() {
       appData = apps.fuzzy_query(query);
       return appData.map((app: Apps.Application) => (
         <button
+          className={"app-button"}
           on_Clicked={() => {
             app.launch();
             App.toggle_window(WINDOW_NAME);
@@ -100,6 +101,7 @@ export default function AppLauncher() {
       
       return answer.get() ? (
         <button
+          className={"Non-app"}
           on_Clicked={() => {
             execAsync(`wl-copy ${answer.get()}`);
             App.toggle_window(WINDOW_NAME);
@@ -112,6 +114,7 @@ export default function AppLauncher() {
       
       return answer.get() ? answer.get().queryresult.pods.map((pod: any) => (
         <button
+          className={"Non-app"}
           on_Clicked={() => {
             execAsync(`wl-copy ${pod.subpods.plaintext}`);
             App.toggle_window(WINDOW_NAME);
@@ -134,12 +137,13 @@ export default function AppLauncher() {
 
       return items.get().map((item) => (
         <button
+          className={"Non-app"}
           on_Clicked={() => {
             execAsync(["bash", "-c", `xdg-open ${itemType.get() === "files-home" ? "/home/adam/" : "/"}${pre.get()}${item}`]);
             App.toggle_window(WINDOW_NAME);
           }}
         >
-          <label label={item} />
+          <label label={item} wrap />
         </button>
       ));
     } else if (itemType.get() === "web") {
@@ -149,12 +153,13 @@ export default function AppLauncher() {
       // adding the original query to the suggestions
       return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
         <button
+          className={"Non-app"}
           on_Clicked={() => {
             execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(suggestion)}`);
             App.toggle_window(WINDOW_NAME);
           }}
         >
-          <label label={`${suggestion}`} />
+          <label label={`${suggestion}`} wrap />
         </button>
       )) : (<box />);
     }
@@ -227,7 +232,7 @@ export default function AppLauncher() {
     >
       <box className="AppLauncher" vertical>
         {Entry}
-        <scrollable vexpand>
+        <scrollable vexpand hscroll={Gtk.PolicyType.NEVER}>
           <box className="ItemName" vertical spacing={5}>
             {Items}
           </box>

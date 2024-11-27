@@ -27,7 +27,7 @@ window.clipboard {
         
         &>button {
             font-size: 2rem;
-            padding: 10px 0;
+            padding: 10px 0px 10px 10px;
             min-height: 50px;
             border-radius: $radius;
             border: $accent 3px solid;
@@ -38,6 +38,11 @@ window.clipboard {
                 background-color: rgba($bg, .35);
                 color: adjust-color($fg, $lightness: 10%);
                 border-color: adjust-color($accent, $lightness: -10%);
+            }
+
+            &>icon {
+                min-width: 400px;
+                font-size: 25rem;
             }
 
             &>label {
