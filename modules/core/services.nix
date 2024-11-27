@@ -1,6 +1,5 @@
 { pkgs, ... }: 
 {
-  services.ollama.enable = true;
   services = {
     gvfs.enable = true;
     gnome.gnome-keyring.enable = true;

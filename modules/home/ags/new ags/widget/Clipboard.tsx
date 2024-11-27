@@ -41,7 +41,7 @@ export default function Clipboard() {
       >
         <label
           label={item.split("	").slice(1).join("	")}
-          xalign={0} wrap truncate={false} vexpand hexpand={false}
+          xalign={0} wrap truncate vexpand hexpand={false} 
         />
       </button>
     ));
@@ -79,7 +79,7 @@ export default function Clipboard() {
     >
       <box className="Clipboard" vertical>
         {Entry}
-        <scrollable vexpand hexpand={false}>
+        <scrollable hscroll={Gtk.PolicyType.NEVER}>
           <box className="Clipboard-Item" vertical spacing={5} hexpand={false}>
             {Items}
           </box>

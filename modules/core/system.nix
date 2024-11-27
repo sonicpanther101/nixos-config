@@ -45,7 +45,7 @@
     i18n.defaultLocale = "en_US.UTF-8";
     nixpkgs.config.allowUnfree = true;
     # nixpkgs.config.allowUnsupportedSystem = true;
-    system.stateVersion = "23.05";
+    system.stateVersion = "25.05";
 
     system.activationScripts = 
       if (host == "desktop") then {

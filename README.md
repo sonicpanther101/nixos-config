@@ -19,6 +19,7 @@
 - [x] clipboard linked
 - [ ] fix overflow
 - [x] add search
+- [ ] images
 ### Notifications
 - [ ] CSS
 - [ ] notifications linked
