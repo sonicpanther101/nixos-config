@@ -4,6 +4,7 @@ import style from "./css/main.scss"
 import Bar from "./widget/Bar"
 import AppLauncher from "./widget/AppLauncher"
 import Clipboard from "./widget/Clipboard";
+import Notifications from "./widget/Notifications";
 
 App.start({
     css: style,
@@ -11,6 +12,7 @@ App.start({
       App.get_monitors().map(Bar);
       AppLauncher();
       Clipboard();
+      Notifications({ monitor: 0 });
     },
 })
 
