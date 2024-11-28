@@ -1,6 +1,50 @@
 @use "variables" as *;
 
-window.notifications0,
-window.notifications1 {
-    
+.notifications-window {
+    background-color: transparent;
+}
+
+.notifications {
+
+    background-color: transparent;
+
+    .notification {
+        padding: 10px;
+        padding-bottom: 5px;
+        margin: 10px;
+        border-radius: $radius;
+        border: $accent 3px solid;
+        background-color: $solid_bg;
+        color: $fg;
+
+        button {
+            padding: 5px;
+            margin: 5px;
+            border-radius: $radius;
+            border: $accent 3px solid;
+            background-color: $solid_bg;
+            color: $fg;
+
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        icon {
+            font-size: 3rem;
+        }
+
+        .title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .body {
+            font-size: 0.9rem;
+        }
+
+        .appname {
+            font-size: 0.8rem;
+        }
+    }
 }
