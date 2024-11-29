@@ -59,7 +59,7 @@
 
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
-      # inputs.nixpkgs.follows = "hyprland";
+      inputs.nixpkgs.follows = "hyprland-desktop";
     };
 
     matugen = {

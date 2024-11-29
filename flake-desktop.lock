@@ -728,9 +728,7 @@
       "inputs": {
         "hyprland": "hyprland",
         "nixpkgs": [
-          "hyprland-plugins",
-          "hyprland",
-          "nixpkgs"
+          "hyprland-desktop"
         ],
         "systems": [
           "hyprland-plugins",
