@@ -21,6 +21,9 @@
       enable = true;
     };
     systemd.enable = true;
+    plugins = [
+      inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
+    ];
   };
 
   xdg.desktopEntries."org.gnome.Settings" = {

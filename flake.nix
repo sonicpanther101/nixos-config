@@ -62,6 +62,11 @@
       inputs.nixpkgs.follows = "hyprland-desktop";
     };
 
+    hyprsplit = {
+      url = "github:shezdy/hyprsplit/main";
+      inputs.hyprland.follows = "hyprland-desktop";
+    };
+
     matugen = {
       url = "github:/InioX/Matugen";
       # ref = "refs/tags/matugen-v0.10.0"
