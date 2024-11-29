@@ -1,5 +1,5 @@
 import { Astal, Gtk, App } from "astal/gtk3";
-import { bind, Variable } from "astal";
+import { bind } from "astal";
 import AstalNotifd from "gi://AstalNotifd";
 
 const Notif = AstalNotifd.get_default();
