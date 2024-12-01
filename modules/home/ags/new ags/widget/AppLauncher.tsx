@@ -223,7 +223,6 @@ export default function AppLauncher() {
         self.hook(self, "notify::visible", () => {
           if (!self.get_visible()) {
             query.set("");
-            // TODO: reset scroll
           } else {
             Entry.grab_focus();
           }

@@ -5,6 +5,7 @@ import Bar from "./widget/Bar"
 import AppLauncher from "./widget/AppLauncher"
 import Clipboard from "./widget/Clipboard";
 import Notifications from "./widget/Notifications";
+import APIs from "./widget/Apis";
 
 App.start({
     css: style,
@@ -13,6 +14,7 @@ App.start({
       AppLauncher();
       Clipboard();
       Notifications({ monitor: 0 });
+      APIs();
     },
 })
 

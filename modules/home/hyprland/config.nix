@@ -193,7 +193,7 @@
         "$mainMod SHIFT, R, exec, my-ags -l"
         "$mainMod, D, exec, ags toggle app-launcher"
         "$ALT, V, exec, ags toggle clipboard"
-        "$mainMod, G, exec, ags -t gemini-ui"
+        "$mainMod, G, exec, ags toggle apis"
         "$mainMod, F1, exec, show-keybinds"
         # window controls
         "$mainMod, Q, killactive,"

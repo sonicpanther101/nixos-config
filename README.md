@@ -21,9 +21,8 @@
 - [x] add search
 - [x] images
 ### Notifications
-- [ ] CSS
-- [ ] notifications linked
-- [ ] manager?
+- [x] CSS
+- [x] notifications linked
 ### Gemini
 - [ ] api stuff
 - [ ] css
