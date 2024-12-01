@@ -183,7 +183,7 @@ export default function AppLauncher() {
           execAsync(`wl-copy ${answer.get().queryresult.pods[0].subpods.plaintext}`);
           break;
         case "web":
-          execAsync(`xdg-open ${searchURL}?q=${query.get().slice(1).replace(/\ /g, "+")}`);
+          execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(query.get().slice(1))}`);
           break;
         case "files-home":
           execAsync(["bash", "-c", `xdg-open /home/adam/${pre.get()}${items.get()[0]}`]);

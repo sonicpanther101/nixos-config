@@ -1,1 +1,59 @@
 @use "variables" as *;
+
+window.apis {
+    .APIs {
+        min-width: 450px;
+        background-color: rgba($bg, .15);
+        padding: 20px 20px 0px 20px;
+        border-radius: $radius;
+        border: $accent 3px solid;
+    }
+
+    .APIs>scrollable {
+        min-height: 500px;
+    }
+
+    .APItype {
+        font-size: 3rem;
+        background-color: transparent;
+
+        button {
+            background-color: transparent;
+        }
+    }
+
+    .message {
+        font-size: 1rem;
+        min-height: 50px;
+        // border-radius: $radius;
+        border: $accent 3px solid;
+        background-color: rgba($bg, .15);
+        color: $fg;
+    
+        &:hover {
+            background-color: rgba($bg, .35);
+            color: adjust-color($fg, $lightness: 10%);
+            border-color: adjust-color($accent, $lightness: -10%);
+        }
+    }
+
+    .user {
+        border-radius: $radius $radius 0px $radius;
+        margin-left: 2rem;
+    }
+
+    .bot {
+        border-radius: $radius $radius $radius 0px;
+        margin-right: 2rem;
+    }
+
+    .image {
+        border-radius: 15px 15px 15px 0px;
+        padding: 10px;
+        background-color: rgba($bg, .15);
+
+        icon {
+            font-size: 25rem;
+        }
+    }
+}
