@@ -115,7 +115,7 @@
   ] ++ lib.optionals (host == "desktop") [
     pyload-ng
     mangohud
-    guitarix
+    proteus
     qmk
 
     cudatoolkit
