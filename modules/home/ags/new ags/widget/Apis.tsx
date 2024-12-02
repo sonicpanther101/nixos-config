@@ -1,6 +1,8 @@
-import { exec, execAsync, bind, Variable } from "astal";
+import { exec, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
+import Pango from "gi://Pango?version=1.0";
 import { testURL, testO } from "../../../../../../.night/test";
+import md2pango from "./components/apis/md2pango";
 
 const WINDOW_NAME = "apis";
 
@@ -20,6 +22,59 @@ const API_KEY = "AIzaSyB-8_m7kiuNGgfNs_lns0ILwrrERfqfhjM"
 const geminiURL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
 
 const testChat = Variable<any[]>([]);
+
+
+const TextBlock = (content = '') => (
+  <label
+    wrapMode={Pango.WrapMode.WORD_CHAR}
+    className=""
+    useMarkup={true}
+    xalign={0}
+    wrap={true}
+    selectable={true}
+    label={content}
+  />
+)
+
+const Latex = (content = '') => {
+  const latexViewArea = (
+    <box>
+      {() => {
+        if (content.length == 0) return;
+      }}
+    </box>
+  );
+
+const CodeBlock = (content = '', lang = 'txt') => {
+    if (lang == 'tex' || lang == 'latex') {
+        return Latex(content);
+    }
+
+const MessageFormatting = (message: string) => (
+  <box vertical>
+    {() => {
+      const output = Variable([TextBlock()]);
+
+      let lines = message.split('\n');
+      let lastProcessed = 0;
+      let inCode = false;
+      for (const [index, line] of lines.entries()) {
+        // Code blocks
+        const codeBlockRegex = /^\s*```([a-zA-Z0-9]+)?\n?/;
+        if (codeBlockRegex.test(line)) {
+          const kids = output.get();
+          kids.pop();
+          const lastLabel: Widget.Label = new Widget.Label();
+          const blockContent = lines.slice(lastProcessed, index).join('\n');
+          if (!inCode) { 
+            lastLabel.label = md2pango(blockContent);
+            output.set([...kids, CodeBlock('', codeBlockRegex.exec(line)[1])]);
+          }
+        }
+      }
+    }}
+  </box>
+)
 
 export default function APIs() {
 
@@ -113,11 +168,11 @@ export default function APIs() {
           >
             <icon icon={message[0]} visible={message[0] !== "Nothing"} />
           </button>
-          <entry text={
+          <label label={
             message[1].match(
               /.{1,20}/g
             ).join("\n")
-          } widthChars={20}/>
+          } wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
         </box>
       )));
     }
