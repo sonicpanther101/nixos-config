@@ -135,7 +135,7 @@ elif [[ $host == "desktop" ]]; then
 fi
 
 current=$(nixos-rebuild list-generations | grep current)
-changes=$(git diff --name-only)
+changes=$(git diff --name-only | tr '\n' ' ')
 
 if [[ $message != "" ]]; then
     git commit -am "${message} Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
