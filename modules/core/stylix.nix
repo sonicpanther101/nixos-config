@@ -16,17 +16,17 @@
 
         fonts = {
             serif = {
-                package = pkgs.nerdfonts;
+                package = pkgs.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 
             sansSerif = {
-                package = pkgs.nerdfonts;
+                package = pkgs.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 
             monospace = {
-                package = pkgs.nerdfonts;
+                package = pkgs.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 

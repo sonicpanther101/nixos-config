@@ -4,6 +4,7 @@
     if (host == "desktop") then
         [ (import ./bootloader.nix) ]
       ++ [ (import ./hardware_pc.nix) ]
+      ++ [ (import ./linux_hdr.nix) ]
       ++ [ (import ./xserver.nix) ]
       ++ [ (import ./network.nix) ]
       ++ [ (import ./pipewire_pc.nix) ]
