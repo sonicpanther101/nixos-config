@@ -380,7 +380,7 @@
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
-        "HDMI-A-1,1920x1080@100,0x180,1"
+        "HDMI-A-1,1920x1080@100,0x100,1"
         "DP-1,2560x1440@144.01,1920x0,1.066667"
         ];
 
