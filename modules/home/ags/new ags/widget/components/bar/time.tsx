@@ -20,7 +20,7 @@ export default function Time({ dateFormat = " %A the %eblank of %B", dayForma
     )
 
     const date = Variable<string>("").poll(60000, () =>
-        (GLib.DateTime.new_now_local().format(dateFormat)!).replace("blank", nth(day().get()))
+        (GLib.DateTime.new_now_local().format(dateFormat)!).replace("blank", nth(day().get())).replace(" ", "")
     )
 
     return <label

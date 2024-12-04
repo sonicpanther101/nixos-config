@@ -1,5 +1,6 @@
 import { exec, execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
+// import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
 import { testURL, testO } from "../../../../../../.night/test";
 import md2pango, { markdownTest } from "./components/apis/md2pango";
@@ -41,31 +42,31 @@ const Divider = () => (
 )
 
 function substituteLang(str: string) {
-    const subs = [
-        { from: 'javascript', to: 'js' },
-        { from: 'bash', to: 'sh' },
-    ];
-    for (const { from, to } of subs) {
-        if (from === str) return to;
-    }
-    return str;
+  const subs = [
+    { from: 'javascript', to: 'js' },
+    { from: 'bash', to: 'sh' },
+  ];
+  for (const { from, to } of subs) {
+    if (from === str) return to;
+  }
+  return str;
 }
 
 const HighlightedCode = (content: string, lang: string) => {
-    const buffer = new Gtk.TextBuffer();
-    const sourceView = new Gtk.TextView({
-        buffer: buffer,
-        wrap_mode: Gtk.WrapMode.NONE
-    });
-    const langManager = GtkSource.LanguageManager.get_default();
-    let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
-    if (displayLang) {
-      buffer.set_language(displayLang);
-    }
-    const schemeManager = GtkSource.StyleSchemeManager.get_default();
-    buffer.set_style_scheme(schemeManager.get_scheme("custom"));
-    buffer.set_text(content, -1);
-    return sourceView;
+  const buffer = new GtkSource.Buffer();
+  const sourceView = new GtkSource.View({
+    buffer: buffer,
+    wrap_mode: Gtk.WrapMode.NONE
+  });
+  const langManager = GtkSource.LanguageManager.get_default();
+  let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
+  if (displayLang) {
+    buffer.set_language(displayLang);
+  }
+  const schemeManager = GtkSource.StyleSchemeManager.get_default();
+  buffer.set_style_scheme(schemeManager.get_scheme("custom"));
+  buffer.set_text(content, -1);
+  return sourceView;
 }
 
 const topBar = (content: string, lang: string) => (
@@ -87,20 +88,20 @@ const topBar = (content: string, lang: string) => (
 )
 
 const codeBlock = (content: string, lang: string) => (
-      <box
-        vertical
+  <box
+    vertical
+  >
+    {topBar(content, lang)}
+    <box homogeneous>
+      <scrollable
+        hscroll={Gtk.PolicyType.AUTOMATIC}
+        vscroll={Gtk.PolicyType.NEVER}
       >
-        {topBar(content, lang)}
-        <box homogeneous>
-          <scrollable
-            hscroll={Gtk.PolicyType.AUTOMATIC}
-            vscroll={Gtk.PolicyType.NEVER}
-          >
-            {HighlightedCode(content, lang)}
-          </scrollable>
-        </box>
-      </box>
-    )
+        {/* {HighlightedCode(content, lang)} */}
+      </scrollable>
+    </box>
+  </box>
+)
 
 class CodeBlock {
   output: Gtk.Widget;

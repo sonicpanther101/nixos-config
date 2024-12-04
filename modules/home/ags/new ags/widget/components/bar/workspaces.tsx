@@ -8,7 +8,7 @@ export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
     const currentWorkspace = () => hyprland.get_focused_workspace().get_id();
     
     return <box className="Workspaces">
-        {Array.from({ length: 10 }, (_, i) => i + (monitor.model === "HP P232" ? 1 : 11)).map(id => (
+        {Array.from({ length: 10 }, (_, i) => i + (monitor.model === "27B30H" ? 1 : 11)).map(id => (
             <button
                 setup={(self)=> {self.hook(hyprland, "event",(self) => {
                     self.toggleClassName("active", id === currentWorkspace())
