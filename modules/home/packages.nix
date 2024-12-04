@@ -113,6 +113,7 @@
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
   ] ++ lib.optionals (host == "desktop") [
+    gamescope
     pyload-ng
     mangohud
     proteus
