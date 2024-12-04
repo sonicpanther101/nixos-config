@@ -380,7 +380,7 @@
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
-        "DP-1,preferred,auto,1.6"
+        "DP-1,preferred,auto,1.4"
         "HDMI-A-1,preferred,auto,0.8"
         ];
 
