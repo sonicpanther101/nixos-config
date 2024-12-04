@@ -6,6 +6,8 @@
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
+
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
   
     hypr-contrib.url = "github:hyprwm/contrib";
     hyprpicker.url = "github:hyprwm/hyprpicker";
@@ -110,6 +112,7 @@
           (import ./hosts/desktop) 
           grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
+          inputs.chaotic.homeManagerModules.default
         ];
         specialArgs = {
           host="desktop";

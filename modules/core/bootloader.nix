@@ -14,11 +14,6 @@
       ''
     else '''';
 
-  # boot.kernelPatches = [{
-  #   patch = ./cam.patch;
-  #   name = "surfacepro3-cameras"; 
-  # }];
-
   # catppuccin.enable = true;
   # catppuccin.accent = "blue";
   # catppuccin.flavor = "mocha";
