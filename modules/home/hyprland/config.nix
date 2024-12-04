@@ -380,8 +380,8 @@
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
-        "DP-1,preferred,auto,1.9"
-        "HDMI-A-1,preferred,auto,0.9"
+        "DP-1,preferred,auto,1.125"
+        "HDMI-A-1,preferred,auto,0.86"
         ];
 
       xwayland.force_zero_scaling = true;
