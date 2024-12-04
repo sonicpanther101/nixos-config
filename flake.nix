@@ -112,7 +112,7 @@
           (import ./hosts/desktop) 
           grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
-          inputs.chaotic.homeManagerModules.default
+          inputs.chaotic.nixosModules.default
         ];
         specialArgs = {
           host="desktop";
