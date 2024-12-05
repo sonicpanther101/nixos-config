@@ -16,6 +16,7 @@
     dwarf-fortress
     pong3d
     solitaire-tui
+    chess-tui
     # bsdgames
     # veloren
     
