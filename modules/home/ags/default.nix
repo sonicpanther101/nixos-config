@@ -19,7 +19,7 @@
       io
 
       apps
-      # auth
+      auth
       battery
       bluetooth
       # cava
@@ -29,7 +29,7 @@
       network
       notifd
       powerprofiles
-      # river
+      river
       tray
       wireplumber
     ];
