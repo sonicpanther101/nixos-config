@@ -1,12 +1,14 @@
 { inputs, config, pkgs, lib, host, ... }:
 {
-  boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.loader.grub = {
-    enable = true;
-    device = "nodev";
-    efiSupport = true;
-    useOSProber = true;
+  boot.loader = {
+    efi.canTouchEfiVariables = true;
+    grub = {
+      enable = true;
+      devices = [ "nodev" ];
+      efiSupport = true;
+      useOSProber = true;
+    };
   };
   boot.supportedFilesystems = ["ntfs"];
 
@@ -26,7 +28,6 @@
   #   flavor = "mocha";
   # };
 
-  # boot.loader.grub = { ... };
   boot.loader.grub2-theme = {
     enable = true;
     theme = "stylish";
