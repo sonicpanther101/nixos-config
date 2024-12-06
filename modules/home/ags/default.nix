@@ -15,6 +15,7 @@
 
     extraPackages = with inputs.ags.packages.${pkgs.system}; [
       astal3
+      astal4
       io
 
       apps
