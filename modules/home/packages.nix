@@ -1,6 +1,6 @@
 { inputs, pkgs, pkgs-stable, host, lib, ... }: 
 {
-  home.packages = (with pkgs; [
+  home.packages = with pkgs; [
     kooha
     bootiso
     p7zip
@@ -133,8 +133,8 @@
     gcc
     gperftools
     gcc-unwrapped.lib
-  ] ++ (with pkgs-stable; [
+  ] ++ with pkgs-stable; [
     geekbench
     libreoffice
-  ]));
+  ];
 }
