@@ -1,4 +1,4 @@
-{ inputs, pkgs, host, lib, ... }: 
+{ inputs, pkgs, pkgs-stable, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
     kooha
@@ -133,9 +133,8 @@
     gcc
     gperftools
     gcc-unwrapped.lib
-    # unigine-valley
+  ] ++ (with pkgs-stable; [
     geekbench
-  ]);
-
-  libreoffice
+    libreoffice
+  ]));
 }
