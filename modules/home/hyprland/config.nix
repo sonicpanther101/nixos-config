@@ -194,6 +194,7 @@
         "$mainMod, D, exec, ags toggle app-launcher"
         "$ALT, V, exec, ags toggle clipboard"
         "$mainMod, G, exec, ags toggle apis"
+        "$mainMod, W, exec, ags toggle wallpaper"
         "$mainMod, F1, exec, show-keybinds"
         # window controls
         "$mainMod, Q, killactive,"
@@ -216,7 +217,6 @@
         "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
         # misc
         "$mainMod, C ,exec, hyprpicker -a"
-        "$mainMod, W,exec, my-rwall"
 
         # screenshot
         "$mainMod, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"

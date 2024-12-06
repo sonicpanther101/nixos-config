@@ -4,6 +4,7 @@ import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango?version=1.0";
 import { testURL, testO } from "../../../../../../.night/test";
 import md2pango, { markdownTest } from "./components/apis/md2pango";
+// import Gtk from "gi://Gtk?version=4.0";
 
 const WINDOW_NAME = "apis";
 
@@ -52,22 +53,22 @@ function substituteLang(str: string) {
   return str;
 }
 
-const HighlightedCode = (content: string, lang: string) => {
-  const buffer = new GtkSource.Buffer();
-  const sourceView = new GtkSource.View({
-    buffer: buffer,
-    wrap_mode: Gtk.WrapMode.NONE
-  });
-  const langManager = GtkSource.LanguageManager.get_default();
-  let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
-  if (displayLang) {
-    buffer.set_language(displayLang);
-  }
-  const schemeManager = GtkSource.StyleSchemeManager.get_default();
-  buffer.set_style_scheme(schemeManager.get_scheme("custom"));
-  buffer.set_text(content, -1);
-  return sourceView;
-}
+// const HighlightedCode = (content: string, lang: string) => {
+//   const buffer = new GtkSource.Buffer();
+//   const sourceView = new GtkSource.View({
+//     buffer: buffer,
+//     wrap_mode: Gtk.WrapMode.NONE
+//   });
+//   const langManager = GtkSource.LanguageManager.get_default();
+//   let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
+//   if (displayLang) {
+//     buffer.set_language(displayLang);
+//   }
+//   const schemeManager = GtkSource.StyleSchemeManager.get_default();
+//   buffer.set_style_scheme(schemeManager.get_scheme("custom"));
+//   buffer.set_text(content, -1);
+//   return sourceView;
+// }
 
 const topBar = (content: string, lang: string) => (
   <box>
@@ -103,89 +104,89 @@ const codeBlock = (content: string, lang: string) => (
   </box>
 )
 
-class CodeBlock {
-  output: Gtk.Widget;
-  lang: string;
+// class CodeBlock {
+//   output: Gtk.Widget;
+//   lang: string;
 
-  constructor(content = '', lang = 'txt') {
+//   constructor(content = '', lang = 'txt') {
 
-    this.lang = lang
+//     this.lang = lang
 
-    if (lang == 'tex' || lang == 'latex') {
-      this.output = (<box />)// Latex(content);
-      return this;
-    }
+//     if (lang == 'tex' || lang == 'latex') {
+//       this.output = (<box />)// Latex(content);
+//       return this;
+//     }
 
-    this.output = codeBlock(content, lang); 
-  }
+//     this.output = codeBlock(content, lang); 
+//   }
 
-  updateText(text: string): void {
+//   updateText(text: string): void {
     
-    if (this.lang == 'tex' || this.lang == 'latex') {
-      this.output = (<box />)// Latex(content);
-      return;
-    }
+//     if (this.lang == 'tex' || this.lang == 'latex') {
+//       this.output = (<box />)// Latex(content);
+//       return;
+//     }
 
-    print("updateText:", text);
+//     print("updateText:", text);
 
-    this.output = codeBlock(text, this.lang);
-  }
-}
+//     this.output = codeBlock(text, this.lang);
+//   }
+// }
 
-const MessageFormatting = (message: string) => {
-  const output: Variable<(Gtk.Widget | CodeBlock)[]> = Variable([TextBlock()]);
+// const MessageFormatting = (message: string) => {
+//   const output: Variable<(Gtk.Widget | CodeBlock)[]> = Variable([TextBlock()]);
 
-  let lines: string[] = message.split('\n');
-  let lastProcessed: number = 0;
-  let inCode: boolean = false;
-  for (const [index, line] of lines.entries()) {
-    // Code blocks
-    const codeBlockRegex = /^\s*```([a-zA-Z0-9]+)?\n?/;
-    if (codeBlockRegex.test(line)) {
-      const kids = output.get();
-      const lastLabel: any = kids[kids.length - 1];
-      const blockContent: string = lines.slice(lastProcessed, index).join('\n');
-      if (!inCode) { 
-        lastLabel.label = md2pango(blockContent);
-        output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-        output.set([...kids, new CodeBlock('', codeBlockRegex.exec(line)?.[1] ?? '')]);
-      } else {
-        lastLabel.updateText(blockContent);
-        output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-        output.set([...kids, TextBlock()]);
-      }
+//   let lines: string[] = message.split('\n');
+//   let lastProcessed: number = 0;
+//   let inCode: boolean = false;
+//   for (const [index, line] of lines.entries()) {
+//     // Code blocks
+//     const codeBlockRegex = /^\s*```([a-zA-Z0-9]+)?\n?/;
+//     if (codeBlockRegex.test(line)) {
+//       const kids = output.get();
+//       const lastLabel: any = kids[kids.length - 1];
+//       const blockContent: string = lines.slice(lastProcessed, index).join('\n');
+//       if (!inCode) { 
+//         lastLabel.label = md2pango(blockContent);
+//         output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+//         output.set([...kids, new CodeBlock('', codeBlockRegex.exec(line)?.[1] ?? '')]);
+//       } else {
+//         lastLabel.updateText(blockContent);
+//         output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+//         output.set([...kids, TextBlock()]);
+//       }
 
-      lastProcessed = index + 1;
-      inCode = !inCode;
-    }
+//       lastProcessed = index + 1;
+//       inCode = !inCode;
+//     }
 
-    const dividerRegex = /^\s*---/;
-    if (!inCode && dividerRegex.test(line)) {
-      const kids: (Gtk.Widget | CodeBlock)[] = output.get();
-      const lastLabel: Widget.Label = kids[kids.length - 1] as Widget.Label;
-      const blockContent = lines.slice(lastProcessed, index).join('\n');
-      lastLabel.label = md2pango(blockContent);
-      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-      output.set([...kids, Divider(), TextBlock()]);
-      lastProcessed = index + 1;
-    }
-  }
+//     const dividerRegex = /^\s*---/;
+//     if (!inCode && dividerRegex.test(line)) {
+//       const kids: (Gtk.Widget | CodeBlock)[] = output.get();
+//       const lastLabel: Widget.Label = kids[kids.length - 1] as Widget.Label;
+//       const blockContent = lines.slice(lastProcessed, index).join('\n');
+//       lastLabel.label = md2pango(blockContent);
+//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+//       output.set([...kids, Divider(), TextBlock()]);
+//       lastProcessed = index + 1;
+//     }
+//   }
 
-  if (lastProcessed < lines.length) {
-    const kids: (Gtk.Widget | CodeBlock)[] = output.get();
-    const lastLabel: any = kids[kids.length - 1];
-    let blockContent = lines.slice(lastProcessed, lines.length).join('\n');
-    if (!inCode) {
-      lastLabel.label = md2pango(blockContent);
-      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-    } else {
-      lastLabel.updateText(blockContent);
-      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-    }
-  }
+//   if (lastProcessed < lines.length) {
+//     const kids: (Gtk.Widget | CodeBlock)[] = output.get();
+//     const lastLabel: any = kids[kids.length - 1];
+//     let blockContent = lines.slice(lastProcessed, lines.length).join('\n');
+//     if (!inCode) {
+//       lastLabel.label = md2pango(blockContent);
+//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+//     } else {
+//       lastLabel.updateText(blockContent);
+//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+//     }
+//   }
 
-  return output.get().map((widget) => widget instanceof CodeBlock ? widget.output : widget);
-}
+//   return output.get().map((widget) => widget instanceof CodeBlock ? widget.output : widget);
+// }
 
 export default function APIs() {
 
@@ -299,7 +300,7 @@ export default function APIs() {
       name={WINDOW_NAME}
       className={WINDOW_NAME}
       application={App}
-      visible={true}
+      visible={false}
       keymode={Astal.Keymode.EXCLUSIVE}
       layer={Astal.Layer.OVERLAY}
       vexpand={true}
