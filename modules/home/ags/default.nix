@@ -5,7 +5,6 @@
   ];
 
   home.packages = with pkgs; [
-    gtksourceview
   ];
 
   programs.ags = {
@@ -32,6 +31,8 @@
       river
       tray
       wireplumber
-    ];
+    ] ++ with pkgs; [
+			gtksourceview
+		];
   };
 }
