@@ -23,10 +23,13 @@
 ### Notifications
 - [x] CSS
 - [x] notifications linked
+### Wallpaper Manager
+- [x] CSS
+- [x] wallpaper linked
 ### Gemini
-- [ ] api stuff
-- [ ] css
-- [ ] add other api's like end4
+- [x] api stuff
+- [x] css
+- [x] add other api's like end4
 - [ ] codeblocks like end4
 ### Dashboard
 - [ ] get pages transferred

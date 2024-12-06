@@ -104,89 +104,89 @@ const codeBlock = (content: string, lang: string) => (
   </box>
 )
 
-// class CodeBlock {
-//   output: Gtk.Widget;
-//   lang: string;
+class CodeBlock {
+  output: Gtk.Widget;
+  lang: string;
 
-//   constructor(content = '', lang = 'txt') {
+  constructor(content = '', lang = 'txt') {
 
-//     this.lang = lang
+    this.lang = lang
 
-//     if (lang == 'tex' || lang == 'latex') {
-//       this.output = (<box />)// Latex(content);
-//       return this;
-//     }
+    if (lang == 'tex' || lang == 'latex') {
+      this.output = (<box />)// Latex(content);
+      return this;
+    }
 
-//     this.output = codeBlock(content, lang); 
-//   }
+    this.output = codeBlock(content, lang); 
+  }
 
-//   updateText(text: string): void {
+  updateText(text: string): void {
     
-//     if (this.lang == 'tex' || this.lang == 'latex') {
-//       this.output = (<box />)// Latex(content);
-//       return;
-//     }
+    if (this.lang == 'tex' || this.lang == 'latex') {
+      this.output = (<box />)// Latex(content);
+      return;
+    }
 
-//     print("updateText:", text);
+    print("updateText:", text);
 
-//     this.output = codeBlock(text, this.lang);
-//   }
-// }
+    this.output = codeBlock(text, this.lang);
+  }
+}
 
-// const MessageFormatting = (message: string) => {
-//   const output: Variable<(Gtk.Widget | CodeBlock)[]> = Variable([TextBlock()]);
+const MessageFormatting = (message: string) => {
+  const output: Variable<(Gtk.Widget | CodeBlock)[]> = Variable([TextBlock()]);
 
-//   let lines: string[] = message.split('\n');
-//   let lastProcessed: number = 0;
-//   let inCode: boolean = false;
-//   for (const [index, line] of lines.entries()) {
-//     // Code blocks
-//     const codeBlockRegex = /^\s*```([a-zA-Z0-9]+)?\n?/;
-//     if (codeBlockRegex.test(line)) {
-//       const kids = output.get();
-//       const lastLabel: any = kids[kids.length - 1];
-//       const blockContent: string = lines.slice(lastProcessed, index).join('\n');
-//       if (!inCode) { 
-//         lastLabel.label = md2pango(blockContent);
-//         output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-//         output.set([...kids, new CodeBlock('', codeBlockRegex.exec(line)?.[1] ?? '')]);
-//       } else {
-//         lastLabel.updateText(blockContent);
-//         output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-//         output.set([...kids, TextBlock()]);
-//       }
+  let lines: string[] = message.split('\n');
+  let lastProcessed: number = 0;
+  let inCode: boolean = false;
+  for (const [index, line] of lines.entries()) {
+    // Code blocks
+    const codeBlockRegex = /^\s*```([a-zA-Z0-9]+)?\n?/;
+    if (codeBlockRegex.test(line)) {
+      const kids = output.get();
+      const lastLabel: any = kids[kids.length - 1];
+      const blockContent: string = lines.slice(lastProcessed, index).join('\n');
+      if (!inCode) { 
+        lastLabel.label = md2pango(blockContent);
+        output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+        output.set([...kids, new CodeBlock('', codeBlockRegex.exec(line)?.[1] ?? '')]);
+      } else {
+        lastLabel.updateText(blockContent);
+        output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+        output.set([...kids, TextBlock()]);
+      }
 
-//       lastProcessed = index + 1;
-//       inCode = !inCode;
-//     }
+      lastProcessed = index + 1;
+      inCode = !inCode;
+    }
 
-//     const dividerRegex = /^\s*---/;
-//     if (!inCode && dividerRegex.test(line)) {
-//       const kids: (Gtk.Widget | CodeBlock)[] = output.get();
-//       const lastLabel: Widget.Label = kids[kids.length - 1] as Widget.Label;
-//       const blockContent = lines.slice(lastProcessed, index).join('\n');
-//       lastLabel.label = md2pango(blockContent);
-//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-//       output.set([...kids, Divider(), TextBlock()]);
-//       lastProcessed = index + 1;
-//     }
-//   }
+    const dividerRegex = /^\s*---/;
+    if (!inCode && dividerRegex.test(line)) {
+      const kids: (Gtk.Widget | CodeBlock)[] = output.get();
+      const lastLabel: Widget.Label = kids[kids.length - 1] as Widget.Label;
+      const blockContent = lines.slice(lastProcessed, index).join('\n');
+      lastLabel.label = md2pango(blockContent);
+      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+      output.set([...kids, Divider(), TextBlock()]);
+      lastProcessed = index + 1;
+    }
+  }
 
-//   if (lastProcessed < lines.length) {
-//     const kids: (Gtk.Widget | CodeBlock)[] = output.get();
-//     const lastLabel: any = kids[kids.length - 1];
-//     let blockContent = lines.slice(lastProcessed, lines.length).join('\n');
-//     if (!inCode) {
-//       lastLabel.label = md2pango(blockContent);
-//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-//     } else {
-//       lastLabel.updateText(blockContent);
-//       output.set([...kids.slice(0, kids.length - 1), lastLabel]);
-//     }
-//   }
+  if (lastProcessed < lines.length) {
+    const kids: (Gtk.Widget | CodeBlock)[] = output.get();
+    const lastLabel: any = kids[kids.length - 1];
+    let blockContent = lines.slice(lastProcessed, lines.length).join('\n');
+    if (!inCode) {
+      lastLabel.label = md2pango(blockContent);
+      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+    } else {
+      lastLabel.updateText(blockContent);
+      output.set([...kids.slice(0, kids.length - 1), lastLabel]);
+    }
+  }
 
-//   return output.get().map((widget) => widget instanceof CodeBlock ? widget.output : widget);
-// }
+  return output.get().map((widget) => widget instanceof CodeBlock ? widget.output : widget);
+}
 
 export default function APIs() {
 

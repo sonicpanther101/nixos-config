@@ -2,7 +2,7 @@
 {
   programs.cava = {
     enable = true;
-    package = pkgs-stable.cava;
+    package = pkgs.cava;
   };
   
   # https://github.com/catppuccin/cava
