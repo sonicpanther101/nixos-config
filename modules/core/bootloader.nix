@@ -8,6 +8,11 @@
       devices = [ "nodev" ];
       efiSupport = true;
       useOSProber = true;
+      extraEntries = if (host == "desktop") then ''
+          menuentry "AthenaOS" {
+            chainloader (hd1,0)+1
+          }
+        '' else '''';
     };
   };
   boot.supportedFilesystems = ["ntfs"];
