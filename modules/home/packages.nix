@@ -63,7 +63,7 @@
     hexdump
     # jdk17                             # java
     lazygit
-    # libreoffice
+    # 
     nemo-with-extensions              # file manager
     nitch                             # systhem fetch util
     nix-prefetch-github
@@ -136,4 +136,6 @@
     # unigine-valley
     geekbench
   ]);
+
+  libreoffice
 }
