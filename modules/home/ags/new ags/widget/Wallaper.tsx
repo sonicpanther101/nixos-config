@@ -84,22 +84,17 @@ export default function Wallaper() {
         {Entry}
         <scrollable vexpand hscroll={Gtk.PolicyType.NEVER}>
           <box className="ItemName" vertical spacing={10}>
-            {bind(Items).as(items => {
-              if (items.length === 0) {
-                return <label label="No results" css={"font-size: 1.5rem;"} />
-              } else {
-                let output = [];
-
-                for (let i = 0; i < items.length; i += 2) {
-                  output.push(
-                    <box spacing={10}>
-                      {items[i]}
-                      {items[i + 1]}
-                    </box>
-                  );
-                }
-                return output;
-              }
+            {bind(Items).as(items => items.length ? items.reduce((output, _, i) => {
+                  if (i % 2 === 0) {
+                    output.push(
+                      <box spacing={10}>
+                        {items[i]}
+                        {items[i + 1]}
+                      </box>
+                    );
+                  }
+                  return output;
+                }, []) : (<label label="No results" css={"font-size: 1.5rem;"} />)
             })}
           </box>
         </scrollable>
