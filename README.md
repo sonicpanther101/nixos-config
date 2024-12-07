@@ -30,7 +30,9 @@
 - [x] api stuff
 - [x] css
 - [x] add other api's like end4
-- [ ] codeblocks like end4
+- [x] codeblocks like end4
+- [ ] codeblock css and gtk theme
+- [ ] latex support
 ### Dashboard
 - [ ] get pages transferred
 - [ ] get api's working
