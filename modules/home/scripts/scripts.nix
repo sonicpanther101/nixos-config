@@ -8,6 +8,7 @@
   my-ags = pkgs.writeShellScriptBin "my-ags" (builtins.readFile ./scripts/my-ags.sh);
   my-update = pkgs.writeShellScriptBin "my-update" (builtins.readFile ./scripts/my-update.sh);
   my-rwall = pkgs.writeShellScriptBin "my-rwall" (builtins.readFile ./scripts/my-rwall.sh);
+  my-icon-browser = pkgs.writeShellScriptBin "my-icon-browser" (builtins.readFile ./scripts/my-icon-browser.sh);
   # wall-change = pkgs.writeShellScriptBin "wall-change" (builtins.readFile ./scripts/wall-change.sh);
   # wallpaper-picker = pkgs.writeShellScriptBin "wallpaper-picker" (builtins.readFile ./scripts/wallpaper-picker.sh);
   
@@ -41,6 +42,7 @@ in {
     my-ags
     my-update
     my-rwall
+    my-icon-browser
     # wall-change
     # wallpaper-picker
     

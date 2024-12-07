@@ -83,7 +83,7 @@ const topBar = (content: string, lang: string) => (
       }}
     >
       <box>
-        <icon icon="edit-copy" />
+        <icon icon="edit-copy-symbolic" />
         <label label="Copy" />
       </box>
     </button>
