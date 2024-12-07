@@ -12,7 +12,7 @@
     configDir = null; # if ags dir is managed by home-manager, it'll end up being read-only. not too cool.
     # configDir = "./.config/ags";
 
-    extraPackages = with inputs.ags.packages.${pkgs.system}; [
+    extraPackages = (with inputs.ags.packages.${pkgs.system}; [
       astal3
       astal4
       io
@@ -31,8 +31,8 @@
       river
       tray
       wireplumber
-    ] ++ with pkgs; [
+    ]) ++ (with pkgs; [
 			gtksourceview
-		];
+		]);
   };
 }
