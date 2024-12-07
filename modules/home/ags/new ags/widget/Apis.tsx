@@ -57,7 +57,8 @@ const HighlightedCode = (content: string, lang: string) => {
   const buffer = new GtkSource.Buffer();
   const sourceView = new GtkSource.View({
     buffer: buffer,
-    wrap_mode: Gtk.WrapMode.NONE
+    wrap_mode: Gtk.WrapMode.NONE,
+    visible: true
   });
   const langManager = GtkSource.LanguageManager.get_default();
   let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
@@ -67,8 +68,8 @@ const HighlightedCode = (content: string, lang: string) => {
   const schemeManager = GtkSource.StyleSchemeManager.get_default();
   buffer.set_style_scheme(schemeManager.get_scheme("custom"));
   buffer.set_text(content, -1);
-  print("highlighted", content);
-  print("source", sourceView);
+  print("highlighted", content, "end");
+  print("source", buffer.text, "end");
   return sourceView;
 }
 
@@ -83,7 +84,7 @@ const topBar = (content: string, lang: string) => (
       }}
     >
       <box>
-        <icon icon="edit-copy-symbolic" />
+        <icon icon="edit-copy" />
         <label label="Copy" />
       </box>
     </button>
@@ -129,7 +130,7 @@ class CodeBlock {
       return;
     }
 
-    print("updateText:", text);
+    print("updateText:", text, "end");
 
     this.output = codeBlock(text, this.lang);
   }
@@ -187,7 +188,7 @@ const MessageFormatting = (message: string) => {
     }
   }
 
-  return output.get().map((widget) => widget instanceof CodeBlock ? widget.output : widget);
+  return output.get().map((widget) => (widget instanceof CodeBlock) ? widget.output : widget);
 }
 
 export default function APIs() {
@@ -268,7 +269,9 @@ export default function APIs() {
     if (APItype === "Gemini") { 
       return GeminiChat.get().slice(1).map((message: string, i) => (
         <box vertical className={`message ${(i % 2 === 0 ? "bot" : "user")}`}>
-          {MessageFormatting(markdownTest)}
+          <box className={"testing"} vertical>
+            {MessageFormatting(message)}
+          </box>
           <icon icon={"nemo-horizontal-layout-symbolic"} css={"font-size: 15rem; margin-top: -5rem; margin-bottom: -5rem;"}/>
           <label label={message} wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
         </box>
@@ -277,7 +280,7 @@ export default function APIs() {
       return (<box/>);
     } else if (APItype === "test") {
       return testChat.get().map((message, i) => ((i % 2 === 1) ? (
-        <label label={message} className={`message user`} wrap/>
+        <label label={message} className={`message user`} wrap selectable/>
       ) : (
         <box vertical>
           <button
