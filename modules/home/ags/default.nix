@@ -5,6 +5,8 @@
   ];
 
   home.packages = with pkgs; [
+    gtk3
+    gtk4
   ];
 
   programs.ags = {
@@ -33,6 +35,8 @@
       wireplumber
     ]) ++ (with pkgs; [
 			gtksourceview
+      gtk3
+      gtk4
 		]);
   };
 }

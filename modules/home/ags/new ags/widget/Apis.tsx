@@ -1,6 +1,6 @@
 import { exec, execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
-// import GtkSource from "gi://GtkSource?version=3.0";
+import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
 import { testURL, testO } from "../../../../../../.night/test";
 import md2pango, { markdownTest } from "./components/apis/md2pango";
@@ -53,22 +53,24 @@ function substituteLang(str: string) {
   return str;
 }
 
-// const HighlightedCode = (content: string, lang: string) => {
-//   const buffer = new GtkSource.Buffer();
-//   const sourceView = new GtkSource.View({
-//     buffer: buffer,
-//     wrap_mode: Gtk.WrapMode.NONE
-//   });
-//   const langManager = GtkSource.LanguageManager.get_default();
-//   let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
-//   if (displayLang) {
-//     buffer.set_language(displayLang);
-//   }
-//   const schemeManager = GtkSource.StyleSchemeManager.get_default();
-//   buffer.set_style_scheme(schemeManager.get_scheme("custom"));
-//   buffer.set_text(content, -1);
-//   return sourceView;
-// }
+const HighlightedCode = (content: string, lang: string) => {
+  const buffer = new GtkSource.Buffer();
+  const sourceView = new GtkSource.View({
+    buffer: buffer,
+    wrap_mode: Gtk.WrapMode.NONE
+  });
+  const langManager = GtkSource.LanguageManager.get_default();
+  let displayLang = langManager.get_language(substituteLang(lang)); // Set your preferred language
+  if (displayLang) {
+    buffer.set_language(displayLang);
+  }
+  const schemeManager = GtkSource.StyleSchemeManager.get_default();
+  buffer.set_style_scheme(schemeManager.get_scheme("custom"));
+  buffer.set_text(content, -1);
+  print("highlighted", content);
+  print("source", sourceView);
+  return sourceView;
+}
 
 const topBar = (content: string, lang: string) => (
   <box>
@@ -77,7 +79,7 @@ const topBar = (content: string, lang: string) => (
     <button
       onClicked={() => {
         execAsync([`wl-copy`, `${content}`]).catch(print);
-        print(`wl-copy |${content}|`);
+        print(`wl-copy ${content}|`);
       }}
     >
       <box>
@@ -98,7 +100,7 @@ const codeBlock = (content: string, lang: string) => (
         hscroll={Gtk.PolicyType.AUTOMATIC}
         vscroll={Gtk.PolicyType.NEVER}
       >
-        {/* {HighlightedCode(content, lang)} */}
+        {HighlightedCode(content, lang)}
       </scrollable>
     </box>
   </box>
