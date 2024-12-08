@@ -6,6 +6,7 @@
 
   home.packages = with pkgs; [
     gtk3
+    gtkmm3
     gtksourceviewmm
     gtk4
     sass
