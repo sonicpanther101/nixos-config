@@ -188,11 +188,12 @@
         # discord
         "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] vesktop'"
         "$mainMod, E, exec, nemo"
+        "ALT, E, exec, nemo"
         # ags
         "$mainMod, R, exec, my-ags"
         "$mainMod SHIFT, R, exec, my-ags -l"
         "$mainMod, D, exec, ags toggle app-launcher"
-        "$ALT, V, exec, ags toggle clipboard"
+        "ALT, V, exec, ags toggle clipboard"
         "$mainMod, G, exec, ags toggle apis"
         "$mainMod, W, exec, ags toggle wallpaper"
         "$mainMod, F1, exec, show-keybinds"
