@@ -77,48 +77,25 @@ function substituteLang(str: string) {
 }
 
 class LatexViewArea {
-  output: Astal.Box;
+  output: Gtk.Widget;
   constructor() {
     this.output = new Astal.Box();
   }
   
   async render(text: string): Promise<void> {
-    let output = new Astal.Box();
-
-    if (text.length == 0) return;
-    const styleContext = output.get_style_context();
-    const fontSize = styleContext.get_property('font-size', Gtk.StateFlags.NORMAL) as number;
 
     const timeSinceEpoch = Date.now();
-    const fileName = `${timeSinceEpoch}.tex`;
-    const outFileName = `${timeSinceEpoch}-symbolic.svg`;
-    const outIconName = `${timeSinceEpoch}-symbolic`;
-    const scriptFileName = `${timeSinceEpoch}-render.sh`;
-    const filePath = `${LATEX_DIR}/${fileName}`;
-    const outFilePath = `${LATEX_DIR}/${outFileName}`;
-    const scriptFilePath = `${LATEX_DIR}/${scriptFileName}`;
-    
-    writeFile(filePath, text);
+    const fileName = `${timeSinceEpoch}.png`;
 
-    const renderScript = `#!/usr/bin/env bash
-text=$(cat ${filePath} | sed 's/$/ \\\\\\\\/g' | sed 's/&=/=/g')
-cd /opt/MicroTeX
-./LaTeX -headless -input="$text" -output=${outFilePath} -textsize=${fontSize * 1.1} -padding=0 -maxwidth=${output.get_allocated_width() * 0.85} > /dev/null 2>&1
-sed -i 's/fill="rgb(0%, 0%, 0%)"/style="fill:#000000"/g' ${outFilePath}
-sed -i 's/stroke="rgb(0%, 0%, 0%)"/stroke="#ffffff"/g' ${outFilePath}
-`;
-    execAsync(`touch ${scriptFilePath}`).then(() => {
-      print('latex:',`chmod a+x ${scriptFilePath}`);
-      writeFile(scriptFilePath, renderScript);
-      exec(`chmod a+x ${scriptFilePath}`);
-      timeout(100, () => {
-        exec(`bash ${scriptFilePath}`);
-        Gtk.IconTheme.get_default().append_search_path(LATEX_DIR);
+    print(`wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`)
+    exec(['bash', '-c', `wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`]);
 
-        output.child?.destroy();
-        output.child = Gtk.Image.new_from_icon_name(outIconName, 0);
-      });
-    }).catch(print);
+
+    this.output = (
+      <box>
+        <icon className={"latex-icon"} css={"font-size: 30rem;"} icon={`${LATEX_DIR}/${fileName}`}/>
+      </box>
+    )
   }
 }
 
@@ -146,7 +123,7 @@ class WholeThing {
     this.output = (
       <box homogeneous className="latex">
         <scrollable
-          hscroll={Gtk.PolicyType.AUTOMATIC}
+          hscroll={Gtk.PolicyType.ALWAYS}
           vscroll={Gtk.PolicyType.NEVER}
         >
           {this.latexViewArea.output}
@@ -207,6 +184,7 @@ const codeBlock = (content: string, lang: string) => (
     <box homogeneous>
       <scrollable
         hscroll={Gtk.PolicyType.AUTOMATIC}
+        
         vscroll={Gtk.PolicyType.NEVER}
       >
         {HighlightedCode(content, lang)}
@@ -367,7 +345,7 @@ export default function APIs() {
       return GeminiChat.get().slice(1).map((message: string, i) => (
         <box vertical className={`message ${(i % 2 === 0 ? "bot" : "user")}`}>
           <box className={"testing"} vertical>
-            {MessageFormatting(markdownTest)}
+            {MessageFormatting(message)}
           </box>
           <icon icon={"nemo-horizontal-layout-symbolic"} css={"font-size: 15rem; margin-top: -5rem; margin-bottom: -5rem;"}/>
           <label label={message} wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
