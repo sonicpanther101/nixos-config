@@ -2,11 +2,12 @@ import { exec, execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
+import Gio from "gi://Gio?version=2.0";
 import { testURL, testO } from "../../../../../../.night/test";
 import md2pango, { markdownTest } from "./components/apis/md2pango";
-// import Gtk from "gi://Gtk?version=4.0";
 
 const WINDOW_NAME = "apis";
+const CUSTOM_SOURCEVIEW_SCHEME_PATH = "/home/adam/nixos-config/modules/home/ags/new ags/widget/components/apis/codeblocktheme.xml";
 
 const input = Variable<string>("");
 const APItype = Variable<"Gemini" | "ChatGPT" | "test">("Gemini");
@@ -25,6 +26,25 @@ const geminiURL = "https://generativelanguage.googleapis.com/v1beta/models/gemin
 
 const testChat = Variable<any[]>([]);
 
+function loadCustomColorScheme(filePath: string) {
+  // Read the XML file content
+  const file = Gio.File.new_for_path(filePath);
+  const [success, contents] = file.load_contents(null);
+
+  if (!success) {
+    logError('Failed to load the XML file.');
+    return;
+  }
+
+  // Parse the XML content and set the Style Scheme
+  const schemeManager = GtkSource.StyleSchemeManager.get_default();
+  const parent = file.get_parent();
+  if (parent) {
+    const path = parent.get_path() ?? '';
+    schemeManager.append_search_path(path);
+  }
+}
+loadCustomColorScheme(CUSTOM_SOURCEVIEW_SCHEME_PATH);
 
 const TextBlock = (content = '') => (
   <label
@@ -68,8 +88,6 @@ const HighlightedCode = (content: string, lang: string) => {
   const schemeManager = GtkSource.StyleSchemeManager.get_default();
   buffer.set_style_scheme(schemeManager.get_scheme("custom"));
   buffer.set_text(content, -1);
-  print("highlighted", content, "end");
-  print("source", buffer.text, "end");
   return sourceView;
 }
 
@@ -80,7 +98,6 @@ const topBar = (content: string, lang: string) => (
     <button
       onClicked={() => {
         execAsync([`wl-copy`, `${content}`]).catch(print);
-        print(`wl-copy ${content}|`);
       }}
     >
       <box>
@@ -94,6 +111,7 @@ const topBar = (content: string, lang: string) => (
 const codeBlock = (content: string, lang: string) => (
   <box
     vertical
+    className="codeblock"
   >
     {topBar(content, lang)}
     <box homogeneous>
@@ -129,8 +147,6 @@ class CodeBlock {
       this.output = (<box />)// Latex(content);
       return;
     }
-
-    print("updateText:", text, "end");
 
     this.output = codeBlock(text, this.lang);
   }
@@ -204,15 +220,6 @@ export default function APIs() {
         case "Gemini":
           GeminiChat.set([...GeminiChat.get(), input.get()]);
           input.set("");
-          print(`curl -s ${geminiURL}?key=${API_KEY}\
-            -H "Content-Type: application/json" \
-            -X POST \
-            -d '${JSON.stringify({
-              contents: [{
-                parts: GeminiChat.get().map((message) => ({text: message}))
-              }]
-            })}'
-          `)
           GeminiChat.set([...GeminiChat.get(), JSON.parse(exec(["bash", "-c", `curl -s ${geminiURL}\\?key=${API_KEY}\
             -H "Content-Type: application/json" \
             -X POST \
