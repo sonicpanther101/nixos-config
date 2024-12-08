@@ -24,15 +24,5 @@
 
   services.blueman.enable = true;
 
-  services.openssh = {
-    enable = true;
-    ports = [22];
-    settings = {
-      PasswordAuthentication = true;
-      AllowUsers = null;
-      PermitRootLogin = "yes";
-    };
-  };
-
   networking.firewall.allowedTCPPorts = [ 22 80 443 59010 59011 ];
 }
