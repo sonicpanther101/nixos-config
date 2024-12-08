@@ -1,5 +1,5 @@
 import { App } from "astal/gtk3"
-import monitorStyle from "./cssHotLoad";
+import { monitorFile } from "astal"
 import style from "./css/main.scss"
 import Bar from "./widget/Bar"
 import AppLauncher from "./widget/AppLauncher"
@@ -7,8 +7,6 @@ import Clipboard from "./widget/Clipboard";
 import Notifications from "./widget/Notifications";
 import APIs from "./widget/Apis";
 import Wallaper from "./widget/Wallaper";
-
-monitorStyle;
 
 App.start({
     css: style,
@@ -21,3 +19,9 @@ App.start({
       Wallaper();
     },
 })
+
+const CSS_DIR = `${SRC}/css`;
+
+monitorFile(CSS_DIR, () => {
+  App.apply_css(`${CSS_DIR}/main.scss`, true);
+});

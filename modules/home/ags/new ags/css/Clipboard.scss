@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "variables" as *;
 
 window.clipboard {
@@ -36,8 +37,8 @@ window.clipboard {
 
             &:hover {
                 background-color: rgba($bg, .35);
-                color: adjust-color($fg, $lightness: 10%);
-                border-color: adjust-color($accent, $lightness: -10%);
+                color: color.adjust($fg, $lightness: 10%);
+                border-color: color.adjust($accent, $lightness: -10%);
             }
 
             &>icon {

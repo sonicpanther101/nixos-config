@@ -1,4 +1,4 @@
-import { exec, execAsync, bind, Variable } from "astal";
+import { exec, execAsync, bind, Variable, writeFile, timeout } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
@@ -8,6 +8,7 @@ import md2pango, { markdownTest } from "./components/apis/md2pango";
 
 const WINDOW_NAME = "apis";
 const CUSTOM_SOURCEVIEW_SCHEME_PATH = "/home/adam/nixos-config/modules/home/ags/new ags/widget/components/apis/codeblocktheme.xml";
+const LATEX_DIR = "/home/adam/.cache/ags/latex";
 
 const input = Variable<string>("");
 const APItype = Variable<"Gemini" | "ChatGPT" | "test">("Gemini");
@@ -46,6 +47,8 @@ function loadCustomColorScheme(filePath: string) {
 }
 loadCustomColorScheme(CUSTOM_SOURCEVIEW_SCHEME_PATH);
 
+execAsync(['bash', '-c', `rm -rf ${LATEX_DIR}/*`]).catch(print);
+
 const TextBlock = (content = '') => (
   <label
     wrapMode={Pango.WrapMode.WORD_CHAR}
@@ -73,6 +76,92 @@ function substituteLang(str: string) {
   return str;
 }
 
+class LatexViewArea {
+  output: Astal.Box;
+  constructor() {
+    this.output = new Astal.Box();
+  }
+  
+  async render(text: string): Promise<void> {
+    let output = new Astal.Box();
+
+    if (text.length == 0) return;
+    const styleContext = output.get_style_context();
+    const fontSize = styleContext.get_property('font-size', Gtk.StateFlags.NORMAL) as number;
+
+    const timeSinceEpoch = Date.now();
+    const fileName = `${timeSinceEpoch}.tex`;
+    const outFileName = `${timeSinceEpoch}-symbolic.svg`;
+    const outIconName = `${timeSinceEpoch}-symbolic`;
+    const scriptFileName = `${timeSinceEpoch}-render.sh`;
+    const filePath = `${LATEX_DIR}/${fileName}`;
+    const outFilePath = `${LATEX_DIR}/${outFileName}`;
+    const scriptFilePath = `${LATEX_DIR}/${scriptFileName}`;
+    
+    writeFile(filePath, text);
+
+    const renderScript = `#!/usr/bin/env bash
+text=$(cat ${filePath} | sed 's/$/ \\\\\\\\/g' | sed 's/&=/=/g')
+cd /opt/MicroTeX
+./LaTeX -headless -input="$text" -output=${outFilePath} -textsize=${fontSize * 1.1} -padding=0 -maxwidth=${output.get_allocated_width() * 0.85} > /dev/null 2>&1
+sed -i 's/fill="rgb(0%, 0%, 0%)"/style="fill:#000000"/g' ${outFilePath}
+sed -i 's/stroke="rgb(0%, 0%, 0%)"/stroke="#ffffff"/g' ${outFilePath}
+`;
+    execAsync(`touch ${scriptFilePath}`).then(() => {
+      print('latex:',`chmod a+x ${scriptFilePath}`);
+      writeFile(scriptFilePath, renderScript);
+      exec(`chmod a+x ${scriptFilePath}`);
+      timeout(100, () => {
+        exec(`bash ${scriptFilePath}`);
+        Gtk.IconTheme.get_default().append_search_path(LATEX_DIR);
+
+        output.child?.destroy();
+        output.child = Gtk.Image.new_from_icon_name(outIconName, 0);
+      });
+    }).catch(print);
+  }
+}
+
+class WholeThing {
+  output: Gtk.Widget;
+  latexViewArea: LatexViewArea
+
+  constructor(latexViewArea: LatexViewArea, text = '') {
+    this.latexViewArea = latexViewArea
+    this.latexViewArea.render(text);
+    this.output = (
+      <box homogeneous>
+        <scrollable
+          hscroll={Gtk.PolicyType.AUTOMATIC}
+          vscroll={Gtk.PolicyType.NEVER}
+        >
+          {this.latexViewArea.output}
+        </scrollable>
+      </box>
+    );
+  }
+
+  udateText(text: string): void {
+    this.latexViewArea.render(text);
+    this.output = (
+      <box homogeneous className="latex">
+        <scrollable
+          hscroll={Gtk.PolicyType.AUTOMATIC}
+          vscroll={Gtk.PolicyType.NEVER}
+        >
+          {this.latexViewArea.output}
+        </scrollable>
+      </box>
+    );
+  }
+}
+
+const Latex = (content = '') => {
+  const wholeThing = new WholeThing(new LatexViewArea(), content);
+
+  return wholeThing.output;
+}
+
 const HighlightedCode = (content: string, lang: string) => {
   const buffer = new GtkSource.Buffer();
   const sourceView = new GtkSource.View({
@@ -96,8 +185,9 @@ const topBar = (content: string, lang: string) => (
     <label label={lang} />
     <box hexpand />
     <button
+      className="codeblock-copy"
       onClicked={() => {
-        execAsync([`wl-copy`, `${content}`]).catch(print);
+        execAsync([`wl-copy`, `${content}`]);
       }}
     >
       <box>
@@ -134,7 +224,7 @@ class CodeBlock {
     this.lang = lang
 
     if (lang == 'tex' || lang == 'latex') {
-      this.output = (<box />)// Latex(content);
+      this.output = Latex(content);
       return this;
     }
 
@@ -144,7 +234,7 @@ class CodeBlock {
   updateText(text: string): void {
     
     if (this.lang == 'tex' || this.lang == 'latex') {
-      this.output = (<box />)// Latex(content);
+      this.output = Latex(text);
       return;
     }
 
@@ -277,7 +367,7 @@ export default function APIs() {
       return GeminiChat.get().slice(1).map((message: string, i) => (
         <box vertical className={`message ${(i % 2 === 0 ? "bot" : "user")}`}>
           <box className={"testing"} vertical>
-            {MessageFormatting(message)}
+            {MessageFormatting(markdownTest)}
           </box>
           <icon icon={"nemo-horizontal-layout-symbolic"} css={"font-size: 15rem; margin-top: -5rem; margin-bottom: -5rem;"}/>
           <label label={message} wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>

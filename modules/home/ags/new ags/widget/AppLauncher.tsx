@@ -40,7 +40,7 @@ const answer = Variable.derive([itemType, entryText], (itemType, entryText) => {
   if (entryText === "") {
     return "";
   } else if (itemType !== "maths" && /^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
-    return eval(entryText.replace(/\^/g, "**"));
+    return (0, eval)(entryText.replace(/\^/g, "**"));
   } else if (itemType === "maths-complex-full") {
     let out = JSON.parse(exec(["bash", "-c", `curl -s "${wolframURLFull}?format=plaintext&output=JSON&appid=${appID}&input=${encodeURIComponent(entryText)}"`]));
     print(out);
