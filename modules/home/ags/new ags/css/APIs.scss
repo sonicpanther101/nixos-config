@@ -80,4 +80,8 @@ window.apis {
             border-color: color.adjust($accent, $lightness: -10%);
         }
     }
+
+    .latex-icon {
+        min-width: 400px;
+    }
 }

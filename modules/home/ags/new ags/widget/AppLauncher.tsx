@@ -21,14 +21,14 @@ const itemType = Variable.derive([query], (query) => {
     case "0": case "1": case "2": case "3": case "4": case "5": case "6": case "7": case "8": case "9": return "maths";
     case "/": return "files-root";
     case "~": return "files-home";
-    case ".": return "web";
+    case "?": return "web";
     default: return "app";
   }
 });
 
 
 const entryText = Variable.derive([query], (query) => {
-  if (query.startsWith(":") || query.startsWith(";") || query.startsWith("/") || query.startsWith("~") || query.startsWith(".")) {
+  if (query.startsWith(":") || query.startsWith(";") || query.startsWith("/") || query.startsWith("~") || query.startsWith("?")) {
     return query.slice(1);
   }
   return query;

@@ -79,7 +79,7 @@ function substituteLang(str: string) {
 class LatexViewArea {
   output: Gtk.Widget;
   constructor() {
-    this.output = new Astal.Box();
+    this.output = <icon/>;
   }
   
   async render(text: string): Promise<void> {
@@ -87,14 +87,12 @@ class LatexViewArea {
     const timeSinceEpoch = Date.now();
     const fileName = `${timeSinceEpoch}.png`;
 
-    print(`wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`)
     exec(['bash', '-c', `wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`]);
-
+    
+    print(`font-size: ${Math.max(200, Math.min(400, 20000 / text.length))}px;`)
 
     this.output = (
-      <box>
-        <icon className={"latex-icon"} css={"font-size: 30rem;"} icon={`${LATEX_DIR}/${fileName}`}/>
-      </box>
+      <icon className="latex-icon" css={`font-size: ${Math.max(200, Math.min(400, 25000 / text.length))}px;`} icon={`${LATEX_DIR}/${fileName}`}/>
     )
   }
 }

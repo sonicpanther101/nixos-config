@@ -12,7 +12,7 @@
 - [x] files as well (~, /)
 - [x] maths as well (:)
 - [x] complex maths as well
-- [x] internet as well (.)
+- [x] internet as well (?)
 - [x] search suggestions
 ### Clipboard
 - [x] CSS
@@ -32,11 +32,13 @@
 - [x] add other api's like end4
 - [x] codeblocks like end4
 - [x] codeblock css and gtk theme
-- [ ] latex support
+- [x] latex support (could be better but eh)
 ### Dashboard
 - [ ] get pages transferred
 - [ ] get api's working
 - [ ] make github io site for editing on vivaldi new page and phone
+### Lockscreen
+- [ ] Figure out what to do
 ### Astal launcher wheel
 - [ ] make from scratch
 - [ ] integrate other astal apps
