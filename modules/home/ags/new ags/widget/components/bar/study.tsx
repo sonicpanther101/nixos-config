@@ -1,5 +1,4 @@
 import Mpris from "gi://AstalMpris"
-import Player from "gi://AstalMpris"
 import { Variable, bind, execAsync, Binding } from "astal"
 import { Astal, Gdk, Widget } from "astal/gtk3"
 import { time } from "./time"
@@ -30,7 +29,7 @@ export default function Study({ monitor }: { monitor: Gdk.Monitor }) {
         }
     };
 
-    const player: Binding<Player> = bind(mpris, "players").as(ps => ps[0])
+    const player: Binding<Mpris.Player> = bind(mpris, "players").as(ps => ps[0])
 
     return <button
         visible={studyMode((a) => a)}

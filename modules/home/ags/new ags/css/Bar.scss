@@ -19,8 +19,17 @@ window.Bar {
         padding-left: 5px;
         padding-right: 15px;
         margin-right: 25px;
-        background-color: rgba($bg, .15);
         border-bottom-right-radius: $radius;
+
+        .dashboard {
+            background-color: $fg;
+            color: rgba($grey, 0.75);
+        }
+        
+        .no-dashboard {
+            background-color: rgba($bg, .15);
+            color: $fg;
+        }
     }
 
     .Workspaces {

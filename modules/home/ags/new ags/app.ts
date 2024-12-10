@@ -7,6 +7,7 @@ import Clipboard from "./widget/Clipboard";
 import Notifications from "./widget/Notifications";
 import APIs from "./widget/Apis";
 import Wallaper from "./widget/Wallaper";
+import Dashboard from "./widget/Dashboard"
 
 App.start({
     css: style,
@@ -17,6 +18,7 @@ App.start({
       Notifications({ monitor: 0 });
       APIs();
       Wallaper();
+      Dashboard();
     },
 })
 

@@ -4,7 +4,7 @@
 - [x] Clock
 - [x] Study
 - [x] Workspaces
-- [ ] Main Menu
+- [x] Main Menu
 - [x] Media
 - [x] Bar scss
 ### App Launcher

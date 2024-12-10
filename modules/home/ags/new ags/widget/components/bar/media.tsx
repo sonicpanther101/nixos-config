@@ -33,7 +33,7 @@ export default function Media() {
   return <box>
     {bind(mpris, "players").as(ps => {
 
-      const playerIndex = ps.findIndex(player => player.title) || 0;
+      const playerIndex = 0; // ps.findIndex(player => player.title) || 0;
       
       return ps[playerIndex] && (
         <button
@@ -57,7 +57,7 @@ export default function Media() {
               label={bind(Variable.derive(
                 [bind(ps[playerIndex], "title").as(String), bind(ps[playerIndex], "artist").as(String), bind(ps[playerIndex], "playbackStatus").as(Boolean)],
                 (t, a, p) => {
-                  return `${p ? " " : " "}${t}${a ? " - " : ""}${a}`
+                  return `${p ? "" : ""} ${t}${a ? " - " : ""}${a}`
                 }
               ))}
               truncate

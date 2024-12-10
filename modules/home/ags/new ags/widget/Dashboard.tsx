@@ -43,6 +43,7 @@ export default function Dashboard() {
     >
       <box className={WINDOW_NAME}>
         <box className={"menu"} vertical>
+          <label label={"Adam's Dashboard"} />
           {MENU_ITEMS.map((item) => (
             <button>
               <label label={item} />

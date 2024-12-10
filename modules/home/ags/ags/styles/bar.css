@@ -34,7 +34,7 @@ window.bar {
 }
 
 .ws-button.occupied {
-    color: #cdd6f4;
+    color: rgb(205,214,244);
 }
 
 .ws-button.active {
@@ -58,7 +58,7 @@ window.bar {
 .volume-label,
 .volume-icon {
     font-size: 15px;
-    color: #cdd6f4;
+    color: rgb(205,214,244);
 }
 
 .tray,
@@ -97,7 +97,7 @@ window.bar {
 }
 
 .notification {
-    color: #cdd6f4;
+    color: rgb(205,214,244);
 }
 
 .left {
@@ -154,12 +154,12 @@ window.bar>highlight {
 
 .start-button-with-dashboard-open {
     color: rgba(108, 112, 134, 0.75);
-    background-color: #cdd6f4;
+    background-color: rgb(205,214,244);
 }
 
 .study {
     padding: 0px 10px;
-    color: #cdd6f4;
+    color: rgb(205,214,244);
 }
 
 .study-button {
