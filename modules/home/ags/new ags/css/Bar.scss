@@ -4,7 +4,7 @@ window.Bar {
     border: none;
     box-shadow: none;
     background-color: transparent;
-    color: $fg;
+    // color: $fg;
     font-size: 1.1em;
     font-weight: bold;
     transition: 200ms ease-in-out;
@@ -20,16 +20,16 @@ window.Bar {
         padding-right: 15px;
         margin-right: 25px;
         border-bottom-right-radius: $radius;
+    }
 
-        .dashboard {
-            background-color: $fg;
-            color: rgba($grey, 0.75);
-        }
-        
-        .no-dashboard {
-            background-color: rgba($bg, .15);
-            color: $fg;
-        }
+    .dashboard {
+        background-color: $fg;
+        color: rgba($grey, 0.75);
+    }
+
+    .no-dashboard {
+        background-color: rgba($bg, .15);
+        color: $fg;
     }
 
     .Workspaces {

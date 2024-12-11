@@ -1,0 +1,29 @@
+@use "../variables" as *;
+
+window.dashboard {
+    .home {
+        .weather {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            padding-left: 10px;
+            background-color: rgba($bg, .2);
+            border-radius: $radius;
+
+            .day {
+                color: $fg;
+                font-size: 1rem;
+                font-weight: bold;
+                background-color: rgba($bg, .35);
+                margin: 5px;
+                padding: 5px;
+                border-radius: $radius;
+                min-width: 175px;
+
+                icon {
+                    font-size: 3rem;
+                    margin: -5px;
+                }
+            }
+        }
+    }
+}

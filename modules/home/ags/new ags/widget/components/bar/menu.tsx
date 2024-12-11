@@ -5,7 +5,6 @@ import Battery from "gi://AstalBattery"
 import Hyprland from "gi://AstalHyprland"
 
 let isBatPresent = Battery.get_default().get_is_present()
-print("isBatPresent", isBatPresent)
 let StudyMode = studyMode.get() ? 'Exit Study Mode' : 'Enter Study Mode'
 
 const monitor_scale = (monitor_name: string) => {

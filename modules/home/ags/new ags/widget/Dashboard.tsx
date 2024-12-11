@@ -45,12 +45,17 @@ export default function Dashboard() {
         <box className={"menu"} vertical>
           <label label={"Adam's Dashboard"} />
           {MENU_ITEMS.map((item) => (
-            <button>
+            <button
+              onClick={() => currentDisplay.set(item)}
+            >
               <label label={item} />
             </button>
           ))}
         </box>
-        {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item]?.())}
+        <box vertical>
+          {bind(currentDisplay).as((item: string) => (<label className="title" label={item} />))}
+          {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item]?.())}
+        </box>
       </box>
     </window>
   )

@@ -1,21 +1,27 @@
-import { Gdk, Gtk, Astal, Widget, App } from "astal/gtk3"
+import { Gdk, Astal, Widget, App } from "astal/gtk3"
 import Menu from "./menu"
+import { bind, Variable } from "astal";
+
+App.connect("window-toggled", (_, window) => {
+  (window.name === "dashboard") && window.visible ? startClass.set("dashboard StartButton") : startClass.set("no-dashboard StartButton")
+});
+
+const startClass = Variable<string>("no-dashboard StartButton")
 
 export default function StartButton() {
 
-  const onClick: Widget.ButtonProps["onClick"] = (self: Widget.Button, e: Astal.ClickEvent) => {
+  const onClick: Widget.ButtonProps["onClick"] = (_: Widget.Button, e: Astal.ClickEvent) => {
     if (e.button === Gdk.BUTTON_PRIMARY) {
-      self.className = App.get_window("dashboard")?.visible ? "StartButton dashboard" : "StartButton no-dashboard"
       App.toggle_window("dashboard")
     } else if (e.button === Gdk.BUTTON_SECONDARY) {
-      Menu().get().popup_at_pointer(null);
+      Menu().get().popup_at_pointer();
     } else if (e.button === Gdk.BUTTON_MIDDLE) {
       App.toggle_window("app-launcher")
     }
   };
 
   return <button
-    className="StartButton no-dashboard"
+    className={bind(startClass)}
     onClick={onClick}>
     <label label="" />
   </button>

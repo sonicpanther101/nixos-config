@@ -1,5 +1,36 @@
 @use "variables" as *;
 
 window.dashboard {
-    
+    .menu {
+
+        min-width: 250px;
+        background-color: rgba($bg, .15);
+
+        * {
+            padding: 10px;
+            margin: 5px 0 5px 0;
+            color: $fg;
+            font-size: larger;
+        }
+        
+        button {
+            background-color: rgba($solid_bg, 1);
+            border-top-right-radius: $rounded;
+            border-bottom-right-radius: $rounded;
+
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+
+            &:focus {
+                background-color: rgba($bg, .85);
+            }
+        }
+    }
+
+    .title {
+        color: $fg;
+        font-size: 5rem;
+        font-weight: bold;
+    }
 }
