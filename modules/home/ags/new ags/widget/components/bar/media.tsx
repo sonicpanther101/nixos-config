@@ -30,19 +30,15 @@ export default function Media() {
     }
   };
 
-  return <box>
-    {bind(mpris, "players").as(ps => {
-
-      const playerIndex = 0; // ps.findIndex(player => player.title) || 0;
-      
-      return ps[playerIndex] && (
+  return (<box>
+    {bind(mpris, "players").as(ps => ps[0] && (
         <button
-          onClick={(_, e) => onClick(_, e, ps[playerIndex])}
-          onScroll={(_, e) => onScroll(_, e, ps[playerIndex])}
+          onClick={(_, e) => onClick(_, e, ps[0])}
+          onScroll={(_, e) => onScroll(_, e, ps[0])}
           className="Media"
-          visible={bind(ps[playerIndex], "title").as(Boolean)}
+          visible={bind(ps[0], "title").as(Boolean)}
           css={bind(Variable.derive(
-            [bind(ps[playerIndex], "position").as(Number), bind(ps[playerIndex], "length").as(Number)],
+            [bind(ps[0], "position").as(Number), bind(ps[0], "length").as(Number)],
             (p, l) => {
               if (l === 0 || p === 0 || p / l === Infinity) {
                 return ""
@@ -52,10 +48,10 @@ export default function Media() {
             }
           ))}>
           <box
-            tooltipText={bind(ps[playerIndex], "album").as(String)}>
+            tooltipText={bind(ps[0], "album").as(String)}>
             <label
               label={bind(Variable.derive(
-                [bind(ps[playerIndex], "title").as(String), bind(ps[playerIndex], "artist").as(String), bind(ps[playerIndex], "playbackStatus").as(Boolean)],
+                [bind(ps[0], "title").as(String), bind(ps[0], "artist").as(String), bind(ps[0], "playbackStatus").as(Boolean)],
                 (t, a, p) => {
                   return `${p ? "" : ""} ${t}${a ? " - " : ""}${a}`
                 }
@@ -65,11 +61,11 @@ export default function Media() {
             <box
               className="Cover"
               valign={Gtk.Align.CENTER}
-              css={bind(ps[playerIndex], "coverArt").as(cover => `background-image: url('${cover}');`)}
+              css={bind(ps[0], "coverArt").as(cover => `background-image: url('${cover}');`)}
             />
           </box>
         </button>
       )
-    })}
-  </box>
+    )}
+  </box>)
 }
