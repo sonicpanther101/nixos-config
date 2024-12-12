@@ -14,12 +14,12 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2ccbd622-d67a-4251-9ba1-e14945af0d27";
+    { device = "/dev/disk/by-uuid/4ef46a97-6e95-4d09-bc2d-368b9ff232a8";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/66D3-EA32";
+    { device = "/dev/disk/by-uuid/DAC9-3211";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
@@ -29,7 +29,7 @@
     size = 16 * 1024; # 16GB
   }];
 
-  boot.resumeDevice = "/dev/disk/by-uuid/2ccbd622-d67a-4251-9ba1-e14945af0d27";
+  boot.resumeDevice = "/dev/disk/by-uuid/4ef46a97-6e95-4d09-bc2d-368b9ff232a8";
   boot.kernelParams = [ "mem_sleep_default=deep" "resume_offset=6782976" ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

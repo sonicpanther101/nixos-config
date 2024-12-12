@@ -63,7 +63,7 @@ execAsync(["bash", "-c", `curl https://wakatime.com/badge/user/daab2500-5508-44c
 execAsync(["bash", "-c", `curl https://ghchart.rshah.org/764b05/sonicpanther101 | magick - -channel RGB -negate -density 5000 -resize 2000x2000 -fuzz 6% -transparent black /tmp/contributions.png`]).then(() => {
   githubContributionsPath.set("/tmp/contributions.png")
 })
-readFileAsync("/home/adam/.cache/ags/secrets.json").then((data) => {
+readFileAsync("/home/adam/.cache/astal/secrets.json").then((data) => {
   let parsed = JSON.parse(data)
   execAsync(["bash", "-c", `curl "https://api.openweathermap.org/data/2.5/forecast?lat=${parsed.lat}&lon=${parsed.lon}&appid=${parsed.openWeather}&units=metric"`]).then((data) => {
     weather.set(JSON.parse(data).list)
