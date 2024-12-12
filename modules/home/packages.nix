@@ -69,7 +69,7 @@
     nix-prefetch-github
     (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
     ripgrep                           # grep replacement
-    soundwireserver                   # pass audio to android phone
+    # soundwireserver                   # pass audio to android phone
     todo                              # cli todo list
     toipe                             # typing test in the terminal
     valgrind                          # c memory analyzer
