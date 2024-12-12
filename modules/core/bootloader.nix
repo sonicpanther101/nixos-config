@@ -8,6 +8,7 @@
       devices = [ "nodev" ];
       efiSupport = true;
       useOSProber = false;
+      memtest86.enable = true;
       extraEntries = if (host == "desktop") then ''
           menuentry "AthenaOS" {
             chainloader (hd1,0)+1

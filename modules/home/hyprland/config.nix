@@ -182,11 +182,11 @@
         "ALT, Return, exec, kitty --title float_kitty"
         "$mainMod SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
         # browser
-        "$mainMod, B, exec, hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
-        "$mainMod SHIFT, B, exec, hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Profile 1\"'"
+        "$mainMod, B, exec, vivaldi --profile-directory=\"Default\""
+        "$mainMod SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
         "$mainMod SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
         # discord
-        "$mainMod SHIFT, D, exec, hyprctl dispatch exec '[workspace 5 silent] vesktop'"
+        "$mainMod SHIFT, D, exec, vesktop"
         "$mainMod, E, exec, nemo"
         "ALT, E, exec, nemo"
         # ags

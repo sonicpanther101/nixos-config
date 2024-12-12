@@ -14,7 +14,7 @@ export default function StartButton() {
     if (e.button === Gdk.BUTTON_PRIMARY) {
       App.toggle_window("dashboard")
     } else if (e.button === Gdk.BUTTON_SECONDARY) {
-      Menu().get().popup_at_pointer();
+      Menu().get().popup_at_pointer(null);
     } else if (e.button === Gdk.BUTTON_MIDDLE) {
       App.toggle_window("app-launcher")
     }
