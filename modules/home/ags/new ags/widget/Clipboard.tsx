@@ -6,15 +6,22 @@ import Pango from "gi://Pango?version=1.0";
 const WINDOW_NAME = "clipboard";
 
 const cliphist = Variable<string[]>([]);
+const changes = Variable<string[]>([]);
 const query = Variable<string>(" ");
+const init = Variable<boolean>(true);
 
 const thumb_dir = "/tmp/cliphist/thumbs"
 let existingThumbs = ""
+
 execAsync(`mkdir -p "${thumb_dir}"`).then(() => {
   execAsync(`ls ${thumb_dir}`).then((output) => {
     existingThumbs = output
   })
 })
+
+function differences<T>(list1: T[], list2: T[]): T[] {
+  return list1.filter(item => !list2.includes(item));
+}
 
 function decodeImage(index: string) {
   if (!existingThumbs.includes(index)) {
@@ -25,7 +32,30 @@ function decodeImage(index: string) {
   return `${thumb_dir}/${index}.png`;
 }
 
+const itemWidget = (item: string, image: any) => (
+  <button
+  hexpand={false}
+  vexpand
+  visible={item.match(query.get()) != null}
+  on_Clicked={() => {
+    execAsync([
+      "sh",
+      "-c",
+      `cliphist decode ${(item.match("[0-9]+") ?? [""])[0]} | wl-copy`,
+    ]);
+    App.toggle_window(WINDOW_NAME);
+  }}
+  >
+    {image ? <icon icon={item} vexpand hexpand={false} /> :
+      <label
+      label={item.split("\t").slice(1).join("\t")}
+      xalign={0} wrap wrapMode={Pango.WrapMode.WORD_CHAR} vexpand hexpand={false}
+      />}
+  </button>
+)
+
 export default function Clipboard() {
+
   const Entry = new Widget.Entry({
     text: bind(query),
     hexpand: true,
@@ -42,41 +72,31 @@ export default function Clipboard() {
     },
   });
 
-  const Items = query((query) => {
+  const Items: Variable<Gtk.Widget[]> = Variable([]);
 
-    return cliphist.get().filter((item) => item.match(query)).map((item) => {
-
-      const regex = /^([0-9]+)\s(\[\[\s)?binary.*(jpg|jpeg|png|bmp)/;
-      const image = item.match(regex);
-
-      if (image) {
-        print(decodeImage(item.split("\t")[0]));
-        item = decodeImage(item.split("\t")[0]);
-      };
-
-      return (
-        <button
-          hexpand={false}
-          vexpand
-          on_Clicked={() => {
-            execAsync([
-              "sh",
-              "-c",
-              `cliphist decode ${(item.match("[0-9]+") ?? [""])[0]} | wl-copy`,
-            ]);
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          {image ? <icon icon={item} vexpand hexpand={false} /> :
-            <label
-            label={item.split("\t").slice(1).join("\t")}
-            xalign={0} wrap wrapMode={Pango.WrapMode.WORD_CHAR} vexpand hexpand={false}
-          />}
-        </button>
-      )
-    });
+  
+  const ItemsWatcher = Variable.derive([changes], (changes) => {
+    for (let item of changes.slice(0,150)) {
+      itemHolder.set(item);
+    }
   });
 
+  const itemHolder = Variable("");
+
+  const regex = /^([0-9]+)\s(\[\[\s)?binary.*(jpg|jpeg|png|bmp)/;
+
+  const watcher = Variable.derive([itemHolder], (item) => {
+    const image = item.match(regex);
+      
+    if (image) {
+      print(decodeImage(item.split("\t")[0]));
+      item = decodeImage(item.split("\t")[0]);
+    };
+    
+    print(item);
+    init.get() ? Items.set([...Items.get(), itemWidget(item, image)]) : Items.set([itemWidget(item, image), ...Items.get()]);
+  });
+  
   return (
     <window
       name={WINDOW_NAME}
@@ -102,7 +122,9 @@ export default function Clipboard() {
             query.set(" ");
           } else {
             execAsync("cliphist list").then((output) => {
+              changes.set(differences(output.split("\n"), cliphist.get()));
               cliphist.set(output.split("\n"));
+              init.set(false);
             })
             query.set("");
             Entry.grab_focus();
@@ -114,7 +136,7 @@ export default function Clipboard() {
         {Entry}
         <scrollable hscroll={Gtk.PolicyType.NEVER} hexpand={false}>
           <box className="Clipboard-Item" vertical spacing={5} vexpand hexpand={false}>
-            {Items}
+            {bind(Items)}
           </box>
         </scrollable>
       </box>

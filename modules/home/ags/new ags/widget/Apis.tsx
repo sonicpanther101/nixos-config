@@ -8,7 +8,7 @@ import md2pango, { markdownTest } from "./components/apis/md2pango";
 
 const WINDOW_NAME = "apis";
 const CUSTOM_SOURCEVIEW_SCHEME_PATH = "/home/adam/nixos-config/modules/home/ags/new ags/widget/components/apis/codeblocktheme.xml";
-const LATEX_DIR = "/home/adam/.cache/ags/latex";
+const LATEX_DIR = "/home/adam/.cache/astal/latex";
 
 const input = Variable<string>("");
 const APItype = Variable<"Gemini" | "ChatGPT" | "test">("Gemini");
@@ -47,7 +47,7 @@ function loadCustomColorScheme(filePath: string) {
 }
 loadCustomColorScheme(CUSTOM_SOURCEVIEW_SCHEME_PATH);
 
-execAsync(['bash', '-c', `rm -rf ${LATEX_DIR}/*`]).catch(print);
+exec(['bash', '-c', `rm -rf ${LATEX_DIR}/*`]);
 
 const TextBlock = (content = '') => (
   <label
@@ -91,8 +91,7 @@ class LatexViewArea {
       this.output = (
         <icon className="latex-icon" css={`font-size: ${Math.max(200, Math.min(400, 25000 / text.length))}px;`} icon={`${LATEX_DIR}/${fileName}`}/>
       )
-    });
-    
+    }).catch(print);
   }
 }
 
@@ -102,7 +101,6 @@ class WholeThing {
 
   constructor(latexViewArea: LatexViewArea, text = '') {
     this.latexViewArea = latexViewArea
-    this.latexViewArea.render(text);
     this.output = (
       <box homogeneous>
         <scrollable
@@ -116,17 +114,18 @@ class WholeThing {
   }
 
   udateText(text: string): void {
-    this.latexViewArea.render(text);
-    this.output = (
-      <box homogeneous className="latex">
-        <scrollable
-          hscroll={Gtk.PolicyType.ALWAYS}
-          vscroll={Gtk.PolicyType.NEVER}
-        >
-          {this.latexViewArea.output}
-        </scrollable>
-      </box>
-    );
+    this.latexViewArea.render(text).then(() => {
+      this.output = (
+        <box homogeneous className="latex">
+          <scrollable
+            hscroll={Gtk.PolicyType.ALWAYS}
+            vscroll={Gtk.PolicyType.NEVER}
+          >
+            {this.latexViewArea.output}
+          </scrollable>
+        </box>
+      );
+    });
   }
 }
 
@@ -161,7 +160,7 @@ const topBar = (content: string, lang: string) => (
     <button
       className="codeblock-copy"
       onClicked={() => {
-        execAsync([`wl-copy`, `${content}`]);
+        execAsync([`wl-copy`, `${content}`]).catch(print);
       }}
     >
       <box>
@@ -285,18 +284,33 @@ export default function APIs() {
         case "Gemini":
           GeminiChat.set([...GeminiChat.get(), input.get()]);
           input.set("");
+          print("start curl")
+          print(`curl -s ${geminiURL}\\?key=${API_KEY}\
+            -H "Content-Type: application/json" \
+            -X POST \
+            -d '${JSON.stringify({
+              contents: [{
+                parts: GeminiChat.get().map((message) => ({ text: encodeURIComponent(message).replace(/'/g, "&#039;") }))
+              }]
+            })}'
+          `)
           execAsync(["bash", "-c", `curl -s ${geminiURL}\\?key=${API_KEY}\
             -H "Content-Type: application/json" \
             -X POST \
             -d '${JSON.stringify({
               contents: [{
-                parts: GeminiChat.get().map((message) => ({text: message}))
+                parts: GeminiChat.get().map((message) => ({ text: encodeURIComponent(message).replace(/'/g, "&#039;") }))
               }]
             })}'
           `]).then((output) => {
+            print("finished curl")
             GeminiChat.set([...GeminiChat.get(), JSON.parse(output).candidates[0].content.parts[0].text]);
-          })
-          break;
+            changed.set(!changed.get());
+          }).catch((error) => {
+            print(error)
+            GeminiChat.set([...GeminiChat.get(), `Error ${error}`]);
+            changed.set(!changed.get());
+          });
         case "ChatGPT":
           break;
         case "test":
@@ -305,18 +319,17 @@ export default function APIs() {
           execAsync(["bash", "-c", `curl -s "${testURL}${encodeURIComponent(testChat.get()[0])}"`]).then((output) => {
             if (output === "") {
               testChat.set(["Nothing", ...testChat.get()]);
+              changed.set(!changed.get());
             } else {
               let randomIndex = Math.floor(Math.random() * JSON.parse(output).length);
               let imgURL = JSON.parse(output)[randomIndex].sample_url       
               execAsync(["bash", "-c", `curl ${imgURL} -o /home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`]).then(() => {
                 testChat.set([[`/home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`, JSON.parse(output)[randomIndex].tags, JSON.parse(output)[randomIndex].id], ...testChat.get()]);
-              })
+                changed.set(!changed.get());
+              }).catch(print);
             }
-          });
-          break;
+          }).catch(print);
       }
-      input.set("");
-      changed.set(!changed.get());
     },
     setup: (self) => {
       self.hook(self, "notify::text", () => {

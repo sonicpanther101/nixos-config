@@ -30,15 +30,15 @@ export default function Media() {
     }
   };
 
-  return (<box>
-    {bind(mpris, "players").as(ps => ps[0] && (
+  return (<stack>
+    {bind(mpris, "players").as(ps => ps.map((player) => (
         <button
-          onClick={(_, e) => onClick(_, e, ps[0])}
-          onScroll={(_, e) => onScroll(_, e, ps[0])}
+          onClick={(_, e) => onClick(_, e, player)}
+          onScroll={(_, e) => onScroll(_, e, player)}
           className="Media"
-          visible={bind(ps[0], "title").as(Boolean)}
+          visible={bind(player, "title").as(Boolean)}
           css={bind(Variable.derive(
-            [bind(ps[0], "position").as(Number), bind(ps[0], "length").as(Number)],
+            [bind(player, "position").as(Number), bind(player, "length").as(Number)],
             (p, l) => {
               if (l === 0 || p === 0 || p / l === Infinity) {
                 return ""
@@ -48,10 +48,10 @@ export default function Media() {
             }
           ))}>
           <box
-            tooltipText={bind(ps[0], "album").as(String)}>
+            tooltipText={bind(player, "album").as(String)}>
             <label
               label={bind(Variable.derive(
-                [bind(ps[0], "title").as(String), bind(ps[0], "artist").as(String), bind(ps[0], "playbackStatus").as(Boolean)],
+                [bind(player, "title").as(String), bind(player, "artist").as(String), bind(player, "playbackStatus").as(Boolean)],
                 (t, a, p) => {
                   return `${p ? "" : ""} ${t}${a ? " - " : ""}${a}`
                 }
@@ -61,11 +61,11 @@ export default function Media() {
             <box
               className="Cover"
               valign={Gtk.Align.CENTER}
-              css={bind(ps[0], "coverArt").as(cover => `background-image: url('${cover}');`)}
+              css={bind(player, "coverArt").as(cover => `background-image: url('${cover}');`)}
             />
           </box>
         </button>
-      )
+      ))
     )}
-  </box>)
+  </stack>)
 }

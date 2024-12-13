@@ -34,23 +34,24 @@ const entryText = Variable.derive([query], (query) => {
   return query;
 });
 
-const answer = Variable.derive([itemType, entryText], (itemType, entryText) => {
+const answer: any = Variable("");
+const answerWatcher = Variable.derive([itemType, entryText], (itemType, entryText) => {
   if (itemType !== "maths" && itemType !== "maths-complex" && itemType !== "maths-complex-full") return "";
 
   if (entryText === "") {
-    return "";
-  } else if (itemType !== "maths" && /^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
-    return (0, eval)(entryText.replace(/\^/g, "**"));
+    answer.set("");
+  } else if (itemType === "maths" && /^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
+    answer.set((0, eval)(entryText.replace(/\^/g, "**")))
   } else if (itemType === "maths-complex-full") {
     execAsync(["bash", "-c", `curl -s "${wolframURLFull}?format=plaintext&output=JSON&appid=${appID}&input=${encodeURIComponent(entryText)}"`]).then((output) => {
-      return JSON.parse(output);
+      answer.set(JSON.parse(output));
     })
   } else if (itemType === "maths-complex") {
     execAsync(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&input=${encodeURIComponent(entryText)}"`]).then((output) => {
-      return output;
+      answer.set(output);
     });
   } else {
-    return "N/A";
+    answer.set("N/A");
   }
 });
 
@@ -62,6 +63,7 @@ const search = Variable.derive([itemType, entryText], (itemType, entryText) => {
   if (itemType !== "files-home" && itemType !== "files-root") return "";
   return entryText.includes("/") ? entryText.split("/")[entryText.split("/").length - 1] : entryText;
 });
+const items: Variable<string[]> = Variable([]);
 const itemsWatcher: Variable<void> = Variable.derive([itemType, search, pre], (itemType, search, pre) => {
   if (itemType !== "files-home" && itemType !== "files-root") {
     items.set([]);
@@ -71,94 +73,97 @@ const itemsWatcher: Variable<void> = Variable.derive([itemType, search, pre], (i
     items.set(output.split("\n").filter(function (value, index, arr) { return value !== "." && value !== ".."; }));
   }).catch(print);
 });
-const items: Variable<string[]> = Variable([]);
+
+const suggestions = Variable([])
+const suggestionsWatcher = Variable.derive([query, itemType], (query, itemType) => {
+  if (itemType !== "web") {
+    suggestions.set([])
+    return
+  }
+  execAsync(["bash", "-c", `curl -s "${suggestURL}?q=${encodeURIComponent(query.slice(1))}"`]).then((output) => {
+    suggestions.set(query.slice(1) ? JSON.parse(output) : []);
+  })
+})
 
 export default function AppLauncher() {
   let appData: Apps.Application[] = [];
 
-  const Items = query((query) => {
+  const Items = Variable.derive([itemType, query, answer, suggestions, items], (itemType, query, answer: any, suggestions, items) => {
 
-    if (itemType.get() === "app") {
-
-      appData = apps.fuzzy_query(query);
-      return appData.map((app: Apps.Application) => (
-        <button
-          className={"app-button"}
-          on_Clicked={() => {
-            app.launch();
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          <box hexpand={false}>
-            <icon className="AppIcon" icon={app.iconName || ""} />
+    switch (itemType) {
+      case "app":
+        appData = apps.fuzzy_query(query);
+        return appData.map((app: Apps.Application) => (
+          <button
+            className={"app-button"}
+            on_Clicked={() => {
+              app.launch();
+              App.toggle_window(WINDOW_NAME);
+            }}
+          >
+            <box hexpand={false}>
+              <icon className="AppIcon" icon={app.iconName || ""} />
+              <box className="AppText" vertical valign={Gtk.Align.CENTER}>
+                <label className="AppName" label={app.name} xalign={0} truncate />
+                {app.description && (
+                  <label
+                    className="AppDescription"
+                    label={app.description}
+                    xalign={0}
+                    truncate
+                  />
+                )}
+              </box>
+            </box>
+          </button>
+        ));
+      case "maths": case "maths-complex":
+        return (answer !== "") ? (
+          <button
+            className={"Non-app"}
+            on_Clicked={() => {
+              execAsync(`wl-copy ${answer}`);
+              App.toggle_window(WINDOW_NAME);
+            }}
+          >
+            <label wrap label={`${answer}`} />
+          </button>
+        ) : (<box />);
+      case "maths-complex-full":
+        return (typeof answer !== "string" && answer) ? answer.queryresult.pods.map((pod: any) => (
+          <button
+            className={"Non-app"}
+            on_Clicked={() => {
+              execAsync(`wl-copy ${pod.subpods[0].plaintext}`);
+              App.toggle_window(WINDOW_NAME);
+            }}
+          >
             <box className="AppText" vertical valign={Gtk.Align.CENTER}>
-              <label className="AppName" label={app.name} xalign={0} truncate />
-              {app.description && (
-                <label
-                  className="AppDescription"
-                  label={app.description}
-                  xalign={0}
-                  truncate
-                />
-              )}
-            </box>
-          </box>
-        </button>
-      ));
-    } else if (itemType.get() === "maths" || itemType.get() === "maths-complex") {
-      
-      return answer.get() ? (
-        <button
-          className={"Non-app"}
-          on_Clicked={() => {
-            execAsync(`wl-copy ${answer.get()}`);
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          <label wrap label={`${answer.get()}`} />
-        </button>
-      ) : (<box />);
-    } else if (itemType.get() === "maths-complex-full") {
-      
-      return answer.get() ? answer.get().queryresult.pods.map((pod: any) => (
-        <button
-          className={"Non-app"}
-          on_Clicked={() => {
-            execAsync(`wl-copy ${pod.subpods.plaintext}`);
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          <box className="AppText" vertical valign={Gtk.Align.CENTER}>
-              <label className="AppName" label={pod.title} xalign={0} wrap />
-              {pod.subpods && pod.subpods.map((subpod: any) => (
-                <label
-                  className="AppDescription"
-                  label={subpod.plaintext}
-                  xalign={0}
-                  wrap
-                />
-              ))}
-            </box>
-        </button>
-      )) : (<box />);
-    } else if (itemType.get() === "files-home" || itemType.get() === "files-root") {
-
-      return items.get().map((item) => (
-        <button
-          className={"Non-app"}
-          on_Clicked={() => {
-            execAsync(["bash", "-c", `xdg-open ${itemType.get() === "files-home" ? "/home/adam/" : "/"}${pre.get()}${item}`]);
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          <label label={item} wrap />
-        </button>
-      ));
-    } else if (itemType.get() === "web") {
-
-      execAsync(["bash", "-c", `curl -s "${suggestURL}?q=${encodeURIComponent(query.slice(1))}"`]).then((output) => {
-        const suggestions = query.slice(1) ? JSON.parse(output) : [];
-
+                <label className="AppName" label={pod.title} xalign={0} wrap />
+                {pod.subpods && pod.subpods.map((subpod: any) => (
+                  <label
+                    className="AppDescription"
+                    label={subpod.plaintext}
+                    xalign={0}
+                    wrap
+                  />
+                ))}
+              </box>
+          </button>
+        )) : (<box />);
+      case "files-home": case "files-root":
+        return items.map((item) => (
+          <button
+            className={"Non-app"}
+            on_Clicked={() => {
+              execAsync(["bash", "-c", `xdg-open ${itemType === "files-home" ? "/home/adam/" : "/"}${pre.get()}${item}`]);
+              App.toggle_window(WINDOW_NAME);
+            }}
+          >
+            <label label={item} wrap />
+          </button>
+        ));
+      case "web":
         // adding the original query to the suggestions
         return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
           <button
@@ -171,7 +176,6 @@ export default function AppLauncher() {
             <label label={`${suggestion}`} wrap />
           </button>
         )) : (<box />);
-      })
     }
   });
 
@@ -190,7 +194,7 @@ export default function AppLauncher() {
           execAsync(`wl-copy ${answer.get()}`);
           break;
         case "maths-complex-full":
-          execAsync(`wl-copy ${answer.get().queryresult.pods[0].subpods.plaintext}`);
+          execAsync(`wl-copy ${answer.get().queryresult.pods[0].subpods[0].plaintext}`);
           break;
         case "web":
           execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(query.get().slice(1))}`);
@@ -243,7 +247,7 @@ export default function AppLauncher() {
         {Entry}
         <scrollable vexpand hscroll={Gtk.PolicyType.NEVER}>
           <box className="ItemName" vertical spacing={5}>
-            {Items}
+            {bind(Items)}
           </box>
         </scrollable>
       </box>

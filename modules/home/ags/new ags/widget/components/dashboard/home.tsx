@@ -84,7 +84,7 @@ export default function Home() {
                 <label label={unixToDate(list[0].dt)} />
                 {list.map((item: any) => (
                   <box vertical className="day">
-                    <icon icon={`/home/adam/.cache/ags/icons/${item.weather[0].icon}.png`} />
+                    <icon icon={`/home/adam/.cache/astal/icons/${item.weather[0].icon}.png`} />
                     <label label={`${unixToTime(item.dt)} | ${Math.round(item.main.temp)}°C`} />
                     <label label={`${Math.round(item.wind.speed * 19.438444924)/10}-${Math.round(item.wind.gust * 19.438444924)/10}kn ${windDirections[Math.round((item.wind.deg % 360) / 22.5)]}`} />
                     <label label={item.weather[0].description.split(" ").map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} />

@@ -7,10 +7,30 @@ const WINDOW_NAME = "wallpaper";
 const input = Variable<string>("");
 const wallpaperDir = "/home/adam/Pictures/wallpapers/preview";
 const wallpapers = Variable<string[]>([]);
+const Items = Variable<Gtk.Widget[]>([]);
+
+const containsQuery = (strings: string[], query: string): boolean => strings.some(str => str.includes(query));
 
 timeout(1000, () => {
   execAsync(["bash", "-c", `ls ${wallpaperDir}`]).then((output) => {
     wallpapers.set(output.split("\n"));
+    Items.set(wallpapers.get().map((item: string) => (
+      <button
+        className={"image"}
+        visible={bind(input).as(input => item.includes(input))}
+        onClick={() => {
+          App.toggle_window(WINDOW_NAME);
+          execAsync(["bash", "-c", `my-rwall -n ${item}`]);
+        }}
+      >
+        <box vertical>
+          <icon icon={`${wallpaperDir}/${item}`} />
+          <label css={"font-size: 1rem;"} label={item.split(".")[0]} wrap wrapMode={Pango.WrapMode.WORD_CHAR} justify={Gtk.Justification.CENTER} />
+        </box>
+      </button>
+    )));
+    input.set(" ");
+    input.set("");
   })
 });
 
@@ -32,24 +52,6 @@ export default function Wallaper() {
         input.set(self.get_text());
       });
     },
-  });
-
-  const Items = input((input) => {
-  
-    return wallpapers.get().filter((item: string) => item.includes(input)).map((item: string) => (
-      <button
-        className={"image"}
-        onClick={() => {
-          App.toggle_window(WINDOW_NAME);
-          execAsync(["bash", "-c", `my-rwall -n ${item}`]);
-        }}
-      >
-        <box vertical>
-          <icon icon={`${wallpaperDir}/${item}`} />
-          <label css={"font-size: 1rem;"} label={item.split(".")[0]} wrap wrapMode={Pango.WrapMode.WORD_CHAR} justify={Gtk.Justification.CENTER}/>
-        </box>
-      </button>
-    ))
   });
 
   return (
@@ -86,18 +88,7 @@ export default function Wallaper() {
         {Entry}
         <scrollable vexpand hscroll={Gtk.PolicyType.NEVER}>
           <box className="ItemName" vertical spacing={10}>
-            {bind(Items).as(items => items.length ?
-              items.reduce((output, _, i) => {
-                if (i % 2 === 0) {
-                  output.push(
-                    <box spacing={10}>
-                      {items[i]}
-                      {items[i + 1]}
-                    </box>
-                  );
-                }
-                return output;
-              }, [] as Gtk.Widget[]) : (<label label="No results" css={"font-size: 1.5rem;"} />)
+            {bind(input).as(input => containsQuery(wallpapers.get(), input) ? Items.get() : (<label label="No results" css={"font-size: 1.5rem;"} />)
             )}
           </box>
         </scrollable>
