@@ -11,31 +11,31 @@ import BatteryLevel from "./components/bar/battery"
 import SysTray from "./components/bar/tray"
 
 export default function Bar(monitor: Gdk.Monitor) {
-    const anchor = Astal.WindowAnchor.TOP
-        | Astal.WindowAnchor.LEFT
-        | Astal.WindowAnchor.RIGHT
-
-    return <window
-        className="Bar"
-        gdkmonitor={monitor}
-        exclusivity={Astal.Exclusivity.EXCLUSIVE}
-        anchor={anchor}>
-        <centerbox>
-            <box hexpand halign={Gtk.Align.START}>
-                <StartButton />
-                <Workspaces monitor={monitor} />
-                {/* <FocusedClient /> */}
-            </box>
-            <box>
-                <Time />
-                <Study monitor={monitor} />
-            </box>
-            <box hexpand halign={Gtk.Align.END} className="Right">
-                <Media />
-                <Audio />
-                <BatteryLevel />
-                <SysTray />
-            </box>
-        </centerbox>
-    </window>
+  const anchor = Astal.WindowAnchor.TOP
+    | Astal.WindowAnchor.LEFT
+    | Astal.WindowAnchor.RIGHT
+  
+  return <window
+    className="Bar"
+    gdkmonitor={monitor}
+    exclusivity={Astal.Exclusivity.EXCLUSIVE}
+    anchor={anchor}>
+    <centerbox>
+      <box hexpand halign={Gtk.Align.START}>
+        <StartButton />
+        <Workspaces monitor={monitor} />
+        {/* <FocusedClient /> */}
+      </box>
+      <box>
+        <Time />
+        <Study monitor={monitor} />
+      </box>
+      <box hexpand halign={Gtk.Align.END} className="Right">
+        <Media />
+        <Audio />
+        <BatteryLevel />
+        <SysTray />
+      </box>
+    </centerbox>
+  </window>
 }

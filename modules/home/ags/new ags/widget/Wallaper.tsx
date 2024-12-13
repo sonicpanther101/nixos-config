@@ -9,7 +9,9 @@ const wallpaperDir = "/home/adam/Pictures/wallpapers/preview";
 const wallpapers = Variable<string[]>([]);
 
 timeout(1000, () => {
-  wallpapers.set(exec(["bash", "-c", `ls ${wallpaperDir}`]).split("\n"));
+  execAsync(["bash", "-c", `ls ${wallpaperDir}`]).then((output) => {
+    wallpapers.set(output.split("\n"));
+  })
 });
 
 export default function Wallaper() {

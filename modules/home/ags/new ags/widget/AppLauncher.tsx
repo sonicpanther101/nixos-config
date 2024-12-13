@@ -42,11 +42,13 @@ const answer = Variable.derive([itemType, entryText], (itemType, entryText) => {
   } else if (itemType !== "maths" && /^[0-9\+\-\*\/\(\)\^]+$/.test(entryText)) {
     return (0, eval)(entryText.replace(/\^/g, "**"));
   } else if (itemType === "maths-complex-full") {
-    let out = JSON.parse(exec(["bash", "-c", `curl -s "${wolframURLFull}?format=plaintext&output=JSON&appid=${appID}&input=${encodeURIComponent(entryText)}"`]));
-    print(out);
-    return out;
+    execAsync(["bash", "-c", `curl -s "${wolframURLFull}?format=plaintext&output=JSON&appid=${appID}&input=${encodeURIComponent(entryText)}"`]).then((output) => {
+      return JSON.parse(output);
+    })
   } else if (itemType === "maths-complex") {
-    return exec(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&input=${encodeURIComponent(entryText)}"`]);
+    execAsync(["bash", "-c", `curl -s "${wolframURL}?appid=${appID}&input=${encodeURIComponent(entryText)}"`]).then((output) => {
+      return output;
+    });
   } else {
     return "N/A";
   }
@@ -60,10 +62,16 @@ const search = Variable.derive([itemType, entryText], (itemType, entryText) => {
   if (itemType !== "files-home" && itemType !== "files-root") return "";
   return entryText.includes("/") ? entryText.split("/")[entryText.split("/").length - 1] : entryText;
 });
-const items = Variable.derive([itemType, search, pre], (itemType, search, pre) => {
-  if (itemType !== "files-home" && itemType !== "files-root") return [];
-  return exec(["bash", "-c", `ls ${itemType === "files-home" ? "/home/adam/" : "/"}${pre} -a | grep "${search.replace(/\./g, "\\.")}"`]).split("\n").filter(function(value, index, arr){ return value !== "." && value !== "..";});
+const itemsWatcher: Variable<void> = Variable.derive([itemType, search, pre], (itemType, search, pre) => {
+  if (itemType !== "files-home" && itemType !== "files-root") {
+    items.set([]);
+    return;
+  }
+  execAsync(["bash", "-c", `ls ${itemType === "files-home" ? "/home/adam/" : "/"}${pre} -a | grep "${search.replace(/\./g, "\\.")}"`]).then((output) => {
+    items.set(output.split("\n").filter(function (value, index, arr) { return value !== "." && value !== ".."; }));
+  }).catch(print);
 });
+const items: Variable<string[]> = Variable([]);
 
 export default function AppLauncher() {
   let appData: Apps.Application[] = [];
@@ -148,20 +156,22 @@ export default function AppLauncher() {
       ));
     } else if (itemType.get() === "web") {
 
-      const suggestions = query.slice(1) ? JSON.parse(exec(["bash", "-c", `curl -s "${suggestURL}?q=${encodeURIComponent(query.slice(1))}"`])) : [];
+      execAsync(["bash", "-c", `curl -s "${suggestURL}?q=${encodeURIComponent(query.slice(1))}"`]).then((output) => {
+        const suggestions = query.slice(1) ? JSON.parse(output) : [];
 
-      // adding the original query to the suggestions
-      return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
-        <button
-          className={"Non-app"}
-          on_Clicked={() => {
-            execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(suggestion)}`);
-            App.toggle_window(WINDOW_NAME);
-          }}
-        >
-          <label label={`${suggestion}`} wrap />
-        </button>
-      )) : (<box />);
+        // adding the original query to the suggestions
+        return suggestions.length ? [...new Set([query.slice(1), ...suggestions[1]])].map((suggestion: string) => (
+          <button
+            className={"Non-app"}
+            on_Clicked={() => {
+              execAsync(`xdg-open ${searchURL}?q=${encodeURIComponent(suggestion)}`);
+              App.toggle_window(WINDOW_NAME);
+            }}
+          >
+            <label label={`${suggestion}`} wrap />
+          </button>
+        )) : (<box />);
+      })
     }
   });
 

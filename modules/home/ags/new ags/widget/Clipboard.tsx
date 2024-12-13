@@ -9,13 +9,18 @@ const cliphist = Variable<string[]>([]);
 const query = Variable<string>(" ");
 
 const thumb_dir = "/tmp/cliphist/thumbs"
-exec(`mkdir -p "${thumb_dir}"`)
-let existingThumbs = exec(`ls ${thumb_dir}`)
+let existingThumbs = ""
+execAsync(`mkdir -p "${thumb_dir}"`).then(() => {
+  execAsync(`ls ${thumb_dir}`).then((output) => {
+    existingThumbs = output
+  })
+})
 
 function decodeImage(index: string) {
   if (!existingThumbs.includes(index)) {
-    exec(["bash", "-c", `cliphist decode ${index} | magick - -resize 512x ${thumb_dir}/${index}.png`])
-    existingThumbs += index
+    execAsync(["bash", "-c", `cliphist decode ${index} | magick - -resize 512x ${thumb_dir}/${index}.png`]).then(() => {
+      existingThumbs += index
+    })
   }
   return `${thumb_dir}/${index}.png`;
 }
@@ -96,7 +101,9 @@ export default function Clipboard() {
           if (!self.get_visible()) {
             query.set(" ");
           } else {
-            cliphist.set(exec("cliphist list").split("\n"));
+            execAsync("cliphist list").then((output) => {
+              cliphist.set(output.split("\n"));
+            })
             query.set("");
             Entry.grab_focus();
           }

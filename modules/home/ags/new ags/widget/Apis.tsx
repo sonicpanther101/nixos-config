@@ -87,13 +87,12 @@ class LatexViewArea {
     const timeSinceEpoch = Date.now();
     const fileName = `${timeSinceEpoch}.png`;
 
-    exec(['bash', '-c', `wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`]);
+    execAsync(['bash', '-c', `wget "https://math.vercel.app?from=${text}" -O ${LATEX_DIR}/${fileName}`]).then(() => {   
+      this.output = (
+        <icon className="latex-icon" css={`font-size: ${Math.max(200, Math.min(400, 25000 / text.length))}px;`} icon={`${LATEX_DIR}/${fileName}`}/>
+      )
+    });
     
-    print(`font-size: ${Math.max(200, Math.min(400, 20000 / text.length))}px;`)
-
-    this.output = (
-      <icon className="latex-icon" css={`font-size: ${Math.max(200, Math.min(400, 25000 / text.length))}px;`} icon={`${LATEX_DIR}/${fileName}`}/>
-    )
   }
 }
 
@@ -286,7 +285,7 @@ export default function APIs() {
         case "Gemini":
           GeminiChat.set([...GeminiChat.get(), input.get()]);
           input.set("");
-          GeminiChat.set([...GeminiChat.get(), JSON.parse(exec(["bash", "-c", `curl -s ${geminiURL}\\?key=${API_KEY}\
+          execAsync(["bash", "-c", `curl -s ${geminiURL}\\?key=${API_KEY}\
             -H "Content-Type: application/json" \
             -X POST \
             -d '${JSON.stringify({
@@ -294,22 +293,26 @@ export default function APIs() {
                 parts: GeminiChat.get().map((message) => ({text: message}))
               }]
             })}'
-          `])).candidates[0].content.parts[0].text]);
+          `]).then((output) => {
+            GeminiChat.set([...GeminiChat.get(), JSON.parse(output).candidates[0].content.parts[0].text]);
+          })
           break;
         case "ChatGPT":
           break;
         case "test":
           testChat.set([input.get(), ...testChat.get()]);
           input.set("");
-          let output = exec(["bash", "-c", `curl -s "${testURL}${encodeURIComponent(testChat.get()[0])}"`])
-          if (output === "") {
-            testChat.set(["Nothing", ...testChat.get()]);
-          } else {
-            let randomIndex = Math.floor(Math.random() * JSON.parse(output).length);
-            let imgURL = JSON.parse(output)[randomIndex].sample_url       
-            exec(["bash", "-c", `curl ${imgURL} -o /home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`])
-            testChat.set([[`/home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`, JSON.parse(output)[randomIndex].tags, JSON.parse(output)[randomIndex].id], ...testChat.get()]);
-          }
+          execAsync(["bash", "-c", `curl -s "${testURL}${encodeURIComponent(testChat.get()[0])}"`]).then((output) => {
+            if (output === "") {
+              testChat.set(["Nothing", ...testChat.get()]);
+            } else {
+              let randomIndex = Math.floor(Math.random() * JSON.parse(output).length);
+              let imgURL = JSON.parse(output)[randomIndex].sample_url       
+              execAsync(["bash", "-c", `curl ${imgURL} -o /home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`]).then(() => {
+                testChat.set([[`/home/adam/.night/api/${JSON.parse(output)[randomIndex].tags.replace(/ /g, "-").replace(/\(/g, "-").replace(/\)/g, "-").replace(/&#039;/g, "-").split("").slice(0, 250).join("")}.${imgURL.split(".")[imgURL.split(".").length - 1]}`, JSON.parse(output)[randomIndex].tags, JSON.parse(output)[randomIndex].id], ...testChat.get()]);
+              })
+            }
+          });
           break;
       }
       input.set("");
@@ -327,13 +330,13 @@ export default function APIs() {
       if (message[0] === "Nothing") {
         return;
       }
-      exec(["bash", "-c", `xdg-open ${message[0]}`]);
+      execAsync(["bash", "-c", `xdg-open ${message[0]}`]);
       App.toggle_window(WINDOW_NAME);
     } else if (e.button === Gdk.BUTTON_SECONDARY) {
       if (message[0] === "Nothing") {
         return;
       }
-      exec(["bash", "-c", `xdg-open ${testO}${message[2]}`]);
+      execAsync(["bash", "-c", `xdg-open ${testO}${message[2]}`]);
       App.toggle_window(WINDOW_NAME);
     }
   };
