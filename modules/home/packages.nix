@@ -20,7 +20,7 @@
     protonvpn-gui
     nh
     nvd
-    nix-output-monitor
+    # nix-output-monitor
     tor-browser
     suwayomi-server
     # tonelib-gfx
