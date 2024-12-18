@@ -24,6 +24,8 @@
   services.tor = {
     enable = true;
 
+    tsocks.enable = true;
+
     settings = {
       ControlPort = [ { port = 9051; } ];
       CookieAuthentication = false;
