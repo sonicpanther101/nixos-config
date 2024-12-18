@@ -137,12 +137,12 @@
           xray = false;
         };
 
-        drop_shadow = false;
+        # drop_shadow = false;
 
-        shadow_ignore_window = true;
-        shadow_offset = "0 2";
-        shadow_range = 20;
-        shadow_render_power = 3;
+        # shadow_ignore_window = true;
+        # shadow_offset = "0 2";
+        # shadow_range = 20;
+        # shadow_render_power = 3;
 
         dim_inactive = false;
         dim_strength = 0.1;
