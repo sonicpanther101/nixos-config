@@ -1,5 +1,5 @@
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
-import { bind, exec, execAsync, Variable, timeout } from "astal";
+import { bind, execAsync, Variable } from "astal";
 import Pango from "gi://Pango?version=1.0";
 
 const WINDOW_NAME = "wallpaper";
@@ -11,28 +11,26 @@ const Items = Variable<Gtk.Widget[]>([]);
 
 const containsQuery = (strings: string[], query: string): boolean => strings.some(str => str.includes(query));
 
-timeout(1000, () => {
-  execAsync(["bash", "-c", `ls ${wallpaperDir}`]).then((output) => {
-    wallpapers.set(output.split("\n"));
-    Items.set(wallpapers.get().map((item: string) => (
-      <button
-        className={"image"}
-        visible={bind(input).as(input => item.includes(input))}
-        onClick={() => {
-          App.toggle_window(WINDOW_NAME);
-          execAsync(["bash", "-c", `my-rwall -n ${item}`]);
-        }}
-      >
-        <box vertical>
-          <icon icon={`${wallpaperDir}/${item}`} />
-          <label css={"font-size: 1rem;"} label={item.split(".")[0]} wrap wrapMode={Pango.WrapMode.WORD_CHAR} justify={Gtk.Justification.CENTER} />
-        </box>
-      </button>
-    )));
-    input.set(" ");
-    input.set("");
-  })
-});
+execAsync(["bash", "-c", `ls ${wallpaperDir}`]).then((output) => {
+  wallpapers.set(output.split("\n"));
+  Items.set(wallpapers.get().map((item: string) => (
+    <button
+      className={"image"}
+      visible={bind(input).as(input => item.includes(input))}
+      onClick={() => {
+        App.toggle_window(WINDOW_NAME);
+        execAsync(["bash", "-c", `my-rwall -n ${item}`]);
+      }}
+    >
+      <box vertical>
+        <icon icon={`${wallpaperDir}/${item}`} />
+        <label css={"font-size: 1rem;"} label={item.split(".")[0]} wrap wrapMode={Pango.WrapMode.WORD_CHAR} justify={Gtk.Justification.CENTER} />
+      </box>
+    </button>
+  )));
+  input.set(" ");
+  input.set("");
+})
 
 export default function Wallaper() {
 

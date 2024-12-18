@@ -1,9 +1,9 @@
-import { exec, execAsync, bind, Variable, writeFile, timeout } from "astal";
+import { exec, execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
 import Gio from "gi://Gio?version=2.0";
-import { testURL, testO } from "../../../../../../.night/test";
+import { testURL, testO, testD } from "../../../../../../.night/test";
 import md2pango, { markdownTest } from "./components/apis/md2pango";
 
 const WINDOW_NAME = "apis";
@@ -13,6 +13,14 @@ const LATEX_DIR = "/home/adam/.cache/astal/latex";
 const input = Variable<string>("");
 const APItype = Variable<"Gemini" | "ChatGPT" | "test">("Gemini");
 const changed = Variable(false);
+
+const itemType = Variable.derive([input, APItype], (input, APItype) => {
+  if (APItype !== "test") return "";
+  switch (input.charAt(0)) {
+    case "!": return "D";
+    default: return "";
+  }
+});
 
 const typeIcon = {
   Gemini: "google",
@@ -354,9 +362,10 @@ export default function APIs() {
     }
   };
 
-  const Items = Variable.derive([changed, APItype], (changed, APItype) => { 
-    if (APItype === "Gemini") { 
-      return GeminiChat.get().slice(1).map((message: string, i) => (
+  const Items = Variable.derive([changed, APItype], (changed, APItype) => {
+    switch (APItype) {
+      case "Gemini":
+        return GeminiChat.get().slice(1).map((message: string, i) => (
         <box vertical className={`message ${(i % 2 === 0 ? "bot" : "user")}`}>
           <box className={"testing"} vertical>
             {MessageFormatting(message)}
@@ -364,29 +373,32 @@ export default function APIs() {
           <icon icon={"nemo-horizontal-layout-symbolic"} css={"font-size: 15rem; margin-top: -5rem; margin-bottom: -5rem;"}/>
           <label label={message} wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
         </box>
-      ));
-    } else if (APItype === "ChatGPT") {
-      return (<box/>);
-    } else if (APItype === "test") {
-      return testChat.get().map((message, i) => ((i % 2 === 1) ? (
-        <label label={message} className={`message user`} wrap selectable/>
-      ) : (
-        <box vertical>
-          <button
-            className={"message image"}
-            onClick={(_, e: Astal.ClickEvent) => onClick(e, message)}
-          >
-            <icon icon={message[0]} visible={message[0] !== "Nothing"} />
-          </button>
-          <label label={
-            message[1].match(
-              /.{1,20}/g
-            ).join("\n")
-          } wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
-        </box>
-      )));
+        ));
+      case "ChatGPT":
+        return (<box />);
+      case "test":
+        return testChat.get().map((message, i) => ((i % 2 === 1) ? (
+          <label label={message} className={`message user`} wrap selectable/>
+        ) : (testChat.get()[i + 1][0] !== "!") ? (
+          <box vertical>
+            <button
+              className="message image"
+              onClick={(_, e: Astal.ClickEvent) => onClick(e, message)}
+            >
+              <icon icon={message[0]} visible={message[0] !== "Nothing"} />
+            </button>
+            <label label={
+              message[1].match(
+                /.{1,20}/g
+              ).join("\n")
+            } wrap wrapMode={Pango.WrapMode.WORD_CHAR} selectable/>
+          </box>
+        ) : (
+          <box></box>
+        )));
+      default:
+        return (<box/>);
     }
-    return (<box/>);
   });
 
   return (

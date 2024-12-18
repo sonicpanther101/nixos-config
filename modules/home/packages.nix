@@ -113,6 +113,7 @@
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
   ] ++ lib.optionals (host == "desktop") [
+    blender
     gamescope
     pyload-ng
     mangohud
