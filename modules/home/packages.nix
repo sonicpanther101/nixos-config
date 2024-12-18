@@ -113,7 +113,6 @@
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
     tor
-    tsocks
     torsocks
   ] ++ lib.optionals (host == "desktop") [
     blender
