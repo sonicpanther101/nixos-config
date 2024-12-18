@@ -1,4 +1,4 @@
-{ inputs, pkgs, ...}: 
+{ inputs, pkgs, host, ...}: 
 
 {
   home.packages = with pkgs; [
@@ -21,9 +21,9 @@
       enable = true;
     };
     systemd.enable = true;
-    plugins = [
+    plugins = if (host == "desktop") then [
       inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
-    ];
+    ] else [];
   };
 
   xdg.desktopEntries."org.gnome.Settings" = {

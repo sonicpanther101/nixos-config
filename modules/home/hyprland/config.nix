@@ -1,4 +1,4 @@
-{ host, ... }: 
+{ host, lib, ... }: 
 {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -17,11 +17,11 @@
         workspace_swipe_create_new = true;
       };
 
-      plugin = {
+      plugin = if (host == "desktop") then {
         hyprsplit = {
           num_workspaces = 10;
         };
-      };
+      } else {};
 
       # autostart
       exec-once = 
@@ -139,10 +139,10 @@
 
         drop_shadow = false;
 
-        # shadow_ignore_window = true;
-        # shadow_offset = "0 2";
-        # shadow_range = 20;
-        # shadow_render_power = 3;
+        shadow_ignore_window = true;
+        shadow_offset = "0 2";
+        shadow_range = 20;
+        shadow_render_power = 3;
 
         dim_inactive = false;
         dim_strength = 0.1;
@@ -229,31 +229,6 @@
         "$mainMod, up, movefocus, u"
         "$mainMod, down, movefocus, d"
 
-        # hyprsplit switch workspace
-        "$mainMod, M, split:grabroguewindows"
-
-        "$mainMod, 1, split:workspace, 1"
-        "$mainMod, 2, split:workspace, 2"
-        "$mainMod, 3, split:workspace, 3"
-        "$mainMod, 4, split:workspace, 4"
-        "$mainMod, 5, split:workspace, 5"
-        "$mainMod, 6, split:workspace, 6"
-        "$mainMod, 7, split:workspace, 7"
-        "$mainMod, 8, split:workspace, 8"
-        "$mainMod, 9, split:workspace, 9"
-        "$mainMod, 0, split:workspace, 10"
-
-        "$mainMod SHIFT, 1, split:movetoworkspacesilent, 1"
-        "$mainMod SHIFT, 2, split:movetoworkspacesilent, 2"
-        "$mainMod SHIFT, 3, split:movetoworkspacesilent, 3"
-        "$mainMod SHIFT, 4, split:movetoworkspacesilent, 4"
-        "$mainMod SHIFT, 5, split:movetoworkspacesilent, 5"
-        "$mainMod SHIFT, 6, split:movetoworkspacesilent, 6"
-        "$mainMod SHIFT, 7, split:movetoworkspacesilent, 7"
-        "$mainMod SHIFT, 8, split:movetoworkspacesilent, 8"
-        "$mainMod SHIFT, 9, split:movetoworkspacesilent, 9"
-        "$mainMod SHIFT, 0, split:movetoworkspacesilent, 0"
-
         "$mainMod CTRL, c, movetoworkspace, emptynm"
 
         # window control
@@ -287,6 +262,31 @@
         "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
         "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
+      ] ++lib.optionals (host == "desktop") [
+        # hyprsplit switch workspace
+        "$mainMod, M, split:grabroguewindows"
+
+        "$mainMod, 1, split:workspace, 1"
+        "$mainMod, 2, split:workspace, 2"
+        "$mainMod, 3, split:workspace, 3"
+        "$mainMod, 4, split:workspace, 4"
+        "$mainMod, 5, split:workspace, 5"
+        "$mainMod, 6, split:workspace, 6"
+        "$mainMod, 7, split:workspace, 7"
+        "$mainMod, 8, split:workspace, 8"
+        "$mainMod, 9, split:workspace, 9"
+        "$mainMod, 0, split:workspace, 10"
+
+        "$mainMod SHIFT, 1, split:movetoworkspacesilent, 1"
+        "$mainMod SHIFT, 2, split:movetoworkspacesilent, 2"
+        "$mainMod SHIFT, 3, split:movetoworkspacesilent, 3"
+        "$mainMod SHIFT, 4, split:movetoworkspacesilent, 4"
+        "$mainMod SHIFT, 5, split:movetoworkspacesilent, 5"
+        "$mainMod SHIFT, 6, split:movetoworkspacesilent, 6"
+        "$mainMod SHIFT, 7, split:movetoworkspacesilent, 7"
+        "$mainMod SHIFT, 8, split:movetoworkspacesilent, 8"
+        "$mainMod SHIFT, 9, split:movetoworkspacesilent, 9"
+        "$mainMod SHIFT, 0, split:movetoworkspacesilent, 0"
       ];
 
       bindl = [
@@ -297,6 +297,28 @@
         "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
 
         ", switch:Lid Switch, exec, my-sleep"
+
+        "$mainMod, 1, workspace, 1"
+        "$mainMod, 2, workspace, 2"
+        "$mainMod, 3, workspace, 3"
+        "$mainMod, 4, workspace, 4"
+        "$mainMod, 5, workspace, 5"
+        "$mainMod, 6, workspace, 6"
+        "$mainMod, 7, workspace, 7"
+        "$mainMod, 8, workspace, 8"
+        "$mainMod, 9, workspace, 9"
+        "$mainMod, 0, workspace, 10"
+
+        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
+        "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
+        "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
+        "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
+        "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
+        "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
+        "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
+        "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
+        "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
+        "$mainMod SHIFT, 0, movetoworkspacesilent, 0"
       ];
 
       # mouse binding
