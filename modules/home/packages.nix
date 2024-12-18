@@ -112,6 +112,8 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
+    tor
+    tsocks
   ] ++ lib.optionals (host == "desktop") [
     blender
     gamescope
