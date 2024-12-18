@@ -79,9 +79,10 @@ export default function Home() {
         <icon icon={bind(githubContributionsPath)} css={"font-size: 1000px;"} />
         <box vertical className="weather" homogeneous>
           {bind(weather).as(w => (
-            w && splitList(w).map((list: any[]) => (
+            w && splitList(w).map((list: any[], i) => (
               <box>
                 <label label={unixToDate(list[0].dt)} />
+                <box hexpand={i===0}/>
                 {list.map((item: any) => (
                   <box vertical className="day">
                     <icon icon={`/home/adam/.cache/astal/icons/${item.weather[0].icon}.png`} />

@@ -86,8 +86,7 @@ export default function Wallaper() {
         {Entry}
         <scrollable vexpand hscroll={Gtk.PolicyType.NEVER}>
           <box className="ItemName" vertical spacing={10}>
-            {bind(input).as(input => containsQuery(wallpapers.get(), input) ? Items.get() : (<label label="No results" css={"font-size: 1.5rem;"} />)
-            )}
+            {bind(Items)}
           </box>
         </scrollable>
       </box>

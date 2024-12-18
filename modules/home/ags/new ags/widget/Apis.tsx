@@ -1,4 +1,4 @@
-import { exec, execAsync, bind, Variable } from "astal";
+import { execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import GtkSource from "gi://GtkSource?version=3.0";
 import Pango from "gi://Pango?version=1.0";
@@ -55,7 +55,7 @@ function loadCustomColorScheme(filePath: string) {
 }
 loadCustomColorScheme(CUSTOM_SOURCEVIEW_SCHEME_PATH);
 
-exec(['bash', '-c', `rm -rf ${LATEX_DIR}/*`]);
+execAsync(['bash', '-c', `rm -rf ${LATEX_DIR}/*`]);
 
 const TextBlock = (content = '') => (
   <label
