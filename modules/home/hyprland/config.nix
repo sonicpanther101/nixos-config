@@ -137,7 +137,7 @@
           xray = false;
         };
 
-        # drop_shadow = false;
+        drop_shadow = false;
 
         # shadow_ignore_window = true;
         # shadow_offset = "0 2";
