@@ -41,8 +41,8 @@ export default function Wallaper() {
     placeholderText: "Search",
     className: "Input",
     onActivate: () => {
-      App.toggle_window(WINDOW_NAME);
       execAsync(["bash", "-c", `my-rwall -n ${wallpapers.get().filter((item: string) => item.includes(input.get()))[0]}`]);
+      App.toggle_window(WINDOW_NAME);
       input.set("");
     },
     setup: (self) => {
