@@ -729,6 +729,7 @@
         "url": "https://github.com/hyprwm/Hyprland"
       },
       "original": {
+        "rev": "db249648776875ce3142141d0d3055e43ce606aa",
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -957,16 +958,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1733421342,
-        "narHash": "sha256-Wu8g8ykLO9hB04Q/gm5wfpnJU+3V6FWRZ+gElA/UTGk=",
+        "lastModified": 1734454358,
+        "narHash": "sha256-Hv8cVJ4lONz0g1zMwdWCL2nBUA/P8ILy7MiFjU26OM4=",
         "owner": "shezdy",
         "repo": "hyprsplit",
-        "rev": "28b1603e7674cc12e0b2b5b384b4dc88b659a62b",
+        "rev": "96026198a669fd0debce98fe3c524732a1948909",
         "type": "github"
       },
       "original": {
         "owner": "shezdy",
-        "ref": "main",
         "repo": "hyprsplit",
         "type": "github"
       }

@@ -20,6 +20,7 @@
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
+      rev = "db249648776875ce3142141d0d3055e43ce606aa";
     };
   
     home-manager.url = "github:nix-community/home-manager";
@@ -57,7 +58,7 @@
     };
 
     hyprsplit = {
-      url = "github:shezdy/hyprsplit/main";
+      url = "github:shezdy/hyprsplit";
       inputs.hyprland.follows = "hyprland";
     };
 
