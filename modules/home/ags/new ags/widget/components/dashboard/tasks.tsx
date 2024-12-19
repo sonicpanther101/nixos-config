@@ -87,6 +87,7 @@ export default function Tasks() {
     <box
       vertical
       vexpand
+      className="tasks"
     >
       <scrollable
         vexpand
@@ -94,14 +95,17 @@ export default function Tasks() {
       >
         <box
           vertical
+          hexpand
         >
           {bind(task_list).as((tasks) => tasks.map((task, i) => (
             <centerbox
               className={i % 2 === 0 ? "even-scroll" : "odd-scroll"}
+              hexpand
             >
-              <box>
+              <box hexpand>
                 <box
                   vertical
+                  hexpand
                 >
                   <button
                     className={`task-up ${i % 2 === 0 ? "even-scroll" : "odd-scroll"} ${i === 0 ? "task-up-disabled" : ""}`}
@@ -140,7 +144,7 @@ export default function Tasks() {
                 <label hexpand label={task} />
               </box>
               <box />
-              <box>
+              <box >
                 <button
                   label="✕"
                   onClick={() => {
