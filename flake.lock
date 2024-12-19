@@ -950,26 +950,6 @@
         "type": "github"
       }
     },
-    "hyprsplit": {
-      "inputs": {
-        "hyprland": [
-          "hyprland"
-        ]
-      },
-      "locked": {
-        "lastModified": 1734454358,
-        "narHash": "sha256-Hv8cVJ4lONz0g1zMwdWCL2nBUA/P8ILy7MiFjU26OM4=",
-        "owner": "shezdy",
-        "repo": "hyprsplit",
-        "rev": "96026198a669fd0debce98fe3c524732a1948909",
-        "type": "github"
-      },
-      "original": {
-        "owner": "shezdy",
-        "repo": "hyprsplit",
-        "type": "github"
-      }
-    },
     "hyprutils": {
       "inputs": {
         "nixpkgs": [
@@ -1619,7 +1599,6 @@
         "hyprland": "hyprland",
         "hyprland-plugins": "hyprland-plugins",
         "hyprpicker": "hyprpicker",
-        "hyprsplit": "hyprsplit",
         "impurity": "impurity",
         "matugen": "matugen",
         "nix-gaming": "nix-gaming",

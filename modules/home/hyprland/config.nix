@@ -18,9 +18,9 @@
       };
 
       plugin = {
-        hyprsplit = {
-          num_workspaces = 10;
-        };
+        # hyprsplit = {
+        #   num_workspaces = 10;
+        # };
       };
 
       # autostart
