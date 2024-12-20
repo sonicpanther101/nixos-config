@@ -38,6 +38,7 @@
           "wl-paste --type image --watch cliphist store"
           "wl-copy &"
           "my-ags"
+					"cd ~/nixos-config && git fetch"
           "openrgb --startminimized -b 0 -m direct"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
           "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
@@ -54,7 +55,8 @@
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
           "wl-copy &"
-          "ags run /home/adam/nixos-config/modules/home/ags/new\ ags"
+          "my-ags"
+					"cd ~/nixos-config && git fetch"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ];
 
