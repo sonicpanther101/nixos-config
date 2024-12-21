@@ -37,6 +37,9 @@
 - [ ] get pages transferred
 - [ ] get api's working
 - [ ] make github io site for editing on vivaldi new page and phone
+### Media stuff
+- [ ] volume thing?
+- [ ] media window gtk window instead or choosable location astal window
 ### Lockscreen
 - [ ] Figure out what to do
 ### Astal launcher wheel
