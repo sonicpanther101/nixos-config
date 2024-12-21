@@ -370,6 +370,7 @@
         "opacity 0.9,vivaldi"
         "opacity 0.99,title:^(.*HiAnime.*)$"
         "opacity 0.99,title:^(.*YouTube.*)$"
+        "opacity 0.99,title:^(.*Channel 4.*)$"
         "opacity 0.75,nemo"
       ];
 
