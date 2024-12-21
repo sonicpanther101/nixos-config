@@ -88,10 +88,7 @@
         gaps_in = 0;
         gaps_out = 0;
         gaps_workspaces = 0;
-        border_size = 1;
-        border_part_of_window = false;
-        no_border_on_floating = false;
-        resize_on_border = true;
+        border_size = 0;
       };
 
       misc = {
@@ -105,7 +102,6 @@
       };
 
       dwindle = {
-        no_gaps_when_only = true;
         force_split = 0;
         special_scale_factor = 1.0;
         split_width_multiplier = 1.0;
@@ -117,7 +113,6 @@
 
       master = {
         special_scale_factor = 1;
-        no_gaps_when_only = false;
       };
 
       decoration = {
