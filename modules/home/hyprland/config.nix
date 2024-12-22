@@ -17,11 +17,11 @@
         workspace_swipe_create_new = true;
       };
 
-      plugin = {
-        # hyprsplit = {
-        #   num_workspaces = 10;
-        # };
-      };
+      plugin = if (host == "desktop") then {
+        hyprsplit = {
+          num_workspaces = 10;
+        };
+      } else {};
 
       # autostart
       exec-once = 
