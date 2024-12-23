@@ -52,7 +52,7 @@ export default function Dashboard() {
             </button>
           ))}
         </box>
-        <box vertical>
+        <box vertical hexpand>
           {bind(currentDisplay).as((item: string) => (<label className="title" label={item} />))}
           {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item]?.())}
         </box>

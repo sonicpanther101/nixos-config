@@ -1,7 +1,52 @@
+@use "sass:color";
 @use "../variables" as *;
 
 window.dashboard {
     .tasks {
-        
+        .task-up,
+        .task-down,
+        .task-delete,
+        .task-edit {
+            background-color: rgba($bg, .55);
+    
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .task-delete {
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+        }
+
+        .task-edit {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .task-button-label {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .task {
+            font-size: large;
+            padding: 0.5rem;
+            color: $fg;
+        }
+
+        .even-scroll {
+            background-color: rgba($solid_bg, .85);
+        }
+
+        .odd-scroll {
+            background-color: rgba(color.adjust($solid_bg, $lightness: -5%), .85);
+        }
     }
 }
