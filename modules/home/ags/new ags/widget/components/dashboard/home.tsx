@@ -70,33 +70,33 @@ readFileAsync("/home/adam/.cache/astal/secrets.json").then((data) => {
   })
 }).catch(print)
 
-export default function Home() {
-  return (
-    <centerbox className="home">
-      <box hexpand/>
-      <box vertical>
-        <icon icon={bind(githubStatsPath)} css={"font-size: 200px;margin: 20px 0px;"} />
-        <icon icon={bind(githubContributionsPath)} css={"font-size: 1000px;"} />
-        <box vertical className="weather" homogeneous>
-          {bind(weather).as(w => (
-            w && splitList(w).map((list: any[], i) => (
-              <box>
-                <label label={unixToDate(list[0].dt)} />
-                <box hexpand={i===0}/>
-                {list.map((item: any) => (
-                  <box vertical className="day">
-                    <icon icon={`/home/adam/.cache/astal/icons/${item.weather[0].icon}.png`} />
-                    <label label={`${unixToTime(item.dt)} | ${Math.round(item.main.temp)}°C`} />
-                    <label label={`${Math.round(item.wind.speed * 19.438444924)/10}-${Math.round(item.wind.gust * 19.438444924)/10}kn ${windDirections[Math.round((item.wind.deg % 360) / 22.5)]}`} />
-                    <label label={item.weather[0].description.split(" ").map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} />
-                  </box>
-                ))}
-              </box>
-            ))
-          ))}
-        </box>
+const Home = (
+  <centerbox className="home">
+    <box hexpand/>
+    <box vertical>
+      <icon icon={bind(githubStatsPath)} css={"font-size: 200px;margin: 20px 0px;"} />
+      <icon icon={bind(githubContributionsPath)} css={"font-size: 1000px;"} />
+      <box vertical className="weather" homogeneous>
+        {bind(weather).as(w => (
+          w && splitList(w).map((list: any[], i) => (
+            <box>
+              <label label={unixToDate(list[0].dt)} />
+              <box hexpand={i===0}/>
+              {list.map((item: any) => (
+                <box vertical className="day">
+                  <icon icon={`/home/adam/.cache/astal/icons/${item.weather[0].icon}.png`} />
+                  <label label={`${unixToTime(item.dt)} | ${Math.round(item.main.temp)}°C`} />
+                  <label label={`${Math.round(item.wind.speed * 19.438444924)/10}-${Math.round(item.wind.gust * 19.438444924)/10}kn ${windDirections[Math.round((item.wind.deg % 360) / 22.5)]}`} />
+                  <label label={item.weather[0].description.split(" ").map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")} />
+                </box>
+              ))}
+            </box>
+          ))
+        ))}
       </box>
-      <box hexpand/>
-    </centerbox>
-  )
-}
+    </box>
+    <box hexpand/>
+  </centerbox>
+)
+
+export default Home

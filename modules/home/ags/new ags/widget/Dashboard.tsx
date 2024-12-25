@@ -12,7 +12,7 @@ import Life from "./components/dashboard/life";
 const WINDOW_NAME = "dashboard";
 const MENU_ITEMS = ["Home", "Tasks", "Study", "Journal", "Budget", "Events", "Goals", "Life"]
 const currentDisplay = Variable('Home')
-const COMPONENT_MAP: { [key: string]: () => Gtk.Widget } = {
+const COMPONENT_MAP: { [key: string]: Gtk.Widget } = {
   Home: Home,
   Tasks: Tasks,
   Study: Study,
@@ -54,7 +54,7 @@ export default function Dashboard() {
         </box>
         <box vertical hexpand>
           {bind(currentDisplay).as((item: string) => (<label className="title" label={item} />))}
-          {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item]?.())}
+          {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item])}
         </box>
       </box>
     </window>

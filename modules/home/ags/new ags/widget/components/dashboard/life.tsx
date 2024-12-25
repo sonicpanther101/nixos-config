@@ -1,7 +1,7 @@
-export default function Life() {
-  return (
-    <box>
+const Life = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+
+export default Life

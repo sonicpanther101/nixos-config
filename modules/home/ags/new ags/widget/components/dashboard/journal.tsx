@@ -1,7 +1,7 @@
-export default function Journal() {
-  return (
-    <box>
+const Journal = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+
+export default Journal

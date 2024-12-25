@@ -1,7 +1,7 @@
-export default function Budget() {
-  return (
-    <box>
+const Budget = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+
+export default Budget

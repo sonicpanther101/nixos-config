@@ -1,8 +1,8 @@
 import { readFileAsync, Variable, execAsync, bind } from "astal"
-import { Gtk, Astal } from "astal/gtk3";
+import { Gtk, Widget } from "astal/gtk3";
 import Pango from "gi://Pango?version=1.0";
 
-const task_list = Variable([] as TaskDefinition[])
+const task_list = Variable<TaskDefinition[]>([])
 let gistID = ""
 let token = ""
 
@@ -20,100 +20,120 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
   readUpdate()
 }).catch(print)
 
-const refresh = <button
-  className="task-refresh"
-  label="↻"
-  on_clicked={() => {
+const refresh = new Widget.Button({
+  className: "task-refresh",
+  label: "↻",
+  onClicked: () => {
     readUpdate()
-  }}
-/>;
+  }
+});
 
 const input = Variable("")
 
-const entry = <entry
-  hexpand
-  className="tasks-entry"
-  onActivate={(self) => {
+const Entry = new Widget.Entry({
+  text: bind(input),
+  hexpand: true,
+  canFocus: true,
+  placeholderText: "Enter task",
+  className: "tasks-entry",
+  onActivate: (self: Widget.Entry) => {
     if (self.get_text() === "") {
       return
     }
     task_list.set([{label: self.get_text()}, ...task_list.get()])
     input.set("")
     writeUpdate()
-  }}
-  setup={(self) => {
+  },
+  setup: (self) => {
     self.hook(self, "notify::text", () => {
       input.set(self.get_text());
     });
-  }}
-/>;
+  }
+});
 
 interface TaskDefinition {
   label: string;
-  subtask?: TaskDefinition[];
+  subtasks?: TaskDefinition[];
+  editMode?: boolean;
+  subtasksShown?: boolean;
 }
 
-export function createTasks(definition: TaskDefinition[]) {
-  const result = [];
-
-  for (let i = 0; i < definition.length; i++) {
-    const item = (
-      <box
-        hexpand
-        className={i % 2 === 0 ? "even-scroll" : "odd-scroll"}
+const createTasks = (definition: TaskDefinition, i: number, treePosition: number[]) => (
+  <box
+    hexpand
+    className={i % 2 === 0 ? "even-scroll" : "odd-scroll"}
+  >
+    <box
+      vertical
+    >
+      <button
+        className={`task-up ${i === 0 ? "task-up-disabled" : ""}`}
+        onClick={() => {
+          let temp = definition
+          let templist = task_list.get()
+          templist.splice(i, 1)
+          templist.splice(i - 1, 0, temp)
+          task_list.set(templist)
+          writeUpdate()
+        }}
       >
-          <box
-            vertical
-          >
-            <button
-              className={`task-up ${i === 0 ? "task-up-disabled" : ""}`}
-              onClick={() => {
-                let temp = definition[i]
-                let templist = task_list.get()
-                templist.splice(i, 1)
-                templist.splice(i - 1, 0, temp)
-                task_list.set(templist)
-                writeUpdate()
-              }}
-            ><label label="⏶" className="task-button-label" /></button>
-            <button
-              className={`task-down ${i === task_list.length - 1 ? "task-down-disabled" : ""}`}
-              onClick={() => {
-                let temp = definition[i]
-                let templist = task_list.get()
-                templist.splice(i, 1)
-                templist.splice(i + 1, 0, temp)
-                task_list.set(templist)
-                writeUpdate()
-              }}
-            ><label label="⏷" className="task-button-label" /></button>
-          </box>
-          <button
-            className="task-edit"
-            onClick={() => {
-              input.set(definition[i].label)
-              entry.grab_focus()
-              task_list.set(task_list.get().splice(i, 1))
-              writeUpdate()
-            }}
-          ><label label="✎" className="task-button-label" /></button>
-          <label hexpand label={definition[i].label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="task"/>
-        <button
-          hexpand={false}
-          className="task-delete"
-          onClick={() => {
-            task_list.set(task_list.get().splice(i, 1))
-            writeUpdate()
-          }}
-        ><label label="✕" className="task-button-label" /></button>
-      </box>
-    );
-    result.push(item);
-  }
-
-  return result;
-}  
-
+        <label label="⏶" className="task-button-label" />
+      </button>
+      <button
+        className={`task-down ${i === task_list.length - 1 ? "task-down-disabled" : ""}`}
+        onClick={() => {
+          let temp = definition
+          let templist = task_list.get()
+          templist.splice(i, 1)
+          templist.splice(i + 1, 0, temp)
+          task_list.set(templist)
+          writeUpdate()
+        }}
+      >
+        <label label="⏷" className="task-button-label" />
+      </button>
+    </box>
+    <button
+      className="task-edit"
+      onClick={() => {
+        input.set(definition.label)
+        Entry.grab_focus()
+        task_list.set(task_list.get().splice(i, 1))
+        writeUpdate()
+      }}
+    >
+      <label label="✎" className="task-button-label" />
+    </button>
+    {definition.subtasks && <button
+      className="toggle-subtasks"
+      onClick={() => {
+        let temp = task_list.get();
+        if (treePosition.length === 1) {
+          temp[treePosition[0]].subtasksShown = !temp[treePosition[0]].subtasksShown;
+          // print(temp[treePosition[0]].subtasksShown)
+        }
+        task_list.set(temp);
+        // print(JSON.stringify(task_list.get()))
+      }}
+    >
+      <label label={JSON.stringify(definition)} css="font-size: 1rem;" wrap wrapMode={Pango.WrapMode.WORD_CHAR} className="task-button-label" />
+    </button>}
+    <box vertical>
+      <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="task" />
+      {definition.subtasksShown && definition.subtasks && definition.subtasks.map((task, i) => createTasks(task, i, [...treePosition, i]))}
+    </box>
+    <button
+      className="task-delete"
+      onClick={() => {
+        let temp = task_list.get()
+        temp.splice(i, 1)
+        task_list.set(temp)
+        writeUpdate()
+      }}
+    ><label label="✕" className="task-button-label" /></button>
+  </box>
+);
+ 
 function readUpdate() {
   execAsync(['bash', '-c', `curl -L \
   -H "Accept: application/vnd.github+json" \
@@ -125,28 +145,30 @@ function readUpdate() {
 
     const lines = data.split('\n');
     const tasks: TaskDefinition[] = [];
-    const stack: TaskDefinition[] = [];
+    let currentIndentLevel = 0;
 
     for (const line of lines) {
       const indentationLevel = line.match(/^\t*/)[0].length;
+      print(indentationLevel)
       const label = line.trim();
 
-      if (indentationLevel === 0) {
+      if (indentationLevel === currentIndentLevel) {
         // New top-level task
         const task: TaskDefinition = { label };
         tasks.push(task);
-        stack.push(task);
+        stack.unshift(task);
       } else {
         // Subtask
         const parentTask = stack[indentationLevel - 1];
-        if (!parentTask.subtask) {
-          parentTask.subtask = [];
+        if (!parentTask.subtasks) {
+          parentTask.subtasks = [];
         }
         const subtask: TaskDefinition = { label };
-        parentTask.subtask.push(subtask);
-        stack.push(subtask);
+        parentTask.subtasks.push(subtask);
+        stack.unshift(subtask);
       }
     }
+    print(JSON.stringify(tasks))
     task_list.set(tasks)
   }).catch(print)
 }
@@ -156,7 +178,7 @@ function writeUpdate() {
 
   function encodeTask(task: TaskDefinition, indentationLevel: number): string {
     const label = task.label;
-    const subtasks = task.subtask || [];
+    const subtasks = task.subtasks || [];
 
     let text = `${'\t'.repeat(indentationLevel)}${label}\n`;
 
@@ -173,7 +195,17 @@ function writeUpdate() {
     text += encodeTask(task, 0);
   }
 
-  print(text0)
+  let out = text.replace(/\n/g, '\\n').replace(/\t/g, '\\t');
+
+  // print(out)
+
+  print(`curl -L \
+    -X PATCH \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer ${token}" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/gists/${gistID} \
+    -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${out}"}}}'`)
 
   // execAsync(['bash', '-c', `curl -L \
   //   -X PATCH \
@@ -184,26 +216,29 @@ function writeUpdate() {
   //   -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${task_list.get().join("\\n")}"}}}'`]).catch(print);
 }
 
-export default function Tasks() {
-  return (
-    <box
-      className="tasks"
-      vertical
+const Tasks = (
+  <box
+    className="tasks"
+    vertical
+  >
+    <scrollable
+      vexpand
+      hexpand
     >
-      <scrollable
-        vexpand
-        hexpand
+      <box
+        vertical
       >
-        <box
-          vertical
-        >
-          {bind(task_list).as((tasks) => createTasks(tasks))}
-        </box>
-      </scrollable>
-      <box>
-        {refresh}
-        {entry}
+        {bind(task_list).as((tasks) => tasks.map((task, i) => {
+          print(JSON.stringify(task))
+          return createTasks(task, i, [i])
+        }))}
       </box>
+    </scrollable>
+    <box>
+      {refresh}
+      {Entry}
     </box>
-  )
-}
+  </box>
+)
+
+export default Tasks

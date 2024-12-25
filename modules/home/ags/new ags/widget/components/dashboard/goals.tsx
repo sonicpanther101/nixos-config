@@ -1,7 +1,7 @@
-export default function Goals() {
-  return (
-    <box>
+const Goals = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+  
+export default Goals

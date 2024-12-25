@@ -1,7 +1,7 @@
-export default function Study() {
-  return (
-    <box>
+const Study = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+
+export default Study

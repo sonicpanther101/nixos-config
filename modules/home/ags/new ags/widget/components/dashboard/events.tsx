@@ -1,7 +1,7 @@
-export default function Events() {
-  return (
-    <box>
+const Events = (
+  <box>
 
-    </box>
-  )
-}
+  </box>
+)
+
+export default Events
