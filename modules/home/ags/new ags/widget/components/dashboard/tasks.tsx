@@ -159,6 +159,7 @@ function readUpdate() {
         stack.unshift(task);
       } else {
         // Subtask
+        
         const parentTask = stack[indentationLevel - 1];
         if (!parentTask.subtasks) {
           parentTask.subtasks = [];
