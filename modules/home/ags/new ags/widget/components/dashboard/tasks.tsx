@@ -143,33 +143,8 @@ function readUpdate() {
     
     const data = JSON.parse(out)["files"]["todo.txt"]["content"]
 
-    const lines = data.split('\n');
-    const tasks: TaskDefinition[] = [];
-    let currentIndentLevel = 0;
-
-    for (const line of lines) {
-      const indentationLevel = line.match(/^\t*/)[0].length;
-      print(indentationLevel)
-      const label = line.trim();
-
-      if (indentationLevel === currentIndentLevel) {
-        // New top-level task
-        const task: TaskDefinition = { label };
-        tasks.push(task);
-        stack.unshift(task);
-      } else {
-        // Subtask
-        
-        const parentTask = stack[indentationLevel - 1];
-        if (!parentTask.subtasks) {
-          parentTask.subtasks = [];
-        }
-        const subtask: TaskDefinition = { label };
-        parentTask.subtasks.push(subtask);
-        stack.unshift(subtask);
-      }
-    }
-    print(JSON.stringify(tasks))
+    const tasks = JSON.parse(data)
+    
     task_list.set(tasks)
   }).catch(print)
 }
@@ -177,28 +152,9 @@ function readUpdate() {
 function writeUpdate() {
   print("update")
 
-  function encodeTask(task: TaskDefinition, indentationLevel: number): string {
-    const label = task.label;
-    const subtasks = task.subtasks || [];
+  const out = JSON.stringify(task_list.get()).replace(/{/g, '\n{')
 
-    let text = `${'\t'.repeat(indentationLevel)}${label}\n`;
-
-    for (const subtask of subtasks) {
-      text += encodeTask(subtask, indentationLevel + 1);
-    }
-
-    return text;
-  }
-
-  let text = '';
-
-  for (const task of task_list.get()) {
-    text += encodeTask(task, 0);
-  }
-
-  let out = text.replace(/\n/g, '\\n').replace(/\t/g, '\\t');
-
-  // print(out)
+  print(out)
 
   print(`curl -L \
     -X PATCH \

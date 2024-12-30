@@ -29,11 +29,17 @@ const typeIcon = {
 }
 
 const systemPrompt = Variable<string>("systemPrompt");
-const GeminiChat = Variable<string[]>([systemPrompt.get(),"Hi, How can I help?"]);
+const GeminiChat = Variable<string[]>([]);
 const API_KEY = "AIzaSyB-8_m7kiuNGgfNs_lns0ILwrrERfqfhjM"
 const geminiURL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
 
 const testChat = Variable<any[]>([]);
+
+function GeminiChatInit() {
+  GeminiChat.set([systemPrompt.get(), "Hi, How can I help?"]);
+}
+
+GeminiChatInit();
 
 function loadCustomColorScheme(filePath: string) {
   // Read the XML file content
@@ -431,7 +437,28 @@ export default function APIs() {
     >
       <box className="APIs" vertical>
         <centerbox>
-          <box />
+          <box>
+            <button
+              className="delete-chat"
+              onClick={() => {
+                switch (APItype.get()) {
+                  case "Gemini":
+                    GeminiChatInit();
+                    changed.set(!changed.get());
+                    break;
+                  case "ChatGPT":
+                    changed.set(!changed.get());
+                    break;
+                  case "test":
+                    testChat.set([]);
+                    changed.set(!changed.get());
+                    break;
+                }
+              }}
+            >
+              <icon icon="user-trash-symbolic" />
+            </button>
+          </box>
           <box className="APItype">
             {
               (["Gemini", "ChatGPT", "test"] as const).map((type: "Gemini" | "ChatGPT" | "test") => (

@@ -83,4 +83,22 @@ window.apis {
     .latex-icon {
         min-width: 400px;
     }
+
+    .delete-chat {
+        background-color: transparent;
+        padding: 0px 5px;
+        margin: 5px;
+        border-radius: $radius;
+
+        &:hover {
+            background-color: rgba($bg, .35);
+            color: color.adjust($fg, $lightness: 10%);
+            border-color: color.adjust($accent, $lightness: -10%);
+        }
+
+        label {
+            color: $fg;
+            font-size: larger;
+        }
+    }
 }
