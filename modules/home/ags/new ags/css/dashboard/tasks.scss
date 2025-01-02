@@ -5,7 +5,9 @@ window.dashboard {
     .tasks {
         .task-up,
         .task-down,
-        .task-delete,
+        .toggle-subtasks,
+        .subtask-add,
+        .task-refresh,
         .task-edit {
             background-color: rgba($bg, .55);
     
@@ -15,11 +17,24 @@ window.dashboard {
         }
 
         .task-delete {
+            background-color: rgba(255, 0, 0, .55);
+            
+            &:hover {
+                background-color: rgba(255, 0, 0, .75);
+            }
+        }
+
+        .toggle-subtasks {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .subtask-add {
             border-top-left-radius: $radius;
             border-bottom-left-radius: $radius;
         }
 
-        .task-edit {
+        .edit-rounded {
             border-top-right-radius: $radius;
             border-bottom-right-radius: $radius;
         }
@@ -41,12 +56,30 @@ window.dashboard {
             color: $fg;
         }
 
+        .task-up-disabled,
+        .task-down-disabled {
+            background-color: rgba($grey, .55);
+
+            &:hover {
+                background-color: rgba($grey, .55);
+            }
+        }
+
         .even-scroll {
             background-color: rgba($solid_bg, .85);
         }
 
         .odd-scroll {
             background-color: rgba(color.adjust($solid_bg, $lightness: -5%), .85);
+        }
+
+        .edit {
+            background-color: transparent;
+        }
+
+        .tasks-entry {
+            background-color: rgba($bg, .75);
+            font-size: larger;
         }
     }
 }

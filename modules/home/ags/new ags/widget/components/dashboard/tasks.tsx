@@ -25,13 +25,14 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
   readUpdate()
 }).catch(print)
 
-const refresh = new Widget.Button({
-  className: "task-refresh",
-  label: "↻",
-  onClicked: () => {
+const refresh = <button
+  className="task-refresh"
+  onClicked={() => {
     readUpdate()
-  }
-});
+  }}
+>
+  <label label="↻" className="task-button-label" />
+</button>;
 
 const input = Variable("")
 
@@ -78,7 +79,7 @@ function getTarget(treePosition: number[], handler: (target: TaskDefinition) => 
   changedHandler();
 }
 
-function getTargetParent(treePosition: number[], handler: (parent: TaskDefinition) => void) {
+function getTargetParent(treePosition: number[], handler: (parent: TaskDefinition) => any) {
   let temp = task_list.get();
   const parent = treePosition.slice(1).reduce((acc, curr, index) => {
     if (index >= treePosition.length - 2) {
@@ -87,14 +88,22 @@ function getTargetParent(treePosition: number[], handler: (parent: TaskDefinitio
       return acc.subtasks?.[curr] || acc; 
     }
   }, temp[treePosition[0]]); 
-
-  handler(parent);
+  
+  handler(parent)
   task_list.set(temp); 
   changedHandler();
 }
 
 function createTasks(definition: TaskDefinition, i: number, treePosition: number[]) {
   
+  let parent = treePosition.slice(1).reduce((acc, curr, index) => {
+    if (index >= treePosition.length - 2) {
+      return acc;
+    } else {
+      return acc.subtasks?.[curr] || acc; 
+    }
+  }, task_list.get()[treePosition[0]]);
+
   return (
   <box
     hexpand
@@ -108,6 +117,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
         vexpand
         className={`task-up ${i === 0 ? "task-up-disabled" : ""}`}
         onClick={() => {
+          if (i === 0) return
           let temp = definition
           if (treePosition.length === 1) {
             let templist = task_list.get()
@@ -124,12 +134,13 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
           writeUpdate()
         }}
       >
-        <label label="⏶" className="task-button-label" />
+        <label label="⏶" className={`task-button-label ${i === 0 ? "task-up-disabled" : ""}`} />
       </button>
       <button
         vexpand
-        className={`task-down ${i === task_list.length - 1 ? "task-down-disabled" : ""}`}
+        className={`task-down ${(treePosition.length === 1 ? i === task_list.get().length - 1 : i + 1 === parent.subtasks?.length) ? "task-down-disabled" : ""}`}
         onClick={() => {
+          if (treePosition.length === 1 ? i === task_list.get().length - 1 : i + 1 === parent.subtasks?.length) return
           let temp = definition
           if (treePosition.length === 1) {
             let templist = task_list.get()
@@ -150,7 +161,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
       </button>
     </box>
     <button
-      className="task-edit"
+      className={`task-edit ${definition.subtasks ? "" : "edit-rounded"}`}
       onClick={() => {
         getTarget(treePosition, (target) => {
           target.editMode = !target.editMode
@@ -171,7 +182,14 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
     </button>}
     <box vertical>
       {definition.editMode ?
-        <entry text={definition.label} className="task" onActivate={(self) => getTarget(treePosition, (target) => { target.editMode = false; target.label = self.get_text() })} hexpand halign={Gtk.Align.START} /> :
+        <entry
+          text={definition.label}
+          widthChars={120}
+          className="task edit"
+          onActivate={(self) => getTarget(treePosition, (target) => { target.editMode = false; target.label = self.get_text() })}
+          hexpand
+          halign={Gtk.Align.START}
+        /> :
         <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="task" />}
       {definition.subtasksShown && definition.subtasks && definition.subtasks.map((task, i) => createTasks(task, i, [...treePosition, i]))}
     </box>
@@ -277,7 +295,7 @@ function readUpdate() {
     
     
     
-    task_list.set(complexTasks)
+    task_list.set(tasks)
   }).catch(print)
 }
 
