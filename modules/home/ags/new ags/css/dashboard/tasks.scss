@@ -17,10 +17,10 @@ window.dashboard {
         }
 
         .task-delete {
-            background-color: rgba(255, 0, 0, .55);
+            background-color: rgba(rgb(243, 139, 168), .55);
             
             &:hover {
-                background-color: rgba(255, 0, 0, .75);
+                background-color: rgba(rgb(243, 139, 168), .75);
             }
         }
 
@@ -80,6 +80,44 @@ window.dashboard {
         .tasks-entry {
             background-color: rgba($bg, .75);
             font-size: larger;
+        }
+
+        .status-slider {
+            min-width: 10rem;
+            
+            & trough {
+                background: $grey;
+                border-radius: $rounded;
+                min-height: 20px;
+                padding: 0px 10px;
+            }
+        
+            & highlight {
+                background: $accent;
+                border-top-left-radius: $rounded;
+                border-bottom-left-radius: $rounded;
+                margin-left: -10px;
+            }
+        
+            & slider {
+                min-height: 20px;
+                min-width: 20px;
+                border-radius: $rounded;
+                background-color: $bg;
+
+            }
+        }
+
+        .status-label {
+            margin: 0px 0.75rem;
+        }
+
+        .status-add {
+            background-color: transparent;
+
+            &:hover {
+                background-color: transparent;
+            }
         }
     }
 }

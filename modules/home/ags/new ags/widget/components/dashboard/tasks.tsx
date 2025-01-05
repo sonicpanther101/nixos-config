@@ -1,5 +1,5 @@
 import { readFileAsync, Variable, execAsync, bind } from "astal"
-import { Gtk, Widget } from "astal/gtk3";
+import { Gtk, Gdk, Widget, Astal } from "astal/gtk3";
 import Pango from "gi://Pango?version=1.0";
 
 const task_list = Variable<TaskDefinition[]>([])
@@ -62,6 +62,7 @@ interface TaskDefinition {
   subtasks?: TaskDefinition[];
   editMode?: boolean;
   subtasksShown?: boolean;
+  status?: number;
 }
 
 function getTarget(treePosition: number[], handler: (target: TaskDefinition) => void) {
@@ -103,6 +104,23 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
       return acc.subtasks?.[curr] || acc; 
     }
   }, task_list.get()[treePosition[0]]);
+
+  const onScroll: (_: Widget.EventBox, e: Astal.ScrollEvent) => void = (_: Widget.EventBox, e: Astal.ScrollEvent) => {
+    let direction: -1 | 1 | null = null;
+    if (e.direction == Gdk.ScrollDirection.SMOOTH) {
+        direction = Math.sign(e.delta_y) as 1 | -1;
+    } else if (e.direction == Gdk.ScrollDirection.UP) {
+        direction = 1;
+    } else if (e.direction == Gdk.ScrollDirection.DOWN) {
+        direction = -1;
+    }
+    if (direction === null) return
+    getTarget(treePosition, (target) => {
+      print(target.status, direction)
+      target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, target.status - direction*5)) : undefined;
+    })
+    writeUpdate()
+  };
 
   return (
   <box
@@ -186,13 +204,31 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
           text={definition.label}
           widthChars={120}
           className="task edit"
-          onActivate={(self) => getTarget(treePosition, (target) => { target.editMode = false; target.label = self.get_text() })}
+          onActivate={(self) => getTarget(treePosition, (target) => { target.editMode = false; target.label = self.get_text(); writeUpdate() })}
           hexpand
           halign={Gtk.Align.START}
         /> :
         <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="task" />}
       {definition.subtasksShown && definition.subtasks && definition.subtasks.map((task, i) => createTasks(task, i, [...treePosition, i]))}
     </box>
+      {(typeof definition.status === "number") ?
+        <eventbox onScroll={onScroll}>
+          <box>
+            <slider max={100} step={1} className="status-slider" onDragged={self => { getTarget(treePosition, (target) => { target.status = Math.round(self.get_value()); writeUpdate() }); }} value={definition.status} />
+            <label className="status-label" label={` ${definition.status === 100 ? "" : definition.status < 10 ? "  " : " "}${definition.status}%`} />
+          </box>
+        </eventbox> :
+        <button
+          className="status-add"
+          onClick={() => {
+            getTarget(treePosition, (target) => {
+              target.status = 0
+            })
+          }}
+        >
+          <label label="Add Status" css="font-size: 0.6rem;" className="task-button-label" />
+        </button>
+      }
     <button
       className="subtask-add"
       onClick={() => {
@@ -245,6 +281,7 @@ function readUpdate() {
     const complexTasks: TaskDefinition[] = [
   {
     label: "Project A",
+    status: 50,
     subtasks: [
       {
         label: "Phase 1",
@@ -309,29 +346,20 @@ function writeUpdate() {
         task.subtasks?.map(subtask =>
           removeDisplayProperties(subtask)
         ),
+      status: task.status
     };
   }
 
-  const out = JSON.stringify(task_list.get().map(removeDisplayProperties)).replace(/{/g, '\n{')
+  const out = JSON.stringify(task_list.get().map(removeDisplayProperties)).replace(/{/g, '\\n{').replace(/]/g, '\\n]').replace(/"/g, "\\\"")
 
-  print(out)
-
-  print(`curl -L \
+  execAsync(['bash', '-c', `curl -L \
     -X PATCH \
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer ${token}" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
     https://api.github.com/gists/${gistID} \
     -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${out}"}}}'
-  `)
-
-  // execAsync(['bash', '-c', `curl -L \
-  //   -X PATCH \
-  //   -H "Accept: application/vnd.github+json" \
-  //   -H "Authorization: Bearer ${token}" \
-  //   -H "X-GitHub-Api-Version: 2022-11-28" \
-  //   https://api.github.com/gists/${gistID} \
-  //   -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${task_list.get().join("\\n")}"}}}'`]).catch(print);
+  `]).catch(print);
 }
 
 const Tasks = (

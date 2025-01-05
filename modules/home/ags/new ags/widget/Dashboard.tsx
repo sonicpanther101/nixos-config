@@ -31,7 +31,7 @@ export default function Dashboard() {
       application={App}
       visible={false}
       anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.RIGHT | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.BOTTOM}
-      keymode={Astal.Keymode.EXCLUSIVE}
+      keymode={Astal.Keymode.ON_DEMAND}
       layer={Astal.Layer.OVERLAY}
       onKeyPressEvent={(self, event) => {
         if (event.get_keyval()[1] === Gdk.KEY_Escape) {
