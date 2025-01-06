@@ -8,7 +8,6 @@
     ddcutil
     nodejs_22
     wlsunset
-    gnufdisk
     # nurl
     cowsay
     fortune

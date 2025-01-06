@@ -117,7 +117,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
     if (direction === null) return
     getTarget(treePosition, (target) => {
       print(target.status, direction)
-      target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, target.status - direction*5)) : undefined;
+      target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, Math.round(target.status/5)*5 - direction*5)) : undefined;
     })
     writeUpdate()
   };
