@@ -20,7 +20,7 @@
         trusted-public-keys = [ "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4=" ];
       };
       gc = {
-        automatic = true;
+        automatic = false;
         dates = "weekly";
         options = "--delete-older-than 7d";
       };
