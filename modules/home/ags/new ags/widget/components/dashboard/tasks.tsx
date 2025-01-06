@@ -4,6 +4,7 @@ import Pango from "gi://Pango?version=1.0";
 
 const task_list = Variable<TaskDefinition[]>([])
 const changed = Variable<boolean>(false)
+const input = Variable("")
 let gistID = ""
 let token = ""
 
@@ -33,8 +34,6 @@ const refresh = <button
 >
   <label label="↻" className="task-button-label" />
 </button>;
-
-const input = Variable("")
 
 const Entry = new Widget.Entry({
   text: bind(input),
@@ -116,7 +115,6 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
     }
     if (direction === null) return
     getTarget(treePosition, (target) => {
-      print(target.status, direction)
       target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, Math.round(target.status/5)*5 - direction*5)) : undefined;
     })
     writeUpdate()
@@ -206,6 +204,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
           className="task edit"
           onActivate={(self) => getTarget(treePosition, (target) => { target.editMode = false; target.label = self.get_text(); writeUpdate() })}
           hexpand
+          onRealize={(self) => { self.grab_focus() }}
           halign={Gtk.Align.START}
         /> :
         <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="task" />}
@@ -274,7 +273,7 @@ function readUpdate() {
   -H "X-GitHub-Api-Version: 2022-11-28" \
   https://api.github.com/gists/${gistID}`]).then(out => {
     
-    const data = JSON.parse(out)["files"]["todo.txt"]["content"]
+    const data = JSON.parse(out)["files"]["todo.json"]["content"]
 
     const tasks = JSON.parse(data)
 

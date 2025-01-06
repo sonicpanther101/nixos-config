@@ -54,7 +54,10 @@ export default function Dashboard() {
         </box>
         <box vertical hexpand>
           {bind(currentDisplay).as((item: string) => (<label className="title" label={item} />))}
-          {bind(currentDisplay).as((item: string) => COMPONENT_MAP[item])}
+          {MENU_ITEMS.map((thing) => (
+              <box visible={bind(currentDisplay).as((item: string) => thing === item)} child={COMPONENT_MAP[thing]} />
+            ))
+          }
         </box>
       </box>
     </window>

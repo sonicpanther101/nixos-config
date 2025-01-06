@@ -148,6 +148,20 @@
         command = "python.execInTerminal";
         when = "editorLangId == python";
       }
+      {
+        key = "ctrl+shift+]";
+        command = "-notebook.unfold";
+        when = "notebookEditorFocused && !inputFocus && activeEditor == 'workbench.editor.notebook'";
+      }
+      {
+        key = "ctrl+shift+]";
+        command = "-editor.unfold";
+        when = "editorTextFocus && foldingEnabled";
+      }
+      {
+        key = "ctrl+shift+]";
+        command = "editor.action.selectToBracket";
+      }
     ];
   };
 }
