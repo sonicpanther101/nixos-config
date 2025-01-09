@@ -113,6 +113,7 @@
     unrar-wrapper
     tor
     torsocks
+    hyprsome
   ] ++ lib.optionals (host == "desktop") [
     blender
     gamescope
