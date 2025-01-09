@@ -13,9 +13,9 @@ let token = ""
 
 interface ItemDefinition {
   label: string;
-  subitems?: ItemDefinition[];
+  subItems?: ItemDefinition[];
   editMode?: boolean;
-  subitemsShown?: boolean;
+  subItemsShown?: boolean;
   price?: number;
 }
 
@@ -37,17 +37,54 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
   readUpdate()
 }).catch(print)
 
+function calculateTotalPrice(item: ItemDefinition): number {
+  let totalPrice = item.price ?? 0;
+  if (item.subItems) {
+    const subItemsTotal = item.subItems.reduce((acc, subItem) => acc + calculateTotalPrice(subItem), 0);
+    item.price = subItemsTotal; // update the price of the current item
+    totalPrice += subItemsTotal;
+  }
+  return totalPrice;
+}
+
+const listner = Variable.derive([item_list, changed], (itemList, changed) => {
+  const temp = itemList
+  for (let i = 0; i < temp.length; i++) {
+    calculateTotalPrice(temp[i]);
+  }
+});
+
+const Format = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+
 function getTarget(treePosition: number[], handler: (target: ItemDefinition) => void) {
   let temp = item_list.get();
   const target = treePosition.slice(1).reduce((acc, curr, index) => {
     if (index >= treePosition.length - 1) {
       return acc;
     } else {
-      return acc.subitems?.[curr] || acc; 
+      return acc.subItems?.[curr] || acc; 
     }
   }, temp[treePosition[0]]); 
 
   handler(target);
+  item_list.set(temp); 
+  changedHandler();
+}
+
+function getTargetParent(treePosition: number[], handler: (parent: ItemDefinition) => any) {
+  let temp = item_list.get();
+  const parent = treePosition.slice(1).reduce((acc, curr, index) => {
+    if (index >= treePosition.length - 2) {
+      return acc;
+    } else {
+      return acc.subItems?.[curr] || acc; 
+    }
+  }, temp[treePosition[0]]); 
+  
+  handler(parent)
   item_list.set(temp); 
   changedHandler();
 }
@@ -73,11 +110,6 @@ const savings = Variable.derive([Savings, savingsEdit], () => {
       savingsEdit.set(true)
     }
   };
-
-  let Format = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-  });
 
   return savingsEdit.get() ?
     <entry
@@ -105,7 +137,7 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
     if (index >= treePosition.length - 2) {
       return acc;
     } else {
-      return acc.subitems?.[curr] || acc; 
+      return acc.subItems?.[curr] || acc; 
     }
   }, item_list.get()[treePosition[0]]);
 
@@ -125,10 +157,151 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
     writeUpdate()
   };
 
-  return (
-    <box>
+  const editWidget = () => {
 
+    const label = new Widget.Entry({
+      text: definition.label,
+      width_chars: 120,
+      className: "item-label edit",
+      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text(); target.price = Number(price.get_text()); writeUpdate() }),
+      hexpand: true,
+      onRealize: (self) => { self.grab_focus() },
+      halign: Gtk.Align.START
+    })
+
+    const price = new Widget.Entry({
+      text: String(definition.price),
+      width_chars: 9,
+      className: "item-price edit",
+      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text(); target.price = Number(price.get_text()); writeUpdate() }),
+      hexpand: true,
+      onRealize: (self) => { self.grab_focus() },
+      halign: Gtk.Align.START
+    })
+
+    return <box className="item edit">
+      {label}
+      {price}
     </box>
+  }
+
+  return (
+  <box
+    hexpand
+    className={i % 2 === 0 ? "even-scroll" : "odd-scroll"}
+  >
+    <box
+      vertical
+      vexpand={false}
+    >
+      <button
+        vexpand
+        className={`item-up ${i === 0 ? "item-up-disabled" : ""}`}
+        onClick={() => {
+          if (i === 0) return
+          let temp = definition
+          if (treePosition.length === 1) {
+            let templist = item_list.get()
+            templist.splice(i, 1)
+            templist.splice(i - 1, 0, temp)
+            item_list.set(templist)
+            changedHandler()
+          } else {
+            getTargetParent(treePosition, (parent) => {
+              parent.subItems?.splice(i, 1)
+              parent.subItems?.splice(i - 1, 0, temp)
+            })
+          }
+          writeUpdate()
+        }}
+      >
+        <label label="⏶" className={`item-button-label ${i === 0 ? "item-up-disabled" : ""}`} />
+      </button>
+      <button
+        vexpand
+        className={`item-down ${(treePosition.length === 1 ? i === item_list.get().length - 1 : i + 1 === parent.subItems?.length) ? "item-down-disabled" : ""}`}
+        onClick={() => {
+          if (treePosition.length === 1 ? i === item_list.get().length - 1 : i + 1 === parent.subItems?.length) return
+          let temp = definition
+          if (treePosition.length === 1) {
+            let templist = item_list.get()
+            templist.splice(i, 1)
+            templist.splice(i + 1, 0, temp)
+            item_list.set(templist)
+            changedHandler()
+          } else {
+            getTargetParent(treePosition, (parent) => {
+              parent.subItems?.splice(i, 1)
+              parent.subItems?.splice(i + 1, 0, temp)
+            })
+          }
+          writeUpdate()
+        }}
+      >
+        <label label="⏷" className="item-button-label" />
+      </button>
+    </box>
+    <button
+      className={`item-edit ${definition.subItems ? "" : "edit-rounded"}`}
+      onClick={() => {
+        getTarget(treePosition, (target) => {
+          target.editMode = !target.editMode
+        })
+      }}
+    >
+      <label label="✎" className="item-button-label" />
+    </button>
+    {definition.subItems && <button
+      className="toggle-subItems"
+      onClick={() => {
+        getTarget(treePosition, (target) => {
+          target.subItemsShown = !target.subItemsShown
+        })
+      }}
+    >
+      <label label={definition.subItemsShown ? "▼" : "▶"} css="font-size: 1rem;"className="item-button-label" />
+    </button>}
+    <box vertical>
+        {definition.editMode ?
+          editWidget() :
+        <box>
+          <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="item-label" />
+          <label hexpand label={`${Format.format(definition.price ?? 0)}`} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="item-price" visible={Boolean(definition.price)} />
+        </box>
+      }
+      {definition.subItemsShown && definition.subItems && definition.subItems.map((item, i) => createItems(item, i, [...treePosition, i]))}
+    </box>
+    <button
+      className="subitem-add"
+      onClick={() => {
+        getTarget(treePosition, (target) => {
+          target.subItems = target.subItems || []
+          target.subItems.splice(0, 0, { label: "", editMode: true })
+          target.subItemsShown = true
+        })
+      }}
+    >
+      <label label="+" className="item-button-label" />
+    </button>
+    <button
+      className="item-delete"
+      onClick={() => {
+        if (treePosition.length === 1) {
+          let temp = item_list.get()
+          temp.splice(i, 1)
+          item_list.set(temp)
+          changedHandler()
+        } else {
+          getTargetParent(treePosition, (parent) => {
+            parent.subItems?.splice(i, 1)
+          })
+        }
+        writeUpdate()
+      }}
+      >
+        <label label="✕" className="item-button-label" />
+      </button>
+  </box>
   )
 };
 
@@ -151,14 +324,14 @@ function readUpdate() {
 function writeUpdate() {
   print("update")
 
-  function removeDisplayProperties(task: ItemDefinition): ItemDefinition {
+  function removeDisplayProperties(item: ItemDefinition): ItemDefinition {
     return {
-      label: task.label,
-      subitems:
-        task.subitems?.map(subitem =>
+      label: item.label,
+      subItems:
+        item.subItems?.map(subitem =>
           removeDisplayProperties(subitem)
         ),
-      price: task.price
+      price: item.price
     };
   }
 
@@ -175,19 +348,19 @@ function writeUpdate() {
 }
 
 const refresh = <button
-  className="task-refresh"
+  className="item-refresh"
   onClicked={() => {
     readUpdate()
   }}
 >
-  <label label="↻" className="task-button-label" />
+  <label label="↻" className="item-button-label" />
 </button>;
 
 const Entry = new Widget.Entry({
   text: bind(input),
   hexpand: true,
   canFocus: true,
-  placeholderText: "Enter task",
+  placeholderText: "Enter item name",
   className: "entry",
   onActivate: () => {
     if (Entry.get_text() === "") {
@@ -209,7 +382,7 @@ const PriceEntry = new Widget.Entry({
   text: bind(priceInput),
   hexpand: true,
   canFocus: true,
-  placeholderText: "Enter task",
+  placeholderText: "Enter item price",
   className: "price-entry",
   onActivate: () => {
     if (PriceEntry.get_text() === "" || Entry.get_text() === "" || isNaN(PriceEntry.get_text() as unknown as number)) {
@@ -229,10 +402,10 @@ const PriceEntry = new Widget.Entry({
 
 const Budget = (
   <box
-    className="tasks"
+    className="items"
     vertical
   >
-    <label label="Current Savings:" className="task-title" />
+    <label label="Current Savings:" className="item-title" />
     {bind(savings)}
     <scrollable
       vexpand

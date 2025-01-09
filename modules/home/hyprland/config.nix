@@ -17,12 +17,6 @@
         workspace_swipe_create_new = true;
       };
 
-      plugin = if (host == "desktop") then {
-        hyprsplit = {
-          num_workspaces = 10;
-        };
-      } else {};
-
       # autostart
       exec-once = 
         if (host == "desktop") then [
@@ -250,8 +244,40 @@
         ",XF86AudioNext,exec, playerctl next"
         ",XF86AudioPrev,exec, playerctl previous"
         ",XF86AudioStop, exec, playerctl stop"
-        "$mainMod, mouse_down, workspace, e-1"
-        "$mainMod, mouse_up, workspace, e+1"
+        "$mainMod, mouse_down, workspace, r-1"
+        "$mainMod, mouse_up, workspace, r+1"
+
+        # switch workspace
+        "$mainMod, 1, workspace, r~1"
+        "$mainMod, 2, workspace, r~2"
+        "$mainMod, 3, workspace, r~3"
+        "$mainMod, 4, workspace, r~4"
+        "$mainMod, 5, workspace, r~5"
+        "$mainMod, 6, workspace, r~6"
+        "$mainMod, 7, workspace, r~7"
+        "$mainMod, 8, workspace, r~8"
+        "$mainMod, 9, workspace, r~9"
+        "$mainMod, 0, workspace, r~10"
+
+        "$mainMod SHIFT, 1, movetoworkspacesilent, r~1"
+        "$mainMod SHIFT, 2, movetoworkspacesilent, r~2"
+        "$mainMod SHIFT, 3, movetoworkspacesilent, r~3"
+        "$mainMod SHIFT, 4, movetoworkspacesilent, r~4"
+        "$mainMod SHIFT, 5, movetoworkspacesilent, r~5"
+        "$mainMod SHIFT, 6, movetoworkspacesilent, r~6"
+        "$mainMod SHIFT, 7, movetoworkspacesilent, r~7"
+        "$mainMod SHIFT, 8, movetoworkspacesilent, r~8"
+        "$mainMod SHIFT, 9, movetoworkspacesilent, r~9"
+        "$mainMod SHIFT, 0, movetoworkspacesilent, r~10"
+      ];
+
+      # lockscreen keybinds
+      bindl = [
+        # laptop brightness
+        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
+        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
 
         # desktop brightness
         ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"
@@ -259,63 +285,7 @@
         "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
         "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
-      ] ++lib.optionals (host == "desktop") [
-        # hyprsplit switch workspace
-        "$mainMod, M, split:grabroguewindows"
-
-        "$mainMod, 1, split:workspace, 1"
-        "$mainMod, 2, split:workspace, 2"
-        "$mainMod, 3, split:workspace, 3"
-        "$mainMod, 4, split:workspace, 4"
-        "$mainMod, 5, split:workspace, 5"
-        "$mainMod, 6, split:workspace, 6"
-        "$mainMod, 7, split:workspace, 7"
-        "$mainMod, 8, split:workspace, 8"
-        "$mainMod, 9, split:workspace, 9"
-        "$mainMod, 0, split:workspace, 10"
-
-        "$mainMod SHIFT, 1, split:movetoworkspacesilent, 1"
-        "$mainMod SHIFT, 2, split:movetoworkspacesilent, 2"
-        "$mainMod SHIFT, 3, split:movetoworkspacesilent, 3"
-        "$mainMod SHIFT, 4, split:movetoworkspacesilent, 4"
-        "$mainMod SHIFT, 5, split:movetoworkspacesilent, 5"
-        "$mainMod SHIFT, 6, split:movetoworkspacesilent, 6"
-        "$mainMod SHIFT, 7, split:movetoworkspacesilent, 7"
-        "$mainMod SHIFT, 8, split:movetoworkspacesilent, 8"
-        "$mainMod SHIFT, 9, split:movetoworkspacesilent, 9"
-        "$mainMod SHIFT, 0, split:movetoworkspacesilent, 0"
-      ];
-
-      bindl = [
-        # laptop brigthness
-        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
-        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
-
         ", switch:Lid Switch, exec, my-sleep"
-
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
-
-        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
-        "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
-        "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
-        "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
-        "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
-        "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
-        "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
-        "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
-        "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
-        "$mainMod SHIFT, 0, movetoworkspacesilent, 0"
       ];
 
       # mouse binding
@@ -394,10 +364,6 @@
         "float,title:^(branchdialog)$"
         "float,title:^(Confirm to replace files)$"
         "float,title:^(File Operation Progress)$"
-      ];
-
-      workspace = if (host == "desktop") then [
-      ] else [
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [

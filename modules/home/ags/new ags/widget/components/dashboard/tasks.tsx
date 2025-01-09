@@ -357,7 +357,7 @@ function writeUpdate() {
     -H "Authorization: Bearer ${token}" \
     -H "X-GitHub-Api-Version: 2022-11-28" \
     https://api.github.com/gists/${gistID} \
-    -d '{"description":"Updated Gist","files":{"todo.txt":{"content":"${out}"}}}'
+    -d '{"description":"Updated Gist","files":{"todo.json":{"content":"${out}"}}}'
   `]).catch(print);
 }
 
