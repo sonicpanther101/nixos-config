@@ -64,6 +64,11 @@
       inputs.nixpkgs.follows = "hyprland-desktop";
     };
 
+    hyprsome = {
+      url = "github:sopa0/hyprsome";
+      inputs.nixpkgs.follows = "hyprland-desktop";
+    };
+
     matugen = {
       url = "github:/InioX/Matugen";
       # ref = "refs/tags/matugen-v0.10.0"

@@ -366,6 +366,30 @@
         "float,title:^(File Operation Progress)$"
       ];
 
+      workspace = [
+        "1,monitor:HDMI-A-1"
+        "2,monitor:HDMI-A-1"
+        "3,monitor:HDMI-A-1"
+        "4,monitor:HDMI-A-1"
+        "5,monitor:HDMI-A-1"
+        "6,monitor:HDMI-A-1"
+        "7,monitor:HDMI-A-1"
+        "8,monitor:HDMI-A-1"
+        "9,monitor:HDMI-A-1"
+        "10,monitor:HDMI-A-1"
+
+        "11,monitor:DP-1"
+        "12,monitor:DP-1"
+        "13,monitor:DP-1"
+        "14,monitor:DP-1"
+        "15,monitor:DP-1"
+        "16,monitor:DP-1"
+        "17,monitor:DP-1"
+        "18,monitor:DP-1"
+        "19,monitor:DP-1"
+        "20,monitor:DP-1"
+      ];
+
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
         "HDMI-A-1,1920x1080@100,0x100,1"
         "DP-1,2560x1440@144.01,1920x0,1.066667"
