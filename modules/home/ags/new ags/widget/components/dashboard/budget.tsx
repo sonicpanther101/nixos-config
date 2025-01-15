@@ -29,7 +29,7 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
   gistID = parsed.budget_gist_id
   token = parsed.token
   if (gistID === "") {
-    print("todo directory not found in secrets.json")
+    print("budget id not found in secrets.json")
     return
   } else if (token === "") {
     print("token not found in secrets.json")
@@ -153,8 +153,9 @@ const savings = Variable.derive([Savings, savingsEdit], () => {
     } else if (e.direction == Gdk.ScrollDirection.DOWN) {
         direction = -1;
     }
+    
     if (direction === null) return
-    Savings.set(Math.max(0, Math.round(Savings.get()/50)*50 - direction*50));
+    Savings.set(Math.max(0, Math.round(Savings.get()/50)*50 === Savings.get() ? (Savings.get() - direction*50) : (Math.round(Savings.get()/50)*50)));
     writeUpdate()
   };
 
@@ -375,15 +376,6 @@ function writeUpdate() {
   }
 
   const out = JSON.stringify(item_list.get().map(removeDisplayProperties).concat([{ label: 'Savings', price: Savings.get() }])).replace(/{/g, '\\n{').replace(/]/g, '\\n]').replace(/"/g, "\\\"")
-
-  item_list.get().length && print(`curl -L \
-    -X PATCH \
-    -H "Accept: application/vnd.github+json" \
-    -H "Authorization: Bearer ${token}" \
-    -H "X-GitHub-Api-Version: 2022-11-28" \
-    https://api.github.com/gists/${gistID} \
-    -d '{"description":"Updated Gist","files":{"budget.json":{"content":"${out}"}}}'
-  `)
 
   item_list.get().length && execAsync(['bash', '-c', `curl -L \
     -X PATCH \

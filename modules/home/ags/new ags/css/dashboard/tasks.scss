@@ -27,6 +27,9 @@ window.dashboard {
 
         .toggle-subtasks {
             border-top-right-radius: $radius;
+        }
+
+        .not-toggled {
             border-bottom-right-radius: $radius;
         }
 

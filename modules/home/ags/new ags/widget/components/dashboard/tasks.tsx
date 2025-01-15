@@ -17,7 +17,7 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
   gistID = parsed.todo_gist_id
   token = parsed.token
   if (gistID === "") {
-    print("todo directory not found in secrets.json")
+    print("todo id not found in secrets.json")
     return
   } else if (token === "") {
     print("token not found in secrets.json")
@@ -115,7 +115,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
     }
     if (direction === null) return
     getTarget(treePosition, (target) => {
-      target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, Math.round(target.status/5)*5 - direction*5)) : undefined;
+      target.status = (typeof target.status === "number") ? Math.min(100, Math.max(0, (Math.round(target.status/5)*5 === target.status ? (target.status - direction*5) : (Math.round(target.status/5)*5)))) : undefined;
     })
     writeUpdate()
   };
@@ -187,7 +187,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
       <label label="✎" className="task-button-label" />
     </button>
     {definition.subtasks?.length && <button
-      className="toggle-subtasks"
+      className={`toggle-subtasks ${definition.subtasksShown ? "" : "not-toggled"}`}
       onClick={() => {
         getTarget(treePosition, (target) => {
           target.subtasksShown = !target.subtasksShown
