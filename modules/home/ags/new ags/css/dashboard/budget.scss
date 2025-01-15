@@ -1,0 +1,102 @@
+@use "sass:color";
+@use "../variables" as *;
+
+window.dashboard {
+    .budget {
+
+        .savings {
+            margin-bottom: 5rem;
+            font-size: 4rem;
+            padding: 1rem;
+            background-color: rgba($bg, .2);
+            border-radius: $radius;
+        }
+
+        .savings-title{
+            font-size: larger;
+        }
+
+        .item-up,
+        .item-down,
+        .toggle-subitems,
+        .subitem-add,
+        .item-refresh,
+        .item-edit {
+            background-color: rgba($bg, .55);
+
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .item-delete {
+            background-color: rgba(rgb(243, 139, 168), .55);
+
+            &:hover {
+                background-color: rgba(rgb(243, 139, 168), .75);
+            }
+        }
+
+        .toggle-subitems {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .subitem-add {
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+        }
+
+        .edit-rounded {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .item-button-label {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .item-label, .item-price {
+            font-size: large;
+            padding: 0.5rem;
+            color: $fg;
+        }
+
+        .item-up-disabled,
+        .item-down-disabled {
+            background-color: rgba($grey, .55);
+
+            &:hover {
+                background-color: rgba($grey, .55);
+            }
+        }
+
+        .even-scroll {
+            background-color: rgba($solid_bg, .85);
+        }
+
+        .odd-scroll {
+            background-color: rgba(color.adjust($solid_bg, $lightness: -5%), .85);
+        }
+
+        .edit {
+            background-color: transparent;
+        }
+
+        .entry, .price-entry {
+            background-color: rgba($bg, .75);
+            font-size: larger;
+        }
+
+        .filled {
+            background-color: rgba(103, 147, 99, 0.85);
+        }
+    }
+}

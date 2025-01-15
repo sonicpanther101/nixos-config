@@ -17,6 +17,7 @@ interface ItemDefinition {
   editMode?: boolean;
   subItemsShown?: boolean;
   price?: number;
+  percent?: number
 }
 
 function changedHandler() {
@@ -38,20 +39,72 @@ readFileAsync(`/home/adam/.cache/astal/secrets.json`).then((secrets) => {
 }).catch(print)
 
 function calculateTotalPrice(item: ItemDefinition): number {
-  let totalPrice = item.price ?? 0;
+  let totalPrice = item.price || 0;
   if (item.subItems) {
     const subItemsTotal = item.subItems.reduce((acc, subItem) => acc + calculateTotalPrice(subItem), 0);
     item.price = subItemsTotal; // update the price of the current item
-    totalPrice += subItemsTotal;
+    totalPrice = subItemsTotal;
   }
   return totalPrice;
 }
 
-const listner = Variable.derive([item_list, changed], (itemList, changed) => {
+function calculateNonLeavePercentages(item: ItemDefinition): number {
+  if (item.subItems) {
+    item.subItems.reduce((acc, subItem) => acc + calculateNonLeavePercentages(subItem), 0);
+    const totalLeaves = item.subItems.length;
+    const totalPaid = item.subItems.reduce((acc, subItem) => acc + (subItem.percent === 100 ? 1 : 0 || 0), 0);
+    item.percent = Math.round((totalPaid / totalLeaves) * 100);
+  }
+  return 0
+}
+
+function findLeaves(treePosition: number[], item: ItemDefinition): number[][] {
+  if (item.subItems) {
+    return item.subItems.map((subitem, i) => findLeaves([...treePosition, i], subitem)).flat();
+  } else {
+    return [treePosition];
+  }
+}
+
+function calculatePercentages(Savings: number, temp: ItemDefinition[]): void {
+  let leaves = []
+  for (let i = 0; i < temp.length; i++) {
+    leaves.push(findLeaves([i], temp[i]))
+  }
+  leaves = leaves.flat()
+
+  let savings = Savings;
+
+  for (let i = 0; i < leaves.length; i++) {
+
+    const target = leaves[i].reduce((acc, curr, index) => {
+      if (index === 0) {
+        return acc; 
+      } else {
+        return acc.subItems?.[curr] || acc; 
+      }
+    }, temp[leaves[i][0]]);
+
+    target.percent = (savings === 0 || !target.price) ? 0 : ((savings > target.price) ? 100 : Math.round((savings / target.price) * 100));
+    savings -= !target.price ? 0 : (savings < target.price ? savings : target.price)
+  }
+}
+
+const listener = Variable.derive([item_list, Savings], (itemList, Savings) => {
   const temp = itemList
   for (let i = 0; i < temp.length; i++) {
     calculateTotalPrice(temp[i]);
   }
+  for (let i = 0; i < temp.length; i++) {
+    calculateTotalPrice(temp[i]);
+  }
+  calculatePercentages(Savings, temp)
+  for (let i = 0; i < temp.length; i++) {
+    calculateNonLeavePercentages(temp[i]);
+  }
+  writeUpdate()
+  print(JSON.stringify(temp))
+  changedHandler();
 });
 
 const Format = new Intl.NumberFormat('en-US', {
@@ -62,7 +115,7 @@ const Format = new Intl.NumberFormat('en-US', {
 function getTarget(treePosition: number[], handler: (target: ItemDefinition) => void) {
   let temp = item_list.get();
   const target = treePosition.slice(1).reduce((acc, curr, index) => {
-    if (index >= treePosition.length - 1) {
+    if (index === treePosition.length - 1) {
       return acc;
     } else {
       return acc.subItems?.[curr] || acc; 
@@ -114,12 +167,15 @@ const savings = Variable.derive([Savings, savingsEdit], () => {
   return savingsEdit.get() ?
     <entry
       text={`${Savings.get()}`}
-      onActivate={() => { Savings.set(isNaN(PriceEntry.get_text() as unknown as number) ? Savings.get() : Number(input.get())); savingsEdit.set(false) }}
+      onActivate={(self) => { Savings.set(isNaN(self.get_text() as unknown as number) ? Savings.get() : Number(self.get_text())); savingsEdit.set(false); writeUpdate(); }}
       className="savings edit"
-      widthChars={9}
+      widthChars={6}
+      halign={Gtk.Align.CENTER}
+      
       onRealize={(self) => { self.grab_focus() }}
     /> : <button
       className="savings"
+      halign={Gtk.Align.CENTER}
       onScroll={onScroll}
       onClick={onClick}
     >
@@ -141,30 +197,13 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
     }
   }, item_list.get()[treePosition[0]]);
 
-  const onScroll: (_: Widget.Button, e: Astal.ScrollEvent) => void = (_: Widget.Button, e: Astal.ScrollEvent) => {
-    let direction: -1 | 1 | null = null;
-    if (e.direction == Gdk.ScrollDirection.SMOOTH) {
-        direction = Math.sign(e.delta_y) as 1 | -1;
-    } else if (e.direction == Gdk.ScrollDirection.UP) {
-        direction = 1;
-    } else if (e.direction == Gdk.ScrollDirection.DOWN) {
-        direction = -1;
-    }
-    if (direction === null) return
-    getTarget(treePosition, (target) => {
-      target.price = (typeof target.price === "number") ? Math.min(100, Math.max(0, Math.round(target.price/50)*50 - direction*50)) : undefined;
-    })
-    writeUpdate()
-  };
-
   const editWidget = () => {
 
     const label = new Widget.Entry({
       text: definition.label,
-      width_chars: 120,
+      width_chars: 60,
       className: "item-label edit",
-      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text(); target.price = Number(price.get_text()); writeUpdate() }),
-      hexpand: true,
+      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text() ? label.get_text() : target.label; target.price = isNaN(price.get_text() as unknown as number) ? target.price : Number(price.get_text()); writeUpdate() }),
       onRealize: (self) => { self.grab_focus() },
       halign: Gtk.Align.START
     })
@@ -173,7 +212,7 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
       text: String(definition.price),
       width_chars: 9,
       className: "item-price edit",
-      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text(); target.price = Number(price.get_text()); writeUpdate() }),
+      onActivate: () => getTarget(treePosition, (target) => { target.editMode = false; target.label = label.get_text() ? label.get_text() : target.label; target.price = isNaN(price.get_text() as unknown as number) ? target.price : Number(price.get_text()); writeUpdate() }),
       hexpand: true,
       onRealize: (self) => { self.grab_focus() },
       halign: Gtk.Align.START
@@ -188,7 +227,8 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
   return (
   <box
     hexpand
-    className={i % 2 === 0 ? "even-scroll" : "odd-scroll"}
+    className={`${i % 2 === 0 ? "even-scroll" : "odd-scroll"} ${definition.percent === 100 && "filled"}`}
+    css={definition.percent && definition.percent < 100 ? `background: linear-gradient(90deg, rgba(98,65,4,0.7) ${definition.percent}%, rgba(0,0,0,0) ${definition.percent + 2}%);` : ""}
   >
     <box
       vertical
@@ -242,7 +282,7 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
       </button>
     </box>
     <button
-      className={`item-edit ${definition.subItems ? "" : "edit-rounded"}`}
+      className={`item-edit ${definition.subItems?.length ? "" : "edit-rounded"}`}
       onClick={() => {
         getTarget(treePosition, (target) => {
           target.editMode = !target.editMode
@@ -251,8 +291,8 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
     >
       <label label="✎" className="item-button-label" />
     </button>
-    {definition.subItems && <button
-      className="toggle-subItems"
+    {definition.subItems?.length && <button
+      className="toggle-subitems"
       onClick={() => {
         getTarget(treePosition, (target) => {
           target.subItemsShown = !target.subItemsShown
@@ -266,7 +306,7 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
           editWidget() :
         <box>
           <label hexpand label={definition.label} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="item-label" />
-          <label hexpand label={`${Format.format(definition.price ?? 0)}`} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="item-price" visible={Boolean(definition.price)} />
+          <label hexpand label={`${Format.format(definition.price || 0)}`} wrap wrapMode={Pango.WrapMode.WORD_CHAR} halign={Gtk.Align.START} className="item-price" visible={Boolean(definition.price)} />
         </box>
       }
       {definition.subItemsShown && definition.subItems && definition.subItems.map((item, i) => createItems(item, i, [...treePosition, i]))}
@@ -294,6 +334,7 @@ function createItems(definition: ItemDefinition, i: number, treePosition: number
         } else {
           getTargetParent(treePosition, (parent) => {
             parent.subItems?.splice(i, 1)
+            if (parent.subItems?.length === 0) delete parent.subItems;
           })
         }
         writeUpdate()
@@ -322,8 +363,6 @@ function readUpdate() {
 }
 
 function writeUpdate() {
-  print("update")
-
   function removeDisplayProperties(item: ItemDefinition): ItemDefinition {
     return {
       label: item.label,
@@ -337,7 +376,16 @@ function writeUpdate() {
 
   const out = JSON.stringify(item_list.get().map(removeDisplayProperties).concat([{ label: 'Savings', price: Savings.get() }])).replace(/{/g, '\\n{').replace(/]/g, '\\n]').replace(/"/g, "\\\"")
 
-  execAsync(['bash', '-c', `curl -L \
+  item_list.get().length && print(`curl -L \
+    -X PATCH \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer ${token}" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/gists/${gistID} \
+    -d '{"description":"Updated Gist","files":{"budget.json":{"content":"${out}"}}}'
+  `)
+
+  item_list.get().length && execAsync(['bash', '-c', `curl -L \
     -X PATCH \
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer ${token}" \
@@ -402,10 +450,10 @@ const PriceEntry = new Widget.Entry({
 
 const Budget = (
   <box
-    className="items"
+    className="budget"
     vertical
   >
-    <label label="Current Savings:" className="item-title" />
+    <label label="Current Savings:" className="savings-title" />
     {bind(savings)}
     <scrollable
       vexpand

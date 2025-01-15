@@ -177,7 +177,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
       </button>
     </box>
     <button
-      className={`task-edit ${definition.subtasks ? "" : "edit-rounded"}`}
+      className={`task-edit ${definition.subtasks?.length ? "" : "edit-rounded"}`}
       onClick={() => {
         getTarget(treePosition, (target) => {
           target.editMode = !target.editMode
@@ -186,7 +186,7 @@ function createTasks(definition: TaskDefinition, i: number, treePosition: number
     >
       <label label="✎" className="task-button-label" />
     </button>
-    {definition.subtasks && <button
+    {definition.subtasks?.length && <button
       className="toggle-subtasks"
       onClick={() => {
         getTarget(treePosition, (target) => {
