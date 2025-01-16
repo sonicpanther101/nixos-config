@@ -4,6 +4,7 @@
     bun
     vivaldi
     git
+    bottles
     (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
   ] ++ lib.optionals (host == "desktop") [
     blender
@@ -40,7 +41,6 @@
     cbonsai
     pipes
     neofetch
-    bottles
     # spotify
     protonvpn-gui
     nh
