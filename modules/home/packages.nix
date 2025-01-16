@@ -1,6 +1,32 @@
 { inputs, pkgs, pkgs-stable, host, lib, ... }: 
 {
   home.packages = (with pkgs; [
+    bun
+    vivaldi
+    git
+    (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
+  ] ++ lib.optionals (host == "desktop") [
+    blender
+    gamescope
+    pyload-ng
+    mangohud
+    proteus
+    qmk
+
+    cudatoolkit
+    linuxPackages.nvidia_x11
+    xorg.libXi
+    xorg.libXmu
+    freeglut
+    xorg.libXext
+    xorg.libX11
+    xorg.libXv
+    xorg.libXrandr
+    zlib
+  ]) ++ (with pkgs-stable; [
+    libreoffice
+    bambu-studio
+    torrential
     kooha
     bootiso
     p7zip
@@ -34,10 +60,6 @@
     htop
     btop
     qdirstat
-    bun
-    torrential
-    vivaldi
-    git
     #python310
     stdenv.cc.cc.lib
     stdenv.cc
@@ -66,7 +88,6 @@
     nemo-with-extensions              # file manager
     nitch                             # systhem fetch util
     nix-prefetch-github
-    (prismlauncher.override { jdks = [ jdk8 jdk17 jdk21 ]; })                     # minecraft launcher
     ripgrep                           # grep replacement
     # soundwireserver                   # pass audio to android phone
     todo                              # cli todo list
@@ -111,34 +132,12 @@
     xxd
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
-    tor
-    torsocks
     hyprsome
   ] ++ lib.optionals (host == "desktop") [
-    blender
-    gamescope
-    pyload-ng
-    mangohud
-    proteus
-    qmk
-
-    cudatoolkit
-    linuxPackages.nvidia_x11
-    xorg.libXi
-    xorg.libXmu
-    freeglut
-    xorg.libXext
-    xorg.libX11
-    xorg.libXv
-    xorg.libXrandr
-    zlib
+    geekbench
     # for xformers
     gcc
     gperftools
     gcc-unwrapped.lib
-  ]) ++ (with pkgs-stable; [
-    bambu-studio
-    geekbench
-    libreoffice
   ]);
 }
