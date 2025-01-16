@@ -137,6 +137,7 @@
     gperftools
     gcc-unwrapped.lib
   ]) ++ (with pkgs-stable; [
+    bambu-studio
     geekbench
     libreoffice
   ]);
