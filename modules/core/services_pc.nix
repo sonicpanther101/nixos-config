@@ -1,4 +1,4 @@
-{ pkgs, config, lib, username, ... }:
+{ pkgs, pkgs-stable, config, lib, username, ... }:
 {
   services = {
     gvfs.enable = true;
@@ -16,7 +16,7 @@
   hardware.enableRedistributableFirmware = true;
   services.hardware.openrgb = {
     enable = true;
-    package = lib.mkDefault pkgs.openrgb-with-all-plugins;
+    package = lib.mkDefault pkgs-stable.openrgb-with-all-plugins;
   };
   boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
