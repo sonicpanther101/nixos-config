@@ -17,7 +17,7 @@ host=$(hostname)
 if [[ $host == "laptop" ]]; then
     workspaceNum=10
 else
-    workspaceNum=20
+    workspaceNum=110
 fi
 
 if $log; then
