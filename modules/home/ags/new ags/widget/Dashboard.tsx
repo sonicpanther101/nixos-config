@@ -1,4 +1,4 @@
-import { App, Astal, Gdk, Gtk } from "astal/gtk4";
+import { App, Astal, Gdk, Gtk } from "astal/gtk3";
 import { Variable, bind } from "astal";
 import Home from "./components/dashboard/home";
 import Tasks from "./components/dashboard/tasks";

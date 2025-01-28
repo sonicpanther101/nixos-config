@@ -1,5 +1,5 @@
 import { bind, Variable } from "astal";
-import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk4";
+import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
 import { exec, execAsync } from "astal/process";
 import Pango from "gi://Pango?version=1.0";
 

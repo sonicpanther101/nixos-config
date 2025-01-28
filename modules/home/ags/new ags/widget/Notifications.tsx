@@ -1,4 +1,4 @@
-import { Astal, Gtk, App } from "astal/gtk4";
+import { Astal, Gtk, App } from "astal/gtk3";
 import { bind } from "astal";
 import AstalNotifd from "gi://AstalNotifd";
 

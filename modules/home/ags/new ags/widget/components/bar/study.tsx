@@ -1,6 +1,6 @@
 import Mpris from "gi://AstalMpris"
 import { Variable, bind, execAsync, Binding } from "astal"
-import { Astal, Gdk, Widget } from "astal/gtk4"
+import { Astal, Gdk, Widget } from "astal/gtk3"
 import { time } from "./time"
 
 

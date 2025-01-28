@@ -1,6 +1,6 @@
 import Wp from "gi://AstalWp"
 import { bind, execAsync } from "astal"
-import { Astal, Gdk, Widget } from "astal/gtk4"
+import { Astal, Gdk, Widget } from "astal/gtk3"
 
 export default function Audio() {
     const speaker = Wp.get_default()?.audio.defaultSpeaker!

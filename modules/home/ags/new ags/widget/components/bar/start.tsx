@@ -1,4 +1,4 @@
-import { Gdk, Astal, Widget, App } from "astal/gtk4"
+import { Gdk, Astal, Widget, App } from "astal/gtk3"
 import Menu from "./menu"
 import { bind, Variable } from "astal";
 

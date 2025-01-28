@@ -1,6 +1,6 @@
 import Hyprland from "gi://AstalHyprland"
 import { bind } from "astal"
-import { Gtk, Gdk } from "astal/gtk4"
+import { Gtk, Gdk } from "astal/gtk3"
 
 export default function Workspaces({ monitor }: { monitor: Gdk.Monitor }) {
   const hyprland = Hyprland.get_default()

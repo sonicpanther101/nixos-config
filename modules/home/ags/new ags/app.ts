@@ -1,4 +1,4 @@
-import { App } from "astal/gtk4"
+import { App } from "astal/gtk3"
 import { monitorFile } from "astal"
 import style from "./css/main.scss"
 import Bar from "./widget/Bar"
