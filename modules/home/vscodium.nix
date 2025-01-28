@@ -162,6 +162,10 @@
         key = "ctrl+shift+]";
         command = "editor.action.selectToBracket";
       }
+      {
+        key = "ctrl+q";
+        command = "-workbench.action.quit";
+      }
     ];
   };
 }

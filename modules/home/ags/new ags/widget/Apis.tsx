@@ -1,6 +1,6 @@
 import { execAsync, bind, Variable } from "astal";
 import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
-// import GtkSource from "gi://GtkSource?version=4.0";
+import GtkSource from "gi://GtkSource?version=4.0";
 import Pango from "gi://Pango?version=1.0";
 import Gio from "gi://Gio?version=2.0";
 import { testURL, testO, testD } from "../../../../../../.night/test";
