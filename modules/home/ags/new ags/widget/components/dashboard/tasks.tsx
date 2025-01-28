@@ -1,5 +1,5 @@
 import { readFileAsync, Variable, execAsync, bind } from "astal"
-import { Gtk, Gdk, Widget, Astal } from "astal/gtk3";
+import { Gtk, Gdk, Widget, Astal } from "astal/gtk4";
 import Pango from "gi://Pango?version=1.0";
 
 const task_list = Variable<TaskDefinition[]>([])

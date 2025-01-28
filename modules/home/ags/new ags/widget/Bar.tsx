@@ -1,4 +1,4 @@
-import { Astal, Gtk, Gdk } from "astal/gtk3"
+import { Astal, Gtk, Gdk } from "astal/gtk4"
 
 import StartButton from "./components/bar/start"
 import Workspaces from "./components/bar/workspaces"

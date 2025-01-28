@@ -1,5 +1,5 @@
 import { studyMode, studyPaused, timeLeftStudying, studying } from "./study"
-import { Gtk } from "astal/gtk3"
+import { Gtk } from "astal/gtk4"
 import { execAsync, exec, bind, Variable } from "astal"
 import Battery from "gi://AstalBattery"
 import Hyprland from "gi://AstalHyprland"

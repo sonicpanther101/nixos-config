@@ -1,6 +1,6 @@
 import Mpris from "gi://AstalMpris"
 import { Variable, bind } from "astal"
-import { Astal, Gtk, Gdk, Widget } from "astal/gtk3"
+import { Astal, Gtk, Gdk, Widget } from "astal/gtk4"
 
 export default function Media() {
   const mpris = Mpris.get_default()

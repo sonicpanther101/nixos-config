@@ -1,5 +1,5 @@
 import { bind, execAsync, exec, Variable,  } from "astal";
-import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk3";
+import { App, Astal, Gdk, Gtk, Widget } from "astal/gtk4";
 import Apps from "gi://AstalApps";
 
 const appID = "9W3X9L-P93G6KHG74";

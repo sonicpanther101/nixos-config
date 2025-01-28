@@ -5,8 +5,7 @@
   ];
 
   home.packages = with pkgs; [
-    gtk3
-    gtkmm3
+    gtkmm4
     gtksourceviewmm
     gtk4
     sass
@@ -18,7 +17,6 @@
     # configDir = "./.config/ags";
 
     extraPackages = (with inputs.ags.packages.${pkgs.system}; [
-      astal3
       astal4
       io
 
@@ -37,8 +35,7 @@
       tray
       wireplumber
     ]) ++ (with pkgs; [
-			gtksourceview
-      gtk3
+			gtksourceview4
       gtk4
 		]);
   };
