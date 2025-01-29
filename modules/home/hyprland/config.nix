@@ -166,20 +166,23 @@
       };
 
       bind = [
-
         # keybindings
+
         # terminal
         "$mainMod, Return, exec, kitty"
         "ALT, Return, exec, kitty --title float_kitty"
         "$mainMod SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
+
         # browser
         "$mainMod, B, exec, vivaldi --profile-directory=\"Default\""
         "$mainMod SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
         "$mainMod SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
+
         # discord
         "$mainMod SHIFT, D, exec, vesktop"
         "$mainMod, E, exec, nemo"
         "ALT, E, exec, nemo"
+
         # ags
         "$mainMod, R, exec, my-ags"
         "$mainMod SHIFT, R, exec, my-ags -l"
@@ -188,6 +191,7 @@
         "$mainMod, G, exec, ags toggle apis"
         "$mainMod, W, exec, ags toggle wallpaper"
         "$mainMod, F1, exec, show-keybinds"
+
         # window controls
         "$mainMod, Q, killactive,"
         "$mainMod, F, fullscreen, 0"
@@ -198,15 +202,12 @@
         "ALT, Tab, bringactivetotop"
         "ALT SHIFT, Tab, cyclenext, prev"
         "ALT SHIFT, Tab, bringactivetotop"
-        # shutdown options
-        "$mainMod, Escape, exec, swaylock"
-        "$mainMod SHIFT, Escape, exec, my-sleep"
-        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
-        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
+
         # vscode options
         "$mainMod, V, exec, codium"
         "$mainMod SHIFT, V, exec, codium ~/nixos-config"
         "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
+
         # misc
         "$mainMod, C ,exec, hyprpicker -a"
 
@@ -236,17 +237,6 @@
         "$mainMod ALT, up, moveactive, 0 -80"
         "$mainMod ALT, down, moveactive, 0 80"
 
-        # media and volume controls
-        ",XF86AudioRaiseVolume,exec, pamixer -i 2"
-        ",XF86AudioLowerVolume,exec, pamixer -d 2"
-        ",XF86AudioMute,exec, pamixer -t"
-        ",XF86AudioPlay,exec, playerctl play-pause"
-        ",XF86AudioNext,exec, playerctl next"
-        ",XF86AudioPrev,exec, playerctl previous"
-        ",XF86AudioStop, exec, playerctl stop"
-        "$mainMod, mouse_down, workspace, r-1"
-        "$mainMod, mouse_up, workspace, r+1"
-
         # switch workspace
         "$mainMod, 1, exec, hyprsome workspace 1"
         "$mainMod, 2, exec, hyprsome workspace 2"
@@ -269,6 +259,9 @@
         "$mainMod SHIFT, 8, exec, hyprsome move 8"
         "$mainMod SHIFT, 9, exec, hyprsome move 9"
         "$mainMod SHIFT, 0, exec, hyprsome move 10"
+        
+        "$mainMod, mouse_down, workspace, r-1"
+        "$mainMod, mouse_up, workspace, r+1"
       ];
 
       # lockscreen keybinds
@@ -285,7 +278,21 @@
         "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
         "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
+        # shutdown options
+        "$mainMod, Escape, exec, swaylock"
+        "$mainMod SHIFT, Escape, exec, my-sleep"
+        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
+        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
         ", switch:Lid Switch, exec, my-sleep"
+
+        # media and volume controls
+        ",XF86AudioRaiseVolume,exec, pamixer -i 2"
+        ",XF86AudioLowerVolume,exec, pamixer -d 2"
+        ",XF86AudioMute,exec, pamixer -t"
+        ",XF86AudioPlay,exec, playerctl play-pause"
+        ",XF86AudioNext,exec, playerctl next"
+        ",XF86AudioPrev,exec, playerctl previous"
+        ",XF86AudioStop, exec, playerctl stop"
       ];
 
       # mouse binding
