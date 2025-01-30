@@ -134,6 +134,7 @@
     unrar-wrapper
     hyprsome
   ] ++ lib.optionals (host == "desktop") [
+    ollama
     geekbench
     # for xformers
     gcc
