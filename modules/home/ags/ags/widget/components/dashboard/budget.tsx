@@ -103,7 +103,6 @@ const listener = Variable.derive([item_list, Savings], (itemList, Savings) => {
     calculateNonLeavePercentages(temp[i]);
   }
   writeUpdate()
-  print(JSON.stringify(temp))
   changedHandler();
 });
 

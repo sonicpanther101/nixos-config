@@ -275,61 +275,7 @@ function readUpdate() {
     
     const data = JSON.parse(out)["files"]["todo.json"]["content"]
 
-    const tasks = JSON.parse(data)
-
-    const complexTasks: TaskDefinition[] = [
-  {
-    label: "Project A",
-    status: 50,
-    subtasks: [
-      {
-        label: "Phase 1",
-        subtasks: [
-          {
-            label: "Task 1.1",
-            subtasks: [
-              {
-                label: "Subtask 1.1.1",
-              },
-              {
-                label: "Subtask 1.1.2",
-                subtasks: [
-                  {
-                    label: "Subtask 1.1.2.1",
-                  },
-                  {
-                    label: "Subtask 1.1.2.2",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            label: "Task 1.2",
-          },
-        ],
-      },
-      {
-        label: "Phase 2",
-      },
-    ],
-  },
-  {
-    label: "Project B",
-    subtasks: [
-      {
-        label: "Task 2.1",
-        subtasks: [
-          {
-            label: "Subtask 2.1.1",
-          },
-        ],
-      },
-    ],
-  },
-    ];
-    
-    
+    const tasks = JSON.parse(data)    
     
     task_list.set(tasks)
   }).catch(print)
