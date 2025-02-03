@@ -133,6 +133,7 @@
     inputs.alejandra.defaultPackage.${system}
     unrar-wrapper
     hyprsome
+    vsce
   ] ++ lib.optionals (host == "desktop") [
     ollama
     geekbench

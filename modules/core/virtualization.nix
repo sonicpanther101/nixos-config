@@ -13,6 +13,7 @@
       win-virtio
       win-spice
       adwaita-icon-theme
+      distrobox
     ];
 
     # Manage the virtualisation services
@@ -23,7 +24,6 @@
         podman = {
           enable = true;
           dockerCompat = true;
-          #defaultNetwork.settings.dns_enabled = true;
         };
     
         oci-containers = {
