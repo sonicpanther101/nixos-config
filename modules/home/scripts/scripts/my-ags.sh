@@ -21,9 +21,9 @@ else
 fi
 
 if $log; then
-    hyprctl dispatch exec "[workspace ${workspaceNum} silent] kitty --title ags-client --hold sh -c 'ags run /home/adam/nixos-config/modules/home/ags/new\ ags'"
+    hyprctl dispatch exec "[workspace ${workspaceNum} silent] kitty --title ags-client --hold sh -c 'ags run /home/adam/nixos-config/modules/home/ags/ags'"
 else
-    ags run /home/adam/nixos-config/modules/home/ags/new\ ags&
+    ags run /home/adam/nixos-config/modules/home/ags/ags&
     sleep 1
     pkill .ags-wrapped
     exit
