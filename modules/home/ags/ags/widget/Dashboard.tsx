@@ -8,7 +8,7 @@ import Events from "./components/dashboard/events";
 import Goals from "./components/dashboard/goals";
 
 const WINDOW_NAME = "dashboard";
-const MENU_ITEMS = ["Home", "Tasks", "Study", "Journal", "Budget", "Events", "Goals", "Life"]
+const MENU_ITEMS = ["Home", "Tasks", "Journal", "Budget", "Events", "Goals"]
 const currentDisplay = Variable('Home')
 const COMPONENT_MAP: { [key: string]: Gtk.Widget } = {
   Home: Home,
