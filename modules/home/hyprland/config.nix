@@ -33,7 +33,7 @@
           "wl-copy &"
           "my-ags"
 					"cd ~/nixos-config && git fetch"
-          "openrgb --startminimized -b 0 -m direct"
+          # "openrgb --startminimized -b 0 -m direct"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
           "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
           "hyprctl dispatch focusmonitor DP-2 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
