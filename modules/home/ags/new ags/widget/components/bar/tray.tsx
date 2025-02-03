@@ -1,11 +1,20 @@
 import AstalTray from "gi://AstalTray";
-import { bind } from "astal"
+import { bind, Gio } from "astal"
 import { Gtk, Gdk, Widget } from "astal/gtk3"
 
 const tray = AstalTray.get_default();
 
-const TrayItem = (id: string, item: AstalTray.TrayItem) => {
-  const menu = item.create_menu();
+type TrayItem = ReturnType<ReturnType<typeof AstalTray.Tray.get_default>["get_item"]>;
+
+function createMenu(menuModel: Gio.MenuModel, actionGroup: Gio.ActionGroup): Gtk.Menu {
+	const menu: Gtk.Menu = Gtk.Menu.new_from_model(menuModel);
+	menu.insert_action_group("dbusmenu", actionGroup);
+	return menu;
+}
+
+const TrayItem = (item: TrayItem) => {
+  // const menu = item.create_menu();
+  const menu: Gtk.Menu = createMenu(item.menu_model, item.action_group);
 
   const onClick: Widget.ButtonProps["onClick"] = (_, e) => {
     if (e.button === Gdk.BUTTON_PRIMARY) {
@@ -18,7 +27,7 @@ const TrayItem = (id: string, item: AstalTray.TrayItem) => {
   };
 
   return (
-    <button name={id} className="TrayItem" onClick={onClick}>
+    <button className="TrayItem" onClick={onClick}>
       <icon
         icon={bind(item, "iconName").as((name) => name ?? "")}
         pixbuf={bind(item, "iconPixbuf")}
@@ -32,10 +41,10 @@ export default function SysTray() {
   let itemRemovedId: number | null = null;
 
   const setup = (self: Widget.Box) => {
-    self.children = tray.get_items().map((item: AstalTray.TrayItem) => TrayItem(item.itemId, item));
+    self.children = tray.get_items().map((item: AstalTray.TrayItem) => TrayItem(item));
 
     itemAddedId = tray.connect("item-added", (_: any, itemId: string) =>
-      self.add(TrayItem(itemId, tray.get_item(itemId))),
+      self.add(TrayItem(tray.get_item(itemId))),
     );
     itemRemovedId = tray.connect("item-removed", (_: any, itemId: string) => {
       const widget = self.children.find((w) => w.name === itemId);
