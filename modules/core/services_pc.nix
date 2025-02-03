@@ -15,7 +15,7 @@
 
   hardware.enableRedistributableFirmware = true;
   services.hardware.openrgb = {
-    enable = false;
+    enable = true;
     package = lib.mkDefault pkgs-stable.openrgb-with-all-plugins;
   };
   boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
