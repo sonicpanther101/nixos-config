@@ -34,8 +34,8 @@
 - [x] codeblock css and gtk theme
 - [x] latex support (could be better but eh)
 ### Dashboard
-- [ ] get pages transferred
-- [ ] get api's working
+- [X] get pages transferred
+- [X] get api's working
 - [ ] make github io site for editing on vivaldi new page and phone
 ### Media stuff
 - [ ] volume thing?
