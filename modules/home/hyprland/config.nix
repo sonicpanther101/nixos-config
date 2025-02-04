@@ -190,6 +190,7 @@
         "ALT, V, exec, ags toggle clipboard"
         "$mainMod, G, exec, ags toggle apis"
         "$mainMod, W, exec, ags toggle wallpaper"
+        "$mainMod SHIFT, W, exec, ags toggle mouse-helper"
         "$mainMod, F1, exec, show-keybinds"
 
         # window controls
