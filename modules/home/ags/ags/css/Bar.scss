@@ -118,9 +118,13 @@ window.Bar {
         padding-left: 0.8em;
     }
 
-    .Battery label {
-        padding-left: 0;
-        margin-left: 0;
+    .Battery {
+        margin-left: 0.5rem;
+
+        label {
+            color: $fg;
+            padding-left: 0.3rem;
+        }
     }
 
     .SysTray {
