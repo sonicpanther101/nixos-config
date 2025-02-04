@@ -8,10 +8,11 @@ Help()
 {
    # Display Help
    echo
-   echo "Syntax: scriptTemplate [-n|a|H|h]"
+   echo "Syntax: scriptTemplate [-n|a|c|H|h]"
    echo "options:"
    echo "n     Don't check for changes."
    echo "a     Restart ags."
+   echo "c     Fix corrupted db."
    echo "H     Select host. laptop or desktop [l|d]. Required."
    echo "h     Print this Help."
 }
@@ -19,6 +20,7 @@ Help()
 no_check=false
 ags=false
 message=""
+corrupted_db=false
 
 while getopts "anhH:m:" option; do  # anhH
     case $option in
@@ -29,6 +31,8 @@ while getopts "anhH:m:" option; do  # anhH
             no_check=true;;
         a) 
             ags=true;;
+        c) 
+            corrupted_db=true;;
         m)
             message="$OPTARG"
             ;;
@@ -74,9 +78,14 @@ UNDERLINE=$(tput smul)
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
-    # Build the system (flakes + home manager)
-    echo -e "\nBuilding the system...\n"
-    nh os switch -H ${host} ./
+    if [[ $corrupted_db == true ]]; then
+        echo -e "\n${RED}FIXING CORRUPTED DB${NORMAL}\n"
+        sudo nixos-rebuild switch --repair --flake .#${host}
+    else
+        # Build the system (flakes + home manager)
+        echo -e "\nBuilding the system...\n"
+        nh os switch -H ${host} ./
+    fi
 }
 
 pushd "/home/${username}/nixos-config"
