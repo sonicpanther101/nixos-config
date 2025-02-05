@@ -35,6 +35,7 @@
       tray
       wireplumber
     ]) ++ (with pkgs; [
+      webkitgtk_4_1
 			gtksourceview
       gtk3
 		]);
