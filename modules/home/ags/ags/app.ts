@@ -8,7 +8,7 @@ import Notifications from "./widget/Notifications";
 import APIs from "./widget/Apis";
 import Wallaper from "./widget/Wallaper";
 import Dashboard from "./widget/Dashboard"
-import MouseHelper from "./widget/Mouse"
+// import MouseHelper from "./widget/Mouse"
 
 App.start({
     css: style,
@@ -20,7 +20,7 @@ App.start({
       APIs();
       Wallaper();
       Dashboard();
-      MouseHelper()
+      // MouseHelper()
     },
 })
 

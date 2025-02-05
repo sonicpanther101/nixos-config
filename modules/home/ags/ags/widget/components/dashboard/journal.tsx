@@ -94,7 +94,6 @@ const entryFormat = (entry: Entry, i: number, j: number) => (
 )
 
 function createEntries(definition: JournalDefinition, j: number) {
-  print(j, "srysfghdfgh")
   return (
     <box vertical>
       <label label={definition.date} className={`journal-date ${j === 0 ? "top" : ""}`} halign={Gtk.Align.START} />

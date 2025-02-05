@@ -1,5 +1,5 @@
 import { App, Astal, Gdk } from "astal/gtk3";
-import { bind, Variable } from "astal";
+import { bind, execAsync, Variable } from "astal";
 
 const WINDOW_NAME = "mouse-helper";
 
@@ -14,9 +14,17 @@ App.connect("window-toggled", (_, window) => {
   (window.name === WINDOW_NAME) && window.visible ? coords.startPoll() : coords.stopPoll();
 });
 
-const screenWidth = Variable<number>(0);
-const screenHeight = Variable<number>(0);
+const screenWidth = Variable<number>(1920);
+const screenHeight = Variable<number>(1080);
 
+// execAsync(["bash", "-c", "hyprctl monitors | grep -A 11 Monitor"]).then((out) => {
+//   const monitor = out.split("--").filter((line) => line.includes("focused: yes"))[0];
+//   const res = monitor.split("\n")[2].split("@")[0]
+//   const [x, y]: number[] = res.split("x").map(Number);
+//   screenWidth.set(x);
+//   screenHeight.set(y);
+// }).catch(print);
+      
 export default function MouseHelper() {
   <window
     name={WINDOW_NAME}
@@ -26,17 +34,7 @@ export default function MouseHelper() {
     layer={Astal.Layer.OVERLAY}
     vexpand={true}
     css="background-color: transparent;"
-    onKeyPressEvent={(self, event) => {
-      if (event.get_keyval()[1] === Gdk.KEY_Escape) {
-        if (self.visible) {
-          self.visible = false;
-        }
-      }
-    }}
-    setup={(self) => {
-      print(self.get_gdkmonitor().get_display().get_screen(0).get_resolution())
-    }}
   >
-      <icon icon="value-increase-symbolic" css={bind(coords).as(coords => `background-color: transparent; margin-left: ${coords[0]}px; margin-top: ${coords[1]}px;`)} />
+      <icon icon="value-increase-symbolic" css={bind(coords).as(coords => `background-color: transparent; margin-left: ${coords[0] - screenWidth.get() / 2}px; margin-top: ${coords[1] - screenHeight.get() / 2}px;`)} />
   </window>
 }
