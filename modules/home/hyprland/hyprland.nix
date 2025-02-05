@@ -1,10 +1,10 @@
-{ inputs, pkgs, host, ...}: 
+{ inputs, pkgs-stable, host, ...}: 
 
 {
-  home.packages = with pkgs; [
+  home.packages = with pkgs-stable; [
     swww
     swaybg
-    inputs.hypr-contrib.packages.${pkgs.system}.grimblast
+    inputs.hypr-contrib.packages.${pkgs-stable.system}.grimblast
     hyprpicker
     grim
     slurp
