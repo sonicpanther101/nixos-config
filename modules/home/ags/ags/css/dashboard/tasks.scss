@@ -89,21 +89,21 @@ window.dashboard {
         .status-slider {
             min-width: 10rem;
 
-            & trough {
+            trough {
                 background: $grey;
                 border-radius: $rounded;
                 min-height: 20px;
                 padding: 0px 10px;
             }
 
-            & highlight {
+            highlight {
                 background: $accent;
                 border-top-left-radius: $rounded;
                 border-bottom-left-radius: $rounded;
                 margin-left: -10px;
             }
 
-            & slider {
+            slider {
                 min-height: 20px;
                 min-width: 20px;
                 border-radius: $rounded;
