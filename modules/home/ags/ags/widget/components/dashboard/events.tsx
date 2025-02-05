@@ -15,12 +15,12 @@ let token = ""
 const input = Variable("")
 
 const refresh = <button
-  className="task-refresh"
+  className="event-refresh"
   onClicked={() => {
     readUpdate()
   }}
 >
-  <label label="↻" className="task-button-label" />
+  <label label="↻" className="event-button-label" />
 </button>;
 
 const calendar = new Gtk.Calendar({
@@ -36,13 +36,20 @@ const Entry = new Widget.Entry({
   hexpand: true,
   canFocus: true,
   placeholderText: "Enter event",
-  className: "tasks-entry",
+  className: "events-entry",
   onActivate: (self: Widget.Entry) => {
     if (self.get_text() === "") {
-      return
+      events_list.set(events_list.get().filter((event) => {
+        if (event.year === calendar.year && event.month === calendar.month && event.day === calendar.day) {
+          return false
+        } else {
+          return true
+        }
+      }))
+    } else {
+      events_list.set([{ label: self.get_text(), year: calendar.year, month: calendar.month, day: calendar.day }, ...events_list.get()])
+      input.set("")
     }
-    events_list.set([{ label: self.get_text(), year: calendar.year, month: calendar.month, day: calendar.day }, ...events_list.get()])
-    input.set("")
     writeUpdate()
   },
   setup: (self) => {
@@ -75,7 +82,7 @@ function readUpdate() {
     
     const data = JSON.parse(out)["files"]["events.json"]["content"]
 
-    const events = JSON.parse(data)    
+    const events = JSON.parse(data)
     
     events_list.set(events)
   }).catch(print)
@@ -102,12 +109,13 @@ calendar.connect("day_selected_double_click", (calendar: Gtk.Calendar) => {
 
 function edit(year: number, month: number, day: number) {
   Entry.grab_focus()
-  events_list.set(events_list.get().map((event) => {
+  events_list.set(events_list.get().filter((event) => {
     if (event.year === year && event.month === month && event.day === day) {
       input.set(event.label)
-      event.label = ""
+      return false
+    } else {
+      return true
     }
-    return event
   }))
   writeUpdate()
 }
@@ -125,7 +133,7 @@ const updater = Variable.derive([events_list], (events_list) => {
 })
 
 const Events = (
-  <box vertical>
+  <box vertical className="events">
     {calendar}
     <box>
       {refresh}

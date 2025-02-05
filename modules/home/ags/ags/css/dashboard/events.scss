@@ -1,0 +1,31 @@
+@use "sass:color";
+@use "../variables" as *;
+
+window.dashboard {
+    .events {
+
+        .event-refresh {
+            background-color: rgba($bg, .55);
+    
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .event-button-label {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .events-entry {
+            background-color: rgba($bg, .75);
+            font-size: larger;
+        }
+    }
+}
