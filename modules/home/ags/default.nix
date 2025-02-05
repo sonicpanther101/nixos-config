@@ -36,6 +36,9 @@
       wireplumber
     ]) ++ (with pkgs; [
       webkitgtk_4_1
+      adwaita-icon-theme
+      adw-gtk3
+      libadwaita
 			gtksourceview
       gtk3
 		]);
