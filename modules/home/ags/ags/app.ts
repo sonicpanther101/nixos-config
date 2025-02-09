@@ -13,19 +13,19 @@ import Dashboard from "./widget/Dashboard"
 App.start({
     css: style,
     main: () => {
-      App.get_monitors().map(Bar);
-      AppLauncher();
-      Clipboard();
-      Notifications({ monitor: 0 });
-      APIs();
-      Wallaper();
-      Dashboard();
-      // MouseHelper()
+        App.get_monitors().map(Bar);
+        AppLauncher();
+        Clipboard();
+        Notifications({ monitor: 0 });
+        APIs();
+        Wallaper();
+        Dashboard();
+        // MouseHelper()
     },
 })
 
 const CSS_DIR = `${SRC}/css`;
 
 monitorFile(CSS_DIR, () => {
-  App.apply_css(`${CSS_DIR}/main.scss`, true);
+    App.apply_css(`${CSS_DIR}/main.scss`, true);
 });
