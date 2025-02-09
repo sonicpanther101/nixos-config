@@ -104,7 +104,7 @@ fi
 
 git fetch
 
-if git status -uno | grep "Your branch is up to date with 'origin/main'."; then
+if git status -uno | grep "Your branch is up to date with 'origin/working-laptop'."; then
     echo "Up to date, continuing..."
 else
     echo "Not up to date, please pull, exiting."
@@ -125,7 +125,7 @@ else
     git commit -am "Rebuilt ${host} with new flake version ${current}. Updated files: ${changes}"
 fi
 
-git push -u origin main
+git push -u origin working-laptop
 
 if [[ $ags == true ]]; then
     echo "Restarting AGS"
