@@ -1,0 +1,78 @@
+@use "sass:color";
+@use "../variables" as *;
+
+window.dashboard {
+    .journal {
+
+        .journal-refresh,
+        .journal-edit {
+            background-color: rgba($bg, .55);
+    
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .journal-delete {
+            background-color: rgba(rgb(243, 139, 168), .55);
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+
+            &:hover {
+                background-color: rgba(rgb(243, 139, 168), .75);
+            }
+        }
+
+        .journal-edit {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .journal-button-label {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .journal {
+            font-size: large;
+            padding: 0.5rem;
+            color: $fg;
+        }
+
+        .edit {
+            background-color: transparent;
+        }
+
+        .even-scroll {
+            background-color: rgba($solid_bg, .85);
+        }
+
+        .odd-scroll {
+            background-color: rgba(color.adjust($solid_bg, $lightness: -5%), .85);
+        }
+
+        .journal-entries {
+            background-color: rgba($bg, .75);
+            font-size: larger;
+        }
+
+        .journal-date {
+            background-color: rgba($bg, .55);
+            font-size: xx-large;
+            padding: 0.5rem;
+            color: $fg;
+            margin-left: 4rem;
+
+            &.top {
+                border-top-right-radius: $radius;
+                border-top-left-radius: $radius;
+            }
+        }
+    }
+}

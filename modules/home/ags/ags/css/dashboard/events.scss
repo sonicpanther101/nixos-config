@@ -1,0 +1,45 @@
+@use "sass:color";
+@use "../variables" as *;
+
+window.dashboard {
+    .events {
+
+        .event-refresh {
+            background-color: rgba($bg, .55);
+    
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .event-button-label,
+        calendar.header button {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .events-entry {
+            background-color: rgba($bg, .75);
+            font-size: larger;
+        }
+
+        calendar {
+            background-color: rgba($bg, .1);
+            color: $fg;
+            font-size: large;
+        
+            &.header {
+                color: $accent;
+                margin: 0 1rem 0.5rem;
+                font-size: 2rem;
+                background-color: rgba($bg, .2);
+            }
+        }
+    }
+}

@@ -1,0 +1,127 @@
+@use "sass:color";
+@use "../variables" as *;
+
+window.dashboard {
+    .tasks {
+
+        .task-up,
+        .task-down,
+        .toggle-subtasks,
+        .subtask-add,
+        .task-refresh,
+        .task-edit {
+            background-color: rgba($bg, .55);
+
+            &:hover {
+                background-color: rgba($bg, .75);
+            }
+        }
+
+        .task-delete {
+            background-color: rgba(rgb(243, 139, 168), .55);
+
+            &:hover {
+                background-color: rgba(rgb(243, 139, 168), .75);
+            }
+        }
+
+        .toggle-subtasks {
+            border-top-right-radius: $radius;
+        }
+
+        .not-toggled {
+            border-bottom-right-radius: $radius;
+        }
+
+        .subtask-add {
+            border-top-left-radius: $radius;
+            border-bottom-left-radius: $radius;
+        }
+
+        .edit-rounded {
+            border-top-right-radius: $radius;
+            border-bottom-right-radius: $radius;
+        }
+
+        .task-button-label {
+            font-size: large;
+            padding: 0.5rem 1rem;
+            font-weight: bolder;
+            color: $fg;
+
+            &:hover {
+                color: color.adjust($fg, $lightness: 10%);
+            }
+        }
+
+        .task {
+            font-size: large;
+            padding: 0.5rem;
+            color: $fg;
+        }
+
+        .task-up-disabled,
+        .task-down-disabled {
+            background-color: rgba($grey, .55);
+
+            &:hover {
+                background-color: rgba($grey, .55);
+            }
+        }
+
+        .even-scroll {
+            background-color: rgba($solid_bg, .85);
+        }
+
+        .odd-scroll {
+            background-color: rgba(color.adjust($solid_bg, $lightness: -5%), .85);
+        }
+
+        .edit {
+            background-color: transparent;
+        }
+
+        .tasks-entry {
+            background-color: rgba($bg, .75);
+            font-size: larger;
+        }
+
+        .status-slider {
+            min-width: 10rem;
+
+            trough {
+                background: $grey;
+                border-radius: $rounded;
+                min-height: 20px;
+                padding: 0px 10px;
+            }
+
+            highlight {
+                background: $accent;
+                border-top-left-radius: $rounded;
+                border-bottom-left-radius: $rounded;
+                margin-left: -10px;
+            }
+
+            slider {
+                min-height: 20px;
+                min-width: 20px;
+                border-radius: $rounded;
+                background-color: $bg;
+
+            }
+        }
+
+        .status-label {
+            margin: 0px 0.75rem;
+        }
+
+        .status-add {
+            background-color: transparent;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+}
