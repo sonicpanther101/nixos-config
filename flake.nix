@@ -16,11 +16,18 @@
   
     nix-gaming.url = "github:fufexan/nix-gaming";
   
-    hyprland = {
+    hyprland-laptop = {
       type = "git";
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
       rev = "db249648776875ce3142141d0d3055e43ce606aa";
+    };
+
+    hyprland-desktop = {
+      type = "git";
+      url = "https://github.com/hyprwm/Hyprland";
+      submodules = true;
+      rev = "9a09eac79b85c846e3a865a9078a3f8ff65a9259";
     };
   
     home-manager.url = "github:nix-community/home-manager";
@@ -54,13 +61,8 @@
 
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
-      inputs.nixpkgs.follows = "hyprland";
+      inputs.nixpkgs.follows = "hyprland-desktop";
     };
-
-    # hyprsplit = {
-    #   url = "github:shezdy/hyprsplit";
-    #   inputs.nixpkgs.follows = "hyprland";
-    # };
 
     matugen = {
       url = "github:/InioX/Matugen";
