@@ -24,7 +24,7 @@
     xorg.libXv
     xorg.libXrandr
     zlib
-  ] ++ lib.optionals (host == "desktop") [
+  ] ++ lib.optionals (host == "laptop") [
     google-chrome
   ]) ++ (with pkgs-stable; [
     libreoffice
