@@ -14,7 +14,7 @@
     ninvaders
     nsnake
     dwarf-fortress
-    pong3d
+    # pong3d
     solitaire-tui
     chess-tui
     # bsdgames
