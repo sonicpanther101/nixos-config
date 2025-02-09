@@ -24,6 +24,8 @@
     xorg.libXv
     xorg.libXrandr
     zlib
+  ] ++ lib.optionals (host == "desktop") [
+    google-chrome
   ]) ++ (with pkgs-stable; [
     libreoffice
     bambu-studio
