@@ -5,10 +5,9 @@
   ];
 
   home.packages = with pkgs; [
-    gtk3
-    gtkmm3
+    gtkmm4
     gtksourceviewmm
-    gtk4
+    gtk3
     sass
   ];
 
@@ -19,14 +18,13 @@
 
     extraPackages = (with inputs.ags.packages.${pkgs.system}; [
       astal3
-      astal4
       io
 
       apps
       auth
       battery
       bluetooth
-      # cava
+      cava
       greet
       hyprland
       mpris
@@ -37,9 +35,9 @@
       tray
       wireplumber
     ]) ++ (with pkgs; [
+      webkitgtk_4_1
 			gtksourceview
       gtk3
-      gtk4
 		]);
   };
 }

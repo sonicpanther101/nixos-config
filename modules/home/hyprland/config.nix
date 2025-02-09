@@ -17,12 +17,6 @@
         workspace_swipe_create_new = true;
       };
 
-      plugin = {
-        # hyprsplit = {
-        #   num_workspaces = 10;
-        # };
-      };
-
       # autostart
       exec-once = 
         if (host == "desktop") then [
@@ -172,20 +166,23 @@
       };
 
       bind = [
-
         # keybindings
+
         # terminal
         "$mainMod, Return, exec, kitty"
         "ALT, Return, exec, kitty --title float_kitty"
         "$mainMod SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
+
         # browser
         "$mainMod, B, exec, vivaldi --profile-directory=\"Default\""
         "$mainMod SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
         "$mainMod SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
+
         # discord
         "$mainMod SHIFT, D, exec, vesktop"
         "$mainMod, E, exec, nemo"
         "ALT, E, exec, nemo"
+
         # ags
         "$mainMod, R, exec, my-ags"
         "$mainMod SHIFT, R, exec, my-ags -l"
@@ -194,6 +191,7 @@
         "$mainMod, G, exec, ags toggle apis"
         "$mainMod, W, exec, ags toggle wallpaper"
         "$mainMod, F1, exec, show-keybinds"
+
         # window controls
         "$mainMod, Q, killactive,"
         "$mainMod, F, fullscreen, 0"
@@ -204,15 +202,12 @@
         "ALT, Tab, bringactivetotop"
         "ALT SHIFT, Tab, cyclenext, prev"
         "ALT SHIFT, Tab, bringactivetotop"
-        # shutdown options
-        "$mainMod, Escape, exec, swaylock"
-        "$mainMod SHIFT, Escape, exec, my-sleep"
-        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
-        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
+
         # vscode options
         "$mainMod, V, exec, codium"
         "$mainMod SHIFT, V, exec, codium ~/nixos-config"
         "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
+
         # misc
         "$mainMod, C ,exec, hyprpicker -a"
 
@@ -242,6 +237,54 @@
         "$mainMod ALT, up, moveactive, 0 -80"
         "$mainMod ALT, down, moveactive, 0 80"
 
+        # switch workspace
+        "$mainMod, 1, exec, hyprsome workspace 1"
+        "$mainMod, 2, exec, hyprsome workspace 2"
+        "$mainMod, 3, exec, hyprsome workspace 3"
+        "$mainMod, 4, exec, hyprsome workspace 4"
+        "$mainMod, 5, exec, hyprsome workspace 5"
+        "$mainMod, 6, exec, hyprsome workspace 6"
+        "$mainMod, 7, exec, hyprsome workspace 7"
+        "$mainMod, 8, exec, hyprsome workspace 8"
+        "$mainMod, 9, exec, hyprsome workspace 9"
+        "$mainMod, 0, exec, hyprsome workspace 10"
+
+        "$mainMod SHIFT, 1, exec, hyprsome move 1"
+        "$mainMod SHIFT, 2, exec, hyprsome move 2"
+        "$mainMod SHIFT, 3, exec, hyprsome move 3"
+        "$mainMod SHIFT, 4, exec, hyprsome move 4"
+        "$mainMod SHIFT, 5, exec, hyprsome move 5"
+        "$mainMod SHIFT, 6, exec, hyprsome move 6"
+        "$mainMod SHIFT, 7, exec, hyprsome move 7"
+        "$mainMod SHIFT, 8, exec, hyprsome move 8"
+        "$mainMod SHIFT, 9, exec, hyprsome move 9"
+        "$mainMod SHIFT, 0, exec, hyprsome move 10"
+        
+        "$mainMod, mouse_down, workspace, r-1"
+        "$mainMod, mouse_up, workspace, r+1"
+      ];
+
+      # lockscreen keybinds
+      bindl = [
+        # laptop brightness
+        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
+        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
+        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
+        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
+
+        # desktop brightness
+        ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"
+        ",code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 - 10"
+        "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
+        "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
+
+        # shutdown options
+        "$mainMod, Escape, exec, swaylock"
+        "$mainMod SHIFT, Escape, exec, my-sleep"
+        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
+        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
+        ", switch:Lid Switch, exec, my-sleep"
+
         # media and volume controls
         ",XF86AudioRaiseVolume,exec, pamixer -i 2"
         ",XF86AudioLowerVolume,exec, pamixer -d 2"
@@ -250,72 +293,6 @@
         ",XF86AudioNext,exec, playerctl next"
         ",XF86AudioPrev,exec, playerctl previous"
         ",XF86AudioStop, exec, playerctl stop"
-        "$mainMod, mouse_down, workspace, e-1"
-        "$mainMod, mouse_up, workspace, e+1"
-
-        # desktop brightness
-        ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"
-        ",code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 - 10"
-        "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
-        "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
-
-      ] ++lib.optionals (host == "desktop") [
-        # hyprsplit switch workspace
-        "$mainMod, M, split:grabroguewindows"
-
-        "$mainMod, 1, split:workspace, 1"
-        "$mainMod, 2, split:workspace, 2"
-        "$mainMod, 3, split:workspace, 3"
-        "$mainMod, 4, split:workspace, 4"
-        "$mainMod, 5, split:workspace, 5"
-        "$mainMod, 6, split:workspace, 6"
-        "$mainMod, 7, split:workspace, 7"
-        "$mainMod, 8, split:workspace, 8"
-        "$mainMod, 9, split:workspace, 9"
-        "$mainMod, 0, split:workspace, 10"
-
-        "$mainMod SHIFT, 1, split:movetoworkspacesilent, 1"
-        "$mainMod SHIFT, 2, split:movetoworkspacesilent, 2"
-        "$mainMod SHIFT, 3, split:movetoworkspacesilent, 3"
-        "$mainMod SHIFT, 4, split:movetoworkspacesilent, 4"
-        "$mainMod SHIFT, 5, split:movetoworkspacesilent, 5"
-        "$mainMod SHIFT, 6, split:movetoworkspacesilent, 6"
-        "$mainMod SHIFT, 7, split:movetoworkspacesilent, 7"
-        "$mainMod SHIFT, 8, split:movetoworkspacesilent, 8"
-        "$mainMod SHIFT, 9, split:movetoworkspacesilent, 9"
-        "$mainMod SHIFT, 0, split:movetoworkspacesilent, 0"
-      ];
-
-      bindl = [
-        # laptop brigthness
-        ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-        ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
-        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
-
-        ", switch:Lid Switch, exec, my-sleep"
-
-        "$mainMod, 1, workspace, 1"
-        "$mainMod, 2, workspace, 2"
-        "$mainMod, 3, workspace, 3"
-        "$mainMod, 4, workspace, 4"
-        "$mainMod, 5, workspace, 5"
-        "$mainMod, 6, workspace, 6"
-        "$mainMod, 7, workspace, 7"
-        "$mainMod, 8, workspace, 8"
-        "$mainMod, 9, workspace, 9"
-        "$mainMod, 0, workspace, 10"
-
-        "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
-        "$mainMod SHIFT, 2, movetoworkspacesilent, 2"
-        "$mainMod SHIFT, 3, movetoworkspacesilent, 3"
-        "$mainMod SHIFT, 4, movetoworkspacesilent, 4"
-        "$mainMod SHIFT, 5, movetoworkspacesilent, 5"
-        "$mainMod SHIFT, 6, movetoworkspacesilent, 6"
-        "$mainMod SHIFT, 7, movetoworkspacesilent, 7"
-        "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
-        "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
-        "$mainMod SHIFT, 0, movetoworkspacesilent, 0"
       ];
 
       # mouse binding
@@ -396,8 +373,28 @@
         "float,title:^(File Operation Progress)$"
       ];
 
-      workspace = if (host == "desktop") then [
-      ] else [
+      workspace = if (host == "laptop") then [] else[
+        "1,monitor:HDMI-A-1"
+        "2,monitor:HDMI-A-1"
+        "3,monitor:HDMI-A-1"
+        "4,monitor:HDMI-A-1"
+        "5,monitor:HDMI-A-1"
+        "6,monitor:HDMI-A-1"
+        "7,monitor:HDMI-A-1"
+        "8,monitor:HDMI-A-1"
+        "9,monitor:HDMI-A-1"
+        "10,monitor:HDMI-A-1"
+
+        "11,monitor:DP-1"
+        "12,monitor:DP-1"
+        "13,monitor:DP-1"
+        "14,monitor:DP-1"
+        "15,monitor:DP-1"
+        "16,monitor:DP-1"
+        "17,monitor:DP-1"
+        "18,monitor:DP-1"
+        "19,monitor:DP-1"
+        "20,monitor:DP-1"
       ];
 
       monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
