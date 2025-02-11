@@ -3,10 +3,13 @@
 # nix-shell -p git nh
 # git clone https://github.com/sonicpanther101/nixos-config
 # cd nixos-config
-# ./initialise.sh
+# chmod +x ./*
+# ./initialise.sh -U username -H l or d -m "optional message"
 
 mkdir -p ~/Music
 mkdir -p ~/Pictures/wallpapers
+mkdir -p ~/.config/nix
+echo "experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
 
 while getopts "U:H:m:" option; do  # anhH
     case $option in
