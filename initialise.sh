@@ -5,3 +5,5 @@
 # cd nixos-config
 # ./initialise.sh
 
+mkdir -p ~/Music
+mkdir -p ~/Pictures/wallpapers
