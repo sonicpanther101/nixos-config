@@ -87,6 +87,8 @@
         "workbench.action.tasks.configureTaskRunner"
         "workbench.action.tasks.runTask"
       ];
+      "cmake.options.statusBarVisibility" = "compact";
+
 
       "editor.mouseWheelZoom" = true;
 
