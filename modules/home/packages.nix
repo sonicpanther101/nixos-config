@@ -25,6 +25,7 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
+    cmakeWithGui
     libreoffice
     bambu-studio
     torrential
