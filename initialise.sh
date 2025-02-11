@@ -8,7 +8,7 @@
 mkdir -p ~/Music
 mkdir -p ~/Pictures/wallpapers
 
-while getopts "anhH:m:" option; do  # anhH
+while getopts "U:H:m:" option; do  # anhH
     case $option in
         m)
             message="$OPTARG"
@@ -23,11 +23,16 @@ while getopts "anhH:m:" option; do  # anhH
                     host="desktop"
                     h="d";;
             esac;;
+        U)
+            echo "username: $OPTARG"
+            username="$OPTARG";;
         \?) # Invalid option
             echo "Error: Invalid option"
             exit;;
     esac
 done
+
+sed -i -e "s/adam/${username}/g" ./flake.nix
 
 cp /etc/nixos/hardware-configuration.nix hosts/${host}/hardware-configuration.nix
 
