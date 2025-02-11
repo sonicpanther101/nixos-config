@@ -83,6 +83,10 @@
         "**/node_modules" = true;
       };
       "typescript.updateImportsOnFileMove.enabled" = "always";
+      "cmake.pinnedCommands" = [
+        "workbench.action.tasks.configureTaskRunner"
+        "workbench.action.tasks.runTask"
+      ];
 
       "editor.mouseWheelZoom" = true;
 
