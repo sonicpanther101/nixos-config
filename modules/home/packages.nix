@@ -25,7 +25,8 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
-    wayland-scanner
+    hyprwayland-scanner
+    # wayland-scanner
     soulseekqt
     cmakeWithGui
     libreoffice
