@@ -25,6 +25,7 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
+    soulseekqt
     cmakeWithGui
     libreoffice
     bambu-studio
