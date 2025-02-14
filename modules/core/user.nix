@@ -28,8 +28,8 @@
         else "";
       LD_LIBRARY_PATH = 
         if (host == "desktop") then
-          "/run/opengl-driver/lib:${pkgs.stdenv.cc.cc.lib}/lib:/usr/lib/wsl/lib:${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.ncurses5}/lib:$(nix build --print-out-paths --no-link nixpkgs#libGL)/lib:${pkgs.icu74}/lib:${pkgs.python310}/lib"
-        else "${pkgs.libepoxy}/lib:${pkgs.libva1}/lib:${pkgs.libva}/lib";
+          "${pkgs.wayland}/lib:/run/opengl-driver/lib:${pkgs.stdenv.cc.cc.lib}/lib:/usr/lib/wsl/lib:${pkgs.linuxPackages.nvidia_x11}/lib:${pkgs.ncurses5}/lib:$(nix build --print-out-paths --no-link nixpkgs#libGL)/lib:${pkgs.icu74}/lib:${pkgs.python310}/lib"
+        else "${pkgs.wayland}/lib:${pkgs.libepoxy}/lib:${pkgs.libva1}/lib:${pkgs.libva}/lib";
       EXTRA_LDFLAGS = 
         if (host == "desktop") then 
           "-L/lib -L${pkgs.linuxPackages.nvidia_x11}/lib"

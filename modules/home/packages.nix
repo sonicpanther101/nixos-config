@@ -25,8 +25,6 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
-    waylandpp
-    wayland.dev
     wayland-scanner
     soulseekqt
     cmakeWithGui
