@@ -25,6 +25,8 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
+    libxkbcommon
+    wlr-protocols
     wayland-scanner
     soulseekqt
     cmakeWithGui

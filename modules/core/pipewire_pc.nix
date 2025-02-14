@@ -30,5 +30,5 @@
 
   boot.kernelModules = [ "snd-seq" "snd-rawmidi" ];
 
-  hardware.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
+  services.pulseaudio.package = pkgs.pulseaudio.override { jackaudioSupport = true; };
 }
