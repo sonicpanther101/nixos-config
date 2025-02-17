@@ -11,12 +11,6 @@
         nvidia-vaapi-driver
       ];
     };
-  };
-
-  services = {    
-    pulseaudio = {
-      package = pkgs.pulseaudio.override { jackaudioSupport = true; };
-    };
 
     bluetooth = {
       enable = true;
@@ -24,7 +18,14 @@
     };
   };
 
-  services.blueman.enable = true;
+  services = {
+    
+    pulseaudio = {
+      package = pkgs.pulseaudio.override { jackaudioSupport = true; };
+    };
+
+    blueman.enable = true;
+  };
 
   networking.firewall.allowedTCPPorts = [ 22 80 443 59010 59011 ];
 }
