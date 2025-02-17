@@ -11,7 +11,9 @@
         nvidia-vaapi-driver
       ];
     };
+  };
 
+  services = {    
     pulseaudio = {
       package = pkgs.pulseaudio.override { jackaudioSupport = true; };
     };
