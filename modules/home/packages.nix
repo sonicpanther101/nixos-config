@@ -27,7 +27,7 @@
   ]) ++ (with pkgs-stable; [
     libGLU
     glm
-    gravit
+    mesa.dev
     wayland.dev
     wayland-scanner
     soulseekqt
