@@ -25,6 +25,9 @@
     xorg.libXrandr
     zlib
   ]) ++ (with pkgs-stable; [
+    libGLU
+    glm
+    gravit
     wayland.dev
     wayland-scanner
     soulseekqt
