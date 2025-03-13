@@ -7,7 +7,7 @@
       enable = true;
       devices = [ "nodev" ];
       efiSupport = true;
-      useOSProber = true;
+      useOSProber = false;
       memtest86.enable = true;
       extraEntries = if (host == "desktop") then ''
         '' else '''';

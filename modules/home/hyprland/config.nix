@@ -20,6 +20,7 @@
       # autostart
       exec-once = 
         if (host == "desktop") then [
+          "export NIXPKGS_ALLOW_UNFREE=1"
           "systemctl --user import-environment &"
           "hash dbus-update-activation-environment 2>/dev/null &"
           "dbus-update-activation-environment --systemd &"
@@ -38,6 +39,7 @@
           "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
           "hyprctl dispatch focusmonitor DP-2 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
         ] else [
+          "export NIXPKGS_ALLOW_UNFREE=1"
           "systemctl --user import-environment &"
           "hash dbus-update-activation-environment 2>/dev/null &"
           "dbus-update-activation-environment --systemd &"

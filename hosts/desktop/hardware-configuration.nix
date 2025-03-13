@@ -25,7 +25,7 @@
     };
 
   fileSystems."/home/${username}/driveBig" = { 
-    device = "/dev/disk/by-uuid/addae521-cefe-4086-8d5f-ffab42237646";
+    device = "/dev/disk/by-uuid/06e1c776-40b9-4ec4-8065-f5dd8205eaac";
     fsType = "ext4";
     options = [ "nosuid" "nodev" "nofail" "x-gvfs-show" "user" "rw" ];
   };
