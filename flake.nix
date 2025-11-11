@@ -10,7 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    waybar.url = "github:Alexays/Waybar/master";
+    home-manager.url = "github:nix-community/home-manager";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, erosanix, ... } @ inputs:
@@ -35,7 +35,7 @@
         ];
         specialArgs = {
           host="desktop";
-          inherit self inputs username pkgs-stable;
+          inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
     };
