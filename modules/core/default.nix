@@ -1,4 +1,4 @@
-{ inputs, nixpkgs, self, username, host, ...}:{
+{ inputs, self, username, host, ...}:{
   imports = 
        [ (import ./bootloader.nix) ];
 }

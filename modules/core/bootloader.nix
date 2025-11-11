@@ -1,4 +1,4 @@
-{ inputs, config, pkgs, lib, host, erosanix, ... }:{
+{ inputs, config, pkgs-unstable, lib, host, erosanix, ... }:{
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -53,7 +53,7 @@
     isNormalUser = true;
     description = "adam";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    packages = with pkgs-unstable; [];
   };
 
   # Allow unfree packages
@@ -61,7 +61,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs-unstable; [
     kitty
     os-prober
     vivaldi

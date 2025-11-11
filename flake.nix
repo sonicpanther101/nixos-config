@@ -2,20 +2,22 @@
   description = "Sonicpanther101's nixos configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     erosanix = {
       url = "github:emmanuelrosa/erosanix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
+    waybar.url = "github:Alexays/Waybar/master";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, erosanix, ... } @ inputs:
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, erosanix, ... } @ inputs:
   let
     username = "adam";
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
+    pkgs-unstable = import nixpkgs-unstable {
       inherit system;
       config.allowUnfree = true;
     };
@@ -23,10 +25,10 @@
       inherit system;
       config.allowUnfree = true;
     };
-    lib = nixpkgs.lib;
+    lib = nixpkgs-unstable.lib;
   in {
     nixosConfigurations = {
-      desktop = nixpkgs.lib.nixosSystem {
+      desktop = nixpkgs-unstable.lib.nixosSystem {
         inherit system;
         modules = [
           (import ./hosts/desktop)
