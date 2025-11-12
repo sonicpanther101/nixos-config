@@ -2,15 +2,32 @@
 
 ### First usage
 
-1. Install  git: `nix-shell -p git`
-2. Clone repo: `git clone https://www.github.com/sonicpanther101/nixos-config`
-3. Replace hardware config: `cp /etc/nixos/hardware-configuration.nix ~/nixos-config//hosts/desktop/`
-4. Rebuild system: `sudo nixos-rebuild --flake switch ./nixos-config#desktop`
-5. Reboot: `reboot`
+1. Install  git: 
+```bash
+nix-shell -p git
+```
+2. Clone repo: 
+```bash
+git clone https://www.github.com/sonicpanther101/nixos-config
+```
+3. Replace hardware config: 
+```bash
+cp /etc/nixos/hardware-configuration.nix ~/nixos-config//hosts/desktop/
+```
+4. Rebuild system: 
+```bash
+sudo nixos-rebuild --flake switch ./nixos-config#desktop
+```
+5. Reboot: 
+```bash
+reboot
+```
 
 ### Normal rebuild
 
-`nh os switch ~/nixos-config/ -H desktop --accept-flake-config`
+```bash
+nh os switch ~/nixos-config/ -H desktop --accept-flake-config
+```
 
 ## Todo:
 - [ ] Get sleeping working
