@@ -49,22 +49,9 @@
   };
 
   services.syncthing = {
-    enable = true;
-    user = "adam";
     openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
-    settings = {
-      devices = {
-        "Phone" = { id = "U3WDNWK-4BIUXM4-OS5SUHL-EZEFTWT-22NIYE6-QEZ6YS5-5WNR7QW-DYRUKAH"; };
-      };
-      folders = {
-        # "School" = {
-        #   path = "/home/adam/driveBig/School/";
-        #   devices = [ "Phone" ];
-        # };
-      };
-    };
   };
-  # port 8384 is the default port to allow GUI access from the network.
+  # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -92,8 +79,8 @@
     ghostty
     wofi
     resources
+    htop
     inputs.erosanix.packages.x86_64-linux.foobar2000
-    git
   ];
 
   programs.hyprland = {
@@ -120,6 +107,33 @@
       home.username = "adam";
       home.homeDirectory = "/home/adam";
       home.stateVersion = "25.05";
+
+      programs.git = {
+        enable = true;
+        settings = {
+          user = {
+            name  = "sonicpanther101";
+            email = "sonicpanther101@gmail.com";
+          };
+        };
+      };
+
+      services.syncthing = {
+        enable = true;
+        settings = {
+          devices = {
+            "Phone" = { id = "U3WDNWK-4BIUXM4-OS5SUHL-EZEFTWT-22NIYE6-QEZ6YS5-5WNR7QW-DYRUKAH"; };
+          };
+          folders = {
+            "School" = {
+              id = "r7hv7-6lau7";
+              path = "/home/adam/driveBig/School/";
+              devices = [ "Phone" ];
+            };
+          };
+        };
+      };
+
       programs.waybar = {
         enable = true;
         settings = {
@@ -146,7 +160,7 @@ mainBar = {
   };
   
   clock = {
-    format = "{:%a %d %b %H:%M}";
+    format = "{:%a %d %b %I:%M%p}";
     tooltip = false;
   };
   
