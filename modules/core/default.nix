@@ -1,5 +1,8 @@
-{ inputs, self, username, host, ...}:{
-  imports = 
-       [ (import ./bootloader.nix) ]
-       [ (import ./services.nix) ];
+{ host, ...}:{
+  imports = [
+    ./bootloader.nix
+    ./network.nix
+    ./services.nix
+  ];
+  # ++ (if someCondition then [ ./optional.nix ] else []);
 }
