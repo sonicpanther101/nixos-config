@@ -5,6 +5,7 @@
     ./services.nix
     ./system.nix
     ./user.nix
+    ./hardware.nix
   ];
   # ++ (if someCondition then [ ./optional.nix ] else []);
 }

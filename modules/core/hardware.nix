@@ -1,14 +1,24 @@
-{ host, ... } : {
+{ host, pkgs, config, ... } : {
 
   hardware = if (host == "desktop") then {
+
+    enableRedistributableFirmware = true;
 
     graphics = {
       enable = true;
       enable32Bit = true;
+
+      # Use pkgs consistently
+      package = pkgs.mesa;
+      package32 = pkgs.pkgsi686Linux.mesa;
       extraPackages = with pkgs; [
-        vaapiVdpau
+        libva-vdpau-driver
         libvdpau-va-gl
         nvidia-vaapi-driver
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        libva-vdpau-driver
+        libvdpau-va-gl
       ];
     };
 
@@ -42,6 +52,7 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+
   } else {};
 
   environment.sessionVariables = {
