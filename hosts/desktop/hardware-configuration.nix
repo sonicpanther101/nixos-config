@@ -24,7 +24,27 @@
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices = [ ];
+  swapDevices = [{
+    device = "/swapfile";
+    size = 32 * 1024; # 32GB
+  }];
+
+  # sudo filefrag -v /swapfile | head                    use this to find offset                          
+  #   Filesystem type is: ef53
+  #   File size of /var/lib/swapfile is 68719476736 (16777216 blocks of 4096 bytes)
+  #   ext:     logical_offset:        physical_offset: length:   expected: flags:
+  #     0:        0..    2047:  576098304.. 576100351:   2048:            
+  #                             --------- this is the one!
+  #     1:     2048..    4095:   74756096..  74758143:   2048:  576100352:
+  #     2:     4096..    6143:   71784448..  71786495:   2048:   74758144:
+  #     3:     6144..   12287:   71788544..  71794687:   6144:   71786496:
+  #     4:    12288..   71679:  100237312.. 100296703:  59392:   71794688:
+  #     5:    71680..  434175:  100300800.. 100663295: 362496:  100296704:
+  #     6:   434176..  466943:  100204544.. 100237311:  32768:  100663296:
+  boot.kernelParams = [ "mem_sleep_default=deep" "resume_offset=91133952" ];
+
+  # use lsblk -f to get uuid of root
+  boot.resumeDevice = "/dev/disk/by-uuid/ee4293e2-b7a8-4c89-af0f-a5cab5ee435d";
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

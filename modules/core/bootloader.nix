@@ -12,6 +12,11 @@
   };
   boot.supportedFilesystems = [ "ntfs" ];
 
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=30m
+    SuspendState=mem
+  '';
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   networking.hostName = "desktop"; # Define your hostname.
