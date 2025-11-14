@@ -1,4 +1,5 @@
-{ pkgs, host,  ... } : {
+{ pkgs, host, ... } : {
+
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
   services.logind.settings.Login = {
@@ -23,10 +24,5 @@
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
-  environment.sessionVariables = {
-    # If your cursor becomes invisible
-    WLR_NO_HARDWARE_CURSORS = "1";
-    # Hint electron apps to use wayland
-    NIXOS_OZONE_WL = "1";
-  };
+  services.xserver.videoDrivers = ["nvidia"];
 }
