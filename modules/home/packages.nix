@@ -1,8 +1,5 @@
 { inputs, pkgs-unstable, pkgs-stable, ... } : {
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   home.packages = with pkgs-unstable; [

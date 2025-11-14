@@ -1,4 +1,4 @@
-{ pkgs, host, ... } : {
+{ host, ... } : {
 
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
@@ -24,5 +24,5 @@
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];
 }
