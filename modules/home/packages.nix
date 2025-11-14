@@ -1,11 +1,11 @@
-{ pkgs-unstable, pkgs-stable, ... } : {
+{ inputs, pkgs-unstable, pkgs-stable, ... } : {
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs-unstable; [
+  home.packages = with pkgs-unstable; [
     kitty
     os-prober
     vivaldi
