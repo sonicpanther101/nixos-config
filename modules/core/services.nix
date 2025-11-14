@@ -1,16 +1,27 @@
-{ pkgs, host,  ... }: 
-{
+{ pkgs, host,  ... } : {
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
-  services.logind = {
-    lidSwitch = "suspend-then-hibernate";
-    powerKey = if (host == "desktop") then "
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend-then-hibernate";
+    HandlePowerKey = if (host == "desktop") then "
       suspend-then-hibernate
     " else "
       ignore
     ";
-    powerKeyLongPress = "poweroff"
+    HandlePowerKeyLongPress = "poweroff";
   };
+
+  # Configure keymap in X11
+  services.xserver.xkb = {
+    layout = "nz";
+    variant = "";
+  };
+
+  services.syncthing = {
+    openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
+  };
+  # port 8384 is the default port to allow syncthing GUI access from the network.
+  networking.firewall.allowedTCPPorts = [ 8384 ];
 
   environment.sessionVariables = {
     # If your cursor becomes invisible
