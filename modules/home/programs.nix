@@ -10,11 +10,6 @@
     };
   };
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
   programs.nh = {
     enable = true;
     clean.enable = true;
