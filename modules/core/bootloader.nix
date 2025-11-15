@@ -14,9 +14,12 @@
   # For windows filesystems to work
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # Sleep config
   systemd.sleep.extraConfig = ''
     HibernateDelaySec=30m
     SuspendState=mem
   '';
 
+  # OpenRGB
+  boot.kernelModules = [ "i2c-dev" ];
 }

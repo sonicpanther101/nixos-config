@@ -1,6 +1,9 @@
-{ host, pkgs-stable, ... } : {
+{ host, pkgs-unstable, ... } : {
 
   hardware = if (host == "desktop") then {
+
+    # OpenRGB
+    i2c.enable = true;
 
     enableRedistributableFirmware = true;
 
@@ -9,14 +12,14 @@
       enable32Bit = true;
 
       # Use pkgs consistently
-      package = pkgs-stable.mesa;
-      package32 = pkgs-stable.pkgsi686Linux.mesa;
-      extraPackages = with pkgs; [
+      package = pkgs-unstable.mesa;
+      package32 = pkgs-unstable.pkgsi686Linux.mesa;
+      extraPackages = with pkgs-unstable; [
         libva-vdpau-driver
         libvdpau-va-gl
         nvidia-vaapi-driver
       ];
-      extraPackages32 = with pkgs-stable.pkgsi686Linux; [
+      extraPackages32 = with pkgs-unstable.pkgsi686Linux; [
         libva-vdpau-driver
         libvdpau-va-gl
       ];
@@ -50,15 +53,20 @@
       nvidiaSettings = true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = pkgs-stable.linuxKernel.packages.linux_6_12.nvidiaPackages.stable;
+      package = pkgs-unstable.linuxKernel.packages.linux_6_12.nvidiaPackages.stable;
     };
 
   } else {};
 
-  environment.sessionVariables = {
-    # If your cursor becomes invisible
-    WLR_NO_HARDWARE_CURSORS = "1";
-    # Hint electron apps to use wayland
-    NIXOS_OZONE_WL = "1";
+  environment = {
+    
+    sessionVariables = {
+      # If your cursor becomes invisible
+      WLR_NO_HARDWARE_CURSORS = "1";
+      # Hint electron apps to use wayland
+      NIXOS_OZONE_WL = "1";
+    };
+
+    pathsToLink = [ "/share/applications" "/share/xgd-desktop-portal" ];
   };
 }

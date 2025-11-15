@@ -3,5 +3,5 @@
     # ./config.nix
     ./hyprland.nix
     # ./variables.nix
-  ]
+  ];
 }

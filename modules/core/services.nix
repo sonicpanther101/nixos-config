@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ host, pkgs-stable, pkgs-unstable, lib, username, ... } : {
 
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
@@ -18,11 +18,29 @@
     variant = "";
   };
 
+  # syncthing
   services.syncthing = {
     openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
   };
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
+  # nvidia
   services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];
+
+  # openRGB
+  services.udev.packages = [ pkgs-unstable.openrgb ];
+
+  services.hardware.openrgb.enable = true;
+
+  boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
+  users.groups.i2c.members = [ username ];
+
+  # Stop keypresses and mouse movement turning on from sleep.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="00c5", ATTR{power/wakeup}="disabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", ATTR{power/wakeup}="disabled"
+    SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", TAG+="uaccess", TAG+="Keychron V6"
+  '';
 }

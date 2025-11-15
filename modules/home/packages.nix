@@ -15,6 +15,7 @@
     wofi
     resources
     htop
+    playerctl
     inputs.erosanix.packages.x86_64-linux.foobar2000
   ];
 }
