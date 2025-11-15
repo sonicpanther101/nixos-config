@@ -11,6 +11,11 @@
     };
 
     home-manager.url = "github:nix-community/home-manager";
+
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, erosanix, ... } @ inputs:

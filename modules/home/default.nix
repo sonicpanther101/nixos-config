@@ -4,5 +4,6 @@
     ./services.nix
     ./waybar.nix
     ./packages.nix
+    ./hyprland
   ];
 }
