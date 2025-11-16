@@ -47,12 +47,22 @@
     };
     lib = nixpkgs-unstable.lib;
   in {
+
+    # Add overlay for beefweb_mpris
+    overlays.default = final: prev: {
+      beefweb_mpris = final.callPackage ./pkgs/beefweb_mpris.nix {};
+      
+      # Make erosanix packages available
+      erosanix = erosanix.packages.${system};
+    };
+
     nixosConfigurations = {
       desktop = nixpkgs-unstable.lib.nixosSystem {
         inherit system;
         modules = [
-          (import ./hosts/desktop)
+          ./hosts/desktop
           inputs.stylix.nixosModules.stylix
+          { nixpkgs.overlays = [ self.overlays.default ]; }
         ];
         specialArgs = {
           host="desktop";

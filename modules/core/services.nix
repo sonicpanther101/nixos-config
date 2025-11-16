@@ -46,4 +46,21 @@
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", ATTR{power/wakeup}="disabled"
     SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", TAG+="uaccess", TAG+="Keychron V6"
   '';
+
+  /* services.foobar2000-mpris = {
+    enable = true;
+    
+    # Optional: Auto-start MPRIS bridge
+    autoStart = true;  # Set to false if you want to start it manually
+    
+    # Optional: Use different wine version
+    winePackage = pkgs-stable.wine64Packages.unstable;  # or .stable, .staging, etc.
+    
+    # Optional: Choose architecture
+    wineArch = "win64";  # or "win32"
+    
+    # Optional: Custom beefweb settings
+    beefwebHost = "localhost";
+    beefwebPort = 8880;
+  }; */
 }

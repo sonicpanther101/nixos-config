@@ -23,6 +23,5 @@
     htop
     playerctl
     pamixer                           # pulseaudio command line mixer
-    inputs.erosanix.packages.x86_64-linux.foobar2000
   ];
 }
