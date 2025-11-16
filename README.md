@@ -30,7 +30,8 @@ nh os switch ~/nixos-config/ -H desktop --accept-flake-config
 ```
 
 ## Todo:
-- [ ] Get sleeping working
+- [x] Get sleeping working
+- [ ] Get openrgb to work for sleep
 - [ ] autostart hyprland, from there everything else can be started by that
 - [ ] Add back all programs from old config
 - [ ] Replace all mentions of adam with variable

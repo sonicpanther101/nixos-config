@@ -18,6 +18,19 @@
     };
 
     stylix.url = "github:danth/stylix";
+
+    catppuccin-bat = {
+      url = "github:catppuccin/bat";
+      flake = false;
+    };
+    catppuccin-cava = {
+      url = "github:catppuccin/cava";
+      flake = false;
+    };
+    catppuccin-starship = {
+      url = "github:catppuccin/starship";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, erosanix, ... } @ inputs:
