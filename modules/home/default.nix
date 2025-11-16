@@ -5,5 +5,6 @@
     ./waybar.nix
     ./packages.nix
     ./hyprland
+    ./terminal
   ];
 }
