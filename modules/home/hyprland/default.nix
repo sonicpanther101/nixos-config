@@ -1,6 +1,6 @@
 { ... } : {
   imports = [
-    # ./config.nix
+    ./config.nix
     ./hyprland.nix
     # ./variables.nix
   ];

@@ -67,6 +67,6 @@
       NIXOS_OZONE_WL = "1";
     };
 
-    pathsToLink = [ "/share/applications" "/share/xgd-desktop-portal" ];
+    pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
   };
 }
