@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, ... } : {
+{ host, pkgs-unstable, pkgs-stable, inputs, ... } : {
 
   hardware = if (host == "desktop") then {
 
@@ -70,7 +70,8 @@
     pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
     systemPackages = [
-      (pkgs-unstable.callPackage ../../packages/openrgb.nix { })
+      (pkgs-stable.callPackage ../../packages/openrgb.nix { })
+      (inputs.erosanix.packages.x86_64-linux.foobar2000)
     ];
   };
   # openrgb = pkgs-unstable.callPackage ./packages/openrgb.nix { };

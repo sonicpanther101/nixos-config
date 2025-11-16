@@ -285,7 +285,8 @@
 
         # shutdown options
         "SUPER, Escape, exec, swaylock"
-        "SUPER SHIFT, Escape, exec, my-sleep"
+        # "SUPER SHIFT, Escape, exec, my-sleep"
+        "SUPER SHIFT, Escape, exec, systemctl suspend"
         "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
         "SUPER SHIFT CTRL ALT, Escape, exec, reboot"
         ", switch:Lid Switch, exec, my-sleep"
