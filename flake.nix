@@ -39,6 +39,7 @@
         inherit system;
         modules = [
           (import ./hosts/desktop)
+          inputs.stylix.nixosModules.stylix
         ];
         specialArgs = {
           host="desktop";

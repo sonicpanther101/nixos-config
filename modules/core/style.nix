@@ -1,7 +1,9 @@
-{ pkgs, inputs, username, lib, ... } : {
+{ pkgs-stable, inputs, username, lib, ... } : {
     stylix = {
         enable = true;
-        image = pkgs.fetchurl {
+
+        # Required
+        image = pkgs-stable.fetchurl {
             url = "https://raw.githubusercontent.com/sonicpanther101/RaspberryPi-Elecrow-Kit/main/nixos.png";
             sha256 = "sha256-vWh3HJe9s/q9pb7oMsfRG27124a+X5bbbJVa32UrZSs=";
         };
@@ -10,27 +12,27 @@
         targets.grub.enable = false;
 
         polarity = "dark";
-        base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
+        base16Scheme = "${pkgs-stable.base16-schemes}/share/themes/catppuccin-mocha.yaml";
         opacity.terminal = 0.55;
 
         fonts = {
             serif = {
-                package = pkgs.nerd-fonts.jetbrains-mono;
+                package = pkgs-stable.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 
             sansSerif = {
-                package = pkgs.nerd-fonts.jetbrains-mono;
+                package = pkgs-stable.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 
             monospace = {
-                package = pkgs.nerd-fonts.jetbrains-mono;
+                package = pkgs-stable.nerd-fonts.jetbrains-mono;
                 name = "JetBrainsMono Nerd Font";
             };
 
             emoji = {
-                package = pkgs.noto-fonts-emoji;
+                package = pkgs-stable.noto-fonts-emoji;
                 name = "Noto Color Emoji";
             };
 
@@ -43,8 +45,8 @@
         };
     
         cursor = {
-            # package = pkgs.catppuccin-cursors.mochaBlue;
-            package = pkgs.catppuccin-cursors.mochaDark;
+            # package = pkgs-stable.catppuccin-cursors.mochaBlue;
+            package = pkgs-stable.catppuccin-cursors.mochaDark;
             # name = "catppuccin-mocha-blue-cursors";
             name = "catppuccin-mocha-dark-cursors";
             size = 22;
