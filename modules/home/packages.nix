@@ -5,10 +5,12 @@
   home.packages = with pkgs-unstable; [
     kitty
     os-prober
+    vlc
     vivaldi
     vscodium-fhs
     firefox
     kdePackages.dolphin
+    nemo-with-extensions
     grayjay
     bottles
     ghostty

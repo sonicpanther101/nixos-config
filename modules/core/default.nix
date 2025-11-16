@@ -4,6 +4,7 @@
     ./bootloader.nix
     ./network.nix
     ./services.nix
+    ./style.nix
     ./system.nix
     ./user.nix
     ./hardware.nix
