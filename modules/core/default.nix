@@ -1,5 +1,6 @@
 { host, ... } : {
   imports = [
+    ./audio.nix
     ./bootloader.nix
     ./network.nix
     ./services.nix
