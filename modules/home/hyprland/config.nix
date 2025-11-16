@@ -18,7 +18,7 @@
       }; */
 
       # autostart
-      exec-once = 
+      /* exec-once = 
         if (host == "desktop") then [
           "export NIXPKGS_ALLOW_UNFREE=1"
           "systemctl --user import-environment &"
@@ -54,7 +54,7 @@
           "my-ags"
 					"cd ~/nixos-config && git fetch"
           "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
-        ];
+        ]; */
 
       binds = { scroll_event_delay = 0; };
       input = {
@@ -78,14 +78,13 @@
       cursor.no_warps = true;
       debug.disable_logs = false;
 
-      general = {
-        "$mainMod" = "SUPER";
+      /* general = {
         layout = "dwindle";
         gaps_in = 0;
         gaps_out = 0;
         gaps_workspaces = 0;
         border_size = 0;
-      };
+      }; */
 
       misc = {
         disable_autoreload = true;
@@ -111,7 +110,7 @@
         special_scale_factor = 1;
       };
 
-      decoration = {
+      /* decoration = {
         rounding = 0;
         # active_opacity = 0.90;
         # inactive_opacity = 0.90;
@@ -140,9 +139,9 @@
         dim_inactive = false;
         dim_strength = 0.1;
         dim_special = 0;
-      };
+      }; */
 
-      animations = {
+      /* animations = {
         enabled = true;
         bezier = [
           "md3_decel, 0.05, 0.7, 0.1, 1"
@@ -165,107 +164,109 @@
           # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
-      };
+      }; */
 
       bind = [
         # keybindings
 
         # terminal
-        "$mainMod, Return, exec, kitty"
+        "SUPER, Return, exec, kitty"
         "ALT, Return, exec, kitty --title float_kitty"
-        "$mainMod SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
+        "SUPER SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
 
         # browser
-        "$mainMod, B, exec, vivaldi --profile-directory=\"Default\""
-        "$mainMod SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
-        "$mainMod SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
+        "SUPER, B, exec, vivaldi --profile-directory=\"Default\""
+        "SUPER SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
+        "SUPER SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
 
         # discord
-        "$mainMod SHIFT, D, exec, vesktop"
-        "$mainMod, E, exec, nemo"
+        "SUPER SHIFT, D, exec, vesktop"
+
+        # File browser
+        "SUPER, E, exec, nemo"
         "ALT, E, exec, nemo"
 
         # ags
-        "$mainMod, R, exec, wofi --show drun"
-        # "$mainMod, R, exec, my-ags"
-        "$mainMod SHIFT, R, exec, my-ags -l"
-        "$mainMod, D, exec, ags toggle app-launcher"
+        "SUPER, R, exec, wofi --show drun"
+        # "SUPER, R, exec, my-ags"
+        "SUPER SHIFT, R, exec, my-ags -l"
+        "SUPER, D, exec, ags toggle app-launcher"
         "ALT, V, exec, ags toggle clipboard"
-        "$mainMod, G, exec, ags toggle apis"
-        "$mainMod, W, exec, ags toggle wallpaper"
-        "$mainMod SHIFT, W, exec, ags toggle mouse-helper"
-        "$mainMod, F1, exec, show-keybinds"
+        "SUPER, G, exec, ags toggle apis"
+        "SUPER, W, exec, ags toggle wallpaper"
+        "SUPER SHIFT, W, exec, ags toggle mouse-helper"
+        "SUPER, F1, exec, show-keybinds"
 
         # window controls
-        "$mainMod, Q, killactive,"
-        "$mainMod, F, fullscreen, 0"
-        "$mainMod, Space, togglefloating,"
-        "$mainMod, P, pseudo,"
-        "$mainMod, J, togglesplit,"
+        "SUPER, Q, killactive,"
+        "SUPER, F, fullscreen, 0"
+        "SUPER, Space, togglefloating,"
+        "SUPER, P, pseudo,"
+        "SUPER, J, togglesplit,"
         "ALT, Tab, cyclenext"
         "ALT, Tab, bringactivetotop"
         "ALT SHIFT, Tab, cyclenext, prev"
         "ALT SHIFT, Tab, bringactivetotop"
 
         # vscode options
-        "$mainMod, V, exec, codium"
-        "$mainMod SHIFT, V, exec, codium ~/nixos-config"
-        "$mainMod SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
+        "SUPER, V, exec, codium"
+        "SUPER SHIFT, V, exec, codium ~/nixos-config"
+        "SUPER SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
 
         # misc
-        "$mainMod, C ,exec, hyprpicker -a"
+        "SUPER, C ,exec, hyprpicker -a"
 
         # screenshot
-        "$mainMod, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
-        "$mainMod SHIFT, S, exec, kooha"
+        "SUPER, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
+        "SUPER SHIFT, S, exec, kooha"
 
         # switch focus
-        "$mainMod, left, movefocus, l"
-        "$mainMod, right, movefocus, r"
-        "$mainMod, up, movefocus, u"
-        "$mainMod, down, movefocus, d"
+        "SUPER, left, movefocus, l"
+        "SUPER, right, movefocus, r"
+        "SUPER, up, movefocus, u"
+        "SUPER, down, movefocus, d"
 
-        "$mainMod CTRL, c, movetoworkspace, emptynm"
+        "SUPER CTRL, c, movetoworkspace, emptynm"
 
         # window control
-        "$mainMod SHIFT, left, movewindow, l"
-        "$mainMod SHIFT, right, movewindow, r"
-        "$mainMod SHIFT, up, movewindow, u"
-        "$mainMod SHIFT, down, movewindow, d"
-        "$mainMod CTRL, left, resizeactive, -80 0"
-        "$mainMod CTRL, right, resizeactive, 80 0"
-        "$mainMod CTRL, up, resizeactive, 0 -80"
-        "$mainMod CTRL, down, resizeactive, 0 80"
-        "$mainMod ALT, left, moveactive,  -80 0"
-        "$mainMod ALT, right, moveactive, 80 0"
-        "$mainMod ALT, up, moveactive, 0 -80"
-        "$mainMod ALT, down, moveactive, 0 80"
+        "SUPER SHIFT, left, movewindow, l"
+        "SUPER SHIFT, right, movewindow, r"
+        "SUPER SHIFT, up, movewindow, u"
+        "SUPER SHIFT, down, movewindow, d"
+        "SUPER CTRL, left, resizeactive, -80 0"
+        "SUPER CTRL, right, resizeactive, 80 0"
+        "SUPER CTRL, up, resizeactive, 0 -80"
+        "SUPER CTRL, down, resizeactive, 0 80"
+        "SUPER ALT, left, moveactive,  -80 0"
+        "SUPER ALT, right, moveactive, 80 0"
+        "SUPER ALT, up, moveactive, 0 -80"
+        "SUPER ALT, down, moveactive, 0 80"
 
         # switch workspace
-        "$mainMod, 1, exec, hyprsome workspace 1"
-        "$mainMod, 2, exec, hyprsome workspace 2"
-        "$mainMod, 3, exec, hyprsome workspace 3"
-        "$mainMod, 4, exec, hyprsome workspace 4"
-        "$mainMod, 5, exec, hyprsome workspace 5"
-        "$mainMod, 6, exec, hyprsome workspace 6"
-        "$mainMod, 7, exec, hyprsome workspace 7"
-        "$mainMod, 8, exec, hyprsome workspace 8"
-        "$mainMod, 9, exec, hyprsome workspace 9"
-        "$mainMod, 0, exec, hyprsome workspace 10"
+        "SUPER, 1, exec, hyprsome workspace 1"
+        "SUPER, 2, exec, hyprsome workspace 2"
+        "SUPER, 3, exec, hyprsome workspace 3"
+        "SUPER, 4, exec, hyprsome workspace 4"
+        "SUPER, 5, exec, hyprsome workspace 5"
+        "SUPER, 6, exec, hyprsome workspace 6"
+        "SUPER, 7, exec, hyprsome workspace 7"
+        "SUPER, 8, exec, hyprsome workspace 8"
+        "SUPER, 9, exec, hyprsome workspace 9"
+        "SUPER, 0, exec, hyprsome workspace 10"
 
-        "$mainMod SHIFT, 1, exec, hyprsome move 1"
-        "$mainMod SHIFT, 2, exec, hyprsome move 2"
-        "$mainMod SHIFT, 3, exec, hyprsome move 3"
-        "$mainMod SHIFT, 4, exec, hyprsome move 4"
-        "$mainMod SHIFT, 5, exec, hyprsome move 5"
-        "$mainMod SHIFT, 6, exec, hyprsome move 6"
-        "$mainMod SHIFT, 7, exec, hyprsome move 7"
-        "$mainMod SHIFT, 8, exec, hyprsome move 8"
-        "$mainMod SHIFT, 9, exec, hyprsome move 9"
-        "$mainMod SHIFT, 0, exec, hyprsome move 10"
+        "SUPER SHIFT, 1, exec, hyprsome move 1"
+        "SUPER SHIFT, 2, exec, hyprsome move 2"
+        "SUPER SHIFT, 3, exec, hyprsome move 3"
+        "SUPER SHIFT, 4, exec, hyprsome move 4"
+        "SUPER SHIFT, 5, exec, hyprsome move 5"
+        "SUPER SHIFT, 6, exec, hyprsome move 6"
+        "SUPER SHIFT, 7, exec, hyprsome move 7"
+        "SUPER SHIFT, 8, exec, hyprsome move 8"
+        "SUPER SHIFT, 9, exec, hyprsome move 9"
+        "SUPER SHIFT, 0, exec, hyprsome move 10"
         
-        "$mainMod, mouse_down, workspace, r-1"
-        "$mainMod, mouse_up, workspace, r+1"
+        "SUPER, mouse_down, workspace, r-1"
+        "SUPER, mouse_up, workspace, r+1"
       ];
 
       # lockscreen keybinds
@@ -273,20 +274,20 @@
         # laptop brightness
         ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
         ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-        "$mainMod, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
-        "$mainMod, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
+        "SUPER, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
+        "SUPER, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
 
         # desktop brightness
         ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"
         ",code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 - 10"
-        "$mainMod, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
-        "$mainMod, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
+        "SUPER, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
+        "SUPER, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
         # shutdown options
-        "$mainMod, Escape, exec, swaylock"
-        "$mainMod SHIFT, Escape, exec, my-sleep"
-        "$mainMod SHIFT CTRL, Escape, exec, my-shutdown"
-        "$mainMod SHIFT CTRL ALT, Escape, exec, reboot"
+        "SUPER, Escape, exec, swaylock"
+        "SUPER SHIFT, Escape, exec, my-sleep"
+        "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
+        "SUPER SHIFT CTRL ALT, Escape, exec, reboot"
         ", switch:Lid Switch, exec, my-sleep"
 
         # media and volume controls
@@ -301,8 +302,8 @@
 
       # mouse binding
       bindm = [
-        "$mainMod, mouse:272, movewindow"
-        "$mainMod, mouse:273, resizewindow"
+        "SUPER, mouse:272, movewindow"
+        "SUPER, mouse:273, resizewindow"
       ];
 
       # windowrule
