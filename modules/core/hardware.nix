@@ -68,5 +68,10 @@
     };
 
     pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
+
+    systemPackages = [
+      (pkgs-unstable.callPackage ../../packages/openrgb.nix { })
+    ];
   };
+  # openrgb = pkgs-unstable.callPackage ./packages/openrgb.nix { };
 }
