@@ -29,9 +29,12 @@
   services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];
 
   # openRGB
-  services.udev.packages = [ pkgs-unstable.openrgb ];
+  # services.udev.packages = [ pkgs-unstable.openrgb ];
 
-  services.hardware.openrgb.enable = true;
+  /* services.hardware.openrgb = {
+    enable = true;
+    package = pkgs-unstable.openrgb;
+  }; */
 
   boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];

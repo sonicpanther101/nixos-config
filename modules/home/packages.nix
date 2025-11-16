@@ -14,6 +14,7 @@
     adwaita-icon-theme
     p7zip
     unrar
+    tree
     grayjay
     bottles
     ghostty
