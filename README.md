@@ -31,7 +31,10 @@ nh os switch ~/nixos-config/ -H desktop --accept-flake-config
 
 ## Todo:
 - [x] Get sleeping working
-- [ ] Get openrgb to work for sleep
+- [x] Get openrgb to work for sleep
+- [ ] lock screen
+- [ ] connect fobar2000 to mpris
+- [ ] mpris on waybar
 - [ ] autostart hyprland, from there everything else can be started by that
 - [ ] Add back all programs from old config
 - [ ] Replace all mentions of adam with variable

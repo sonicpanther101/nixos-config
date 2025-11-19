@@ -1,4 +1,4 @@
-{ inputs, config, pkgs-unstable, pkgs-stable, lib, host, ... }:{
+{ inputs, host, ... }:{
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
