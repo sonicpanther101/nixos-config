@@ -8,8 +8,6 @@
     vlc
     vivaldi
     vscodium-fhs
-    firefox
-    kdePackages.dolphin
     nemo-with-extensions
     adwaita-icon-theme
     p7zip
