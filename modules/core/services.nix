@@ -40,21 +40,4 @@
   # services.udev.packages = [ (pkgs-stable.callPackage ../../packages/openrgb.nix { }) ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
   users.groups.i2c.members = [ username ];
-
-  /* services.foobar2000-mpris = {
-    enable = true;
-    
-    # Optional: Auto-start MPRIS bridge
-    autoStart = true;  # Set to false if you want to start it manually
-    
-    # Optional: Use different wine version
-    winePackage = pkgs-stable.wine64Packages.unstable;  # or .stable, .staging, etc.
-    
-    # Optional: Choose architecture
-    wineArch = "win64";  # or "win32"
-    
-    # Optional: Custom beefweb settings
-    beefwebHost = "localhost";
-    beefwebPort = 8880;
-  }; */
 }
