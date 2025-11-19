@@ -1,4 +1,4 @@
-{ host, pkgs-stable, pkgs-unstable, lib, username, ... } : {
+{ host, pkgs-stable, lib, username, ... } : {
 
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
@@ -27,14 +27,6 @@
 
   # nvidia
   services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];
-
-  # openRGB
-  # services.udev.packages = [ pkgs-unstable.openrgb ];
-
-  /* services.hardware.openrgb = {
-    enable = true;
-    package = pkgs-unstable.openrgb;
-  }; */
 
   boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
   boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
