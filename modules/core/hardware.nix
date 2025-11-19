@@ -74,5 +74,4 @@
       (inputs.erosanix.packages.x86_64-linux.foobar2000)
     ];
   };
-  # openrgb = pkgs-unstable.callPackage ./packages/openrgb.nix { };
 }

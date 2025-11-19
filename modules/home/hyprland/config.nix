@@ -284,10 +284,11 @@
         "SUPER, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
         # shutdown options
-        "SUPER, Escape, exec, swaylock"
+        "SUPER, Escape, exec, hyprlock"
         # "SUPER SHIFT, Escape, exec, my-sleep"
         "SUPER SHIFT, Escape, exec, systemctl suspend"
-        "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
+        "SUPER SHIFT CTRL, Escape, exec, shutdown"
+        # "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
         "SUPER SHIFT CTRL ALT, Escape, exec, reboot"
         ", switch:Lid Switch, exec, my-sleep"
 
