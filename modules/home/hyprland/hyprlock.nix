@@ -35,8 +35,8 @@
         # font_color = "rgb(202, 211, 245)";
         # inner_color = "rgb(91, 96, 120)";
         # outer_color = "rgb(24, 25, 38)";
-        outline_thickness = 5;
-        placeholder_text = ''<span foreground="##cad3f5">Password...</span>'';
+        outline_thickness = 4;
+        placeholder_text = ''<span foreground="#cad3f5">Password...</span>'';
         shadow_passes = 2;
       };
 
@@ -45,21 +45,19 @@
         # TIME
         monitor = "";
         text = "$TIME"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
-        font_size = 45;
+        font_size = 65;
         font_family = "$font";
 
-        position = "-30, 0";
-        halign = "right";
+        position = "0, -10";
         valign = "top";
       } {
         # DATE
         monitor = "";
         text = "cmd[update:60000] date +'%A, %d %B %Y'"; # update every 60 seconds
-        font_size = 20;
+        font_size = 25;
         font_family = "$font";
 
-        position = "-30, -150";
-        halign = "right";
+        position = "0, -150";
         valign = "top";
       }];
     };

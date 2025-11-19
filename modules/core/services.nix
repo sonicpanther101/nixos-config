@@ -11,6 +11,7 @@
     ";
     HandlePowerKeyLongPress = "poweroff";
   };
+  boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -26,11 +27,7 @@
   networking.firewall.allowedTCPPorts = [ 8384 ];
 
   # nvidia
-  services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];
-
-  boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
-  users.groups.i2c.members = [ username ];
+  services.xserver.videoDrivers = if (host == "desktop") then ["nvidia"] else [];  
 
   # Stop keypresses and mouse movement turning on from sleep.
   services.udev.extraRules = ''
@@ -38,6 +35,11 @@
     ACTION=="add", SUBSYSTEM=="usb", DRIVERS=="usb", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", ATTR{power/wakeup}="disabled"
     SUBSYSTEMS=="usb|hidraw", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", TAG+="uaccess", TAG+="Keychron V6"
   '';
+
+  # OpenRGB
+  # services.udev.packages = [ (pkgs-stable.callPackage ../../packages/openrgb.nix { }) ];
+  boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
+  users.groups.i2c.members = [ username ];
 
   /* services.foobar2000-mpris = {
     enable = true;
