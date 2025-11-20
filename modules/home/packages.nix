@@ -22,5 +22,12 @@
     playerctl
     pamixer                           # pulseaudio command line mixer
     waybar-mpris
-  ];
+  ] ++ (with pkgs-stable; [
+    corefonts
+    noto-fonts
+    noto-fonts-cjk-sans  # Chinese, Japanese and Korean glyphs
+    noto-fonts-emoji
+    noto-fonts-extra
+    ipafont
+  ]);
 }

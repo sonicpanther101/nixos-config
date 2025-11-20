@@ -28,12 +28,12 @@
           format = "{player_icon} {dynamic}";
           format-paused = "{status_icon} {dynamic}";
           player-icons = {
-            default = "▶ ";
-            mpv = "🎵";
+            default = "▐▐";
           };
           status-icons = {
-            paused = "▐▐";
+            paused = "▶ ";
           };
+          tooltip = false;
           # "ignored-players" = ["firefox"]
         };
         

@@ -36,6 +36,7 @@ nh os switch ~/nixos-config/ -H desktop --accept-flake-config
 - [x] connect fobar2000 to mpris
 - [x] mpris on waybar
 - [ ] Dark mode wine for foobar
+- [ ] CJK fonts on wine for foobar
 - [ ] hyprland workspace keybinds over scrolling
 - [ ] autostart hyprland, from there everything else can be started by that
 - [ ] Add back all programs from old config
