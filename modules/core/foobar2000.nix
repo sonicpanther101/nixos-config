@@ -2,7 +2,7 @@
 
 let
   # This tells beefweb to launch 'foobar2000'
-  foobarPkg = inputs.erosanix.packages.x86_64-linux.foobar2000;
+  foobarPkg = inputs.erosanix.packages.${pkgs-stable.system}.foobar2000;
   beefwebConfig = pkgs.writeText "config.yaml" ''
     foobar2000-command: ${foobarPkg}/bin/foobar2000-win64
     host: 127.0.0.1
@@ -103,14 +103,35 @@ let
     ];
   };
 
+  foobar2000Original = inputs.erosanix.packages.${pkgs-stable.system}.foobar2000;
+
+  foobar2000 = foobar2000Original.overrideAttrs (oldAttrs: {
+    # Append to the existing winAppInstall script
+    winAppInstall = ''
+      ${oldAttrs.winAppInstall}
+
+      # --- Start Dark Mode Fix ---
+      # This is the command that sets a registry key in the Wine prefix
+      # to enable Windows-level dark mode for applications that support it.
+      # Foobar2000 v2 is known to support this.
+      # Key: HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize
+      # Value: AppsUseLightTheme (DWORD)
+      # 0 = Dark Mode (what we want)
+      # 1 = Light Mode
+      $WINE reg add 'HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' /v 'AppsUseLightTheme' /t REG_DWORD /d 0 /f
+      # --- End Dark Mode Fix ---
+    '';
+    
+    # You might also want to change the name to distinguish it easily
+    pname = "foobar2000";
+  });
+
 in {
   environment.systemPackages = [
-    (pkgs-stable.callPackage ../../packages/openrgb.nix { })
-    (inputs.erosanix.packages.x86_64-linux.foobar2000)
+    foobar2000
     beefweb-mpris
   ];
 
-  # 3. Create the Config File via NixOS
   # This uses systemd-tmpfiles to force-create the link at boot/switch.
   # It links ~/.config/beefweb_mpris/config.yaml -> /nix/store/.../config.yaml
   systemd.tmpfiles.rules = [
