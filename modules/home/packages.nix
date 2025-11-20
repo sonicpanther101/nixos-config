@@ -21,5 +21,6 @@
     htop
     playerctl
     pamixer                           # pulseaudio command line mixer
+    waybar-mpris
   ];
 }

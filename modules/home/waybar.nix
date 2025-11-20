@@ -9,7 +9,7 @@
 
         modules-left = ["hyprland/workspaces"];
         modules-center = ["clock"];
-        modules-right = ["tray" "backlight" "pulseaudio" "network" "idle_inhibitor" "battery"];
+        modules-right = ["tray" "backlight" "mpris" "network" "idle_inhibitor" "battery"];
 
         "hyprland/workspaces" = {
           format = "<sub>{icon}</sub>\n{windows}";
@@ -22,6 +22,19 @@
             foot = ""; # Windows that contain "foot" in either class or title. For optimization reasons, it will only match against a title if at least one other window explicitly matches against a title.
             code = "󰨞";
           };
+        };
+
+        "mpris" = {
+          format = "{player_icon} {dynamic}";
+          format-paused = "{status_icon} {dynamic}";
+          player-icons = {
+            default = "▶ ";
+            mpv = "🎵";
+          };
+          status-icons = {
+            paused = "▐▐";
+          };
+          # "ignored-players" = ["firefox"]
         };
         
         clock = {
@@ -39,20 +52,6 @@
             disconnected = [""];
           };
           on-click = "termite -e nmtui";
-          tooltip = false;
-        };
-        
-        pulseaudio = {
-          format = "{icon}";
-          format-alt = "{volume} {icon}";
-          format-alt-click = "click-right";
-          format-muted = "";
-          format-icons = {
-            phone = [" " " " " " " "];
-            default = ["" "" "" ""];
-          };
-          scroll-step = 10;
-          on-click = "pavucontrol";
           tooltip = false;
         };
         
