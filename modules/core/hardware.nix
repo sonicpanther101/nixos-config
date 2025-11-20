@@ -71,7 +71,6 @@
 
     systemPackages = [
       (pkgs-stable.callPackage ../../packages/openrgb.nix { })
-      (inputs.erosanix.packages.x86_64-linux.foobar2000)
     ];
   };
 }
