@@ -68,6 +68,7 @@ nh os switch ~/nixos-config/ -H <host>
 - [ ] CJK fonts on wine for foobar 
 - [x] hyprland workspace keybinds over scrolling
 - [ ] Get `my` scripts working
+- [ ] remove dirty warning from switch
 - [ ] 1 min timeout
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
