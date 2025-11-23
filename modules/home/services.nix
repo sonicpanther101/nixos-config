@@ -1,4 +1,4 @@
-{ ... } : {
+{ username, ... } : {
   services.syncthing = {
     enable = true;
     settings = {
@@ -8,7 +8,7 @@
       folders = {
         "School" = {
           id = "r7hv7-6lau7";
-          path = "/home/adam/driveBig/School/";
+          path = if (host == "desktop") then "/home/${username}/driveBig/School/" else "/home/${username}/School/";
           devices = [ "Phone" ];
         };
       };

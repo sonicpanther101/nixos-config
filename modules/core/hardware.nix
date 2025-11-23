@@ -69,8 +69,8 @@
 
     pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
-    systemPackages = [
+    systemPackages = if (host == "desktop") then [
       (pkgs-stable.callPackage ../../packages/openrgb.nix { })
-    ];
+    ] else [];
   };
 }
