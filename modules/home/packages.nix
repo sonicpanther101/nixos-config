@@ -30,6 +30,7 @@
     os-prober                           # To add other os' to grub                
     vlc                                 # Video player                            
     copyq                               # Clipboard manager
+    hyprsome                            # Hyprland extension to have monitor specific workspaces 
     
   ]) ++ (if (host == "destop") then [
 

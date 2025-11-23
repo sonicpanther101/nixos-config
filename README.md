@@ -37,17 +37,17 @@ nh os switch ~/nixos-config/ -H desktop --accept-flake-config
 - [x] mpris on waybar
 - [ ] Dark mode wine for foobar
 - [ ] CJK fonts on wine for foobar 
-- [ ] hyprland workspace keybinds over scrolling
+- [x] hyprland workspace keybinds over scrolling
 - [ ] Get `my` scripts working
 - [ ] 1 min timeout
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
-- [ ] Replace all mentions of adam with variable
+- [x] Replace all mentions of adam with variable
 - [ ] Add back all programs from old config
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
 - [ ] Neovim (telescope and supermavin)
-- [ ] Astal working (If libraries translated to c, then use that)
+- [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
 ## Browser Setup
 
