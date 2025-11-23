@@ -21,7 +21,7 @@
     resources                           # Graphical resource manager              
     htop                                # Resource manager                        
     playerctl                           # To control media from cli               
-    pamixer                             # Pulseaudio command line mixer           
+    pamixer                             # Pulseaudio command line mixer      
     p7zip                               # For unzipping                           
     unrar                               # For unzipping multi part rars           
     tree                                # Show file structure (somehow missing)   
@@ -30,7 +30,10 @@
     os-prober                           # To add other os' to grub                
     vlc                                 # Video player                            
     copyq                               # Clipboard manager
-    hyprsome                            # Hyprland extension to have monitor specific workspaces 
+    hyprsome                            # Hyprland extension to have monitor specific workspaces
+    helvum                              # Audio connection editor
+    pwvucontrol                         # Audio device volume editor
+    cava
     
   ]) ++ (if (host == "destop") then [
 
