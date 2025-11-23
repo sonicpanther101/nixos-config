@@ -1,7 +1,7 @@
 { ... } : {
   imports = [
     ./programs.nix
-    ./services.nix
+    ./syncthing.nix
     ./waybar.nix
     ./packages.nix
     ./hyprland

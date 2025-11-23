@@ -1,4 +1,4 @@
-{ username, ... } : {
+{ username, host, ... } : {
   services.syncthing = {
     enable = true;
     settings = {
