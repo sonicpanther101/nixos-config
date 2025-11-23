@@ -24,6 +24,8 @@
 
 8. Install (don't get worriedif it gets stuck on 46% complete)
 
+9. Reboot
+
 
 ### First usage
 
@@ -39,11 +41,11 @@ git clone https://www.github.com/sonicpanther101/nixos-config
 ```
 4. Replace hardware config with appropriate host: 
 ```bash
-cp /etc/nixos/hardware-configuration.nix ~/nixos-config/hosts/desktop/
+cp /etc/nixos/hardware-configuration.nix ~/nixos-config/hosts/<host>/
 ```
 5. Rebuild system: 
 ```bash
-sudo nixos-rebuild switch --flake ./nixos-config#desktop
+sudo nixos-rebuild switch --flake ./nixos-config#<host>
 ```
 6. Reboot: 
 ```bash
