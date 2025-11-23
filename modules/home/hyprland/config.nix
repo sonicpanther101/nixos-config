@@ -5,17 +5,6 @@
     xwayland.enable = true;
 
     settings = {
-      
-      /* gestures = {
-        workspace_swipe = true;
-        workspace_swipe_distance = 700;
-        workspace_swipe_fingers = 4;
-        workspace_swipe_cancel_ratio = 0.2;
-        workspace_swipe_min_speed_to_force = 5;
-        workspace_swipe_direction_lock = true;
-        workspace_swipe_direction_lock_threshold = 10;
-        workspace_swipe_create_new = true;
-      }; */
 
       # autostart
       /* exec-once = 
@@ -57,13 +46,14 @@
         ]; */
 
       binds = { scroll_event_delay = 0; };
+
       input = {
         # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut
         kb_layout = "us";
         # kb_options = grp:win_space_toggle;
         numlock_by_default = false;
         repeat_delay = 250;
-        repeat_rate = 35;
+        repeat_rate = 50;
 
         touchpad = {
           natural_scroll = true;
@@ -78,13 +68,13 @@
       cursor.no_warps = true;
       debug.disable_logs = false;
 
-      /* general = {
+      general = {
         layout = "dwindle";
-        gaps_in = 0;
-        gaps_out = 0;
-        gaps_workspaces = 0;
-        border_size = 0;
-      }; */
+        gaps_in = 5;
+        gaps_out = 10;
+        gaps_workspaces = 20;
+        border_size = 2;
+      };
 
       misc = {
         disable_autoreload = true;
@@ -110,11 +100,11 @@
         special_scale_factor = 1;
       };
 
-      /* decoration = {
-        rounding = 0;
-        # active_opacity = 0.90;
-        # inactive_opacity = 0.90;
-        # fullscreen_opacity = 1.0;
+      decoration = {
+        rounding = 3;
+        active_opacity = 1.0;
+        inactive_opacity = 0.98;
+        fullscreen_opacity = 1.0;
 
         blur = {
           enabled = true;
@@ -129,19 +119,12 @@
           xray = false;
         };
 
-        # drop_shadow = false;
-
-        # shadow_ignore_window = true;
-        # shadow_offset = "0 2";
-        # shadow_range = 20;
-        # shadow_render_power = 3;
-
-        dim_inactive = false;
+        dim_inactive = true;
         dim_strength = 0.1;
         dim_special = 0;
-      }; */
+      };
 
-      /* animations = {
+      animations = {
         enabled = true;
         bezier = [
           "md3_decel, 0.05, 0.7, 0.1, 1"
@@ -155,16 +138,16 @@
           "easeOutExpo, 0.16, 1, 0.3, 1"
         ];
         animation = [
-          "windows, 1, 3, md3_decel, popin 60%"
+          "windows, 1, 2, md3_decel, popin 60%"
           "border, 1, 10, default"
           "fade, 1, 2.5, md3_decel"
           # "workspaces, 1, 3.5, md3_decel, slide"
-          "workspaces, 1, 7, fluent_decel, slide"
+          "workspaces, 1, 3, fluent_decel, slide"
           # "workspaces, 1, 7, fluent_decel, slidefade 15%"
           # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
-      }; */
+      };
 
       bind = [
         # keybindings
@@ -191,7 +174,8 @@
         # "SUPER, R, exec, my-ags"
         "SUPER SHIFT, R, exec, my-ags -l"
         "SUPER, D, exec, ags toggle app-launcher"
-        "ALT, V, exec, ags toggle clipboard"
+        "ALT, V, exec, copyq show"
+        # "ALT, V, exec, ags toggle clipboard"
         "SUPER, G, exec, ags toggle apis"
         "SUPER, W, exec, ags toggle wallpaper"
         "SUPER SHIFT, W, exec, ags toggle mouse-helper"
