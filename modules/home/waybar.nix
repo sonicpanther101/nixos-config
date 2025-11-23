@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ host, inputs, ... } : {
   programs.waybar = {
     enable = true;
     settings = {
@@ -8,8 +8,8 @@
         height = 30;
 
         modules-left = ["hyprland/workspaces"];
-        modules-center = ["clock"];
-        modules-right = ["mpris" "tray"] ++ (if (host == "laptop") then [
+        modules-center = [ "clock" ];
+        modules-right = [ "mpris" "cava" "wireplumber" "tray" ] ++ (if (host == "laptop") then [
           "battery"
         ] else []);
 
@@ -25,7 +25,7 @@
           };
         };
 
-        "mpris" = {
+        mpris = {
           format = "{player_icon} {dynamic}";
           format-paused = "{status_icon} {dynamic}";
           player-icons = {
@@ -35,7 +35,38 @@
             paused = "▶ ";
           };
           tooltip = false;
-          # "ignored-players" = ["firefox"]
+          on-scroll-up = "playerctl next";
+          on-scroll-down = "playerctl previous";
+        };
+
+        wireplumber = {
+          format = "{volume}% {icon}";
+          format-muted = "0% ▁";
+          on-click = "pamixer -t";
+          format-icons = ["▃" "▅" "█"];
+          on-scroll-up = "pamixer -i 2";
+          on-scroll-down = "pamixer -d 2";
+          on-click-middle = "helvum";
+          on-click-right = "pwvucontrol";
+        };
+
+        cava = {
+          cava_config = "${inputs.catppuccin-cava}/themes/mocha-transparent.cava";
+          framerate = 60;
+          bars = 8;
+          lower_cutoff_freq = 20;
+          higher_cutoff_freq = 20000;
+          sleep_timer = 1;
+          format_silent = "";
+          method = "pipewire";
+          stereo = false;
+          bar_delimiter = 0;
+          noise_reduction = 0.75;
+          input_delay = 2;
+          format-icons = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+          actions = {
+            on-click-right = "mode";
+          };
         };
         
         clock = {
