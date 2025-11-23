@@ -38,7 +38,10 @@ nh os switch ~/nixos-config/ -H desktop --accept-flake-config
 - [ ] Dark mode wine for foobar
 - [ ] CJK fonts on wine for foobar 
 - [ ] hyprland workspace keybinds over scrolling
-- [ ] autostart hyprland, from there everything else can be started by that
+- [ ] Get `my` scripts working
+- [ ] 1 min timeout
+- [ ] autostart hyprland, 
+- [ ] autostart everything else in hyprland
 - [ ] Replace all mentions of adam with variable
 - [ ] Add back all programs from old config
 - [ ] Write vivaldi explicit setup

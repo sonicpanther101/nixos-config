@@ -11,7 +11,7 @@
     ";
     HandlePowerKeyLongPress = "poweroff";
   };
-  boot.kernelParams = [ "acpi_enforce_resources=lax" "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  boot.kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if (host == "desktop") then ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"] else []);
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -38,6 +38,6 @@
 
   # OpenRGB
   # services.udev.packages = [ (pkgs-stable.callPackage ../../packages/openrgb.nix { }) ];
-  boot.kernelModules = [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
+  boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 }

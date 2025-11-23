@@ -1,9 +1,9 @@
 { host, inputs, username, pkgs-stable, pkgs-unstable, ... } : {
 
   # Define a user account.
-  users.users.adam = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "adam";
+    description = "${username}";
     extraGroups = [
       "networkmanager"
       "wheel"
@@ -19,12 +19,12 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs username host pkgs-stable pkgs-unstable; };
-    users.adam = {
+    users.${username} = {
       imports = [ ./../home ];
 
       programs.home-manager.enable = true;
-      home.username = "adam";
-      home.homeDirectory = "/home/adam";
+      home.username = "${username}";
+      home.homeDirectory = "/home/${username}";
       home.stateVersion = "25.05";
     };
   };

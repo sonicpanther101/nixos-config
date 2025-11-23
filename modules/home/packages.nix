@@ -8,6 +8,7 @@
     bottles                             # Windows emulater                        
                                        
   ] ++ (with pkgs-stable; [             # Packages that dont need to be up to date
+
     corefonts                           # Fonts so that none are missing          
     noto-fonts                         
     noto-fonts-cjk-sans                 # Chinese, Japanese and Korean glyphs     
@@ -29,5 +30,10 @@
     os-prober                           # To add other os' to grub                
     vlc                                 # Video player                            
     copyq                               # Clipboard manager
+    
+  ]) ++ (if (host == "destop") then [
+
+  ] else [
+
   ]);
 }

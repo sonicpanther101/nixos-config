@@ -21,5 +21,5 @@
   '';
 
   # OpenRGB
-  boot.kernelModules = [ "i2c-dev" ];
+  boot.kernelModules = if (host == "desktop") then [ "i2c-dev" ] else [];
 }
