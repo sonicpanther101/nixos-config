@@ -54,8 +54,8 @@
           cava_config = "${inputs.catppuccin-cava}/themes/mocha-transparent.cava";
           framerate = 60;
           bars = 8;
-          lower_cutoff_freq = 20;
-          higher_cutoff_freq = 20000;
+          lower_cutoff_freq = 30;
+          higher_cutoff_freq = 15000;
           sleep_timer = 1;
           format_silent = "";
           method = "pipewire";
