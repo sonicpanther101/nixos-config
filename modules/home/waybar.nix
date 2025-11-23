@@ -75,7 +75,8 @@
         };
         
         tray = {
-          icon-size = 18;
+          icon-size = 22;
+          spacing = 10;
         };
       };
     };
@@ -150,6 +151,10 @@
 
     #custom-storage.critical {
         color:      rgba(238, 46, 36, 1);
+    }
+
+    #tray {
+      margin: 5px 10px 0;
     }
     '';
   };
