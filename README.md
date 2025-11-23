@@ -1,24 +1,51 @@
 ## Usage:
 
+### Nixos installation
+
+1. Make sure internet is connected, use nmtui to connect.
+
+2. In the installer select the time zone and keyboard layout, the default should be fine if the installer was started with internet. 
+
+#### Important steps are in codeblocks
+
+```
+3. Set name and username, I set both to the same.
+
+4. Set password, disable require strong passwords and check use same password for admin account.
+```
+
+5. Choose no desktop.
+
+6. Check allow unfree software.
+
+```
+7. Make sure partitions are done correctly, you can lose everything on the drive if messed up. On my laptop I had to create an extra fat32 partition so it didn't overwrite the windows bootloader.
+```
+
+8. Install (don't get worriedif it gets stuck on 46% complete)
+
+
 ### First usage
 
-1. Install  git: 
+1. Make sure internet is connected, use nmtui to connect.
+
+2. Install  git: 
 ```bash
 nix-shell -p git
 ```
-2. Clone repo: 
+3. Clone repo: 
 ```bash
 git clone https://www.github.com/sonicpanther101/nixos-config
 ```
-3. Replace hardware config with appropriate host: 
+4. Replace hardware config with appropriate host: 
 ```bash
 cp /etc/nixos/hardware-configuration.nix ~/nixos-config/hosts/desktop/
 ```
-4. Rebuild system: 
+5. Rebuild system: 
 ```bash
 sudo nixos-rebuild switch --flake ./nixos-config#desktop
 ```
-5. Reboot: 
+6. Reboot: 
 ```bash
 reboot
 ```
