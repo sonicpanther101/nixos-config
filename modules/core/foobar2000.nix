@@ -4,30 +4,7 @@ let
   japaneseFonts = pkgs-stable.noto-fonts-cjk-sans;
 
   # This tells beefweb to launch 'foobar2000'
-  foobarPkg = inputs.erosanix.packages.${pkgs-stable.system}.foobar2000.overrideAttrs (oldAttrs: {
-
-    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ japaneseFonts ];
-
-    winAppInstall = ''
-      ${oldAttrs.winAppInstall}
-
-      # enable dark mode (doesn't work)
-      $WINE reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v AppsUseLightTheme /t REG_DWORD /d 0 /f
-      $WINE reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v SystemUsesLightTheme /t REG_DWORD /d 0 /f
-
-      # get more characters for cjk languages
-      WINE_FONTS_DIR="$WINEPREFIX/drive_c/windows/Fonts"
-
-      mkdir -p "$WINE_FONTS_DIR"
-
-      cp -v /home/${username}/nixos-config/modules/core/wqy-microhei.ttc "$WINE_FONTS_DIR"
-
-      regedit.exe /S /home/${username}/nixos-config/modules/core/chn_fonts.reg
-    '';
-    
-    # You might also want to change the name to distinguish it easily
-    pname = "foobar2000";
-  });
+  foobarPkg = inputs.erosanix.packages.${pkgs-stable.system}.foobar2000;
 
   beefwebConfig = pkgs.writeText "config.yaml" ''
     foobar2000-command: ${foobarPkg}/bin/foobar2000-win64
