@@ -1,4 +1,4 @@
-{ ... } : {
+{ host, ... } : {
   programs.waybar = {
     enable = true;
     settings = {
@@ -9,18 +9,19 @@
 
         modules-left = ["hyprland/workspaces"];
         modules-center = ["clock"];
-        modules-right = ["tray" "backlight" "mpris" "network" "idle_inhibitor" "battery"];
+        modules-right = ["mpris" "tray"] ++ (if (host == "laptop") then [
+          "battery"
+        ] else []);
 
         "hyprland/workspaces" = {
-          format = "<sub>{icon}</sub>\n{windows}";
-          format-window-separator = "\n";
-          window-rewrite-default = "";
-          window-rewrite = {
-            # title<.*youtube.*> = ""; # Windows whose titles contain "youtube"
-            # class<firefox> = ""; # Windows whose classes are "firefox"
-            # class<firefox> title<.*github.*> = ""; # Windows whose class is "firefox" and title contains "github". Note that "class" always comes first.
-            foot = ""; # Windows that contain "foot" in either class or title. For optimization reasons, it will only match against a title if at least one other window explicitly matches against a title.
-            code = "󰨞";
+          format = "<sub>{icon}</sub>";
+          format-icons = {
+            active = "";
+            default = "";
+          };
+          persistent-workspaces = {
+            "HDMI-A-1" = 5;
+            "DP-1" = [ 11 12 13 14 15];
           };
         };
 
