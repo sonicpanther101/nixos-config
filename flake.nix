@@ -59,6 +59,17 @@
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
+      laptop = nixpkgs-unstable.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/laptop
+          inputs.stylix.nixosModules.stylix
+        ];
+        specialArgs = {
+          host="laptop";
+          inherit self inputs username pkgs-stable pkgs-unstable;
+        };
+      };
     };
   };
 }
