@@ -26,7 +26,7 @@ reboot
 ### Normal rebuild
 
 ```bash
-nh os switch ~/nixos-config/ -H desktop --accept-flake-config
+nh os switch ~/nixos-config/ -H <host>
 ```
 
 ## Todo:
