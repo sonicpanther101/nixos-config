@@ -104,3 +104,6 @@ nh os switch ~/nixos-config/ -H <host>
 14. Change break mode shortcut to `Ctrl + space`, remove `copy selected text to note` shortcut.
 15. Remove all mouse gestures, add fullscreen on mouse up and break mode on mouse down.
 16. add Google calendar account, and check it loads on start page widgets calendar and tasks.
+17. Change weather location to correct location, select kmph over m/s
+18. Remove toolbar widgets; notes, translate, reading list, mail, contacts, calendar, tasks, feeds, vivaldi social, vivaldi help, wikipedia, vpn, the gap between search and vpn, vivaldi share.
+19. Add toolbar widgets; status bar's zoom and page tiler to the top bar, google translate, discord, proton and vivaldi settings to panel.
