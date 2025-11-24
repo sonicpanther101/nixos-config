@@ -70,9 +70,9 @@
 
       general = {
         layout = "dwindle";
-        gaps_in = 5;
-        gaps_out = 10;
-        gaps_workspaces = 20;
+        gaps_in = 3;
+        gaps_out = 6;
+        gaps_workspaces = 10;
         border_size = 2;
       };
 
