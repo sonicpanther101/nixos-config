@@ -120,7 +120,7 @@
         };
 
         dim_inactive = true;
-        dim_strength = 0.1;
+        dim_strength = 0.02;
         dim_special = 0;
       };
 
@@ -388,10 +388,10 @@
         "20,monitor:DP-1"
       ] else [];
 
-      monitor = if (host == "laptop") then [",preferred,auto,1.9"] else [
+      monitor = if (host == "desktop") then [
         "HDMI-A-1,1920x1080@100,0x100,1"
         "DP-1,2560x1440@144.01,1920x0,1.066667"
-      ];
+      ] else [",preferred,auto,1.9"];
 
       xwayland.force_zero_scaling = true;
     };

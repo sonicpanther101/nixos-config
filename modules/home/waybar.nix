@@ -19,10 +19,10 @@
             active = "";
             default = "";
           };
-          persistent-workspaces = {
+          persistent-workspaces = if (host == "desktop") then {
             "HDMI-A-1" = 5;
             "DP-1" = [ 11 12 13 14 15];
-          };
+          } else {};
         };
 
         mpris = {
