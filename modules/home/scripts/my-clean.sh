@@ -1,0 +1,1 @@
+nh clean all --keep-since 5d --keep 10

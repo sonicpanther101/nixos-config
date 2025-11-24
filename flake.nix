@@ -14,7 +14,6 @@
 
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     stylix.url = "github:danth/stylix";

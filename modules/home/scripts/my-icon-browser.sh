@@ -1,0 +1,1 @@
+nix run github:aylur/icon-theme-browser

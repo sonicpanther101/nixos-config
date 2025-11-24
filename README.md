@@ -68,16 +68,21 @@ nh os switch ~/nixos-config/ -H <host>
 - [ ] CJK fonts on wine for foobar 
 - [x] hyprland workspace keybinds over scrolling
 - [ ] Get `my` scripts working
+- [ ] Make my-install change depending on host/username and commit changes before nh
 - [ ] remove dirty warning from switch
 - [ ] 1 min timeout
+- [ ] Get fans RGB working
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
-- [ ] Get all folders on syncthing
+- [x] Get all folders on syncthing
+- [ ] Get VSCodium settings nixified
 - [ ] Add back all programs from old config
+- [ ] Add floating terminal
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
+- [ ] Customise starship
 - [ ] Neovim (telescope and supermavin)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
