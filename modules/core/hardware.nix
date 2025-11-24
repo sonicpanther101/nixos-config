@@ -56,6 +56,20 @@
       package = pkgs-unstable.linuxKernel.packages.linux_6_12.nvidiaPackages.stable;
     };
 
+  } else if (host == "laptop") then {
+    # Laptop configuration with Intel graphics
+    enableRedistributableFirmware = true;
+    
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+      
+      extraPackages = with pkgs-unstable; [
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        libvdpau-va-gl
+        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
+      ];
+    };
   } else {};
 
   environment = {
@@ -65,7 +79,10 @@
       WLR_NO_HARDWARE_CURSORS = "1";
       # Hint electron apps to use wayland
       NIXOS_OZONE_WL = "1";
-    };
+    } // (if (host == "laptop") then {
+      # Intel-specific environment variables
+      LIBVA_DRIVER_NAME = "iHD"; # or "i965" if iHD doesn't work
+    } else {});
 
     pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
 
