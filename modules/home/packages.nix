@@ -38,10 +38,13 @@
     qdirstat                                    # Visual file system veiwer like wiztree
     kooha                                       # Screen recorder
     grimblast                                   # Screenshot taker
+    brightnessctl
                                                
-  ]) ++ (if (host == "destop") then [          
+  ]) ++ (if (host == "desktop") then [
+    pkgs-stable.ddcutil
+  ] else if (host == "laptop") then [
+    pkgs-stable.brightnessctl
+  ] else [
 
-  ] else [                                     
-
-  ]);                                          
+  ]);                                     
 }

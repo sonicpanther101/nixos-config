@@ -1,4 +1,4 @@
-{ host, inputs, ... } : {
+{ host, inputs, lib, ... } : {
   programs.waybar = {
     enable = true;
     settings = {
@@ -9,9 +9,27 @@
 
         modules-left = ["hyprland/workspaces"];
         modules-center = [ "clock" ];
-        modules-right = [ "mpris" "cava" "wireplumber" "tray" ] ++ (if (host == "laptop") then [
-          "battery"
-        ] else []);
+        modules-right = [
+          "mpris"
+          (if (host == "desktop") then "cava" else "")
+          "wireplumber"
+          "tray"
+          "backlight"
+          (if (host == "laptop") then "battery" else "")
+        ] ++ (lib.filter (x: x != "") [ ]);
+
+        battery = {
+          states = {
+            warning = 50;
+            critical = 25;
+          };
+          format = "{icon}  {capacity}%";
+          format-charging = " {icon}  {capacity}%";
+          format-full = " {icon}  {capacity}%";
+          format-time = "{H}h{M}m";
+          format-icons = ["" "" "" "" ""];
+          tooltip-format = "{time}";
+        };
 
         "hyprland/workspaces" = {
           format = "<sub>{icon}</sub>";
@@ -22,7 +40,9 @@
           persistent-workspaces = if (host == "desktop") then {
             "HDMI-A-1" = 5;
             "DP-1" = [ 11 12 13 14 15];
-          } else {};
+          } else {
+            "*" = 5;
+          };
         };
 
         mpris = {
@@ -88,12 +108,8 @@
         };
         
         backlight = {
-          format = "{icon}";
-          format-alt = "{percent}% {icon}";
-          format-alt-click = "click-right";
-          format-icons = ["" ""];
-          on-scroll-down = "light -A 1";
-          on-scroll-up = "light -U 1";
+          format = "{percent}% {icon}";
+          format-icons = ["" ""];
         };
         
         idle_inhibitor = {
@@ -123,12 +139,12 @@
     }
 
     window {
-        color:      rgba(217, 216, 216, 1);
-        background: rgba(35, 31, 32, 0.00);
+        color:      #cdd6f4;
+        background: #1e1e2e;
     }
 
     window#waybar.solo {
-        color:      rgba(217, 216, 216, 1);
+        color:      #cdd6f4;
         background: rgba(35, 31, 32, 0.85);
     }
 
@@ -138,20 +154,20 @@
 
     #workspaces button {
         padding:    0 5px;
-        color:      rgba(217, 216, 216, 0.4);
+        color:      #89b4fa;
     }
 
     #workspaces button.visible {
-        color:      rgba(217, 216, 216, 1);
+        color:      #cdd6f4;
     }
 
     #workspaces button.focused {
-        border-top: 3px solid rgba(217, 216, 216, 1);
-        border-bottom: 3px solid rgba(217, 216, 216, 0);
+        border-top: 3px solid #cdd6f4;
+        border-bottom: 3px solid #89b4fa;
     }
 
     #workspaces button.urgent {
-        color:      rgba(238, 46, 36, 1);
+        color:      #f38ba8;
     }
 
     #mode, #battery, #cpu, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #custom-spotify, #custom-weather, #custom-mail {
@@ -165,23 +181,27 @@
     }
 
     #battery.warning {
-      color:       rgba(255, 210, 4, 1);
+      color:       #f9e2af;
     }
 
     #battery.critical {
-        color:      rgba(238, 46, 36, 1);
+        color:      #f38ba8;
     }
 
     #battery.charging {
-        color:      rgba(217, 216, 216, 1);
+        color:      #a6e3a1;
+    }
+
+    #battery.charged {
+        color:      #a6e3a1;
     }
 
     #custom-storage.warning {
-        color:      rgba(255, 210, 4, 1);
+        color:      #f9e2af;
     }
 
     #custom-storage.critical {
-        color:      rgba(238, 46, 36, 1);
+        color:      #f38ba8;
     }
 
     #tray {
