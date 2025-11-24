@@ -36,6 +36,8 @@
     cava                                        # Audio visualiser
     nicotine-plus                               # Soulseek peer to peer browser frontend
     qdirstat                                    # Visual file system veiwer like wiztree
+    kooha                                       # Screen recorder
+    grimblast                                   # Screenshot taker
                                                
   ]) ++ (if (host == "destop") then [          
 
