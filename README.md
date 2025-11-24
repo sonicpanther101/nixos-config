@@ -73,6 +73,8 @@ nh os switch ~/nixos-config/ -H <host>
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
 - [x] Replace all mentions of adam with variable
+- [ ] See if all intel graphics drivers are needed
+- [ ] Get all folders on syncthing
 - [ ] Add back all programs from old config
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
