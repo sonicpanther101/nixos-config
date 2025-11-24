@@ -253,7 +253,7 @@
         "SUPER, mouse_up, workspace, r+1"
       ];
 
-      # lockscreen keybinds
+      # keybinds that work even on lockscreen
       bindl = [
         # laptop brightness
         ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"

@@ -1,4 +1,4 @@
-{ username, ... } : {
+{ username, host, ... } : {
 
   programs.git = {
     enable = true;
@@ -13,7 +13,6 @@
   programs.nh = {
     enable = true;
     clean.enable = true;
-    clean.extraArgs = "--keep-since 4d --keep 10";
-    flake = "/home/${username}/nixos-config#desktop";
+    flake = "/home/${username}/nixos-config#${host}";
   };
 }

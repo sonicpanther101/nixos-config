@@ -6,5 +6,6 @@
     ./packages.nix
     ./hyprland
     ./terminal
+    ./scripts
   ];
 }
