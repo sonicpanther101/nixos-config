@@ -15,4 +15,7 @@
     clean.enable = true;
     flake = "/home/${username}/nixos-config#${host}";
   };
+
+  # Temporary notifications daemon to shut grimblast up
+  services.mako.enable = true;
 }
