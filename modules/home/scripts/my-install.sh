@@ -112,15 +112,19 @@ echo "message: $message"
 # 5. Stage changes BEFORE building
 git add .
 
+changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
+
 # 6. Build the system
 install
 
-# 7. Commit and push
-current=$(nixos-rebuild list-generations | grep current)
-$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
-git commit -m "${message}. Rebuilt ${host}: ${current}. Files: ${changes}"
-echo git commit -m "${message}. Rebuilt ${host}: ${current}. Files: ${changes}"
+# 7. Commit and push (with error handling)
+echo "Getting generation info..."
+current=$(nixos-rebuild list-generations 2>/dev/null | grep current) || current="unknown"
 
+echo "Committing changes..."
+git commit -m "${message}. Rebuilt ${host}: ${current}"
+
+echo "Pushing to origin..."
 git push -u origin master
 
 # 8. Optional AGS restart
