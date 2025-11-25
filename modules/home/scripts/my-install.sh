@@ -110,7 +110,7 @@ fi
 # 5. Get commit message (after confirming there are changes)
 if [[ $message == "" ]]; then
     echo "Please write a git commit message:"
-    read -r message
+    read -e -r message
     if [[ $message == "" ]]; then
         echo "No message provided, exiting."
         popd > /dev/null
@@ -135,6 +135,7 @@ else
 fi
 
 # 7. Commit and push
+message="${message^}" # Capitalize first character
 git commit -m "${message}. Rebuilt ${host}: ${current}"
 
 git push -u origin master 2>&1 | grep -E "^(To|branch)" || true
