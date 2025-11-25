@@ -41,7 +41,7 @@ done
 set -e
 
 # Vars
-username='adam'
+username=$(whoami)
 
 # Colors
 NORMAL=$(tput sgr0)
@@ -52,28 +52,28 @@ install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
     if [[ $corrupted_db == true ]]; then
-        echo -e "\n${RED}FIXING CORRUPTED DB${NORMAL}\n"
+        echo -e "${RED}FIXING CORRUPTED DB${NORMAL}\n"
         sudo nixos-rebuild switch --repair --flake .#${host}
     else
         # Build the system (flakes + home manager)
-        echo -e "\nBuilding the system...\n"
+        echo -e "Building the system...\n"
         nh os switch -H ${host} ./
     fi
 }
 
-pushd "/home/${username}/nixos-config"
+pushd "/home/${username}/nixos-config"  > /dev/null
 
 # 1. Check network FIRST (fail fast)
 if ping -c 1 -W 2 1.1.1.1 > /dev/null 2>&1; then
     echo "Network connected, continuing..."
 else
     echo "No network connection, exiting."
-    popd
+    popd > /dev/null
     exit 0
 fi
 
 # 2. Check git status
-git fetch
+git fetch 2>&1 | grep -v "redirecting to" || true
 
 if git status -uno | grep "Your branch is up to date with 'origin/master'."; then
     echo "Git is up to date, continuing..."
@@ -82,7 +82,7 @@ else
         echo "Git is ahead of origin, continuing..."
     else
         echo "Not up to date, please pull, exiting."
-        popd
+        popd > /dev/null
         exit 0
     fi
 fi
@@ -90,7 +90,7 @@ fi
 # 3. Check for changes
 if [[ $no_check == false ]] && git diff --quiet '*'; then
     echo "No changes detected, exiting."
-    popd
+    popd > /dev/null
     exit 0
 fi
 
@@ -106,7 +106,7 @@ if [[ $message == "" ]]; then
     read -r message
     if [[ $message == "" ]]; then
         echo "No message provided, exiting."
-        popd
+        popd > /dev/null
         exit 0
     fi
 fi
@@ -126,7 +126,7 @@ current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "
 
 git commit -m "${message}. Rebuilt ${host}: ${current}"
 
-git push -u origin master
+git push -u origin master 2>&1 | grep -E "^(To|branch)" || true
 
 # 8. Optional AGS restart
 if [[ $ags == true ]]; then
@@ -134,6 +134,6 @@ if [[ $ags == true ]]; then
     my-ags
 fi
 
-popd
+popd > /dev/null
 
 notify-send -e "NixOS Rebuilt OK!" --icon=check-filled

@@ -52,10 +52,37 @@ sudo nixos-rebuild switch --flake ./nixos-config#<host>
 reboot
 ```
 
+
+
 ### Normal rebuild
 
 ```bash
 nh os switch ~/nixos-config/ -H <host>
+```
+
+### My-install Rebuild
+
+#### Setup
+
+1. Change to ssh
+```bash
+cd ~/nixos-config
+git remote set-url origin git@github.com:sonicpanther101/nixos-config.git
+```
+2. Then make sure you have SSH keys set up:
+
+```bash
+# Generate SSH key
+ssh-keygen -t ed25519 -C "your_email@example.com"
+
+# Copy the public key (ignore the email)
+cat ~/.ssh/id_ed25519.pub
+```
+3. Add the public key to GitHub: Settings → SSH and GPG keys → New SSH key
+
+#### Usage
+```bash
+my-install
 ```
 
 ## Todo:
