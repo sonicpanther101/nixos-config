@@ -68,7 +68,7 @@ nh os switch ~/nixos-config/ -H <host>
 - [ ] CJK fonts on wine for foobar 
 - [x] hyprland workspace keybinds over scrolling
 - [ ] Get `my` scripts working
-- [ ] Make my-install change depending on host/username and commit changes before nh
+- [x] Make my-install change depending on host/username and commit changes before nh
 - [ ] remove dirty warning from switch
 - [ ] 1 min timeout
 - [ ] Get fans RGB working
