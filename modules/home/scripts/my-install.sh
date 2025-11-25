@@ -51,6 +51,7 @@ username=$(whoami)
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
+BLUE=$(tput setaf 4)
 
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
@@ -136,9 +137,20 @@ fi
 
 # 7. Commit and push
 message="${message^}" # Capitalize first character
-git commit -m "${message}. Rebuilt ${host}: ${current}"
 
-git push -u origin master 2>&1 | grep -E "^(To|branch)" || true
+commit_output=$(git commit -m "${message}. Rebuilt ${host}: ${current}" 2>&1)
+commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
+
+echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}"
+
+push_output=$(git push -u origin master 2>&1)
+
+if [[ $? -eq 0 ]]; then
+    echo -e "${GREEN}✓ Pushed${NORMAL} to ${BLUE}origin/master"
+else
+    echo -e "${RED}✗ Push failed${NORMAL}"
+    exit 1
+fi
 
 # 8. Optional AGS restart
 if [[ $ags == true ]]; then
