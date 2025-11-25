@@ -4,7 +4,7 @@ Help()
 {
    # Display Help
    echo
-   echo "Syntax: scriptTemplate [-n|a|c|m|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|h]"
    echo "options:"
    echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
    echo "a     Restart ags"
@@ -21,7 +21,7 @@ corrupted_db=false
 skip_install=false
 host=$(hostname)
 
-while getopts "anhm:" option; do
+while getopts "anhcsm:" option; do
     case $option in
         h) # display Help
             Help
@@ -129,7 +129,7 @@ if [[ $skip_install == false ]]; then
 else
     echo "Skipping install..."
     echo
-    
+
     current="skipped"
 fi
 
