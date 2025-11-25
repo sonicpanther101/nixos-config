@@ -9,6 +9,7 @@ Help()
    echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
    echo "a     Restart ags"
    echo "c     Fix corrupted db"
+   echo "s     Skip install, just commit and push"
    echo "m     Git Commit Message"
    echo "h     Print this Help"
 }
@@ -17,6 +18,7 @@ no_check=false
 ags=false
 message=""
 corrupted_db=false
+skip_install=false
 host=$(hostname)
 
 while getopts "anhm:" option; do
@@ -30,6 +32,8 @@ while getopts "anhm:" option; do
             ags=true;;
         c) 
             corrupted_db=true;;
+        s)
+            skip_install=true;;
         m)
             message="$OPTARG";;
         \?) # Invalid option
@@ -75,7 +79,7 @@ fi
 # 2. Check git status
 git fetch 2>&1 | grep -v "redirecting to" || true
 
-if git status -uno | grep "Your branch is up to date with 'origin/master'."; then
+if git status -uno 2>&1 | grep -q "Your branch is up to date with 'origin/master'."; then
     echo "Git is up to date, continuing..."
 else
     if git status -uno | grep "Your branch is ahead of"; then
@@ -114,16 +118,22 @@ if [[ $message == "" ]]; then
     fi
 fi
 
-echo "message: $message"
-
 changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
 
 # 6. Build the system
-install
+if [[ $skip_install == false ]]; then
+    install
+    echo
+
+    current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
+else
+    echo "Skipping install..."
+    echo
+    
+    current="skipped"
+fi
 
 # 7. Commit and push
-current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
-
 git commit -m "${message}. Rebuilt ${host}: ${current}"
 
 git push -u origin master 2>&1 | grep -E "^(To|branch)" || true
