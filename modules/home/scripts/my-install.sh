@@ -94,13 +94,16 @@ if [[ $no_check == false ]] && git diff --quiet '*'; then
     exit 0
 fi
 
+# 4. Stage changes BEFORE building
+git add .
+
 if [[ $no_check == false ]]; then
     echo
     git diff -U0 '*'
     echo
 fi
 
-# 4. Get commit message (after confirming there are changes)
+# 5. Get commit message (after confirming there are changes)
 if [[ $message == "" ]]; then
     echo "Please write a git commit message:"
     read -r message
@@ -111,10 +114,7 @@ if [[ $message == "" ]]; then
     fi
 fi
 
-echo "message: $message"
-
-# 5. Stage changes BEFORE building
-git add .
+echo "\nmessage: $message"
 
 changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
 
