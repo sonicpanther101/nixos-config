@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, pkgs-stable, ... } : {
+{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {
 
   home.packages = with pkgs-unstable; [         # Packages to be updated often
 
@@ -38,15 +38,12 @@
     qdirstat                                    # Visual file system veiwer like wiztree
     kooha                                       # Screen recorder
     grimblast                                   # Screenshot taker
-    brightnessctl                               # Desktop brighness controller
-    ddcutil                                     # Desktop brighness controller
     libnotify                                   # For my-install notifications (I know it's a duplicate notification daemon)
                                                
-  ]) ++ (if (host == "desktop") then [         
-    pkgs-stable.ddcutil                        
-  ] else if (host == "laptop") then [          
-    pkgs-stable.brightnessctl                  
-  ] else [                                     
-
+  ]) ++ (if (host == "desktop") then (with pkgs-stable; [        
+    ddcutil                                     # Desktop brighness controller                        
+  ]) else if (host == "laptop") then (with pkgs-stable; [       
+    brightnessctl                               # Desktop brighness controller                  
+  ]) else [                                     
   ]);                                          
 }
