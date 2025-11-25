@@ -79,7 +79,7 @@ if git status -uno | grep "Your branch is up to date with 'origin/master'."; the
     echo "Git is up to date, continuing..."
 else
     if git status -uno | grep "Your branch is ahead of"; then
-        echo "Git is ahead of cloud, continuing..."
+        echo "Git is ahead of origin, continuing..."
     else
         echo "Not up to date, please pull, exiting."
         popd
@@ -121,14 +121,11 @@ changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see st
 # 6. Build the system
 install
 
-# 7. Commit and push (with error handling)
-echo "Getting generation info..."
-current=$(nixos-rebuild list-generations 2>/dev/null | grep current) || current="unknown"
+# 7. Commit and push
+current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
 
-echo "Committing changes..."
 git commit -m "${message}. Rebuilt ${host}: ${current}"
 
-echo "Pushing to origin..."
 git push -u origin master
 
 # 8. Optional AGS restart
