@@ -38,15 +38,15 @@
     qdirstat                                    # Visual file system veiwer like wiztree
     kooha                                       # Screen recorder
     grimblast                                   # Screenshot taker
-    brightnessctl
-    ddcutil
-    libnotify
+    brightnessctl                               # Desktop brighness controller
+    ddcutil                                     # Desktop brighness controller
+    libnotify                                   # For my-install notifications (I know it's a duplicate notification daemon)
                                                
-  ]) ++ (if (host == "desktop") then [
-    pkgs-stable.ddcutil
-  ] else if (host == "laptop") then [
-    pkgs-stable.brightnessctl
-  ] else [
+  ]) ++ (if (host == "desktop") then [         
+    pkgs-stable.ddcutil                        
+  ] else if (host == "laptop") then [          
+    pkgs-stable.brightnessctl                  
+  ] else [                                     
 
-  ]);                                     
+  ]);                                          
 }
