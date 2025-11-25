@@ -21,6 +21,7 @@
       options = {
         navigate = true;
         line-numbers = true;
+        paging = "never";
         side-by-side = true;  # Optional: split view
       };
     };
