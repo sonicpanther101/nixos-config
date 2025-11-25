@@ -94,7 +94,7 @@ my-install
 - [ ] Dark mode wine for foobar
 - [ ] CJK fonts on wine for foobar 
 - [x] hyprland workspace keybinds over scrolling
-- [ ] Get `my` scripts working
+- [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
 - [ ] remove dirty warning from switch
 - [ ] 1 min timeout

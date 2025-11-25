@@ -7,5 +7,6 @@
     ./hyprland
     ./terminal
     ./scripts
+    ./git.nix
   ];
 }
