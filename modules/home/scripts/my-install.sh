@@ -97,9 +97,9 @@ fi
 # 4. Stage changes BEFORE building
 git add .
 
+echo # to account for no check
 if [[ $no_check == false ]]; then
-    echo
-    git diff -U0 '*'
+    git diff -U0 --cached '*'
     echo
 fi
 
@@ -114,7 +114,7 @@ if [[ $message == "" ]]; then
     fi
 fi
 
-echo "\nmessage: $message"
+echo "message: $message"
 
 changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
 
