@@ -96,7 +96,7 @@ my-install
 - [x] hyprland workspace keybinds over scrolling
 - [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
-- [ ] remove dirty warning from switch
+- [x] remove dirty warning from switch
 - [ ] 1 min timeout
 - [ ] Get fans RGB working
 - [ ] autostart hyprland, 

@@ -127,6 +127,7 @@ if [[ $skip_install == false ]]; then
 
     current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
 else
+    echo
     echo "Skipping install..."
     echo
 
