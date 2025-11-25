@@ -39,6 +39,8 @@
     kooha                                       # Screen recorder
     grimblast                                   # Screenshot taker
     brightnessctl
+    ddcutil
+    libnotify
                                                
   ]) ++ (if (host == "desktop") then [
     pkgs-stable.ddcutil
