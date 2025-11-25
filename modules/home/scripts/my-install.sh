@@ -78,9 +78,13 @@ git fetch
 if git status -uno | grep "Your branch is up to date with 'origin/master'."; then
     echo "Git is up to date, continuing..."
 else
-    echo "Not up to date, please pull, exiting."
-    popd
-    exit 0
+    if git status -uno | grep "Your branch is ahead of"; then
+        echo "Git is ahead of cloud, continuing..."
+    else
+        echo "Not up to date, please pull, exiting."
+        popd
+        exit 0
+    fi
 fi
 
 # 3. Check for changes
