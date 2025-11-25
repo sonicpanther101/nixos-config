@@ -1,4 +1,4 @@
-{ host, pkgs-stable, lib, username, ... } : {
+{ host, pkgs-unstable, lib, username, ... } : {
 
   # getting sleep to work
   services.power-profiles-daemon.enable = true;
@@ -37,7 +37,7 @@
   '';
 
   # OpenRGB
-  # services.udev.packages = [ (pkgs-stable.callPackage ../../packages/openrgb.nix { }) ];
+  services.udev.packages = [ pkgs-unstable.openrgb ];
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 }
