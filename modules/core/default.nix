@@ -6,6 +6,7 @@
     ./services.nix
     ./style.nix
     ./system.nix
+    ./security.nix
     ./user.nix
     ./hardware.nix
     ./foobar2000.nix
