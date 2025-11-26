@@ -10,6 +10,7 @@
     ] ++ (if (host == "laptop") then [
       "surface-control"
     ] else []);
+    shell = pkgs-stable.zsh;
   };
 
   imports = [ inputs.home-manager.nixosModules.home-manager ];
