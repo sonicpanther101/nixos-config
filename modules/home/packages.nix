@@ -24,7 +24,6 @@
     pamixer                                               # Pulseaudio command line mixer
     p7zip                                                 # For unzipping
     unrar                                                 # For unzipping multi part rars
-    tree                                                  # Show file structure (somehow missing)
     nemo-with-extensions                                  # File browser
     adwaita-icon-theme                                    # Themes icons in nemo
     os-prober                                             # To add other os' to grub
