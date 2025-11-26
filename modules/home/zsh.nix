@@ -1,4 +1,4 @@
-{ hostname, config, pkgs, host, ...} : {
+{ hostname, config, pkgs, host, lib, ...} : {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -8,7 +8,7 @@
       enable = true;
       plugins = [ "git" "fzf" ];
     };
-    initExtraFirst = ''
+    initContent = lib.mkBefore ''
       DISABLE_MAGIC_FUNCTIONS=true
     '';
     shellAliases = {
