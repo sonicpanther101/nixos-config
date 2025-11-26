@@ -117,6 +117,7 @@ my-install
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
 - [ ] Customise starship
+- [ ] Fill in components list
 - [ ] Typst to use instead of latex
 - [ ] Neovim (telescope and supermavin)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
@@ -143,3 +144,31 @@ my-install
 17. Change weather location to correct location, select kmph over m/s
 18. Remove toolbar widgets; notes, translate, reading list, mail, contacts, calendar, tasks, feeds, vivaldi social, vivaldi help, wikipedia, vpn, the gap between search and vpn, vivaldi share.
 19. Add toolbar widgets; status bar's zoom and page tiler to the top bar, google translate, discord, proton and vivaldi settings to panel.
+
+
+## TODO: 📓 Components
+|                             | NixOS + Hyprland                                                                              |
+| --------------------------- | :---------------------------------------------------------------------------------------------:
+| **Window Manager**          | [Hyprland][Hyprland] |
+| **Bar**                     | [Waybar][Waybar] |
+| **Application Launcher**    | [wofi][wofi] |
+| **Notification Daemon**     | [swaync][swaync] |
+| **Terminal Emulator**       | [Ghostty][Ghostty] |
+| **Shell**                   | [zsh][zsh] + [powerlevel10k][powerlevel10k] |
+| **Text Editor**             | [VSCodium][VSCodium] + [Neovim][Neovim] |
+| **network management tool** | [NetworkManager][NetworkManager] + [network-manager-applet][network-manager-applet] |
+| **System resource monitor** | [Btop][Btop] |
+| **File Manager**            | [nemo][nemo] + [yazi][yazi] |
+| **Fonts**                   | [Maple Mono][Maple Mono] |
+| **Color Scheme**            | [Gruvbox Dark Hard][Gruvbox] |
+| **GTK theme**               | [Colloid gtk theme][Colloid gtk theme] |
+| **Cursor**                  | [Bibata-Modern-Ice][Bibata-Modern-Ice] |
+| **Icons**                   | [Papirus-Dark][Papirus-Dark] |
+| **Lockscreen**              | [Hyprlock][Hyprlock] + [Swaylock-effects][Swaylock-effects] |
+| **Image Viewer**            | [imv][imv] |
+| **Media Player**            | [mpv][mpv] |
+| **Music Player**            | [audacious][audacious] |
+| **Screenshot Software**     | [grimblast][grimblast] |
+| **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
+| **Clipboard**               | [wl-clip-persist][wl-clip-persist] |
+| **Color Picker**            | [hyprpicker][hyprpicker] |
