@@ -143,10 +143,10 @@ commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
 
 echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}"
 
-push_output=$(git push -u origin master 2>&1)
+push_output=$(git push -u origin main 2>&1)
 
 if [[ $? -eq 0 ]]; then
-    echo -e "${GREEN}✓ Pushed${NORMAL} to ${BLUE}origin/master"
+    echo -e "${GREEN}✓ Pushed${NORMAL} to ${BLUE}origin/main"
 else
     echo -e "${RED}✗ Push failed${NORMAL}"
     exit 1
