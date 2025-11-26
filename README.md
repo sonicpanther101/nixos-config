@@ -172,3 +172,35 @@ my-install
 | **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
 | **Clipboard**               | [wl-clip-persist][wl-clip-persist] |
 | **Color Picker**            | [hyprpicker][hyprpicker] |
+
+<!-- Links -->
+[Hyprland]: https://github.com/hyprwm/Hyprland
+[Ghostty]: https://ghostty.org/
+[powerlevel10k]: https://github.com/romkatv/powerlevel10k
+[Waybar]: https://github.com/Alexays/Waybar
+[rofi]: https://github.com/lbonn/rofi
+[Btop]: https://github.com/aristocratos/btop
+[nemo]: https://github.com/linuxmint/nemo/
+[yazi]: https://github.com/sxyazi/yazi
+[zsh]: https://ohmyz.sh/
+[Swaylock-effects]: https://github.com/mortie/swaylock-effects
+[Hyprlock]: https://github.com/hyprwm/hyprlock
+[audacious]: https://audacious-media-player.org/
+[mpv]: https://github.com/mpv-player/mpv
+[VSCodium]:https://vscodium.com/
+[Neovim]: https://github.com/neovim/neovim
+[grimblast]: https://github.com/hyprwm/contrib
+[imv]: https://sr.ht/~exec64/imv/
+[swaync]: https://github.com/ErikReider/SwayNotificationCenter
+[Maple Mono]: https://github.com/subframe7536/maple-font
+[NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
+[network-manager-applet]: https://gitlab.gnome.org/GNOME/network-manager-applet/
+[wl-clip-persist]: https://github.com/Linus789/wl-clip-persist
+[wf-recorder]: https://github.com/ammen99/wf-recorder
+[hyprpicker]: https://github.com/hyprwm/hyprpicker
+[Gruvbox]: https://github.com/morhetz/gruvbox
+[Papirus-Dark]: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
+[Bibata-Modern-Ice]: https://www.gnome-look.org/p/1197198
+[maxfetch]: https://github.com/jobcmax/maxfetch
+[Colloid gtk theme]: https://github.com/vinceliuice/Colloid-gtk-theme
+[OBS]: https://obsproject.com/
