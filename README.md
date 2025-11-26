@@ -102,7 +102,7 @@ my-install
 - [ ] Get fans RGB working
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
-- [ ] fix hyprlock not working first try
+- [x] fix hyprlock not working first try
 - [ ] Add other drives to auto mount in hardware-config
 - [ ] Add upower and auto-cpufreq services for laptop
 - [x] Add gnupg for security

@@ -80,10 +80,10 @@ fi
 # 2. Check git status
 git fetch 2>&1 | grep -v "redirecting to" || true
 
-if git status -uno 2>&1 | grep -q "Your branch is up to date with 'origin/master'."; then
+if git status -uno 2>&1 | grep -q "Your branch is up to date with 'origin/main'."; then
     echo "Git is up to date, continuing..."
 else
-    if git status -uno | grep "Your branch is ahead of"; then
+    if git status -uno 2>&1 | grep -q "Your branch is ahead of"; then
         echo "Git is ahead of origin, continuing..."
     else
         echo "Not up to date, please pull, exiting."
