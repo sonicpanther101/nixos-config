@@ -1,4 +1,4 @@
 { ... } : {
   security.rtkit.enable = true;
-  security.pam.services.swaylock = { };
+  security.pam.services.hyprlock = { };
 }
