@@ -98,20 +98,29 @@ my-install
 - [x] Make my-install change depending on host/username and commit changes before nh
 - [x] remove dirty warning from switch
 - [ ] 1 min timeout
+- [x] Install openRGB udev rules
 - [ ] Get fans RGB working
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
+- [ ] fix hyprlock not working first try
+- [ ] Add other drives to auto mount in hardware-config
+- [ ] Add upower and auto-cpufreq services for laptop
+- [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
 - [x] Get all folders on syncthing
 - [ ] Get VSCodium settings nixified
+- [ ] Change bootloader theme to my fork
+- [ ] Set up bluetooth
 - [ ] Add back all programs from old config
 - [ ] Add floating terminal
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
 - [ ] Customise starship
+- [ ] Typst to use instead of latex
 - [ ] Neovim (telescope and supermavin)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
+- [ ] Get HDR working
 
 ## Browser Setup
 

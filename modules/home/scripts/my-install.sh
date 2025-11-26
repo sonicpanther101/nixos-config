@@ -111,7 +111,7 @@ fi
 # 5. Get commit message (after confirming there are changes)
 if [[ $message == "" ]]; then
     echo "Please write a git commit message:"
-    read -e -r message
+    read -r -e message
     if [[ $message == "" ]]; then
         echo "No message provided, exiting."
         popd > /dev/null
