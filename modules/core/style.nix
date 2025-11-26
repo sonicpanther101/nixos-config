@@ -60,6 +60,7 @@
   home-manager.users.${username} = {
     stylix.targets = {
       vscode.enable = false;
+      swaylock.enable = false;
       # hyprland.enable = false;
     };
   };
