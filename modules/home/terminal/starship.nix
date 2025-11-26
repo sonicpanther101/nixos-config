@@ -9,11 +9,6 @@
     settings = {
       # right_format = "$cmd_duration";
 
-      username.disabled = true;
-      hostname.disabled = true;
-
-      add_newline = true;
-      
       directory = {
         format = "[ ](bold #89b4fa)[ $path ]($style)";
         style = "bold #b4befe";
