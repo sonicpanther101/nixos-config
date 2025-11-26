@@ -32,6 +32,8 @@
                                                                             # python
       piv = "python -m venv .venv";                                         # Create virtual environment in .venv
       psv = "source .venv/bin/activate";                                    # Activate the virtual environment
+
+      usb = "sudo mount /dev/sdb1 ~/driveUSB";                              # Mount an external usb drive, only works if one sd is already connected
     };                                                                     
   };                                                                       
 

@@ -27,7 +27,7 @@
     };        
 
       directory.substitutions = {
-        "~" = "󰋞 ";
+        "~" = "󰋞";
         "Documents" = " ";
         "Downloads" = " ";
         "Music" = " ";
