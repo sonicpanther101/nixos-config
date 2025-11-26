@@ -141,7 +141,7 @@ message="${message^}" # Capitalize first character
 commit_output=$(git commit -m "${message}. Rebuilt ${host}: ${current}" 2>&1)
 commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
 
-echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}"
+echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}: ${current}"
 
 push_output=$(git push -u origin main 2>&1)
 
