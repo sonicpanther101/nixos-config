@@ -1,4 +1,4 @@
-{ username, host, ... } : {
+{ username, host, pkgs-stable, ... } : {
 
   programs.nh = {
     enable = true;
