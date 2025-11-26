@@ -53,7 +53,7 @@
       } {
         # DATE
         monitor = "";
-        text = "cmd date +'%A, %d %B %Y'"; # update every 60 seconds
+        text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
         font_size = 25;
         font_family = "$font";
 
