@@ -8,5 +8,6 @@
     ./terminal
     ./scripts
     ./git.nix
+    ./swaylock.nix
   ];
 }

@@ -267,7 +267,7 @@
         "SUPER, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
 
         # shutdown options
-        "SUPER, Escape, exec, hyprlock"
+        "SUPER, Escape, exec, swaylock"
         "SUPER SHIFT, Escape, exec, my-sleep"
         "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
         "SUPER SHIFT CTRL ALT, Escape, exec, reboot"

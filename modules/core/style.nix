@@ -61,7 +61,6 @@
     stylix.targets = {
       vscode.enable = false;
       # hyprland.enable = false;
-      hyprlock.useWallpaper = false;
     };
   };
 }
