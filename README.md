@@ -103,7 +103,7 @@ my-install
 - [ ] autostart hyprland, 
 - [ ] autostart everything else in hyprland
 - [x] fix hyprlock not working first try
-- [ ] Add other drives to auto mount in hardware-config
+- [x] Add other drives to auto mount in hardware-config
 - [ ] Add upower and auto-cpufreq services for laptop
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
