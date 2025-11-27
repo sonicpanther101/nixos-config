@@ -12,7 +12,7 @@
         "dbus-update-activation-environment --systemd"
 
         # To be changed
-        "waybar"
+        "sleep 1 && waybar"
         "copyq"
 
         # Set startup apps
@@ -28,9 +28,9 @@
         "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
         "hyprctl dispatch exec '[workspace 2 silent] Grayjay'"
         "hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
-        "hyprctl dispatch exec '[workspace 12 silent] code'"
+        "hyprctl dispatch exec '[workspace 12 silent] codium'"
         "hyprctl dispatch exec '[workspace 13 silent] kitty'"
-        "hyprctl dispatch focusmonitor HDMI-A-1 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
+        # "hyprctl dispatch focusmonitor HDMI-A-1 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
       ] else if (host == "laptop") then [
         "poweralertd"
       ] else [                                              
@@ -293,6 +293,14 @@
         "SUPER, mouse:273, resizewindow"
       ];
 
+      windowrule = [
+        "float,title:^(float_kitty)$"
+        "center,title:^(float_kitty)$"
+        "size 950 600,title:^(float_kitty)$"
+      ];
+
+      # Old window rules
+
       # windowrule
       /* windowrule = [
         "float,imv"
@@ -339,7 +347,7 @@
       ]; */
 
       # windowrulev2
-      windowrulev2 = [
+      /* windowrulev2 = [
         "float, title:^(Picture-in-Picture)$"
         "opacity 1.0 override 1.0 override, title:^(Picture-in-Picture)$"
         "pin, title:^(Picture-in-Picture)$"
@@ -363,7 +371,7 @@
         "float,title:^(branchdialog)$"
         "float,title:^(Confirm to replace files)$"
         "float,title:^(File Operation Progress)$"
-      ];
+      ]; */
 
       workspace = if (host == "desktop") then [
         "1,monitor:HDMI-A-1"
