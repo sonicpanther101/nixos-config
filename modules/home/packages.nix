@@ -39,7 +39,8 @@
     grimblast                                             # Screenshot taker
     libnotify                                             # For my-install notifications (I know it's a duplicate notification daemon)
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
-    imv                                                   # image viewer
+    imv                                                   # Image viewer
+    ffmpeg                                                # CLI image and video editor
                                                          
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [
     ddcutil                                               # Desktop brighness controller
