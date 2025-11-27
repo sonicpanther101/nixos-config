@@ -6,42 +6,44 @@
     settings = {
 
       # autostart
+      exec-once = [
+        # Setting variables globally
+        "systemctl --user import-environment"
+        "dbus-update-activation-environment --systemd"
+
+        # To be changed
+        "waybar"
+        "copyq"
+
+        # Set startup apps
+        "nm-applet"
+        "sleep 1 && hyprock"
+        "wl-paste --type text --watch cliphist store"
+        "wl-paste --type image --watch cliphist store"
+        # "wl-copy" # Might clear the clipboard history on boot
+      ]++ (if (host == "desktop") then [
+        "openrgb --startminimized -b 0 -m direct"
+
+        # Opening programs by default (not needed, just nice)
+        "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
+        "hyprctl dispatch exec '[workspace 2 silent] Grayjay'"
+        "hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
+        "hyprctl dispatch exec '[workspace 12 silent] code'"
+        "hyprctl dispatch exec '[workspace 13 silent] kitty'"
+        "hyprctl dispatch focusmonitor HDMI-A-1 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
+      ] else if (host == "laptop") then [
+        "poweralertd"
+      ] else [                                              
+      ]);      
+
+      # Old stuff not implemented yet 
       /* exec-once = 
         if (host == "desktop") then [
-          "export NIXPKGS_ALLOW_UNFREE=1"
-          "systemctl --user import-environment &"
-          "hash dbus-update-activation-environment 2>/dev/null &"
-          "dbus-update-activation-environment --systemd &"
-          "nm-applet &"
           "swww-daemon&"
-          "sleep 1 && swaylock"
-          "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
-          "poweralertd &"
-          "wl-paste --type text --watch cliphist store"
-          "wl-paste --type image --watch cliphist store"
-          "wl-copy &"
           "my-ags"
-					"cd ~/nixos-config && git fetch"
-          "openrgb --startminimized -b 0 -m direct"
-          "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
-          "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
-          "hyprctl dispatch focusmonitor DP-2 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
         ] else [
-          "export NIXPKGS_ALLOW_UNFREE=1"
-          "systemctl --user import-environment &"
-          "hash dbus-update-activation-environment 2>/dev/null &"
-          "dbus-update-activation-environment --systemd &"
-          "nm-applet &"
-          "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f) &"
-          "sleep 1 && swaylock"
-          "hyprctl setcursor catppuccin-mocha-dark-cursors 22 &"
-          "poweralertd &"
-          "wl-paste --type text --watch cliphist store"
-          "wl-paste --type image --watch cliphist store"
-          "wl-copy &"
+          "swaybg -m fill -i $(find ~/Pictures/wallpapers/ -maxdepth 1 -type f)"
           "my-ags"
-					"cd ~/nixos-config && git fetch"
-          "wlsunset -t 4000 -s 21:00 -S 06:30 -d 10 -g 1 &"
         ]; */
 
       binds = { scroll_event_delay = 0; };

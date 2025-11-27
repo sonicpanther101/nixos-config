@@ -2,7 +2,7 @@
   imports = [
     ./config.nix
     ./hyprland.nix
-    # ./variables.nix
+    ./variables.nix
     ./hyprlock.nix
   ];
 }
