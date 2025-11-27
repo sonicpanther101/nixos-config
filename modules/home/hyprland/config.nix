@@ -297,53 +297,59 @@
         "float,title:^(float_kitty)$"
         "center,title:^(float_kitty)$"
         "size 950 600,title:^(float_kitty)$"
+
+        "float,imv"
+        "center,imv"
+        "size 1200 725,imv"
+
+        "float,mpv"
+        "center,mpv"
+        "size 1200 725,mpv"
+
+        "float,title:^(OpenRGB)$"
+        "tile,Grayjay"
+
+        "float,title:^(Open Folder)$"
+        "center,title:^(Open Folder)$"
+        "size 950 600,title:^(Open Folder)$"
+
+        "float,title:^(Open File)$"
+        "center,title:^(Open File)$"
+        "size 950 600,title:^(Open File)$"
+
+        # For use with future astal/sableui projects
+        /* "float,title:^(gemini-ui)$"
+        "move 100%-0%,title:^(gemini-ui)$"
+        "size 500 750,title:^(gemini-ui)$"
+        "pin,title:^(gemini-ui)$" */
+
+        # Decreases opacity (dubious)
+        "opacity 0.9,codium"
+        "opacity 0.9,vivaldi"
+        "opacity 0.99,title:^(.*YouTube.*)$"
+        "opacity 0.75,nemo"
+
+        # Stops screen sleep on idle
+        "idleinhibit focus,mpv"
+        "idleinhibit focus,vlc"
+        "idleinhibit focus,title:^(.*YouTube.*)$"
+        "idleinhibit focus,Grayjay"
       ];
 
       # Old window rules
 
       # windowrule
       /* windowrule = [
-        "float,imv"
-        "center,imv"
-        "size 1200 725,imv"
-        "float,mpv"
-        "center,mpv"
-        "size 1200 725,mpv"
-        "tile,Aseprite"
-        "float,title:^(OpenRGB)$"
-        "float,title:^(Open Folder)$"
-        "center,title:^(Open Folder)$"
-        "size 950 600,title:^(Open Folder)$"
-        "float,title:^(Open File)$"
-        "center,title:^(Open File)$"
-        "size 950 600,title:^(Open File)$"
-        "float,title:^(float_kitty)$"
-        "center,title:^(float_kitty)$"
-        "size 950 600,title:^(float_kitty)$"
-        "float,title:^(gemini-ui)$"
-        "move 100%-0%,title:^(gemini-ui)$"
-        "size 500 750,title:^(gemini-ui)$"
-        "pin,title:^(gemini-ui)$"
+        
         "float,audacious"
         "workspace 8 silent, audacious"
-        "pin,wofi"
-        "float,wofi"
-        "noborder,wofi"
         "tile, neovide"
-        "idleinhibit focus,mpv"
         "float,udiskie"
         "float,title:^(Transmission)$"
         "float,title:^(Volume Control)$"
-        "float,title:^(Firefox — Sharing Indicator)$"
-        "move 0 0,title:^(Firefox — Sharing Indicator)$"
         "size 700 450,title:^(Volume Control)$"
         "move 40 55%,title:^(Volume Control)$"
-        "opacity 0.9,codium"
-        "opacity 0.9,vivaldi"
-        "opacity 0.99,title:^(.*HiAnime.*)$"
-        "opacity 0.99,title:^(.*YouTube.*)$"
-        "opacity 0.99,title:^(.*Channel 4.*)$"
-        "opacity 0.75,nemo"
+        
       ]; */
 
       # windowrulev2

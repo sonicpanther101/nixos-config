@@ -40,6 +40,7 @@
     libnotify                                             # For my-install notifications (I know it's a duplicate notification daemon)
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
     imv                                                   # Image viewer
+    mpv                                                   # Video viewer (simpler and more minimal than VLC)
     ffmpeg                                                # CLI image and video editor
     wl-clipboard                                          # clipboard utils for wayland (wl-copy, wl-paste)
     cliphist                                              # clipboard manager (duplicate of copyq)
