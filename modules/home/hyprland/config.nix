@@ -293,7 +293,7 @@
         "SUPER, mouse:273, resizewindow"
       ];
 
-      windowrule = [
+      windowrulev2 = [
         "float,title:^(float_kitty)$"
         "center,title:^(float_kitty)$"
         "size 950 600,title:^(float_kitty)$"
@@ -324,7 +324,8 @@
         "float,title:^(File Operation Progress)$"
 
         # Force tiling
-        "tile,Grayjay"
+        "tile,title:^(Grayjay)"
+        "tile,foobar.exe"
 
         "float,title:^(Open Folder)$"
         "center,title:^(Open Folder)$"
