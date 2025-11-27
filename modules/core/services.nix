@@ -40,4 +40,15 @@
   services.udev.packages = [ pkgs-unstable.openrgb ];
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
+
+  # Auto login for hyprland startup
+  services = {
+    displayManager.autoLogin = {
+      enable = true;
+      user = "${username}";
+    };
+  
+    # Add getty configuration for auto-login
+    getty.autologinUser = "${username}";
+  };
 }
