@@ -100,8 +100,8 @@ my-install
 - [ ] 1 min timeout
 - [x] Install openRGB udev rules
 - [ ] Get fans RGB working
-- [ ] autostart hyprland, 
-- [ ] autostart everything else in hyprland
+- [x] autostart hyprland, 
+- [x] autostart everything else in hyprland
 - [x] fix hyprlock not working first try
 - [x] Add other drives to auto mount in hardware-config
 - [ ] Add upower and auto-cpufreq services for laptop

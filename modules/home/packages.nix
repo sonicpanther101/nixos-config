@@ -41,11 +41,13 @@
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
     imv                                                   # Image viewer
     ffmpeg                                                # CLI image and video editor
-                                                         
+    wl-clipboard                                          # clipboard utils for wayland (wl-copy, wl-paste)
+    cliphist                                              # clipboard manager (duplicate of copyq)
+
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [
     ddcutil                                               # Desktop brighness controller
   ]) else if (host == "laptop") then (with pkgs-stable; [
-    brightnessctl                                         # Desktop brighness controller
+    brightnessctl                                         # Laptop brighness controller
   ]) else [                                              
   ]);                                                    
 }
