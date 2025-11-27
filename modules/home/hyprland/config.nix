@@ -306,7 +306,24 @@
         "center,mpv"
         "size 1200 725,mpv"
 
+        # Floating
         "float,title:^(OpenRGB)$"
+        "float,class:^(pavucontrol)$"
+        "float,class:^(SoundWireServer)$"
+        "float,class:^(.sameboy-wrapped)$"
+        "float,class:^(file_progress)$"
+        "float,class:^(confirm)$"
+        "float,class:^(dialog)$"
+        "float,class:^(download)$"
+        "float,class:^(notification)$"
+        "float,class:^(error)$"
+        "float,class:^(confirmreset)$"
+        "float,title:^(Open File)$"
+        "float,title:^(branchdialog)$"
+        "float,title:^(Confirm to replace files)$"
+        "float,title:^(File Operation Progress)$"
+
+        # Force tiling
         "tile,Grayjay"
 
         "float,title:^(Open Folder)$"
@@ -363,20 +380,6 @@
         "opacity 1.0 override 1.0 override, class:(Unity)"
         "idleinhibit focus, class:^(mpv)$"
         "idleinhibit fullscreen, class:^(firefox)$"
-        "float,class:^(pavucontrol)$"
-        "float,class:^(SoundWireServer)$"
-        "float,class:^(.sameboy-wrapped)$"
-        "float,class:^(file_progress)$"
-        "float,class:^(confirm)$"
-        "float,class:^(dialog)$"
-        "float,class:^(download)$"
-        "float,class:^(notification)$"
-        "float,class:^(error)$"
-        "float,class:^(confirmreset)$"
-        "float,title:^(Open File)$"
-        "float,title:^(branchdialog)$"
-        "float,title:^(Confirm to replace files)$"
-        "float,title:^(File Operation Progress)$"
       ]; */
 
       workspace = if (host == "desktop") then [
