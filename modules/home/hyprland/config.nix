@@ -324,7 +324,7 @@
         "float,title:^(File Operation Progress)$"
 
         # Force tiling
-        "tile,title:^(Grayjay)"
+        "tile,title:^(Grayjay)$"
         "tile,class:^(foobar.exe)$"
 
         "float,title:^(Open Folder)$"
@@ -351,7 +351,7 @@
         "idleinhibit focus,class:^(mpv)$"
         "idleinhibit focus,class:^(vlc)$"
         "idleinhibit focus,title:^(.*YouTube.*)$"
-        "idleinhibit focus,title:^(Grayjay)"
+        "idleinhibit focus,title:^(Grayjay)$"
       ];
 
       # Old window rules
