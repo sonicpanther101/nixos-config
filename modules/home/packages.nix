@@ -44,6 +44,7 @@
     ffmpeg                                                # CLI image and video editor
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
     cliphist                                              # Clipboard manager (duplicate of copyq)
+    networkmanagerapplet                                  # Tray GUI for network manager
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [
     ddcutil                                               # Desktop brighness controller
