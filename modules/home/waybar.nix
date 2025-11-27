@@ -110,6 +110,7 @@
         backlight = {
           format = "{percent}% {icon}";
           format-icons = ["" ""];
+          tooltip = false;
         };
         
         idle_inhibitor = {
@@ -205,7 +206,7 @@
     }
 
     #tray {
-      margin: 5px 10px 0;
+      margin: 5px 5px 0;
     }
     '';
   };

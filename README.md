@@ -106,6 +106,7 @@ my-install
 - [x] Add other drives to auto mount in hardware-config
 - [ ] Add upower and auto-cpufreq services for laptop
 - [ ] Change my-shutdown to turn off rgb
+- [ ] Set up mime for default apps
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
