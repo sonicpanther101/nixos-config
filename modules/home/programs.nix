@@ -7,4 +7,12 @@
 
   # Temporary notifications daemon to shut grimblast up
   services.mako.enable = true;
+
+  # Cat alternative
+  programs.bat = {
+    enable = true;
+    config = {
+      pager = "less -FR";
+    };
+  };
 }
