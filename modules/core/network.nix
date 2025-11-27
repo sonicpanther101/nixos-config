@@ -8,4 +8,10 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  # Tray GUI for network manager
+  programs.nm-applet = {
+    enable = true;
+    indicator = true;
+  };
 }

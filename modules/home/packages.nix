@@ -42,8 +42,8 @@
     imv                                                   # Image viewer
     mpv                                                   # Video viewer (simpler and more minimal than VLC)
     ffmpeg                                                # CLI image and video editor
-    wl-clipboard                                          # clipboard utils for wayland (wl-copy, wl-paste)
-    cliphist                                              # clipboard manager (duplicate of copyq)
+    wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
+    cliphist                                              # Clipboard manager (duplicate of copyq)
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [
     ddcutil                                               # Desktop brighness controller
