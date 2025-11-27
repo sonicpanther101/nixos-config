@@ -62,6 +62,7 @@
         };
 
         follow_mouse = 1;
+        accel_profile = "flat";
       };
 
       cursor.no_warps = true;
