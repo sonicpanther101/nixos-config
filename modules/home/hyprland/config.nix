@@ -25,12 +25,21 @@
         "openrgb --startminimized -b 0 -m direct"
 
         # Opening programs by default (not needed, just nice)
+        # Secondary Monitor
+        "hyprctl dispatch focusmonitor HDMI-A-1"
         "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
         "hyprctl dispatch exec '[workspace 2 silent] Grayjay'"
-        "hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
-        "hyprctl dispatch exec '[workspace 12 silent] codium'"
-        "hyprctl dispatch exec '[workspace 13 silent] kitty'"
-        # "hyprctl dispatch focusmonitor HDMI-A-1 && hyprctl dispatch workspace 11 && hyprctl dispatch focusmonitor DP-1"
+
+        # Main Monitor
+        "hyprctl dispatch focusmonitor DP-1"
+        "hyprctl dispatch workspace 11 && hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
+        "hyprctl dispatch workspace 12 && hyprctl dispatch exec '[workspace 12 silent] codium'"
+        "hyprctl dispatch workspace 13 && hyprctl dispatch exec '[workspace 13 silent] kitty'"
+
+        # Change focus back to secondary
+        "hyprctl dispatch workspace 11"
+        "hyprctl dispatch focusmonitor HDMI-A-1"
+
       ] else if (host == "laptop") then [
         "poweralertd"
       ] else [                                              
@@ -325,7 +334,7 @@
 
         # Force tiling
         "tile,title:^(Grayjay)$"
-        "tile,class:^(foobar.exe)$"
+        "tile,title:^(.*[foobar2000].*)$"
 
         "float,title:^(Open Folder)$"
         "center,title:^(Open Folder)$"
