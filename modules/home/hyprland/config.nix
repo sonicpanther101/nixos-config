@@ -63,7 +63,7 @@
 
         follow_mouse = 1;
         accel_profile = "flat";
-        sensitivity = 0.5;
+        sensitivity = 0.6;
       };
 
       cursor.no_warps = true;
