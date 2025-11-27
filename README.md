@@ -99,12 +99,13 @@ my-install
 - [x] remove dirty warning from switch
 - [ ] 1 min timeout
 - [x] Install openRGB udev rules
-- [ ] Get fans RGB working
+- [x] Get fans RGB working
 - [x] autostart hyprland, 
 - [x] autostart everything else in hyprland
 - [x] fix hyprlock not working first try
 - [x] Add other drives to auto mount in hardware-config
 - [ ] Add upower and auto-cpufreq services for laptop
+- [ ] Change my-shutdown to turn off rgb
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
