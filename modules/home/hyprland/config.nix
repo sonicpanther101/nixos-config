@@ -298,13 +298,13 @@
         "center,title:^(float_kitty)$"
         "size 950 600,title:^(float_kitty)$"
 
-        "float,imv"
-        "center,imv"
-        "size 1200 725,imv"
+        "float,class:^(imv)$"
+        "center,class:^(imv)$"
+        "size 1200 725,class:^(imv)$"
 
-        "float,mpv"
-        "center,mpv"
-        "size 1200 725,mpv"
+        "float,class:^(mpv)$"
+        "center,class:^(mpv)$"
+        "size 1200 725,class:^(mpv)$"
 
         # Floating
         "float,title:^(OpenRGB)$"
@@ -325,7 +325,7 @@
 
         # Force tiling
         "tile,title:^(Grayjay)"
-        "tile,foobar.exe"
+        "tile,class:^(foobar.exe)$"
 
         "float,title:^(Open Folder)$"
         "center,title:^(Open Folder)$"
@@ -342,16 +342,16 @@
         "pin,title:^(gemini-ui)$" */
 
         # Decreases opacity (dubious)
-        "opacity 0.9,codium"
-        "opacity 0.9,vivaldi"
+        "opacity 0.9,class:^(codium)$"
+        "opacity 0.9,class:^(vivaldi)$"
         "opacity 0.99,title:^(.*YouTube.*)$"
-        "opacity 0.75,nemo"
+        "opacity 0.75,class:^(nemo)$"
 
         # Stops screen sleep on idle
-        "idleinhibit focus,mpv"
-        "idleinhibit focus,vlc"
+        "idleinhibit focus,class:^(mpv)$"
+        "idleinhibit focus,class:^(vlc)$"
         "idleinhibit focus,title:^(.*YouTube.*)$"
-        "idleinhibit focus,Grayjay"
+        "idleinhibit focus,title:^(Grayjay)"
       ];
 
       # Old window rules
