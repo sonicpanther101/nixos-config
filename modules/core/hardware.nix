@@ -1,29 +1,35 @@
 { host, pkgs-unstable, pkgs-stable, inputs, ... } : {
 
-  hardware = if (host == "desktop") then {
-
-    # OpenRGB
-    i2c.enable = true;
-
+  hardware = {
+    # Common settings
     enableRedistributableFirmware = true;
-
+    
     graphics = {
       enable = true;
       enable32Bit = true;
-
-      # Use pkgs consistently
-      package = pkgs-unstable.mesa;
-      package32 = pkgs-unstable.pkgsi686Linux.mesa;
-      extraPackages = with pkgs-unstable; [
+      
+      extraPackages = with pkgs-unstable; (if (host == "desktop") then [
         libva-vdpau-driver
         libvdpau-va-gl
         nvidia-vaapi-driver
-      ];
-      extraPackages32 = with pkgs-unstable.pkgsi686Linux; [
+      ] else if (host == "laptop") then [
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        libvdpau-va-gl
+        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
+      ] else []);
+      
+      extraPackages32 = with pkgs-unstable.pkgsi686Linux; (if (host == "desktop") then [
         libva-vdpau-driver
         libvdpau-va-gl
-      ];
-    };
+      ] else []);
+    } // (if (host == "desktop") then {
+      # Use pkgs consistently for desktop
+      package = pkgs-unstable.mesa;
+      package32 = pkgs-unstable.pkgsi686Linux.mesa;
+    } else {});
+  } // (if (host == "desktop") then {
+    # OpenRGB
+    i2c.enable = true;
 
     nvidia = {
       # Modesetting is required.
@@ -55,22 +61,7 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = pkgs-unstable.linuxKernel.packages.linux_6_12.nvidiaPackages.stable;
     };
-
-  } else if (host == "laptop") then {
-    # Laptop configuration with Intel graphics
-    enableRedistributableFirmware = true;
-    
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      
-      extraPackages = with pkgs-unstable; [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        libvdpau-va-gl
-        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
-      ];
-    };
-  } else {};
+  } else {});
 
   environment = {
     
