@@ -1,7 +1,7 @@
 { host, ... } : {
   wayland.windowManager.hyprland.settings = {
 
-    nixwindowrule = [
+    windowrule = [
       "float,title:^(float_kitty)$"
       "center,title:^(float_kitty)$"
       "size 950 600,title:^(float_kitty)$"
