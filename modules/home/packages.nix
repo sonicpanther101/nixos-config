@@ -1,10 +1,15 @@
-{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {    
+{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {
 
-  home.packages = with pkgs-unstable; [                   # Packages to be updated often
+  home.packages = with pkgs-unstable; [               # Packages to be updated often
 
-    vivaldi                                               # Browser
-    vscodium-fhs                                          # Code editor
-    grayjay                                               # Youtube frontend
+    vivaldi                                           # Browser
+    vscodium-fhs                                      # Code editor
+                                                      # Wrapped Grayjay that auto-tiles on launch
+    (pkgs-stable.writeShellScriptBin "grayjay" ''    
+      ${pkgs-unstable.grayjay}/bin/grayjay &         
+      sleep 1
+      ${inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.hyprland}/bin/hyprctl dispatch togglefloating
+    '')                                             
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
                                                          
   ] ++ (with pkgs-stable; [                               # Packages that dont need to be up to date
