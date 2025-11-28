@@ -6,13 +6,13 @@
       "center,title:^(float_kitty)$"
       "size 950 600,title:^(float_kitty)$"
 
-      "float,imv"
-      "center,imv"
-      "size 1200 725,imv"
+      "float,class:^(imv)$"
+      "center,class:^(imv)$"
+      "size 1200 725,class:^(imv)$"
 
-      "float,mpv"
-      "center,mpv"
-      "size 1200 725,mpv"
+      "float,class:^(mpv)$"
+      "center,class:^(mpv)$"
+      "size 1200 725,class:^(mpv)$"
 
       # Force tiling
       "tile,title:^(Grayjay)$"
