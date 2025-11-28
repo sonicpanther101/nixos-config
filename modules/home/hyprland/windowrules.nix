@@ -32,7 +32,7 @@
       "float,title:^(File Operation Progress)$"
 
       # Force tiling
-      "tile,title:^(Grayjay)$"
+      "tile,title:(Grayjay)"
       "tile,title:^(.*[foobar2000].*)$"
 
       "float,title:^(Open Folder)$"

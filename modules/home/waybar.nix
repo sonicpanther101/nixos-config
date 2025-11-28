@@ -14,6 +14,7 @@
           (if (host == "desktop") then "cava" else "")
           "wireplumber"
           "tray"
+          "idle_inhibitor"
           "backlight"
           (if (host == "laptop") then "battery" else "")
         ] ++ (lib.filter (x: x != "") [ ]);
