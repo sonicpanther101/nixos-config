@@ -5,7 +5,7 @@
     vivaldi                                               # Browser
     vscodium-fhs                                          # Code editor
     grayjay                                               # Youtube frontend
-    bottles                                               # Windows emulater, Wine prefix manager
+    (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
                                                          
   ] ++ (with pkgs-stable; [                               # Packages that dont need to be up to date
 
