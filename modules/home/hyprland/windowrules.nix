@@ -1,18 +1,32 @@
 { host, ... } : {
   wayland.windowManager.hyprland.settings = {
 
-    windowrulev2 = [
+    windowrule = [
       "float,title:^(float_kitty)$"
       "center,title:^(float_kitty)$"
       "size 950 600,title:^(float_kitty)$"
 
-      "float,class:^(imv)$"
-      "center,class:^(imv)$"
-      "size 1200 725,class:^(imv)$"
+      "float,imv"
+      "center,imv"
+      "size 1200 725,imv"
 
-      "float,class:^(mpv)$"
-      "center,class:^(mpv)$"
-      "size 1200 725,class:^(mpv)$"
+      "float,mpv"
+      "center,mpv"
+      "size 1200 725,mpv"
+
+      # Force tiling
+      "tile,title:^(Grayjay)$"
+
+      "float,title:^(Open Folder)$"
+      "center,title:^(Open Folder)$"
+      "size 950 600,title:^(Open Folder)$"
+
+      "float,title:^(Open File)$"
+      "center,title:^(Open File)$"
+      "size 950 600,title:^(Open File)$"
+    ];
+
+    windowrulev2 = [
 
       # Floating
       "float,title:^(OpenRGB)$"
@@ -32,16 +46,7 @@
       "float,title:^(File Operation Progress)$"
 
       # Force tiling
-      "tile,title:^(Grayjay)$"
       "tile,title:^(.*[foobar2000].*)$"
-
-      "float,title:^(Open Folder)$"
-      "center,title:^(Open Folder)$"
-      "size 950 600,title:^(Open Folder)$"
-
-      "float,title:^(Open File)$"
-      "center,title:^(Open File)$"
-      "size 950 600,title:^(Open File)$"
 
       # For use with future astal/sableui projects
       /* "float,title:^(gemini-ui)$"
@@ -58,8 +63,9 @@
       # Stops screen sleep on idle
       "idleinhibit focus,class:^(mpv)$"
       "idleinhibit focus,class:^(vlc)$"
+      "idleinhibit focus,class:^(steam_proton)$"
       "idleinhibit focus,title:^(.*YouTube.*)$"
-      "idleinhibit focus,title:(Grayjay)"
+      "idleinhibit focus,title:^(Grayjay)$"
     ];
 
     # Old window rules
