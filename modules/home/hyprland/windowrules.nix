@@ -2,9 +2,14 @@
   wayland.windowManager.hyprland.settings = {
 
     windowrule = [
-      "float,title:^(float_kitty)$"
-      "center,title:^(float_kitty)$"
-      "size 950 600,title:^(float_kitty)$"
+      
+    ];
+
+    windowrulev2 = [
+      # float_kitty - match by class AND title since title alone isn't working
+      "float,class:^(kitty)$,title:^(float_kitty)$"
+      "center,class:^(kitty)$,title:^(float_kitty)$"
+      "size 950 600,class:^(kitty)$,title:^(float_kitty)$"
 
       "float,class:^(imv)$"
       "center,class:^(imv)$"
@@ -14,9 +19,6 @@
       "center,class:^(mpv)$"
       "size 1200 725,class:^(mpv)$"
 
-      # Force tiling
-      "tile,title:^(Grayjay)$" # Still not working
-
       "float,title:^(Open Folder)$"
       "center,title:^(Open Folder)$"
       "size 950 600,title:^(Open Folder)$"
@@ -24,9 +26,6 @@
       "float,title:^(Open File)$"
       "center,title:^(Open File)$"
       "size 950 600,title:^(Open File)$"
-    ];
-
-    windowrulev2 = [
 
       # Floating
       "float,title:^(OpenRGB)$"
@@ -47,6 +46,8 @@
 
       # Force tiling
       "tile,title:^(.*[foobar2000].*)$"
+      # Grayjay - has empty class, so use xwayland:1 to be more specific
+      "tile,title:^(Grayjay)$,xwayland:1"
 
       # For use with future astal/sableui projects
       /* "float,title:^(gemini-ui)$"
