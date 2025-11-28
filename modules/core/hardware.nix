@@ -31,6 +31,9 @@
     # OpenRGB
     i2c.enable = true;
 
+    # XBox controller
+    xpadneo.enable = true;
+
     nvidia = {
       # Modesetting is required.
       modesetting.enable = true;
