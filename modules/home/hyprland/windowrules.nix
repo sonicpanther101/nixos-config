@@ -1,7 +1,50 @@
 { host, ... } : {
   wayland.windowManager.hyprland.settings = {
 
-    windowrulev2 = [
+    windowrule = [
+        "float,title:^(float_kitty)$"
+        "center,title:^(float_kitty)$"
+        "size 950 600,title:^(float_kitty)$"
+
+        "float,imv"
+        "center,imv"
+        "size 1200 725,imv"
+
+        "float,mpv"
+        "center,mpv"
+        "size 1200 725,mpv"
+
+        "float,title:^(OpenRGB)$"
+        "tile,Grayjay"
+
+        "float,title:^(Open Folder)$"
+        "center,title:^(Open Folder)$"
+        "size 950 600,title:^(Open Folder)$"
+
+        "float,title:^(Open File)$"
+        "center,title:^(Open File)$"
+        "size 950 600,title:^(Open File)$"
+
+        # For use with future astal/sableui projects
+        /* "float,title:^(gemini-ui)$"
+        "move 100%-0%,title:^(gemini-ui)$"
+        "size 500 750,title:^(gemini-ui)$"
+        "pin,title:^(gemini-ui)$" */
+
+        # Decreases opacity (dubious)
+        "opacity 0.9,codium"
+        "opacity 0.9,vivaldi"
+        "opacity 0.99,title:^(.*YouTube.*)$"
+        "opacity 0.75,nemo"
+
+        # Stops screen sleep on idle
+        "idleinhibit focus,mpv"
+        "idleinhibit focus,vlc"
+        "idleinhibit focus,title:^(.*YouTube.*)$"
+        "idleinhibit focus,Grayjay"
+      ];
+
+    /* windowrulev2 = [
       # float_kitty - use explicit initialTitle match
       "float,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
       "center,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
@@ -47,10 +90,10 @@
       "tile,xwayland:1,floating:1" # This forces any xwayland floating window to tile
 
       # For use with future astal/sableui projects
-      /* "float,title:^(gemini-ui)$"
-      "move 100%-0%,title:^(gemini-ui)$"
-      "size 500 750,title:^(gemini-ui)$"
-      "pin,title:^(gemini-ui)$" */
+      # "float,title:^(gemini-ui)$"
+      # "move 100%-0%,title:^(gemini-ui)$"
+      # "size 500 750,title:^(gemini-ui)$"
+      # "pin,title:^(gemini-ui)$"
 
       # Decreases opacity (dubious)
       "opacity 0.9,class:^(codium)$"
@@ -64,7 +107,7 @@
       "idleinhibit focus,class:^(steam_proton)$"
       "idleinhibit focus,title:^(.*YouTube.*)$"
       "idleinhibit focus,title:^(Grayjay)$"
-    ];
+    ]; */
 
     # Old window rules
 
