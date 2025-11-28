@@ -2,10 +2,10 @@
   wayland.windowManager.hyprland.settings = {
 
     windowrulev2 = [
-      # float_kitty - use initialTitle
-      "float,initialTitle:^(float_kitty)$"
-      "center,initialTitle:^(float_kitty)$"
-      "size 950 600,initialTitle:^(float_kitty)$"
+      # float_kitty - use explicit initialTitle match
+      "float,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
+      "center,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
+      "size 950 600,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
 
       "float,class:^(imv)$"
       "center,class:^(imv)$"
@@ -42,8 +42,9 @@
 
       # Force tiling
       "tile,title:^(.*[foobar2000].*)$"
-      # Grayjay - empty class, use initialTitle if available, otherwise just title
-      "tile,initialTitle:^(Grayjay)$,xwayland:1"
+      # Grayjay - since initialTitle is EMPTY, we need a workaround
+      # Try matching on xwayland:1 with NO title/class filters
+      "tile,xwayland:1,floating:1" # This forces any xwayland floating window to tile
 
       # For use with future astal/sableui projects
       /* "float,title:^(gemini-ui)$"
