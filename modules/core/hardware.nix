@@ -27,6 +27,12 @@
       package = pkgs-unstable.mesa;
       package32 = pkgs-unstable.pkgsi686Linux.mesa;
     } else {});
+
+    bluetooth = {
+      enable = true; # enables support for Bluetooth
+      powerOnBoot = true;
+    };
+
   } // (if (host == "desktop") then {
     # OpenRGB
     i2c.enable = true;

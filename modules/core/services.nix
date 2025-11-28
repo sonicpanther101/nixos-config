@@ -2,11 +2,12 @@
 
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
-
-  # Getting sleep to work
-  boot.kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if (host == "desktop") then ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"] else []);
   
   services = {
+
+    # Bluetooth UI
+    blueman.enable = true;
+
     # Getting sleep to work
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
