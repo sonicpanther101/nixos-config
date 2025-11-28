@@ -1,4 +1,4 @@
-{ inputs, host, ... }:{
+{ inputs, host, config, ... }:{
 
   boot.loader = {
     efi.canTouchEfiVariables = true;
@@ -22,4 +22,7 @@
 
   # OpenRGB
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" ] else [];
+
+  # XBox controller
+  boot.extraModulePackages = if (host == "desktop") then with config.boot.kernelPackages; [ xpadneo ] else [];
 }
