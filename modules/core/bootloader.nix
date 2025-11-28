@@ -15,6 +15,9 @@
     # For windows filesystems to work
     supportedFilesystems = [ "ntfs" ];
 
+    # Getting sleep to work
+    kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if (host == "desktop") then ["nvidia.NVreg_PreserveVideoMemoryAllocations=1"] else []);
+
   } // (if (host == "desktop") then {
 
     # XBox controller
