@@ -1,15 +1,11 @@
 { host, ... } : {
   wayland.windowManager.hyprland.settings = {
 
-    windowrule = [
-      
-    ];
-
     windowrulev2 = [
-      # float_kitty - match by class AND title since title alone isn't working
-      "float,class:^(kitty)$,title:^(float_kitty)$"
-      "center,class:^(kitty)$,title:^(float_kitty)$"
-      "size 950 600,class:^(kitty)$,title:^(float_kitty)$"
+      # float_kitty - use initialTitle
+      "float,initialTitle:^(float_kitty)$"
+      "center,initialTitle:^(float_kitty)$"
+      "size 950 600,initialTitle:^(float_kitty)$"
 
       "float,class:^(imv)$"
       "center,class:^(imv)$"
@@ -46,8 +42,8 @@
 
       # Force tiling
       "tile,title:^(.*[foobar2000].*)$"
-      # Grayjay - has empty class, so use xwayland:1 to be more specific
-      "tile,title:^(Grayjay)$,xwayland:1"
+      # Grayjay - empty class, use initialTitle if available, otherwise just title
+      "tile,initialTitle:^(Grayjay)$,xwayland:1"
 
       # For use with future astal/sableui projects
       /* "float,title:^(gemini-ui)$"
@@ -57,7 +53,7 @@
 
       # Decreases opacity (dubious)
       "opacity 0.9,class:^(codium)$"
-      "opacity 0.9,class:^(vivaldi)$"
+      "opacity 0.9,class:^(vivaldi-stable)$"
       "opacity 0.99,title:^(.*YouTube.*)$"
       "opacity 0.75,class:^(nemo)$"
 
