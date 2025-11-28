@@ -13,7 +13,7 @@
 
       # Set startup apps
       "nm-applet"
-      "sleep 1 && hyprock"
+      "sleep 1 && pidof hyprlock || hyprlock"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
