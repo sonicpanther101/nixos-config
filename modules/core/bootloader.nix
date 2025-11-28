@@ -15,9 +15,6 @@
     # For windows filesystems to work
     supportedFilesystems = [ "ntfs" ];
 
-    # OpenRGB
-    kernelModules = if (host == "desktop") then [ "i2c-dev" ] else [];
-
   } // (if (host == "desktop") then {
 
     # XBox controller
@@ -25,6 +22,9 @@
     extraModprobeConfig = ''
       options bluetooth disable_ertm=Y
     '';
+
+    # OpenRGB
+    kernelModules = [ "i2c-dev" ];
   } else {});
 
   # Sleep config
