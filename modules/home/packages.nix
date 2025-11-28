@@ -5,7 +5,7 @@
     vivaldi                                               # Browser
     vscodium-fhs                                          # Code editor
     grayjay                                               # Youtube frontend
-    bottles                                               # Windows emulater
+    bottles                                               # Windows emulater, Wine prefix manager
                                                          
   ] ++ (with pkgs-stable; [                               # Packages that dont need to be up to date
 
@@ -15,6 +15,11 @@
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
     ipafont                                              
+                                                          # Gaming (some may be unecessary)                       
+    mangohud                                              # FPS/performance overlay
+    protonup-qt                                           # Manage custom Proton versions
+    heroic                                                # Epic/GOG games
+    lutris                                                # Multi-launcher
 
     waybar-mpris                                          # To show music on bar
     wofi                                                  # App launcher

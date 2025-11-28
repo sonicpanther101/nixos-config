@@ -10,6 +10,7 @@
     ./user.nix
     ./hardware.nix
     ./foobar2000.nix
+    ./gaming.nix
   ];
   # ++ (if someCondition then [ ./optional.nix ] else []);
 }

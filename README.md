@@ -97,7 +97,7 @@ my-install
 - [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
 - [x] remove dirty warning from switch
-- [ ] 1 min timeout
+- [x] 1 min timeout
 - [x] Install openRGB udev rules
 - [x] Get fans RGB working
 - [x] autostart hyprland, 
