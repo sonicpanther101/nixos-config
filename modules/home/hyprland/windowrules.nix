@@ -15,7 +15,7 @@
       "size 1200 725,class:^(mpv)$"
 
       # Force tiling
-      "tile,title:^(Grayjay)$"
+      "tile,title:^(Grayjay)$" # Still not working
 
       "float,title:^(Open Folder)$"
       "center,title:^(Open Folder)$"
