@@ -113,13 +113,13 @@ my-install
 - [x] Get all folders on syncthing
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
-- [ ] Set up bluetooth
+- [x] Set up bluetooth
 - [ ] Add back all programs from old config
 - [ ] Add floating terminal
 - [ ] Write vivaldi explicit setup
 - [ ] Stop fuzzy cursor
 - [ ] Customise starship
-- [ ] Fill in components list
+- [ ] Fill in components list in readme
 - [ ] Typst to use instead of latex
 - [ ] Neovim (telescope and supermavin)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
