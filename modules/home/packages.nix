@@ -14,6 +14,11 @@
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
     ipafont                                              
+#                                                          QT packages including Kvantum
+    libsForQt5.qt5ct                                     
+    libsForQt5.qtstyleplugin-kvantum                     
+    kdePackages.qt6ct                                    
+    kdePackages.qtstyleplugin-kvantum                    
                                                           # Gaming (some may be unecessary)
     mangohud                                              # FPS/performance overlay
     protonup-qt                                           # Manage custom Proton versions
