@@ -37,7 +37,6 @@
     hyprsome                                              # Hyprland extension to have monitor specific workspaces
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
-    cava                                                  # Audio visualiser
     nicotine-plus                                         # Soulseek peer to peer browser frontend
     qdirstat                                              # Visual file system veiwer like wiztree
     kooha                                                 # Screen recorder
