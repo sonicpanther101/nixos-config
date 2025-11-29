@@ -120,6 +120,7 @@ Error:
 - [x] Change my-shutdown to turn off rgb
 - [ ] Set up mime for default apps
 - [ ] Get l and ll working
+- [ ] Back up stylus to this repo
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed

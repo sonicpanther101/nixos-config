@@ -10,3 +10,6 @@ pidof hyprlock || hyprlock               # Display lockscreen on wakeup
 if [[ $host == "desktop" ]]; then       
     openrgb --mode direct --color 000000 # Turn all RGB off if started on boot
 fi                                      
+
+cd ~/nixos-config
+git fetch
