@@ -1,13 +1,4 @@
-{ lib, pkgs-unstable, pkgs-stable, username, ... } : let
-
-  catppuccin-qt5ct = pkgs-stable.fetchFromGitHub {
-    owner = "catppuccin";
-    repo = "qt5ct";
-    rev = "main";
-    hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
-  };
-
-in {
+{ lib, pkgs-unstable, pkgs-stable, username, ... } : {
 
   programs.nh = {
     enable = true;
@@ -38,14 +29,19 @@ in {
     "bg+" = "#313244";
   };
 
-  # QT - Color schemes
-  home.file.".config/qt5ct/colors/catppuccin-mocha-mauve.conf".source =
-    "${catppuccin-qt5ct}/themes/Mocha/catppuccin-mocha-blue.conf";
-  
-  home.file.".config/qt6ct/colors/catppuccin-mocha-mauve.conf".source =
-    "${catppuccin-qt5ct}/themes/Mocha/catppuccin-mocha-blue.conf";
-  
-  # QT - Config files
+  # QT
+  home.file.".config/qt5ct/colors/catppuccin-mocha-mauve.conf".source = pkgs-stable.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "qt5ct";
+    rev = "main";
+    hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
+  } + "/themes/catppuccin-mocha-blue.conf";
+  home.file.".config/qt6ct/colors/catppuccin-mocha-mauve.conf".source = pkgs-stable.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "qt5ct";
+    rev = "main";
+    hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
+  } + "/themes/catppuccin-mocha-blue.conf";
   home.file.".config/qt5ct/qt5ct.conf".text = lib.mkForce ''
     [Appearance]
     style=kvantum
