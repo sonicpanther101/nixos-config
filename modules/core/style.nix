@@ -1,4 +1,5 @@
 { pkgs-stable, inputs, username, lib, ... } : {
+
   stylix = {
     enable = true;
 

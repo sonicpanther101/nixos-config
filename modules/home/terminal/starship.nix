@@ -35,6 +35,6 @@
       };
 
       palette = lib.mkForce "catppuccin_mocha";
-    } // builtins.fromTOML (builtins.readFile "${inputs.catppuccin-starship}/themes/mocha.toml");
+    };
   };
 }

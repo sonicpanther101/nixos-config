@@ -1,4 +1,4 @@
-{ inputs, username, host, pkgs-stable, pkgs-unstable, ... } : {
+{ lib, pkgs-unstable, ... } : {
 
   programs.nh = {
     enable = true;
@@ -16,17 +16,6 @@
     };
   };
 
-  # Audio visualiser
-  programs.cava = {
-    enable = true;
-    package = pkgs-stable.cava;
-  };
-  
-  # https://github.com/catppuccin/cava
-  home.file.".config/cava/config".text = ''
-    # custom cava config
-  '' + builtins.readFile "${inputs.catppuccin-cava}/themes/mocha-transparent.cava";
-
   # Browser
   programs.chromium = {
     enable = true;
@@ -35,11 +24,8 @@
   };
 
   # Styling
-  # imv
-  home.file.".config/imv/config".source = pkgs-stable.fetchFromGitHub {
-    owner = "catppuccin";
-    repo = "imv";
-    rev = "main";
-    hash = "sha256-4WOHc9k+NUsyFDKgDAyGfRtpFsx/KyOAE5kIv4gKhwM=";
-  } + "/themes/mocha.config";
+  programs.bat.config.theme = lib.mkForce "Catppuccin Mocha";
+  programs.fzf.colors = lib.mkForce {
+    "bg+" = "#313244";
+  };
 }
