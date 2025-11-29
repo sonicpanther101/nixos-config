@@ -14,13 +14,14 @@
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
     ipafont                                              
-                                                          # Gaming (some may be unecessary)                       
+                                                          # Gaming (some may be unecessary)
     mangohud                                              # FPS/performance overlay
     protonup-qt                                           # Manage custom Proton versions
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
 
     waybar-mpris                                          # To show music on bar
+    cava                                                  # Audio visualiser
     wofi                                                  # App launcher
     resources                                             # Graphical resource manager
     htop                                                  # Resource manager

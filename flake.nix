@@ -18,21 +18,10 @@
 
     stylix.url = "github:danth/stylix";
 
-    catppuccin-bat = {
-      url = "github:catppuccin/bat";
-      flake = false;
-    };
-    catppuccin-cava = {
-      url = "github:catppuccin/cava";
-      flake = false;
-    };
-    catppuccin-starship = {
-      url = "github:catppuccin/starship";
-      flake = false;
-    };
+    catppuccin.url = "github:catppuccin/nix";
   };
 
-  outputs = { self, nixpkgs-unstable, nixpkgs-stable, erosanix, ... } @ inputs:
+  outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
   let
     username = "adam";
     system = "x86_64-linux";

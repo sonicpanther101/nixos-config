@@ -21,7 +21,16 @@
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs username host pkgs-stable pkgs-unstable; };
     users.${username} = {
-      imports = [ ./../home ];
+      imports = [ 
+        ./../home
+        inputs.catppuccin.homeModules.catppuccin
+      ];
+
+      catppuccin = {
+        enable = true;
+        accent = "blue";
+        flavor = "mocha";
+      };
 
       programs.home-manager.enable = true;
       home.username = "${username}";

@@ -72,7 +72,6 @@
         };
 
         cava = {
-          cava_config = "${inputs.catppuccin-cava}/themes/mocha-transparent.cava";
           framerate = 60;
           bars = 8;
           lower_cutoff_freq = 30;
