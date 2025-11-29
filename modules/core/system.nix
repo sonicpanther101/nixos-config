@@ -1,4 +1,11 @@
-{ ... } : {
+{ host, lib, ... } : {
+
+  # Throttles CPU when it gets too hot
+  services.thermald = if (host =="laptop") then lib.mkDefault {
+    enable = false;
+    configFile = ./thermal-conf.xml;
+  } else {};
+
   nix.settings = {
 
     experimental-features = [ "nix-command" "flakes" ];

@@ -1,8 +1,6 @@
 { host, ... } : {
   wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-
+    
     settings = {
 
       binds = { scroll_event_delay = 0; };
