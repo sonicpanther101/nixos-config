@@ -87,13 +87,15 @@ my-install
 
 ### Errors
 
-#### Files already in place home manager wants to control
+- Files already in place home manager wants to control
 ```
 warning: the following units failed: home-manager-adam.service
 Error: 
    0: Activation (test) failed
    1: Activating configuration (exit status Exited(4))
 ```
+
+- If nemo confirmations have dark text and background, change colour scheme to catppuccin mocha in qt5ct and qt6ct
 
 ## Todo:
 - [x] Get sleeping working

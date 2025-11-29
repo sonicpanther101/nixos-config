@@ -1,4 +1,4 @@
-{ lib, pkgs-unstable, pkgs-stable, ... } : {
+{ lib, pkgs-unstable, pkgs-stable, username, ... } : {
 
   programs.nh = {
     enable = true;
@@ -42,4 +42,22 @@
     rev = "main";
     hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
   } + "/themes/catppuccin-mocha-blue.conf";
+  home.file.".config/qt5ct/qt5ct.conf".text = lib.mkForce ''
+    [Appearance]
+    style=kvantum
+    custom_palette=true
+    color_scheme_path=/home/${username}/.config/qt5ct/colors/catppuccin-mocha-mauve.conf
+    [Fonts]
+    fixed="JetBrainsMono Nerd Font,12"
+    general="DejaVu Sans,12"
+  '';
+  home.file.".config/qt6ct/qt6ct.conf".text = lib.mkForce ''
+    [Appearance]
+    style=kvantum
+    custom_palette=true
+    color_scheme_path=/home/${username}/.config/qt6ct/colors/catppuccin-mocha-mauve.conf
+    [Fonts]
+    fixed="JetBrainsMono Nerd Font,12"
+    general="DejaVu Sans,12"
+  '';
 }
