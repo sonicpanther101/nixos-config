@@ -36,4 +36,10 @@
     rev = "main";
     hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
   } + "/themes/catppuccin-mocha-blue.conf";
+  home.file.".config/qt6ct/colors".source = pkgs-stable.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "qt5ct";
+    rev = "main";
+    hash = "sha256-wDj6kQ2LQyMuEvTQP6NifYFdsDLT+fMCe3Fxr8S783w=";
+  } + "/themes/catppuccin-mocha-blue.conf";
 }
