@@ -1,4 +1,4 @@
-{ inputs, username, host, pkgs-stable, ... } : {
+{ inputs, username, host, pkgs-stable, pkgs-unstable, ... } : {
 
   programs.nh = {
     enable = true;
@@ -30,7 +30,7 @@
   # Browser
   programs.chromium = {
     enable = true;
-    package = pkgs-stable.vivaldi;
+    package = pkgs-unstable.vivaldi;
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
   };
 }
