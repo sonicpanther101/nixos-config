@@ -2,7 +2,6 @@
 
   home.packages = with pkgs-unstable; [                   # Packages to be updated often
 
-    vivaldi                                               # Browser
     vscodium-fhs                                          # Code editor
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager

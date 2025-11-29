@@ -85,6 +85,16 @@ cat ~/.ssh/id_ed25519.pub
 my-install
 ```
 
+### Errors
+
+#### Files already in place home manager wants to control
+```
+warning: the following units failed: home-manager-adam.service
+Error: 
+   0: Activation (test) failed
+   1: Activating configuration (exit status Exited(4))
+```
+
 ## Todo:
 - [x] Get sleeping working
 - [x] Get openrgb to work for sleep
