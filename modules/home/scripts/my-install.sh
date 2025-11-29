@@ -97,7 +97,7 @@ else
 fi
 
 # 3. Check for changes
-if [[ $no_check == false ]] && [[ $skip_git == false ]] && git diff --quiet '*'; then
+if [[ $no_check == false ]] && [[ $skip_git == false ]] && [[ $skip_install == false ]] && git diff --quiet '*'; then
     echo "No changes detected, exiting."
     popd > /dev/null
     exit 0
