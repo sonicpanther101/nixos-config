@@ -113,7 +113,7 @@ if [[ $no_check == false ]]; then
 fi
 
 # 5. Get commit message (after confirming there are changes)
-if [[ $message == "" ]]; then
+if [[ $message == "" ]] && [[ $skip_git == false ]]; then
     echo "Please write a git commit message:"
     read -r -e message
     if [[ $message == "" ]]; then

@@ -2,8 +2,7 @@
 
   # Throttles CPU when it gets too hot
   services.thermald = if (host == "laptop") then {
-    enable = false;
-    package = pkgs-stable.thermald;
+    enable = true;
     configFile = ./thermal-conf.xml;
   } else {};
 
