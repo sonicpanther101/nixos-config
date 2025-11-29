@@ -119,7 +119,7 @@ Error:
 - [x] Add upower and auto-cpufreq services for laptop
 - [x] Change my-shutdown to turn off rgb
 - [ ] Set up mime for default apps
-- [ ] Get l and ll working
+- [x] Get l and ll working
 - [ ] Back up stylus to this repo
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
