@@ -14,7 +14,7 @@
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
     ipafont                                              
-#                                                          QT packages including Kvantum
+#                                                                                                                   QT packages including Kvantum
     libsForQt5.qt5ct                                     
     libsForQt5.qtstyleplugin-kvantum                     
     kdePackages.qt6ct                                    
@@ -29,6 +29,7 @@
     waybar-mpris                                          # To show music on bar
     cava                                                  # Audio visualiser
     wofi                                                  # App launcher
+    eza                                                   # Replacement for ls
     resources                                             # Graphical resource manager
     htop                                                  # Resource manager
     playerctl                                             # To control media from cli
