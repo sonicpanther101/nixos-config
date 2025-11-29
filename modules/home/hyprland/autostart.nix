@@ -17,6 +17,7 @@
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
+      "cd ~/nixos-config && git fetch"
     ]++ (if (host == "desktop") then [
       "openrgb --startminimized -b 0 -m direct"
 
