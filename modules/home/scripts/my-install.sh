@@ -4,13 +4,14 @@ Help()
 {
    # Display Help
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|h]"
    echo "options:"
    echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
    echo "a     Restart ags"
    echo "c     Fix corrupted db"
    echo "s     Skip install, just commit and push"
    echo "m     Git Commit Message"
+   echo "g     Don't git commit"
    echo "h     Print this Help"
 }
 
@@ -19,9 +20,10 @@ ags=false
 message=""
 corrupted_db=false
 skip_install=false
+skip_git=false
 host=$(hostname)
 
-while getopts "anhcsm:" option; do
+while getopts "anhcsgm:" option; do
     case $option in
         h) # display Help
             Help
@@ -34,6 +36,8 @@ while getopts "anhcsm:" option; do
             corrupted_db=true;;
         s)
             skip_install=true;;
+        g)
+            skip_git=true;;
         m)
             message="$OPTARG";;
         \?) # Invalid option
@@ -93,7 +97,7 @@ else
 fi
 
 # 3. Check for changes
-if [[ $no_check == false ]] && git diff --quiet '*'; then
+if [[ $no_check == false ]] && [[ $skip_git == false ]] && git diff --quiet '*'; then
     echo "No changes detected, exiting."
     popd > /dev/null
     exit 0
@@ -136,20 +140,22 @@ else
 fi
 
 # 7. Commit and push
-message="${message^}" # Capitalize first character
+if [[ $skip_git == false ]]; then
+    message="${message^}" # Capitalize first character
 
-commit_output=$(git commit -m "${message}. Rebuilt ${host}: ${current}" 2>&1)
-commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
+    commit_output=$(git commit -m "${message}. Rebuilt ${host}: ${current}" 2>&1)
+    commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
 
-echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}: ${current}"
+    echo -e "${GREEN}✓ Committed ${BLUE}${commit_hash}${NORMAL}: ${message}: ${current}"
 
-push_output=$(git push -u origin main 2>&1)
+    push_output=$(git push -u origin main 2>&1)
 
-if [[ $? -eq 0 ]]; then
-    echo -e "${GREEN}✓ Pushed${NORMAL} to ${BLUE}origin/main"
-else
-    echo -e "${RED}✗ Push failed${NORMAL}"
-    exit 1
+    if [[ $? -eq 0 ]]; then
+        echo -e "${GREEN}✓ Pushed${NORMAL} to ${BLUE}origin/main"
+    else
+        echo -e "${RED}✗ Push failed${NORMAL}"
+        exit 1
+    fi
 fi
 
 # 8. Optional AGS restart
