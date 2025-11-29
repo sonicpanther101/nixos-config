@@ -9,13 +9,10 @@
       "ALT, Return, exec, kitty --title float_kitty"
       "SUPER SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
 
-      # browser
-      "SUPER, B, exec, vivaldi --profile-directory=\"Default\""
+      # Browser
+      "SUPER, B, exec, vivaldi --profile-directory=\"Default\" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne"
+      # School Profile
       "SUPER SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
-      "SUPER SHIFT CTRL, B, exec, vivaldi --profile-directory=\"Profile 2\""
-
-      # discord
-      "SUPER SHIFT, D, exec, vesktop"
 
       # File browser
       "SUPER, E, exec, nemo"
