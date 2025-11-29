@@ -12,7 +12,6 @@
 
     # Qt theming
     QT_QPA_PLATFORMTHEME = "qt5ct";
-    QT_STYLE_OVERRIDE = "kvantum";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
 
     # App specific
