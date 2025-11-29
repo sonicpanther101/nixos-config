@@ -33,4 +33,13 @@
     package = pkgs-unstable.vivaldi;
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
   };
+
+  # Styling
+  # imv
+  home.file.".config/imv/config".source = pkgs-stable.fetchFromGitHub {
+    owner = "catppuccin";
+    repo = "imv";
+    rev = "main";
+    hash = "sha256-4WOHc9k+NUsyFDKgDAyGfRtpFsx/KyOAE5kIv4gKhwM=";
+  } + "/themes/mocha.config";
 }
