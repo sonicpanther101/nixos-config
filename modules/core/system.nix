@@ -1,7 +1,7 @@
 { host, lib, ... } : {
 
   # Throttles CPU when it gets too hot
-  services.thermald = if (host =="laptop") then lib.mkDefault {
+  services.thermald = if (host == "laptop") then {
     enable = false;
     configFile = ./thermal-conf.xml;
   } else {};
