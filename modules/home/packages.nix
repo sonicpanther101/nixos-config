@@ -19,6 +19,7 @@
     protonup-qt                                           # Manage custom Proton versions
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
+    prismlauncher                                         # Minecraft launcher
 
     waybar-mpris                                          # To show music on bar
     cava                                                  # Audio visualiser

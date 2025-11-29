@@ -122,6 +122,7 @@ Error:
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
 - [x] Get all folders on syncthing
+- [ ] Tagscanner and mp3tag
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Set up bluetooth

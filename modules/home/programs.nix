@@ -23,7 +23,7 @@
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
   };
 
-  # Styling
+  # Styling to override stylix
   programs.bat.config.theme = lib.mkForce "Catppuccin Mocha";
   programs.fzf.colors = lib.mkForce {
     "bg+" = "#313244";
