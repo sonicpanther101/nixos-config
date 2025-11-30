@@ -39,27 +39,6 @@
         placeholder_text = "Password...";
         shadow_passes = 2;
       };
-
-      
-      label = [{
-        # TIME
-        monitor = "";
-        text = "$TIME12"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
-        font_size = 65;
-        font_family = "$font";
-
-        position = "0, -10";
-        valign = "top";
-      } {
-        # DATE
-        monitor = "";
-        text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
-        font_size = 25;
-        font_family = "$font";
-
-        position = "0, -150";
-        valign = "top";
-      }];
     };
   };
 }
