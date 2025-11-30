@@ -120,6 +120,7 @@ Error:
 - [x] Change my-shutdown to turn off rgb
 - [ ] Set up mime for default apps
 - [ ] Set up vscode-neovim as transition to neovim
+- [ ] Wakatime
 - [x] Get l and ll working
 - [ ] Back up stylus to this repo
 - [x] Add gnupg for security
