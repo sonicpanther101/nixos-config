@@ -119,10 +119,10 @@ Error:
 - [x] Add upower and auto-cpufreq services for laptop
 - [x] Change my-shutdown to turn off rgb
 - [x] Set up mime for default apps
-- [ ] Set up vscode-neovim as transition to neovim
+- [x] Set up vscode-neovim as transition to neovim
 - [x] Wakatime
 - [x] Get l and ll working
-- [ ] Back up stylus to this repo
+- [x] Back up stylus to this repo (did it with integrated google drive)
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed

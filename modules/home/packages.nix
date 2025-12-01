@@ -1,66 +1,86 @@
 { inputs, pkgs-unstable, pkgs-stable, host, ... } : {    
 
-  home.packages = with pkgs-unstable; [                   # Packages to be updated often
+  home.packages = with pkgs-unstable; [                   # Unstable packages (frequently updated packages)
 
     vscodium-fhs                                          # Code editor
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
                                                          
-  ] ++ (with pkgs-stable; [                               # Packages that dont need to be up to date
-
-    corefonts                                             # Fonts so that none are missing
+  ] ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
+#                                                                                                                   Fonts
+    corefonts                                            
     noto-fonts                                           
     noto-fonts-cjk-sans                                   # Chinese, Japanese and Korean glyphs
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
-    ipafont                                              
-#                                                                                                                                                                                                                                     QT packages including Kvantum
-    libsForQt5.qt5ct                                     
-    libsForQt5.qtstyleplugin-kvantum                     
-    kdePackages.qt6ct                                    
-    kdePackages.qtstyleplugin-kvantum                    
-                                                          # Gaming (some may be unecessary)
+    ipafont                                               # Japanese font set
+
+                                                          # QT theming / styling
+    libsForQt5.qt5ct                                      # Qt5 configuration tool
+    libsForQt5.qtstyleplugin-kvantum                      # Kvantum theming engine (Qt5)
+    kdePackages.qt6ct                                     # Qt6 configuration tool
+    kdePackages.qtstyleplugin-kvantum                     # Kvantum theming engine (Qt6)
+
+                                                          # Gaming tools (some may be unecessary)
     mangohud                                              # FPS/performance overlay
     protonup-qt                                           # Manage custom Proton versions
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
     prismlauncher                                         # Minecraft launcher
 
+                                                          # System tools / Utilities
+                                                          # Wayland / launcher / compositor integrations
     waybar-mpris                                          # To show music on bar
-    cava                                                  # Audio visualiser
+    hyprsome                                              # Hyprland extension to have monitor specific workspaces
     wofi                                                  # App launcher
-    eza                                                   # Replacement for ls
+                                                          # File managers, icons & visual disk tools
+    nemo-with-extensions                                  # File browser
+    adwaita-icon-theme                                    # Icon theme for Nemo
+    qdirstat                                              # Visual file-system viewer like WizTree
+                                                          # System monitoring & quick utilities
     resources                                             # Graphical resource manager
     htop                                                  # Resource manager
+    eza                                                   # Replacement for ls
+                                                          # Archives / compression
+    p7zip                                                 # Unzip utility
+    unrar                                                 # For unzipping multi-part RARs
+                                                          # Desktop integration & trays
+    networkmanagerapplet                                  # Tray GUI for NetworkManager
+    libnotify                                             # Notification daemon (duplicate, but needed for install script)
+                                                          # Misc
+    os-prober                                             # Detect other OSes for GRUB
+
+                                                          # Media tools
     pinta                                                 # Lightweight image editor
     handbrake                                             # FFMPEG GUI
-    qbittorrent                                           # Torrenting GUI
-    playerctl                                             # To control media from cli
-    pamixer                                               # Pulseaudio command line mixer
-    p7zip                                                 # For unzipping
-    unrar                                                 # For unzipping multi part rars
-    nemo-with-extensions                                  # File browser
-    adwaita-icon-theme                                    # Themes icons in nemo
-    os-prober                                             # To add other os' to grub
     vlc                                                   # Video player
-    copyq                                                 # Clipboard manager
-    hyprsome                                              # Hyprland extension to have monitor specific workspaces
-    helvum                                                # Audio connection editor
-    pwvucontrol                                           # Audio device volume editor
-    nicotine-plus                                         # Soulseek peer to peer browser frontend
-    qdirstat                                              # Visual file system veiwer like wiztree
+    imv                                                   # Image viewer
+    mpv                                                   # Minimal video player
+    ffmpeg                                                # CLI image/video editor
     kooha                                                 # Screen recorder
     grimblast                                             # Screenshot taker
-    libnotify                                             # For my-install notifications (I know it's a duplicate notification daemon)
-    catppuccinifier-gui                                   # Turns images into catppuccin only colours
-    imv                                                   # Image viewer
-    mpv                                                   # Video viewer (simpler and more minimal than VLC)
-    ffmpeg                                                # CLI image and video editor
-    wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
-    cliphist                                              # Clipboard manager (duplicate of copyq)
-    networkmanagerapplet                                  # Tray GUI for network manager
 
-  ]) ++ (if (host == "desktop") then (with pkgs-stable; [
+                                                          # Audio tools
+    cava                                                  # Audio visualiser
+    playerctl                                             # To control media from cli
+    pamixer                                               # Pulseaudio command line mixer
+    helvum                                                # Audio connection editor
+    pwvucontrol                                           # Audio device volume editor
+
+                                                          # Clipboard tools
+    wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
+    copyq                                                 # Clipboard manager
+    cliphist                                              # Clipboard manager (duplicate of copyq)
+
+                                                          # Networking / P2P tools
+    qbittorrent                                           # Torrenting GUI
+    nicotine-plus                                         # Soulseek peer to peer browser frontend
+
+                                                          # Misc
+    neovim                                                # TUI code editor
+    catppuccinifier-gui                                   # Turns images into catppuccin only colours
+
+  ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
   ]) else if (host == "laptop") then (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
