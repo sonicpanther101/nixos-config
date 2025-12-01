@@ -11,5 +11,7 @@ if [[ $host == "desktop" ]]; then
     openrgb --mode direct --color 000000 # Turn all RGB off if started on boot
 fi                                      
 
-cd ~/nixos-config
+hyprctl dispatch dpms on                 # Turn display on
+
+cd ~/nixos-config                       
 git fetch
