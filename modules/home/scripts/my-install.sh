@@ -57,6 +57,11 @@ RED=$(tput setaf 1)
 GREEN=$(tput setaf 2)
 BLUE=$(tput setaf 4)
 
+print_hm_logs() {
+    echo -e "\n${RED}Home Manager failed — showing last 20 log lines${NORMAL}\n"
+    sudo journalctl -u home-manager-adam.service -n 20 --no-pager || true
+}
+
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
@@ -66,7 +71,16 @@ install() {
     else
         # Build the system (flakes + home manager)
         echo -e "Building the system...\n"
-        nh os switch -H ${host} ./
+        if ! nh os switch -H ${host} ./; then
+            # Only print logs if the HM service failed
+            systemctl status home-manager-${username}.service &>/dev/null
+            if [[ $? -ne 0 ]]; then
+                print_hm_logs
+            else
+                print_hm_logs
+            fi
+            exit 1
+        fi
     fi
 }
 

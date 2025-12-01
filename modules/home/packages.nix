@@ -14,7 +14,7 @@
     noto-fonts-emoji                                     
     noto-fonts-extra                                     
     ipafont                                              
-#                                                                                                                   QT packages including Kvantum
+#                                                                                                                                                                                                                                     QT packages including Kvantum
     libsForQt5.qt5ct                                     
     libsForQt5.qtstyleplugin-kvantum                     
     kdePackages.qt6ct                                    
@@ -32,6 +32,9 @@
     eza                                                   # Replacement for ls
     resources                                             # Graphical resource manager
     htop                                                  # Resource manager
+    pinta                                                 # Lightweight image editor
+    handbrake                                             # FFMPEG GUI
+    qbittorrent                                           # Torrenting GUI
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
     p7zip                                                 # For unzipping

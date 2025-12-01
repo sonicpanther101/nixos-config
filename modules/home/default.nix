@@ -8,5 +8,6 @@
     ./terminal
     ./scripts
     ./git.nix
+    ./defaultapps.nix
   ];
 }
