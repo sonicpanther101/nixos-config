@@ -37,12 +37,26 @@
 
   fileSystems."/home/${username}/driveBig" = { 
     device = "/dev/disk/by-uuid/FE7E8B9A7E8B4A7B";
-    fsType = "ntfs"; # Change to your filesystem type
+    fsType = "ntfs-3g";
+    options = [ 
+      "rw" 
+      "uid=1000"  # Your user ID (usually 1000 for first user)
+      "gid=100"   # users group
+      "dmask=0022" 
+      "fmask=0133"
+    ];
   };
 
   fileSystems."/home/${username}/driveWindows" = { 
     device = "/dev/disk/by-uuid/5C06844006841D60";
-    fsType = "ntfs"; # Change to your filesystem type
+    fsType = "ntfs-3g";
+    options = [ 
+      "rw" 
+      "uid=1000"  # Your user ID (usually 1000 for first user)
+      "gid=100"   # users group
+      "dmask=0022" 
+      "fmask=0133"
+    ];
   };
 
   fileSystems."/home/${username}/driveArch" = { 
