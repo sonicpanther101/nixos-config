@@ -7,7 +7,7 @@
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
                                                          
   ] ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
-#                                                                                                                   Fonts
+                                                          # Fonts
     corefonts                                            
     noto-fonts                                           
     noto-fonts-cjk-sans                                   # Chinese, Japanese and Korean glyphs
@@ -66,6 +66,7 @@
     pamixer                                               # Pulseaudio command line mixer
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
+    spotify-player                                        # Spotify TUI
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
