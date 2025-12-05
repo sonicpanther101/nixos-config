@@ -32,6 +32,7 @@
       tree = "eza --icons --tree --group-directories-first";                # Display directory structure as a tree with icons
 
       nix-shell = "nix-shell --run zsh";                                    # Enter nix-shell with Zsh (instead of default bash)
+      nix-develop = "nix develop -c $SHELL";                                # Enter nix develop with Zsh (instead of default bash)
 
                                                                             # python
       piv = "python -m venv .venv";                                         # Create virtual environment in .venv
