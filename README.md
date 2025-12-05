@@ -157,7 +157,7 @@ Error:
 11. Change tab stacking to accordion.
 12. Make sure panel is on the left, show panel toggle off, floating, auto close and detect page tile notifications on.
 13. Change default search for engine, private and images to brave search.
-14. Change break mode shortcut to `Ctrl + space`, remove `copy selected text to note` shortcut.
+14. Change break mode shortcut to `Ctrl + space`, remove `copy selected text to note` shortcut and remove `exit` shortcut.
 15. Remove all mouse gestures, add fullscreen on mouse up and break mode on mouse down.
 16. add Google calendar account, and check it loads on start page widgets calendar and tasks.
 17. Change weather location to correct location, select kmph over m/s
