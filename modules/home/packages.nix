@@ -66,7 +66,6 @@
     pamixer                                               # Pulseaudio command line mixer
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
-    spotify-player                                        # Spotify TUI
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
@@ -78,6 +77,7 @@
     nicotine-plus                                         # Soulseek peer to peer browser frontend
 
                                                           # Misc
+    cmatrix                                               # Matrix simulator
     neovim                                                # TUI code editor
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
 
