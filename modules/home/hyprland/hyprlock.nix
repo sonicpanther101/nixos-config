@@ -3,6 +3,8 @@
     enable = true;
     settings = {
 
+      auth.pam.enabled = false;
+
       general = {
         hide_cursor = true;
         ignore_empty_input = true;
