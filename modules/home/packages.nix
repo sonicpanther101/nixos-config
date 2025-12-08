@@ -41,6 +41,7 @@
     resources                                             # Graphical resource manager
     htop                                                  # Resource manager
     eza                                                   # Replacement for ls
+    jq                                                    # CL JSON interpreter
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
