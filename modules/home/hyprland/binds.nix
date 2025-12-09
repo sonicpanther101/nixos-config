@@ -29,7 +29,7 @@
       "SUPER, W, exec, ags toggle wallpaper"
       "SUPER SHIFT, W, exec, ags toggle mouse-helper"
       "SUPER, F1, exec, show-keybinds"
-      "SUPER SHIFT, F8, exec, pkill waybar && waybar"
+      "SUPER SHIFT, F8, exec, sh -c 'pkill waybar; waybar'"
 
       # window controls
       "SUPER, Q, killactive,"
