@@ -50,7 +50,7 @@
       "SUPER, C ,exec, hyprpicker -a"
 
       # screenshot
-      "SUPER, S, exec, grimblast --notify --cursor copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
+      "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"
       "SUPER SHIFT, S, exec, kooha"
 
       # switch focus
