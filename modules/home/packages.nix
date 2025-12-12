@@ -3,6 +3,7 @@
   home.packages = with pkgs-unstable; [                   # Unstable packages (frequently updated packages)
 
     vscodium-fhs                                          # Code editor
+    vsce                                                  # VS Code Extension Manager
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
                                                          
@@ -42,6 +43,12 @@
     htop                                                  # Resource manager
     eza                                                   # Replacement for ls
     jq                                                    # CL JSON interpreter
+    usbutils                                              # Lists connected USB devices
+    bitwise                                               # CLI tool for bit / hex manipulation
+    file                                                  # Show file information
+    gtrash                                                # rm replacement, put deleted files in system trash
+    nix-prefetch-github                                   # Prefetches github things for nix
+    ripgrep                                               # Grep replacement
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
@@ -50,7 +57,7 @@
     libnotify                                             # Notification daemon (duplicate, but needed for install script)
                                                           # Misc
     os-prober                                             # Detect other OSes for GRUB
-
+    # ventoy                                              # To set up drives to be bootable while still carrying files
                                                           # Media tools
     pinta                                                 # Lightweight image editor
     handbrake                                             # FFMPEG GUI
@@ -81,9 +88,17 @@
     cmatrix                                               # Matrix simulator
     neovim                                                # TUI code editor
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
+    toipe                                                 # Typing test in the terminal
+    gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
+
+                                                          # 3D Printing
+    bambu-studio                                          # Slicing software
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
+    freecad                                               # 3D Print designing software
+    blender                                               # 3D modelling software
+    ollama                                                # Runs LLM's locally
   ]) else if (host == "laptop") then (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
   ]) else [                                              
