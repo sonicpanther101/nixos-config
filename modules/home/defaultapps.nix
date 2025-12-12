@@ -1,5 +1,5 @@
 let
-  browser = "vivaldi.desktop";
+  browser = "vivaldi-stable.desktop";
   editor = "codium.desktop";
   file-manager = "nemo.desktop";
   image-viewer = "imv.desktop";
