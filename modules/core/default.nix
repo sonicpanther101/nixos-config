@@ -9,7 +9,7 @@
     ./security.nix
     ./user.nix
     ./hardware.nix
-    ./foobar2000.nix
+    ./../../packages
     ./gaming.nix
   ];
   # ++ (if someCondition then [ ./optional.nix ] else []);
