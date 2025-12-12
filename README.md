@@ -132,10 +132,10 @@ Error:
 - [ ] Change bootloader theme to my fork
 - [x] Set up bluetooth
 - [ ] Add back all programs from old config
-- [ ] Add floating terminal
+- [x] Add floating terminal
 - [ ] Write vivaldi explicit setup
-- [ ] Stop fuzzy cursor
-- [ ] Customise starship
+- [x] Stop fuzzy cursor
+- [x] Customise starship
 - [ ] Fill in components list in readme
 - [ ] Typst to use instead of latex
 - [ ] Neovim (telescope and supermavin)
