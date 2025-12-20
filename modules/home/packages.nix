@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {    
+{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {
 
   home.packages = with pkgs-unstable; [                   # Unstable packages (frequently updated packages)
 
@@ -7,14 +7,14 @@
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     bambu-studio                                          # Slicing software
-                                                         
+
   ] ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
-    corefonts                                            
-    noto-fonts                                           
+    corefonts
+    noto-fonts
     noto-fonts-cjk-sans                                   # Chinese, Japanese and Korean glyphs
-    noto-fonts-emoji                                     
-    noto-fonts-extra                                     
+    noto-fonts-emoji
+    noto-fonts-extra
     ipafont                                               # Japanese font set
 
                                                           # QT theming / styling
@@ -91,6 +91,7 @@
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
     toipe                                                 # Typing test in the terminal
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
+    python314                                             # Latest release of python
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
@@ -99,6 +100,6 @@
     ollama                                                # Runs LLM's locally
   ]) else if (host == "laptop") then (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
-  ]) else [                                              
-  ]);                                                    
+  ]) else [
+  ]);
 }
