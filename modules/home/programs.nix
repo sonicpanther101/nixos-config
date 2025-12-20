@@ -39,6 +39,24 @@ in {
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
   };
 
+  # Screen shader
+  services.hyprsunset = {
+    enable = true;
+
+    settings = {
+      profile = [{
+        time = "7:30";
+        identity = true;
+      }
+
+      {
+        time = "21:00";
+        temperature = 5000;
+        gamma = 75;
+      }];
+    };
+  };
+
   # Styling to override stylix
   programs.bat.config.theme = lib.mkForce "Catppuccin Mocha";
   programs.fzf.colors = lib.mkForce {

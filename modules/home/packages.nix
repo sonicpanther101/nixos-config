@@ -34,6 +34,7 @@
                                                           # Wayland / launcher / compositor integrations
     waybar-mpris                                          # To show music on bar
     hyprsome                                              # Hyprland extension to have monitor specific workspaces
+    hyprsysteminfo                                        # Displays information about the running system
     wofi                                                  # App launcher
     wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker

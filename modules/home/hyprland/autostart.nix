@@ -13,6 +13,7 @@
       "copyq"
 
       # Set startup apps
+      "hyprsunset"
       "nm-applet"
       "sleep 1 && pidof hyprlock || hyprlock"
       "wl-paste --type text --watch cliphist store"
