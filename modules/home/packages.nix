@@ -9,6 +9,7 @@
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     bambu-studio                                          # Slicing software
+    hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
 
   ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
@@ -81,7 +82,6 @@
     cava                                                  # Audio visualiser
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
-    # hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
 
