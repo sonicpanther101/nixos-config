@@ -35,6 +35,7 @@
     waybar-mpris                                          # To show music on bar
     hyprsome                                              # Hyprland extension to have monitor specific workspaces
     hyprsysteminfo                                        # Displays information about the running system
+    hyprpolkitagent                                       # Required for GUI applications to be able to sudo
     wofi                                                  # App launcher
     wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker
@@ -78,6 +79,7 @@
     cava                                                  # Audio visualiser
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
+    hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
 

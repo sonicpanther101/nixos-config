@@ -5,6 +5,7 @@
     exec-once = [
       # Setting variables globally
       "systemctl --user import-environment"
+      "systemctl --user start hyprpolkitagent"
       "dbus-update-activation-environment --systemd"
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
