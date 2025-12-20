@@ -49,6 +49,7 @@
 
       # misc
       "SUPER, C ,exec, hyprpicker -a"
+      "SUPER, period ,exec, wofi-emoji"
 
       # screenshot
       "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Ih%Mm%Ss').png"

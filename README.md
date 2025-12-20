@@ -139,7 +139,7 @@ Error:
 - [x] Customise starship
 - [ ] Fill in components list in readme
 - [ ] Typst to use instead of latex
-- [ ] Neovim (telescope and supermavin)
+- [ ] Neovim (telescope, supermavin and HyprLS)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 - [ ] Get HDR working
 

@@ -35,6 +35,7 @@
     waybar-mpris                                          # To show music on bar
     hyprsome                                              # Hyprland extension to have monitor specific workspaces
     wofi                                                  # App launcher
+    wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
