@@ -135,7 +135,7 @@
 
       monitor = if (host == "desktop") then [
         "HDMI-A-1,1920x1080@100,0x100,1"
-        "DP-1,2560x1440@144.01,1920x0,1.066667"
+        "DP-1,2560x1440@170,1920x0,1.066667"
       ] else [",preferred,auto,1.9"];
 
       xwayland.force_zero_scaling = true;

@@ -9,7 +9,6 @@
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     bambu-studio                                          # Slicing software
-    hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
 
   ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
