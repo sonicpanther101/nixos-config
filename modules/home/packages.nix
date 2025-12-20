@@ -1,6 +1,8 @@
 { inputs, pkgs-unstable, pkgs-stable, host, ... } : {
 
-  home.packages = with pkgs-unstable; [                   # Unstable packages (frequently updated packages)
+  home.packages = [ # From inputs
+    inputs.hyprshutdown.packages.${pkgs-stable.stdenv.hostPlatform.system}.default # For smooth shutdown of apps  # wait for nixos release
+  ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
     vscodium-fhs                                          # Code editor
     vsce                                                  # VS Code Extension Manager
@@ -8,7 +10,7 @@
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     bambu-studio                                          # Slicing software
 
-  ] ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
+  ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
     corefonts
     noto-fonts
@@ -79,7 +81,7 @@
     cava                                                  # Audio visualiser
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
-    hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
+    # hyprpwcenter                                          # A GUI Pipewire audio control center (might replace helvum and pwvucontrol)
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
 
