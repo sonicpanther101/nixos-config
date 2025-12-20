@@ -1,6 +1,6 @@
 { inputs, pkgs-unstable, pkgs-stable, host, ... } : {
 
-  home.packages = [ # From inputs
+  home.packages = [                                       # From inputs
     inputs.hyprshutdown.packages.${pkgs-stable.stdenv.hostPlatform.system}.default # For smooth shutdown of apps  # wait for nixos release
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
@@ -58,6 +58,7 @@
     gtrash                                                # rm replacement, put deleted files in system trash
     nix-prefetch-github                                   # Prefetches github things for nix
     ripgrep                                               # Grep replacement
+    xorg.xeyes                                            # If the eyes move the app is running on xwayland
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
@@ -96,6 +97,7 @@
                                                           # Misc
     cmatrix                                               # Matrix simulator
     neovim                                                # TUI code editor
+    vim-full                                              # Basic TUI code editor with tutorial
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
     toipe                                                 # Typing test in the terminal
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools

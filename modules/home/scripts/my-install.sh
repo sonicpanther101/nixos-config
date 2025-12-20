@@ -122,6 +122,7 @@ git add .
 
 echo # to account for no check
 if [[ $no_check == false ]]; then
+    git reset
     git diff -U0 --cached '*'
     echo
 fi
