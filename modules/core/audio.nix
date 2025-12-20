@@ -6,5 +6,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     # lowLatency.enable = true;
+
+    # For screen sharing
+    wireplumber.enable = true;
   };
 }

@@ -131,6 +131,7 @@ Error:
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Set up bluetooth
+- [ ] Awww for wallpaper (Successor to swww)
 - [x] Add back all programs from old config
 - [x] Add floating terminal
 - [ ] Write vivaldi explicit setup
