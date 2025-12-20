@@ -4,7 +4,7 @@ Help()
 {
    # Display Help
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|h]"
    echo "options:"
    echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
    echo "a     Restart ags"
@@ -12,6 +12,7 @@ Help()
    echo "s     Skip install, just commit and push"
    echo "m     Git Commit Message"
    echo "g     Don't git commit"
+   echo "t     Show error trace"
    echo "h     Print this Help"
 }
 
@@ -22,6 +23,7 @@ corrupted_db=false
 skip_install=false
 skip_git=false
 host=$(hostname)
+show_trace=false
 
 while getopts "anhcsgm:" option; do
     case $option in
@@ -38,6 +40,8 @@ while getopts "anhcsgm:" option; do
             skip_install=true;;
         g)
             skip_git=true;;
+        t)
+            show_trace=true;;
         m)
             message="$OPTARG";;
         \?) # Invalid option
@@ -71,15 +75,28 @@ install() {
     else
         # Build the system (flakes + home manager)
         echo -e "Building the system...\n"
-        if ! nh os switch -H ${host} ./; then
-            # Only print logs if the HM service failed
-            systemctl status home-manager-${username}.service &>/dev/null
-            if [[ $? -ne 0 ]]; then
-                print_hm_logs
-            else
-                print_hm_logs
+        if [[ $show_trace == true ]]; then
+            if ! nh os switch -H ${host} ./ -- --show-trace; then
+                # Only print logs if the HM service failed
+                systemctl status home-manager-${username}.service &>/dev/null
+                if [[ $? -ne 0 ]]; then
+                    print_hm_logs
+                else
+                    print_hm_logs
+                fi
+                exit 1
             fi
-            exit 1
+        else
+            if ! nh os switch -H ${host} ./; then
+                # Only print logs if the HM service failed
+                systemctl status home-manager-${username}.service &>/dev/null
+                if [[ $? -ne 0 ]]; then
+                    print_hm_logs
+                else
+                    print_hm_logs
+                fi
+                exit 1
+            fi
         fi
     fi
 }
@@ -118,11 +135,11 @@ if [[ $no_check == false ]] && [[ $skip_git == false ]] && [[ $skip_install == f
 fi
 
 # 4. Stage changes BEFORE building
+git reset > /dev/null
 git add .
 
 echo # to account for no check
 if [[ $no_check == false ]]; then
-    git reset
     git diff -U0 --cached '*'
     echo
 fi
