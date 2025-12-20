@@ -180,4 +180,4 @@ fi
 
 popd > /dev/null
 
-notify-send -e "NixOS Rebuilt OK!" --icon=check-filled
+notify-send -t 2000 -e "NixOS Rebuilt OK!" --icon=check-filled
