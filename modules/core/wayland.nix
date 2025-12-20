@@ -4,11 +4,11 @@
     wlr.enable = true;
     xdgOpenUsePortal = true;
     extraPortals = (with pkgs-unstable; [
-      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-wlr
       xdg-desktop-portal-gtk
 
       # Disabled for screen share
-      # xdg-desktop-portal-wlr
+      # xdg-desktop-portal-hyprland
     ]);
     config = {
       common.default = ["gtk"];
