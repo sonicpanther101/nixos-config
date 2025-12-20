@@ -121,8 +121,8 @@
       # shutdown options
       "SUPER, Escape, exec, pidof hyprlock || hyprlock"
       "SUPER SHIFT, Escape, exec, my-sleep"
-      "SUPER SHIFT CTRL, Escape, exec, my-shutdown"
-      "SUPER SHIFT CTRL ALT, Escape, exec, reboot"
+      "SUPER SHIFT CTRL, Escape, exec, hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"
+      "SUPER SHIFT CTRL ALT, Escape, exec, hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"
       ", switch:Lid Switch, exec, my-sleep"
 
       # media and volume controls

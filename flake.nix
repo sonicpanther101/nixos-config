@@ -25,6 +25,8 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+    
+    hyprshutdown.url = "github:hyprwm/hyprshutdown";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
