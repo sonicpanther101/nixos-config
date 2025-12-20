@@ -12,7 +12,7 @@
     ]);
     config = {
       common.default = ["gtk"];
-      hyprland.default = ["gtk" "hyprland"];
+      hyprland.default = ["gtk" "wlr" "hyprland"];
     };
   };
 }
