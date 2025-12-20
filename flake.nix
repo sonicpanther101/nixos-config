@@ -10,13 +10,19 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
 
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     catppuccin.url = "github:catppuccin/nix";
   };

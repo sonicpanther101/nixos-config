@@ -72,7 +72,7 @@ let
       owner = "ther0n";
       repo = "beefweb_mpris";
       rev = "master";
-      hash = "sha256-iDFNZ/dpDlMhUb0uTVIBjmPprWOUFmhy8lZPNu+0/7I="; 
+      hash = "sha256-gBKQ2gfvJwo9MLnfHcWoOUHKNdVC7ScYqquxHwOeVp4="; 
     };
 
     propagatedBuildInputs = with pkgs-stable.python3Packages; [
