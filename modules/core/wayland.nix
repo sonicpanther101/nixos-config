@@ -6,7 +6,9 @@
     extraPortals = (with pkgs-unstable; [
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
+
+      # Disabled for screen share
+      # xdg-desktop-portal-wlr
     ]);
     config = {
       common.default = ["gtk"];

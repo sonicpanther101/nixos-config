@@ -6,6 +6,7 @@
       # Setting variables globally
       "systemctl --user import-environment"
       "dbus-update-activation-environment --systemd"
+      "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
       # To be changed
       "sleep 1 && waybar"

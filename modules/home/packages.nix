@@ -35,6 +35,9 @@
     waybar-mpris                                          # To show music on bar
     hyprsome                                              # Hyprland extension to have monitor specific workspaces
     wofi                                                  # App launcher
+    hyprpicker                                            # Colour picker
+    grim                                                  # Grab images from a Wayland compositor
+    slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
     nemo-with-extensions                                  # File browser
     adwaita-icon-theme                                    # Icon theme for Nemo
