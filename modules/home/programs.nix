@@ -51,8 +51,8 @@ in {
 
       {
         time = "21:00";
-        temperature = 5000;
-        gamma = 75;
+        temperature = 5500;
+        gamma = 0.8;
       }];
     };
   };
