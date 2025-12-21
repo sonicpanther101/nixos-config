@@ -1,7 +1,6 @@
 { inputs, pkgs-unstable, ... } : {
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
     xdgOpenUsePortal = true;
     extraPortals = (with pkgs-unstable; [
       xdg-desktop-portal-hyprland
