@@ -37,6 +37,10 @@ in {
     enable = true;
     package = pkgs-unstable.vivaldi;
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
+    commandLineArgs = [
+      "--enable-features=WebRTCPipeWireCapturer"
+      "--ozone-platform=wayland"
+    ];
   };
 
   # Screen shader
