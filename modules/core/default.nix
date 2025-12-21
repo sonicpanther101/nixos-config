@@ -11,6 +11,7 @@
     ./hardware.nix
     ./../../packages
     ./gaming.nix
+    ./wayland.nix
   ];
   # ++ (if someCondition then [ ./optional.nix ] else []);
 }
