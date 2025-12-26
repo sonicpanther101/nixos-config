@@ -33,8 +33,9 @@
         "Music" = " ";
         "Pictures" = " ";
       };
-
-      palette = lib.mkForce "catppuccin_mocha";
     };
   };
+
+  # Enable catppuccin for starship
+  catppuccin.starship.enable = true;
 }
