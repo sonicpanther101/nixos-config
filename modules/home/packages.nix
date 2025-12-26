@@ -102,7 +102,6 @@
     toipe                                                 # Typing test in the terminal
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
     python314                                             # Latest release of python
-    stremio                                               # Movie Streaming
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
