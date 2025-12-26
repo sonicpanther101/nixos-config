@@ -64,6 +64,7 @@
       # hyprland.enable = false;
       hyprlock.useWallpaper = false;
       qt.enable = false;
+      starship.enable = false;
     };
   };
 }
