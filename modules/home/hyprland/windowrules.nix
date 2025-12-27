@@ -30,7 +30,6 @@
       "opacity 0.9,class:^(vivaldi-stable)$"
       "opacity 0.99,title:^(.*YouTube.*)$"
       "opacity 0.99,title:^(.*Last.fm.*)$"
-      "opacity 0.99,title:^(.*Movie.*)$"
       "opacity 0.75,class:^(nemo)$"
 
       # Stops screen sleep on idle
