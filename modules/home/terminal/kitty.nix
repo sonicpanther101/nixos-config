@@ -65,6 +65,10 @@
       "alt+3" = "goto_tab 3";
       "alt+4" = "goto_tab 4";
 
+      ## Word deletion
+      "ctrl+backspace" = "send_text all \\x17";  # Ctrl+W (delete word backward)
+      "ctrl+delete" = "send_text all \\x1b\\x64";  # Alt+D (delete word forward) already set by default, but just for reference
+
       ## Unbind
       "ctrl+shift+left" = "no_op";
       "ctrl+shift+right" = "no_op";
