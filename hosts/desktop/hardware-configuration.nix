@@ -40,11 +40,12 @@
     fsType = "ntfs-3g";
     options = [ 
       "rw" 
-      "exec"      # Add this to allow ecexution
       "uid=1000"  # Your user ID (usually 1000 for first user)
       "gid=100"   # users group
       "dmask=0022" 
-      "fmask=0133"
+      "fmask=0022"
+      "big_writes"
+      "windows_names"
     ];
   };
 
