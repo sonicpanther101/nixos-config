@@ -6,6 +6,10 @@
       "center,title:^(float_kitty)$"
       "size 950 600,title:^(float_kitty)$"
 
+      "float,title:^(float_nemo)$"
+      "center,title:^(float_nemo)$"
+      "size 950 600,title:^(float_nemo)$"
+
       "float,class:^(imv)$"
       "center,class:^(imv)$"
       "size 1200 725,class:^(imv)$"

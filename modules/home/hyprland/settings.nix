@@ -20,7 +20,8 @@
           scroll_factor = 0.5;
         };
 
-        follow_mouse = 1;
+        # follow_mouse = 1;
+        follow_mouse = 2; # For bambu lab submenus
         accel_profile = "flat";
         sensitivity = 0.6;
       };

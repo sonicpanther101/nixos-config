@@ -16,7 +16,7 @@
 
       # File browser
       "SUPER, E, exec, nemo"
-      "ALT, E, exec, nemo"
+      "ALT, E, exec, nemo --name=float_nemo"
 
       # ags
       "SUPER, R, exec, wofi --show drun"
