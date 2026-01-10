@@ -40,6 +40,7 @@
       "idleinhibit focus,class:^(mpv)$"
       "idleinhibit focus,class:^(vlc)$"
       "idleinhibit focus,title:^(.*YouTube.*)$"
+      "idleinhibit focus,title:^(.*Syncthing.*)$"
       "idleinhibit focus,title:^(Grayjay)$"
       "idleinhibit focus,title:^(cava)$"
     ];
