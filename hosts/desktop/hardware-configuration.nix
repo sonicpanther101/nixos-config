@@ -55,6 +55,8 @@
     options = [ "nofail" "x-systemd.device-timeout=1" ]; # To no throw a tantrum and to not wait 1.5min before throwing it
   };
 
+  # mount -o gid=users,fmask=113,dmask=002 /dev/sdb1 ~/driveUSB for usb drives
+
   swapDevices = [{
     device = "/swapfile";
     size = 32 * 1024; # 32GB
