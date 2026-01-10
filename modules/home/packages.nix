@@ -8,7 +8,7 @@
     vsce                                                  # VS Code Extension Manager
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
-    bambu-studio                                          # Slicing software
+    prusa-slicer                                          # Slicing software
 
   ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
