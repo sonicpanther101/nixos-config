@@ -126,6 +126,7 @@ Error:
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
+- [ ] Use Proton instead of bottles
 - [x] Get all folders on syncthing
 - [ ] Get the fuck package working
 - [ ] Tagscanner and mp3tag
