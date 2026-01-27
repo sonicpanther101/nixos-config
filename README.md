@@ -132,7 +132,7 @@ Error:
 - [ ] Tagscanner and mp3tag
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
-- [ ] Try get a GWFL window with hyprwayland-scanner
+- [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth
 - [ ] Awww for wallpaper (Successor to swww)
 - [ ] Set up windows VM
