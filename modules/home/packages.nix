@@ -71,6 +71,7 @@
     # ventoy                                              # To set up drives to be bootable while still carrying files
                                                           # Media tools
     pinta                                                 # Lightweight image editor
+    lorien                                                # Infinite canvas drawing/note-taking app
     handbrake                                             # FFMPEG GUI
     vlc                                                   # Video player
     imv                                                   # Image viewer
