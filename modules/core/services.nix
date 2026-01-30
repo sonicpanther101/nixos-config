@@ -2,22 +2,6 @@
 
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall.allowedTCPPorts = [ 8384 ];
-
-  nixpkgs.overlays = [
-    (final: prev: {
-      bambu-studio = prev.bambu-studio.overrideAttrs (oldAttrs: {
-        buildInputs = oldAttrs.buildInputs or [ ] ++ [ pkgs-stable.makeWrapper ];
-        postInstall = oldAttrs.postInstall or "" + ''
-          wrapProgram $out/bin/bambu-studio \
-             --set __GLX_VENDOR_LIBRARY_NAME mesa \
-            --set __EGL_VENDOR_LIBRARY_FILENAMES "${pkgs-stable.mesa}/share/glvnd/egl_vendor.d/50_mesa.json" \
-            --set MESA_LOADER_DRIVER_OVERRIDE zink \
-            --set GALLIUM_DRIVER zink \
-            --set WEBKIT_DISABLE_DMABUF_RENDERER 1
-        '';
-      });
-    })
-  ];
   
   services = {
 
@@ -39,6 +23,11 @@
     xserver.xkb = {
       layout = "nz";
       variant = "";
+    };
+
+    # bambu studio
+    flatpak = {
+      enable = true;
     };
 
     # Syncthing
