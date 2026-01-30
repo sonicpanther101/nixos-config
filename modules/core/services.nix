@@ -25,7 +25,7 @@
       variant = "";
     };
 
-    # bambu studio
+    # for bambu studio: flatpak run com.bambulab.BambuStudio
     flatpak = {
       enable = true;
     };
