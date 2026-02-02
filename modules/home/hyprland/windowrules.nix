@@ -58,8 +58,8 @@
       "noinitialfocus, title:^(.*SableUI.*)$"   # Don't focus on spawn
 
       # CRITICAL: Prevent movement and resizing
-      "nomove, title:^(.*SableUI.*)$"           # Can't be moved
-      "noresize, title:^(.*SableUI.*)$"         # Can't be resized
+      # "nomove, title:^(.*SableUI.*)$"           # Can't be moved
+      # "noresize, title:^(.*SableUI.*)$"         # Can't be resized
       "minsize 1 1, title:^(.*SableUI.*)$"      # Prevent minimization tricks
 
       # Position at top of screen with 40px height and full width
