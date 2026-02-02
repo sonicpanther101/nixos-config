@@ -45,11 +45,28 @@
       "idleinhibit focus,title:^(cava)$"
     ];
 
-    /* windowrulev2 = [
-      # float_kitty - use explicit initialTitle match
-      "float,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
-      "center,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
-      "size 950 600,initialTitle:^(float_kitty)$,initialClass:^(kitty)$"
+    windowrulev2 = [
+
+      "float, title:^(.*SableUI.*)$"
+      "pin, title:^(.*SableUI.*)$"              # Pin to all workspaces
+      "stayfocused, title:^(.*SableUI.*)$"      # Don't lose focus
+      "noborder, title:^(.*SableUI.*)$"         # No border
+      "noblur, title:^(.*SableUI.*)$"           # No blur effects
+      "noshadow, title:^(.*SableUI.*)$"         # No shadow
+      "noanim, title:^(.*SableUI.*)$"           # No animations
+      "nofocus, title:^(.*SableUI.*)$"          # Don't steal focus from other windows
+      "noinitialfocus, title:^(.*SableUI.*)$"   # Don't focus on spawn
+
+      # CRITICAL: Prevent movement and resizing
+      "nomove, title:^(.*SableUI.*)$"           # Can't be moved
+      "noresize, title:^(.*SableUI.*)$"         # Can't be resized
+      "minsize 1 1, title:^(.*SableUI.*)$"      # Prevent minimization tricks
+
+      # Position at top of screen with 40px height and full width
+      "move 0 0, title:^(.*SableUI.*)$"
+      "size 100% 40, title:^(.*SableUI.*)$"
+
+      /*
 
       "float,class:^(imv)$"
       "center,class:^(imv)$"
@@ -108,7 +125,8 @@
       "idleinhibit focus,class:^(steam_proton)$"
       "idleinhibit focus,title:^(.*YouTube.*)$"
       "idleinhibit focus,title:^(Grayjay)$"
-    ]; */
+      */
+    ]; 
 
     # Old window rules
 
