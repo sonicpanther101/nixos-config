@@ -47,14 +47,14 @@
 
     windowrulev2 = [
 
-      # "float, title:^(.*SableUI.*)$"
+      "float, title:^(.*SableUI.*)$"
       "pin, title:^(.*SableUI.*)$"              # Pin to all workspaces
       # "stayfocused, title:^(.*SableUI.*)$"      # Don't lose focus
       "noborder, title:^(.*SableUI.*)$"         # No border
       "noblur, title:^(.*SableUI.*)$"           # No blur effects
       "noshadow, title:^(.*SableUI.*)$"         # No shadow
       "noanim, title:^(.*SableUI.*)$"           # No animations
-      "nofocus, title:^(.*SableUI.*)$"          # Don't steal focus from other windows
+      # "nofocus, title:^(.*SableUI.*)$"          # Don't steal focus from other windows
       "noinitialfocus, title:^(.*SableUI.*)$"   # Don't focus on spawn
 
       # CRITICAL: Prevent movement and resizing
@@ -64,7 +64,7 @@
 
       # Position at top of screen with 40px height and full width
       "move 0 0, title:^(.*SableUI.*)$"
-      "size 100% 40, title:^(.*SableUI.*)$"
+      "size monitor_w 40, title:^(.*SableUI.*)$"
 
       /*
 
