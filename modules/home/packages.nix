@@ -57,7 +57,7 @@
     bitwise                                               # CLI tool for bit / hex manipulation
     file                                                  # Show file information
     gtrash                                                # rm replacement, put deleted files in system trash
-    nix-prefetch-github                                   # Prefetches github things for nix
+    nix-prefetch-git                                      # Prefetches github things for nix
     ripgrep                                               # Grep replacement
     xorg.xeyes                                            # If the eyes move the app is running on xwayland
                                                           # Archives / compression
