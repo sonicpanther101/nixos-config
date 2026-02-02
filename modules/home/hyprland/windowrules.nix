@@ -47,7 +47,7 @@
 
     windowrulev2 = [
 
-      "float, title:^(.*SableUI.*)$"
+      # "float, title:^(.*SableUI.*)$"
       "pin, title:^(.*SableUI.*)$"              # Pin to all workspaces
       # "stayfocused, title:^(.*SableUI.*)$"      # Don't lose focus
       "noborder, title:^(.*SableUI.*)$"         # No border
