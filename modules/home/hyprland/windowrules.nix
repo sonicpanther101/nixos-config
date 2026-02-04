@@ -64,7 +64,7 @@
 
       # Position at top of screen with 40px height and full width
       "move 0 0, title:^(.*SableUI.*)$"
-      "size monitor_w 40, title:^(.*SableUI.*)$"
+      "size monitor_w*2 40, title:^(.*SableUI.*)$"
 
       /*
 
