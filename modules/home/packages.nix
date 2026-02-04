@@ -9,7 +9,6 @@
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
-    drawy                                                 # Handy and infinite brainstorming tool
 
   ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
@@ -71,6 +70,7 @@
     os-prober                                             # Detect other OSes for GRUB
     # ventoy                                              # To set up drives to be bootable while still carrying files
                                                           # Media tools
+    rnote                                                 # Simple drawing application to create handwritten notes
     pinta                                                 # Lightweight image editor
     handbrake                                             # FFMPEG GUI
     vlc                                                   # Video player
