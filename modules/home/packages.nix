@@ -9,6 +9,7 @@
     grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
+    drawy                                                 # Handy and infinite brainstorming tool
 
   ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
                                                           # Fonts
@@ -71,7 +72,6 @@
     # ventoy                                              # To set up drives to be bootable while still carrying files
                                                           # Media tools
     pinta                                                 # Lightweight image editor
-    lorien                                                # Infinite canvas drawing/note-taking app
     handbrake                                             # FFMPEG GUI
     vlc                                                   # Video player
     imv                                                   # Image viewer
