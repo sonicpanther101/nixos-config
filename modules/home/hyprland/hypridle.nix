@@ -12,7 +12,7 @@
 
       listener = [
         {
-          timeout = 60;
+          timeout = 600;
           on-timeout = "hyprctl dispatch dpms off";
 
           on-resume = "hyprctl dispatch dpms on";
