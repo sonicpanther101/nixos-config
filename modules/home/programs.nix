@@ -40,6 +40,10 @@ in {
     commandLineArgs = [
       "--enable-features=WebRTCPipeWireCapturer"
       "--ozone-platform=wayland"
+      # Enable DNS over HTTPS
+      "--enable-features=DnsOverHttps"
+      # Set your NextDNS DoH server
+      # "--dns-over-https-server=https://dns.nextdns.io/176a88"
     ];
   };
 
