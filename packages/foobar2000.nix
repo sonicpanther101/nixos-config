@@ -20,6 +20,10 @@ let
   aiohttp-sse-client = pkgs-stable.python3Packages.buildPythonPackage rec {
     pname = "aiohttp-sse-client";
     version = "0.2.1";
+
+    pyproject = true;
+    build-system = with pkgs-stable.python3Packages; [ setuptools ];
+
     src = pkgs-stable.fetchFromGitHub {
       owner = "rtfol";
       repo = "aiohttp-sse-client";
@@ -38,6 +42,9 @@ let
     pname = "pyfoobeef";
     version = "0.9.0.4";
 
+    pyproject = true;
+    build-system = with pkgs-stable.python3Packages; [ setuptools ];
+
     src = pkgs-stable.fetchFromGitHub {
       owner = "Ada-Kru";
       repo = "pyfoobeef";
@@ -54,19 +61,33 @@ let
   mpris-server = pkgs-stable.python3Packages.buildPythonPackage rec {
     pname = "mpris-server";
     version = "0.4.3";
+
+    pyproject = true;
+    build-system = with pkgs-stable.python3Packages; [ setuptools ];
+
     src = pkgs-stable.fetchFromGitHub {
       owner = "alexdelorenzo";
       repo = "mpris_server";
       rev = "v${version}";
       hash = "sha256-9VEok2eiGKOQDUxBC29z7Y/bQwZc5Ts1prKJMEY7pGs=";
     };
+    
     doCheck = false;
-    propagatedBuildInputs = with pkgs-stable.python3Packages; [ pydbus ];
+    pythonRemoveDeps = [ "unidecode" "emoji" ];  # Remove strict version pins
+
+    propagatedBuildInputs = with pkgs-stable.python3Packages; [ 
+      pydbus
+      unidecode
+      emoji
+    ];
   };
 
   beefweb-mpris = pkgs-stable.python3Packages.buildPythonApplication rec {
     pname = "beefweb-mpris";
     version = "0.0.1";
+
+    pyproject = true;
+    build-system = with pkgs-stable.python3Packages; [ setuptools ];
 
     src = pkgs-stable.fetchFromGitHub {
       owner = "ther0n";
@@ -75,12 +96,17 @@ let
       hash = "sha256-gBKQ2gfvJwo9MLnfHcWoOUHKNdVC7ScYqquxHwOeVp4="; 
     };
 
+    doCheck = false;
+
+    pythonRelaxDeps = true;
+
     propagatedBuildInputs = with pkgs-stable.python3Packages; [
       mpris-server
       pyfoobeef
       aiohttp-sse-client
       requests
       pygobject3
+      pygobject-stubs
       pydbus
       pyyaml
       unidecode
@@ -89,7 +115,7 @@ let
 
     nativeBuildInputs = [ 
       pkgs-stable.gobject-introspection 
-      pkgs-stable.wrapGAppsHook
+      pkgs-stable.wrapGAppsHook3
       pkgs.copyDesktopItems # Add this to install the desktop file
     ];
     

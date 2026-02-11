@@ -15,8 +15,7 @@
     corefonts
     noto-fonts
     noto-fonts-cjk-sans                                   # Chinese, Japanese and Korean glyphs
-    noto-fonts-emoji
-    noto-fonts-extra
+    noto-fonts-color-emoji
     ipafont                                               # Japanese font set
 
                                                           # QT theming / styling
@@ -68,7 +67,7 @@
     libnotify                                             # Notification daemon (duplicate, but needed for install script)
                                                           # Misc
     os-prober                                             # Detect other OSes for GRUB
-    # ventoy                                              # To set up drives to be bootable while still carrying files
+    ventoy-full-gtk                                       # To set up drives to be bootable while still carrying files
                                                           # Media tools
     rnote                                                 # Simple drawing application to create handwritten notes
     pinta                                                 # Lightweight image editor
