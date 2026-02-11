@@ -40,11 +40,15 @@ in {
     commandLineArgs = [
       "--enable-features=WebRTCPipeWireCapturer"
       "--ozone-platform=wayland"
-      # Enable DNS over HTTPS
-      "--enable-features=DnsOverHttps"
-      # Set your NextDNS DoH server
-      # "--dns-over-https-server=https://dns.nextdns.io/176a88"
     ];
+  };
+
+  # Create policy file to allow DoH
+  home.file.".config/vivaldi/NativeMessagingHosts/.keep".text = "";
+  
+  xdg.configFile."chromium/policies/managed/doh.json".text = builtins.toJSON {
+    DnsOverHttpsMode = "automatic";  # or "secure" to force DoH
+    # DnsOverHttpsTemplates = "https://dns.nextdns.io/176a88";
   };
 
   # Screen shader
