@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
 
     erosanix = {
       url = "github:emmanuelrosa/erosanix";
@@ -35,11 +35,24 @@
     system = "x86_64-linux";
     pkgs-unstable = import nixpkgs-unstable {
       inherit system;
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+
+        permittedInsecurePackages = [
+          "qtwebengine-5.15.19"
+        ];
+      };
     };
     pkgs-stable = import nixpkgs-stable {
       inherit system;
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+
+        permittedInsecurePackages = [
+          "ventoy-gtk3-1.1.07"
+          "qtwebengine-5.15.19"
+        ];
+      };
     };
     lib = nixpkgs-unstable.lib;
   in {

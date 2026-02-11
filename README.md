@@ -129,7 +129,7 @@ Error:
 - [ ] Use Proton instead of bottles
 - [x] Get all folders on syncthing
 - [ ] Get the fuck package working
-- [ ] Tagscanner and mp3tag
+- [x] Tagscanner and mp3tag
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Try get a GWFL window with hyprwayland-scanner

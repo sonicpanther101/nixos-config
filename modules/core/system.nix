@@ -25,10 +25,6 @@
   nixpkgs.config = {
     # Allow unfree packages for the 4th time! Scrap that, they will soon depricate home manager allowing unfree
     allowUnfree = true;
-
-    permittedInsecurePackages = [
-      "ventoy-1.1.05"
-    ];
   };
 
   # Set your time zone.
