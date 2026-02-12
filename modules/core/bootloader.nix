@@ -20,6 +20,11 @@
 
   } // (if (host == "desktop") then {
 
+    # Getting sleep to stay
+    postBootCommands = ''
+      echo PTXH > /proc/acpi/wakeup
+    '';
+
     # XBox controller
     extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
     extraModprobeConfig = ''
