@@ -22,7 +22,15 @@ in {
   };
 
   # Temporary notifications daemon to shut grimblast up
-  services.mako.enable = true;
+  services.mako = {
+    enable = true;
+    
+    # Set NetworkManager notifications to timeout after 3 seconds
+    extraConfig = ''
+      [app-name="NetworkManager"]
+      default-timeout=3000
+    '';
+  };
 
   # Cat alternative
   programs.bat = {
