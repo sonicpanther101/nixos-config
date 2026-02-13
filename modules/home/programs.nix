@@ -25,9 +25,11 @@ in {
   services.mako = {
     enable = true;
     
-    # Set NetworkManager notifications to timeout after 3 seconds
+    defaultTimeout = 5000; # 5 seconds default for all notifications
+    
+    # Set NetworkManager Applet notifications to timeout after 3 seconds
     extraConfig = ''
-      [app-name="NetworkManager"]
+      [app-name="NetworkManager Applet"]
       default-timeout=3000
     '';
   };
