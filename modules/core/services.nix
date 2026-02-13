@@ -26,6 +26,7 @@
     };
 
     # for bambu studio: flatpak run com.bambulab.BambuStudio
+    # for cura: flatpak run com.ultimaker.cura
     flatpak = {
       enable = true;
     };
