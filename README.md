@@ -128,8 +128,9 @@ Error:
 - [ ] See if all intel graphics drivers are needed
 - [ ] Use Proton instead of bottles
 - [x] Get all folders on syncthing
-- [ ] Get the fuck package working
+- [x] Get the fuck package working (pay respects)
 - [x] Tagscanner and mp3tag
+- [ ] Get Hyprlock focusing correctly
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Try get a GWFL window with hyprwayland-scanner
