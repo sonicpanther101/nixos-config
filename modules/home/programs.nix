@@ -38,6 +38,7 @@ in {
   programs.pay-respects = {
     enable = true;
     enableZshIntegration = true;
+    package = pkgs-unstable.pay-respects;
     options = [
       "--alias"
       "f"
