@@ -34,6 +34,21 @@ in {
     '';
   };
 
+  # Terminal command correction, alternative to thefuck, written in Rust
+  programs.pay-respects = {
+    enable = true;
+    enableZshIntegration = true;
+    options = [
+      "--alias"
+      "f"
+    ];
+    # aiIntegration = false; # {
+    #   url = "";
+    #   model = "";
+    #   locale = "";
+    # }
+  };
+
   # Cat alternative
   programs.bat = {
     enable = true;

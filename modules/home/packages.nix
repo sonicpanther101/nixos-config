@@ -59,7 +59,6 @@
     nix-prefetch-git                                      # Prefetches github things for nix
     ripgrep                                               # Grep replacement
     xorg.xeyes                                            # If the eyes move the app is running on xwayland
-    pay-respects                                          # Terminal command correction, alternative to thefuck, written in Rust
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
