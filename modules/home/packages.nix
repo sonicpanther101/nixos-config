@@ -93,6 +93,7 @@
     cliphist                                              # Clipboard manager (duplicate of copyq)
 
                                                           # Networking / P2P tools
+    protonvpn-gui                                         # VPN
     qbittorrent                                           # Torrenting GUI
     nicotine-plus                                         # Soulseek peer to peer browser frontend
 
