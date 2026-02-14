@@ -120,11 +120,11 @@
   # Terminal command correction, alternative to thefuck, written in Rust
   programs.pay-respects = {
     enable = true;
-    aiIntegration = false; # {
-    #   url = "";
-    #   model = "mistral";
-    #   locale = "en-nz";
-    # }
+    aiIntegration = {
+      locale = "en-nz";
+      model = "mistral";
+      url = "http://127.0.0.1:11434/v1/chat/completions";
+    };
     alias = "f";
   };
 }
