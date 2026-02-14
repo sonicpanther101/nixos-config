@@ -112,7 +112,6 @@
       package = pkgs-unstable.ollama-cuda;
       loadModels = [ "mistral" ];
     };
-    nextjs-ollama-llm-ui.enable = true;
   } else {});
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
