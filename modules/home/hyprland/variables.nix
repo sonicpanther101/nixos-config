@@ -15,6 +15,9 @@
     SDL_VIDEODRIVER = "wayland";
     CLUTTER_BACKEND = "wayland";
 
+    _PR_SHELL = "zsh";
+    _PR_AI_API_KEY = "dummy"; # not required for local, but silences fallback
+
     # Qt theming
     QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
