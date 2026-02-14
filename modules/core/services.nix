@@ -121,7 +121,7 @@
     enable = true;
     aiIntegration = {
       locale = "en-nz";
-      model = "mistral";
+      model = "mistral:latest";
       url = "http://127.0.0.1:11434/v1/chat/completions";
     };
     alias = "f";
