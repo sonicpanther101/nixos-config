@@ -106,7 +106,25 @@
 
     # OpenRGB
     udev.packages = [ pkgs-unstable.openrgb ];
+
+    ollama = {
+      enable = true;
+      package = pkgs-unstable.ollama-cuda;
+      loadModels = [ "mistral" ];
+    };
+    nextjs-ollama-llm-ui.enable = true;
   } else {});
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
+
+  # Terminal command correction, alternative to thefuck, written in Rust
+  programs.pay-respects = {
+    enable = true;
+    aiIntegration = false; # {
+    #   url = "";
+    #   model = "mistral";
+    #   locale = "en-nz";
+    # }
+    alias = "f";
+  };
 }

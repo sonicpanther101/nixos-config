@@ -25,29 +25,13 @@ in {
   services.mako = {
     enable = true;
     
-    defaultTimeout = 5000; # 5 seconds default for all notifications
+    settings.default-timeout = 5000; # 5 seconds default for all notifications
     
     # Set NetworkManager Applet notifications to timeout after 3 seconds
     extraConfig = ''
       [app-name="NetworkManager Applet"]
       default-timeout=3000
     '';
-  };
-
-  # Terminal command correction, alternative to thefuck, written in Rust
-  programs.pay-respects = {
-    enable = true;
-    enableZshIntegration = true;
-    package = pkgs-unstable.pay-respects;
-    options = [
-      "--alias"
-      "f"
-    ];
-    # aiIntegration = false; # {
-    #   url = "";
-    #   model = "";
-    #   locale = "";
-    # }
   };
 
   # Cat alternative
