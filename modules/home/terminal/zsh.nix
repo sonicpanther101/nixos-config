@@ -13,7 +13,7 @@
 
     initContent = lib.mkBefore ''                                          
       DISABLE_MAGIC_FUNCTIONS=true
-      eval "$(pay-respects init zsh)"
+      eval "$(pay-respects zsh)"
     '';  
 
     shellAliases = {                                                       
