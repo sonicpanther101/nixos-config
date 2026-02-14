@@ -118,7 +118,7 @@
 
   # Terminal command correction, alternative to thefuck, written in Rust
   programs.pay-respects = {
-    enable = true;
+    enable = false;
     package = pkgs-unstable.pay-respects;
     aiIntegration = {
       locale = "en-nz";
