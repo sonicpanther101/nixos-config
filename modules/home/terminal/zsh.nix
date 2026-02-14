@@ -12,7 +12,8 @@
     };
 
     initContent = lib.mkBefore ''                                          
-      DISABLE_MAGIC_FUNCTIONS=true                                         
+      DISABLE_MAGIC_FUNCTIONS=true
+      eval "$(pay-respects init zsh)"
     '';  
 
     shellAliases = {                                                       
