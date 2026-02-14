@@ -111,7 +111,6 @@
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
-    ollama                                                # Runs LLM's locally
   ]) else if (host == "laptop") then (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
   ]) else [
