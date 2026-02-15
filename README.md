@@ -105,6 +105,7 @@ Error:
 - [x] mpris on waybar
 - [ ] Dark mode wine for foobar
 - [ ] CJK fonts on wine for foobar 
+- [ ] sub pixel text on foobar
 - [x] hyprland workspace keybinds over scrolling
 - [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
