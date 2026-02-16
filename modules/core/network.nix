@@ -1,4 +1,4 @@
-{ host, pkgs, ... }: {
+{ host, ... }: {
   networking = {
     hostName = host;
     networkmanager = {

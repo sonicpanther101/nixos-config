@@ -57,6 +57,8 @@
     file                                                  # Show file information
     gtrash                                                # rm replacement, put deleted files in system trash
     nix-prefetch-git                                      # Prefetches github things for nix
+    nix-index                                             # For pay-respects to find packages
+    nix-search                                            # For pay-respects to find packages
     ripgrep                                               # Grep replacement
     xorg.xeyes                                            # If the eyes move the app is running on xwayland
                                                           # Archives / compression
