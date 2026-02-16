@@ -12,6 +12,7 @@
     ./../../packages
     ./gaming.nix
     ./wayland.nix
+    ./printing.nix
   ];
   # ++ (if someCondition then [ ./optional.nix ] else []);
 }
