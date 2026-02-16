@@ -2,23 +2,28 @@
   services.printing = {
     enable = true;
 
-    drivers = [ pkgs-stable.gutenprint pkgs-stable.cups-filters ];
+    drivers = [ 
+      pkgs-stable.gutenprint 
+      pkgs-stable.cups-filters 
+      pkgs-stable.foomatic-db
+      pkgs-stable.foomatic-db-ppds
+      pkgs-stable.foomatic-db-engine
+    ];
 
-    # Allow CUPS to discover printers on the network
+    # Enable printer discovery
     browsing = true;
-    listenAddresses = [ "localhost:631" ];
-    allowFrom = [ "all" ];
     defaultShared = false;
+    
+    # Allow remote administration
+    listenAddresses = [ "localhost:631" ];
+    allowFrom = [ "localhost" ];
+    
   };
 
-  # Install required packages for printer management
-  environment.systemPackages = with pkgs-stable; [
-    system-config-printer  # GUI for managing printers
-  ];
-
-  # Enable Samba client support (needed for Windows printer servers)
-  services.samba = {
+  # Enable Avahi for printer discovery on the network
+  services.avahi = {
     enable = true;
-    package = pkgs-stable.samba;
+    nssmdns4 = true;
+    openFirewall = true;
   };
 }
