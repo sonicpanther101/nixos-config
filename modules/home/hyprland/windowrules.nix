@@ -49,7 +49,6 @@
 
       "float, title:^(.*SableUI.*)$"
       "pin, title:^(.*SableUI.*)$"              # Pin to all workspaces
-      # "stayfocused, title:^(.*SableUI.*)$"      # Don't lose focus
       "noborder, title:^(.*SableUI.*)$"         # No border
       "noblur, title:^(.*SableUI.*)$"           # No blur effects
       "noshadow, title:^(.*SableUI.*)$"         # No shadow
@@ -57,14 +56,8 @@
       # "nofocus, title:^(.*SableUI.*)$"          # Don't steal focus from other windows
       "noinitialfocus, title:^(.*SableUI.*)$"   # Don't focus on spawn
 
-      # CRITICAL: Prevent movement and resizing
-      # "nomove, title:^(.*SableUI.*)$"           # Can't be moved
-      # "noresize, title:^(.*SableUI.*)$"         # Can't be resized
-      "minsize 1 1, title:^(.*SableUI.*)$"      # Prevent minimization tricks
-
       # Position at top of screen with 40px height and full width
       "move 0 0, title:^(.*SableUI.*)$"
-      "size monitor_w*2 40, title:^(.*SableUI.*)$"
 
       /*
 
