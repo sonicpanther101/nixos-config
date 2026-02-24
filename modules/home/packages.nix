@@ -83,7 +83,6 @@
     grimblast                                             # Screenshot taker
 
                                                           # Audio tools
-    cava                                                  # Audio visualiser
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
     helvum                                                # Audio connection editor
