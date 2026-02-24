@@ -53,6 +53,23 @@ in {
     ];
   };
 
+  # Audio visualiser
+  programs.cava = {
+    enable = true;
+    settings = {
+      output = {
+        method = "raw";
+        raw_target = "/tmp/cava.fifo";
+        data_format = "ascii";
+        ascii_max_range = 8;
+        bar_delimiter = 59;
+        bars = 10;
+        frame_delimiter = 10;
+      };
+      general.framerate = 30;
+    };
+  };
+
   # Create policy file to allow DoH
   home.file.".config/vivaldi/NativeMessagingHosts/.keep".text = "";
   
