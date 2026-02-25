@@ -10,8 +10,7 @@
       options = {
         # Tell Syncthing to listen on all interfaces at port 22000
         listenAddresses = [ 
-          "default"
-          "tcp://0.0.0.0:22000"
+          "tcp://:22000"
         ];
 
         globalAnnounceEnabled = false;
