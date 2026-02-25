@@ -6,7 +6,7 @@
     settings = {
 
       options = {
-        listenAddresses = [ "tcp://0.0.0.0:443" ]; # Needs sudo/cap_net_bind_service if using < 1024
+        listenAddresses = [ "tcp://0.0.0.0:8443" ]; # Needs sudo/cap_net_bind_service if using < 1024
         globalAnnounceEnabled = false;
         localAnnounceEnabled = true; # Try local if they allow mDNS
         relaysEnabled = false;      # You mentioned they don't work
