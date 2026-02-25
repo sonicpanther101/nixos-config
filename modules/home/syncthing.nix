@@ -1,9 +1,11 @@
 { username, host, ... } : {
   services.syncthing = {
     enable = true;
+    guiAddress = "100.110.147.68:8384";
     settings = {
 
-      guiAddress = "100.110.147.68:8384";
+      overrideDevices = true;
+      overrideFolders = true;
 
       options = {
         # Tell Syncthing to listen on all interfaces at port 22000
