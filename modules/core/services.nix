@@ -39,6 +39,23 @@
       openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     };
 
+    # Route syncthing traffic though here
+    frp = {
+      enable = true;
+      role = "client";
+      settings = {
+        serverAddr = "freefrp.net"; # A popular public free server
+        serverPort = 7000;
+        proxies = [{
+          name = "syncthing-${username}";
+          type = "tcp";
+          localIp = "127.0.0.1";
+          localPort = 8443;
+          remotePort = 54321; # Pick a random 5-digit number
+        }];
+      };
+    };
+
     # NextDNS service with DoH
     nextdns = {
       enable = true;
