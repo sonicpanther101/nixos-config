@@ -44,7 +44,7 @@
       enable = true;
       role = "client";
       settings = {
-        serverAddr = "freefrp.net"; # A popular public free server
+        serverAddr = "frps.top"; # A popular public free server
         serverPort = 7000;
         proxies = [{
           name = "syncthing-${username}";
