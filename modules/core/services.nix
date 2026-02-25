@@ -8,6 +8,9 @@
     # Bluetooth UI
     blueman.enable = true;
 
+    # Bypass network restrictions for syncthing
+    tailscale.enable = true;
+
     # Getting sleep to work
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
