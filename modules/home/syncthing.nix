@@ -7,9 +7,9 @@
 
       options = {
         listenAddresses = [ "tcp://0.0.0.0:8443" ]; # Needs sudo/cap_net_bind_service if using < 1024
+        relaysEnabled = false;
         globalAnnounceEnabled = false;
-        localAnnounceEnabled = true; # Try local if they allow mDNS
-        relaysEnabled = false;      # You mentioned they don't work
+        localAnnounceEnabled = true;
       };
 
       devices = {
