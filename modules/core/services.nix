@@ -15,7 +15,10 @@
     blueman.enable = true;
 
     # Bypass network restrictions for syncthing
-    tailscale.enable = true;
+    tailscale = {
+      enable = true;
+      extraUpFlags = [ "--mtu=1280" ];
+    };
 
     # Getting sleep to work
     logind.settings.Login = {
