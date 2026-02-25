@@ -3,10 +3,7 @@
   # port 8384 is the default port to allow syncthing GUI access from the network.
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 8384 22000 ];
-    allowedUDPPorts = [ 22000 21027];
-    trustedInterfaces = [ "tailscale0" ];
-    checkReversePath = "loose";
+    allowedTCPPorts = [ 8443 ];
   };
   
   services = {
