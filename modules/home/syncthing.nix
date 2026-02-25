@@ -2,6 +2,12 @@
   services.syncthing = {
     enable = true;
     settings = {
+
+      options = {
+        # Tell Syncthing to listen on all interfaces at port 22000
+        listenAddresses = [ "tcp://0.0.0.0:22000" ];
+      };
+
       devices = {
         "Phone" = { id = "U3WDNWK-4BIUXM4-OS5SUHL-EZEFTWT-22NIYE6-QEZ6YS5-5WNR7QW-DYRUKAH"; };
       } // (if (host == "desktop") then {
