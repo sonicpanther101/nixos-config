@@ -3,9 +3,14 @@
     enable = true;
     settings = {
 
+      
+
       options = {
         # Tell Syncthing to listen on all interfaces at port 22000
         listenAddresses = [ "tcp://0.0.0.0:22000" ];
+
+        globalAnnounceEnabled = false;
+        localAnnounceEnabled = false;
       };
 
       devices = {
