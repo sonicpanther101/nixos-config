@@ -6,6 +6,7 @@
     allowedTCPPorts = [ 8384 22000 ];
     allowedUDPPorts = [ 22000 21027];
     trustedInterfaces = [ "tailscale0" ];
+    checkReversePath = "loose";
   };
   
   services = {
