@@ -3,7 +3,7 @@
     enable = true;
     settings = {
 
-      gui.address = "100.110.147.68:8384";
+      guiAddress = "100.110.147.68:8384";
 
       options = {
         # Tell Syncthing to listen on all interfaces at port 22000
