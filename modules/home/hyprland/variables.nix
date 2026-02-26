@@ -38,7 +38,7 @@
 
     # Only keep these if you have specific GPU issues:
     # WLR_NO_HARDWARE_CURSORS = "1";
-    # WLR_DRM_NO_ATOMIC = "1";
+    WLR_DRM_NO_ATOMIC = "1";
 
     # Styling fuzzy finder
     FZF_DEFAULT_OPTS = lib.mkForce " \
