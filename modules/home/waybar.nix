@@ -1,6 +1,7 @@
-{ host, inputs, lib, ... } : {
+{ host, inputs, lib, pkgs-stable, ... } : {
   programs.waybar = {
     enable = true;
+    package = pkgs-stable.waybar;
     settings = {
       mainBar = {
         layer = "bottom";
