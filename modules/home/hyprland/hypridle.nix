@@ -4,9 +4,9 @@
 
     settings = {
       general = {
-        # lock_cmd = "hyprlock";
+        # lock_cmd = "swaylock";
 
-        # before_sleep_cmd = "hyprlock";
+        # before_sleep_cmd = "swaylock";
         # after_sleep_cmd = "hyprctl dispatch dpms on";
       };
 
@@ -19,7 +19,7 @@
         }
         {
           timeout = 600;
-          on-timeout = "pidof hyprlock || hyprlock";
+          on-timeout = "pidof swaylock || swaylock";
         }
         {
           timeout = 1800;
