@@ -128,6 +128,7 @@ else
 fi
 
 # 3. Check for changes
+git reset > /dev/null
 if [[ $no_check == false ]] && [[ $skip_git == false ]] && [[ $skip_install == false ]] && git diff --quiet '*'; then
     echo "No changes detected, exiting."
     popd > /dev/null
@@ -135,7 +136,6 @@ if [[ $no_check == false ]] && [[ $skip_git == false ]] && [[ $skip_install == f
 fi
 
 # 4. Stage changes BEFORE building
-git reset > /dev/null
 git add .
 
 echo # to account for no check

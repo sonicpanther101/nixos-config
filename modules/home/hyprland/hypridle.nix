@@ -1,4 +1,4 @@
-{ ... } : {
+{ host, ... } : {
   services.hypridle = {
     enable = true;
 
@@ -12,11 +12,12 @@
 
       listener = [
         {
-          timeout = 600;
+          timeout = 60;
           on-timeout = "hyprctl dispatch dpms off";
 
           on-resume = "hyprctl dispatch dpms on";
         }
+      ] ++ (if (host == "laptop") then [
         {
           timeout = 600;
           on-timeout = "pidof swaylock || swaylock";
@@ -25,7 +26,7 @@
           timeout = 1800;
           on-timeout = "my-sleep";
         }
-      ];
+      ] else []);
     };
   };
 }
