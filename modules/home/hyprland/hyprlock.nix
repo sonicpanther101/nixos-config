@@ -22,22 +22,45 @@
       };
 
       background = {
-        path = "${config.stylix.image}";
+        path = "screenshot";
         blur_passes = 3;
         blur_size = 8;
       };
 
       input-field = {
-        size = "0, 0";
-        position = "0, 0";
+        size = "200, 50";
+        position = "0, -80";
         monitor = "";
+        dots_center = true;
+        fade_on_empty = false;
         # font_color = "rgb(202, 211, 245)";
         # inner_color = "rgb(91, 96, 120)";
         # outer_color = "rgb(24, 25, 38)";
-        outline_thickness = 0;
-        placeholder_text = "";
-        shadow_passes = 0;
+        outline_thickness = 4;
+        placeholder_text = "Password...";
+        shadow_passes = 2;
       };
+
+      
+      label = [{
+        # TIME
+        monitor = "";
+        text = "$TIME12"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
+        font_size = 65;
+        font_family = "$font";
+
+        position = "0, -10";
+        valign = "top";
+      } {
+        # DATE
+        monitor = "";
+        text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
+        font_size = 25;
+        font_family = "$font";
+
+        position = "0, -150";
+        valign = "top";
+      }];
     };
   };
 }
