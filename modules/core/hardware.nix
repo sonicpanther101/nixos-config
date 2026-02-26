@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, pkgs-stable, inputs, ... } : {
+{ host, pkgs-unstable, pkgs-stable, inputs, config, ... } : {
 
   hardware = {
     # Common settings
@@ -68,7 +68,7 @@
       nvidiaSettings = true;
 
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = pkgs-unstable.linuxKernel.packages.linux_6_12.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   } else {});
 
