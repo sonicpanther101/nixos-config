@@ -4,7 +4,7 @@ let
   japaneseFonts = pkgs-stable.noto-fonts-cjk-sans;
 
   # This tells beefweb to launch 'foobar2000'
-  foobarPkg = inputs.erosanix.packages.${pkgs-stable.system}.foobar2000;
+  foobarPkg = inputs.erosanix.packages.${pkgs-stable.stdenv.hostPlatform.system}.foobar2000;
 
   beefwebConfig = pkgs.writeText "config.yaml" ''
     foobar2000-command: ${foobarPkg}/bin/foobar2000-win64

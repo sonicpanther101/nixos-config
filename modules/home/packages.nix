@@ -60,7 +60,7 @@
     nix-index                                             # For pay-respects to find packages
     nix-search                                            # For pay-respects to find packages
     ripgrep                                               # Grep replacement
-    xorg.xeyes                                            # If the eyes move the app is running on xwayland
+    xeyes                                                 # If the eyes move the app is running on xwayland
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
