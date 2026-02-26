@@ -8,7 +8,14 @@
         hide_cursor = true;
         ignore_empty_input = true;
       };
-      
+
+      background = [{
+        monitor = "";
+        color = "rgba(30, 30, 46, 1.0)";
+        blur_passes = 0;
+        blur_size = 0;
+      }];
+
       input-field = {
         size = "0, 0";
         position = "0, 0";
