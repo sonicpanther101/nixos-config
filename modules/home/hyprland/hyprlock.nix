@@ -1,4 +1,4 @@
-{ pkgs-stable, ... } : {
+{ pkgs-stable, config, ... } : {
   programs.hyprlock = {
     enable = true;
     package = pkgs-stable.hyprlock;
@@ -22,7 +22,7 @@
       };
 
       background = {
-        path = "screenshot";
+        path = "${config.stylix.image}";
         blur_passes = 3;
         blur_size = 8;
       };
