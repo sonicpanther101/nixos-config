@@ -131,7 +131,7 @@ Error:
 - [x] Get all folders on syncthing
 - [x] Get the fuck package working (pay respects)
 - [x] Tagscanner and mp3tag
-- [ ] Get Hyprlock focusing correctly
+- [x] Get Hyprlock focusing correctly (moved back to swaylock)
 - [ ] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Try get a GWFL window with hyprwayland-scanner

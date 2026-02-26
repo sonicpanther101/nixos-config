@@ -9,5 +9,7 @@
     ./scripts
     ./git.nix
     ./defaultapps.nix
+    ./variables.nix
+    ./swaylock.nix
   ];
 }
