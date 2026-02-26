@@ -38,9 +38,6 @@
       openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     };
 
-    # VPN
-    cloudflare-warp.enable = true;
-
     # NextDNS service with DoH
     nextdns = {
       enable = true;
