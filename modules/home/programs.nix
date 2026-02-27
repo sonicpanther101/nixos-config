@@ -48,8 +48,13 @@ in {
     package = pkgs-unstable.vivaldi;
     extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
     commandLineArgs = [
-      "--enable-features=WebRTCPipeWireCapturer"
+      "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecodeLinuxGL"
       "--ozone-platform=wayland"
+      "--ignore-gpu-blocklist"
+      "--enable-gpu-rasterization"
+      "--enable-zero-copy"
+      "--use-gl=egl"                          # Force EGL instead of ANGLE/llvmpipe
+      "--disable-features=UseChromeOSDirectVideoDecoder"
     ];
   };
 
