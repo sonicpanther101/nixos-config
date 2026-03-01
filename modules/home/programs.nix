@@ -75,14 +75,6 @@ in {
     };
   };
 
-  # Create policy file to allow DoH
-  home.file.".config/vivaldi/NativeMessagingHosts/.keep".text = "";
-  
-  # xdg.configFile."chromium/policies/managed/doh.json".text = builtins.toJSON {
-  #   DnsOverHttpsMode = "automatic";  # or "secure" to force DoH
-  #   # DnsOverHttpsTemplates = "https://dns.nextdns.io/176a88";
-  # };
-
   # Screen shader
   services.hyprsunset = {
     enable = true;
