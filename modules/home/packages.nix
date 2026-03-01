@@ -66,7 +66,7 @@
     unrar                                                 # For unzipping multi-part RARs
                                                           # Desktop integration & trays
     networkmanagerapplet                                  # Tray GUI for NetworkManager
-    # nextdns                                               # For toggling DoH on/off
+    nextdns                                               # For toggling DoH on/off
     libnotify                                             # Notification daemon (duplicate, but needed for install script)
                                                           # Misc
     os-prober                                             # Detect other OSes for GRUB
