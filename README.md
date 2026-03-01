@@ -128,6 +128,7 @@ Error:
 - [x] Replace all mentions of adam with variable
 - [ ] See if all intel graphics drivers are needed
 - [ ] Use Proton instead of bottles
+- [ ] Fix GPU rendering on vivaldi (for makerworld parametric models)
 - [x] Get all folders on syncthing
 - [x] Get the fuck package working (pay respects)
 - [x] Tagscanner and mp3tag

@@ -39,14 +39,14 @@
     };
 
     # NextDNS service with DoH
-    nextdns = {
-      enable = true;
-      arguments = [
-        "-config" "176a88"           # Your NextDNS config ID
-        # "-cache-size" "10MB"         # Optional: local cache
-        # "-use-hosts" "true"          # Optional: use /etc/hosts
-      ];
-    };
+    # nextdns = {
+    #   enable = true;
+    #   arguments = [
+    #     "-config" "176a88"           # Your NextDNS config ID
+    #     # "-cache-size" "10MB"         # Optional: local cache
+    #     # "-use-hosts" "true"          # Optional: use /etc/hosts
+    #   ];
+    # };
 
     # Auto login for hyprland startup
     displayManager.autoLogin = {
