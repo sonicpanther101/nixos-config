@@ -50,6 +50,7 @@ in {
     commandLineArgs = [
       "--enable-features=WebRTCPipeWireCapturer"
       "--ozone-platform=wayland"
+      "--disable-component-update"
     ];
   };
 
