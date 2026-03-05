@@ -75,7 +75,7 @@
         modules = [
           ./hosts/laptop
           inputs.stylix.nixosModules.stylix
-          # inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
+          inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
           host="laptop";
