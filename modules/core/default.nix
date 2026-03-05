@@ -13,9 +13,10 @@
     ./gaming.nix
     ./wayland.nix
     ./printing.nix
-  ] ++ (if (host == "desktop") then [ 
-    ./build-machine.nix
-  ] else [
-    ./weak-machine.nix
-  ]);
+  ];
+  # ++ (if (host == "desktop") then [ 
+  #   ./build-machine.nix
+  # ] else [
+  #   ./weak-machine.nix
+  # ]);
 }
