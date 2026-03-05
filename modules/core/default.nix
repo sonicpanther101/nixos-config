@@ -13,6 +13,7 @@
     ./gaming.nix
     ./wayland.nix
     ./printing.nix
-  ];
-  # ++ (if someCondition then [ ./optional.nix ] else []);
+  ] ++ (if (host == "desktop") then [ 
+    ./build-machine.nix
+  ] else []);
 }
