@@ -15,5 +15,7 @@
     ./printing.nix
   ] ++ (if (host == "desktop") then [ 
     ./build-machine.nix
-  ] else []);
+  ] else [
+    ./weak-machine.nix
+  ]);
 }

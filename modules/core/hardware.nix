@@ -71,7 +71,7 @@
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   } else {
-    microsoft-surface.kernelVersion = "stable";
+    # microsoft-surface.kernelVersion = "stable";
   });
 
   environment = {
