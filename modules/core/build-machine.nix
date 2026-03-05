@@ -13,7 +13,19 @@
     group = "nix-remote-builder";
     shell = pkgs-stable.bash;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAmv+o+DPuko64iLKsGUXs8LVUsD3EEZ82iZPaLdh+bY nix-remote-builder@surface"
+      "" # get from: (looks like: ssh-ed25519 AAAA)
+      # # Generate as root
+      # sudo ssh-keygen -t ed25519 \
+      #   -f /etc/nix/remote-build-key \
+      #   -N "" \
+      #   -C "nix-remote-builder@surface"
+
+      # # Lock down permissions
+      # sudo chmod 600 /etc/nix/remote-build-key
+      # sudo chmod 644 /etc/nix/remote-build-key.pub
+
+      # # Print the public key to copy to your PC
+      # sudo cat /etc/nix/remote-build-key.pub
     ];
   };
 
