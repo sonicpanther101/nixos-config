@@ -27,6 +27,8 @@
     catppuccin.url = "github:catppuccin/nix";
     
     hyprshutdown.url = "github:hyprwm/hyprshutdown";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
@@ -73,6 +75,7 @@
         modules = [
           ./hosts/laptop
           inputs.stylix.nixosModules.stylix
+          inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
           host="laptop";
