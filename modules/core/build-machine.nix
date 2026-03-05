@@ -13,7 +13,7 @@
     group = "nix-remote-builder";
     shell = pkgs-stable.bash;
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 j4ipuxFc64gS4stnaY0IWlaaldBlZ4H8dk+JQQb3rQI"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAmv+o+DPuko64iLKsGUXs8LVUsD3EEZ82iZPaLdh+bY nix-remote-builder@surface"
     ];
   };
 
