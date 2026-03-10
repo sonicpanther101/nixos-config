@@ -42,6 +42,7 @@
       "idleinhibit focus,title:^(.*YouTube.*)$"
       "idleinhibit focus,title:^(.*Syncthing.*)$"
       "idleinhibit focus,title:^(.*LEARN.*)$"
+      "idleinhibit focus,title:^(.*Tutorial.*)$"
       "idleinhibit focus,title:^(Grayjay)$"
       "idleinhibit focus,title:^(cava)$"
     ];
