@@ -100,7 +100,7 @@
       "SUPER SHIFT, 9, exec, hyprsome move 9"
       "SUPER SHIFT, 0, exec, hyprsome move 10"
       
-      "SUPER, mouse_down, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)-1'`"
+      "SUPER, mouse_down, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"
       "SUPER, mouse_up, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"
     ];
 
