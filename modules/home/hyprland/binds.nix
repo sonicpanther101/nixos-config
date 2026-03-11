@@ -108,8 +108,7 @@
     ];
 
     gesture = [
-      "3, left, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"
-      "3, right, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"
+      "3, horizontal, workspace"
     ];
 
     # keybinds that work even on lockscreen
