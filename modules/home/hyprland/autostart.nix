@@ -40,6 +40,8 @@
       "hyprctl dispatch workspace 11"
       "hyprctl dispatch focusmonitor HDMI-A-1"
 
+      "imv ~/Pictures/system/Study\ times.png"
+
     ] else if (host == "laptop") then [
       "poweralertd"
     ] else [                                              
