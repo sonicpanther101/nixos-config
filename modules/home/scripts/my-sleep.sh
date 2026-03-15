@@ -9,7 +9,9 @@ pidof swaylock || swaylock               # Display lockscreen on wakeup
 
 if [[ $host == "desktop" ]]; then       
     openrgb --mode direct --color 000000 # Turn all RGB off if started on boot
-fi                                      
+fi                 
+
+imv ~/Pictures/system/Study\ times.png   # Open study schedule
 
 hyprctl dispatch dpms on                 # Turn display on
 
