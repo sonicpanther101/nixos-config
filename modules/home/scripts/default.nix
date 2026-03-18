@@ -9,6 +9,7 @@ in {
     "my-clean"
     "my-update"
     "my-icon-browser"
+    "my-refresh"
     "maxfetch"
   ];
 }
