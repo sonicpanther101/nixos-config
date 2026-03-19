@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 Help()
 {
@@ -173,7 +173,7 @@ fi
 
 # 7. Commit and push
 if [[ $skip_git == false ]]; then
-    message="${message^}" # Capitalize first character
+    message="${message:0:1:u}${message:1}" # Capitalize first character
 
     commit_output=$(git commit -m "${message}. Rebuilt ${host}: ${current}" 2>&1)
     commit_hash=$(echo "$commit_output" | grep -oP '\[\w+ \K\w+(?=\])')
