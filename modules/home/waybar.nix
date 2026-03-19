@@ -40,8 +40,8 @@
             default = "";
           };
           persistent-workspaces = if (host == "desktop") then {
-            "DP-1" = 5;
-            "HDMI-A-1" = [ 11 12 13 14 15];
+            "DP-1" = [ 11 12 13 14 15 ];
+            "HDMI-A-1" = 5;
           } else {
             "*" = 5;
           };
