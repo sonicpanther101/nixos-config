@@ -1,7 +1,7 @@
 {pkgs-stable, ...}: let
 in {
   home.packages = map (name: 
-    pkgs-stable.writeShellScriptBin name (builtins.readFile ./${name}.sh)
+    pkgs-stable.writeScriptBin name (builtins.readFile ./${name}.sh)
   ) [
     "my-install"
     "my-shutdown"
