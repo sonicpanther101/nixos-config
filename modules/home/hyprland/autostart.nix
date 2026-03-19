@@ -25,20 +25,20 @@
       "openrgb --startminimized -b 0 -m direct"
 
       # Opening programs by default (not needed, just nice)
-      # Secondary Monitor
-      "hyprctl dispatch focusmonitor HDMI-A-1"
+      # Main Monitor
+      "hyprctl dispatch focusmonitor DP-1"
       "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
       "hyprctl dispatch exec '[workspace 2 silent] Grayjay'"
 
-      # Main Monitor
-      "hyprctl dispatch focusmonitor DP-1"
+      # Secondary Monitor
+      "hyprctl dispatch focusmonitor HDMI-A-1"
       "hyprctl dispatch workspace 11 && hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
       "hyprctl dispatch workspace 12 && hyprctl dispatch exec '[workspace 12 silent] codium'"
       "hyprctl dispatch workspace 13 && hyprctl dispatch exec '[workspace 13 silent] kitty'"
 
-      # Change focus back to secondary
+      # Change focus back to main
       "hyprctl dispatch workspace 11"
-      "hyprctl dispatch focusmonitor HDMI-A-1"
+      "hyprctl dispatch focusmonitor DP-1"
 
       "imv ~/Pictures/system/Study\ times.png"
 
