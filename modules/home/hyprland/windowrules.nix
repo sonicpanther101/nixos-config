@@ -29,6 +29,10 @@
       "center,title:^(Open File)$"
       "size 950 600,title:^(Open File)$"
 
+      "float,title:^(Open Files)$"
+      "center,title:^(Open Files)$"
+      "size 950 600,title:^(Open Files)$"
+
       # Decreases opacity
       "opacity 0.9,class:^(codium)$"
       "opacity 0.9,class:^(vivaldi-stable)$"
