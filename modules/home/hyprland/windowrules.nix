@@ -40,17 +40,7 @@
       "opacity 0.99,title:^(.*Last.fm.*)$"
       "opacity 0.75,class:^(nemo)$"
 
-      # Stops screen sleep on idle
-      "idleinhibit focus,class:^(mpv)$"
-      "idleinhibit focus,class:^(vlc)$"
-      "idleinhibit focus,title:^(.*YouTube.*)$"
-      "idleinhibit focus,title:^(.*Syncthing.*)$"
-      "idleinhibit focus,title:^(.*LEARN.*)$"
-      "idleinhibit focus,title:^(.*Tutorial.*)$"
-      "idleinhibit focus,title:^(.*Lab Report.*)$"
-      "idleinhibit focus,title:^(.*homework.*)$"
-      "idleinhibit focus,title:^(Grayjay)$"
-      "idleinhibit focus,title:^(cava)$"
+      
     ];
 
     windowrulev2 = [
@@ -66,7 +56,18 @@
 
       # Position at top of screen with 40px height and full width
       "move 0 0, title:^(.*SableUI.*)$"
-
+      
+      # Stops screen sleep on idle
+      "idleinhibit focus,class:^(mpv)$"
+      "idleinhibit focus,class:^(vlc)$"
+      "idleinhibit focus,title:^(.*YouTube.*)$"
+      "idleinhibit focus,title:^(.*Syncthing.*)$"
+      "idleinhibit focus,title:^(.*LEARN.*)$"
+      "idleinhibit focus,title:^(.*Tutorial.*)$"
+      "idleinhibit focus,title:^(.*Lab Report.*)$"
+      "idleinhibit focus,title:^(.*homework.*)$"
+      "idleinhibit focus,title:^(Grayjay)$"
+      "idleinhibit focus,title:^(cava)$"
       /*
 
       "float,class:^(imv)$"
@@ -157,5 +158,5 @@
       "idleinhibit focus, class:^(mpv)$"
       "idleinhibit fullscreen, class:^(firefox)$"
     ]; */
-  };
+ };
 }
