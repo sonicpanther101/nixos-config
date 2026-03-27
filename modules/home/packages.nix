@@ -6,7 +6,6 @@
 
     vscodium-fhs                                          # Code editor
     vsce                                                  # VS Code Extension Manager
-    grayjay                                               # Youtube frontend
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
 
