@@ -39,8 +39,6 @@
       "opacity 0.99,title:^(.*YouTube.*)$"
       "opacity 0.99,title:^(.*Last.fm.*)$"
       "opacity 0.75,class:^(nemo)$"
-
-      
     ];
 
     windowrulev2 = [
@@ -57,6 +55,8 @@
       # Position at top of screen with 40px height and full width
       "move 0 0, title:^(.*SableUI.*)$"
       
+      "float, title:^(.*Physics Simulation.*)$"
+
       # Stops screen sleep on idle
       "idleinhibit focus,class:^(mpv)$"
       "idleinhibit focus,class:^(vlc)$"
