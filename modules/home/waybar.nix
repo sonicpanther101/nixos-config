@@ -59,6 +59,7 @@
           tooltip = false;
           on-scroll-up = "playerctl next";
           on-scroll-down = "playerctl previous";
+          max-length = 40;
         };
 
         wireplumber = {
