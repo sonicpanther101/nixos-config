@@ -10,6 +10,7 @@ in {
     "my-update"
     "my-icon-browser"
     "my-refresh"
+    "focus-move"
     "maxfetch"
   ];
 }

@@ -56,8 +56,8 @@
       "SUPER SHIFT, S, exec, kooha"
 
       # switch focus
-      "SUPER, left, movefocus, l"
-      "SUPER, right, movefocus, r"
+      "SUPER, left, exec, focus-move l"
+      "SUPER, right, exec, focus-move r"
       "SUPER, up, movefocus, u"
       "SUPER, down, movefocus, d"
 
