@@ -23,7 +23,7 @@
         # sharedDevices = [ "Phone" ] ++ (if host == "desktop" then [ "laptop" ] else [ "desktop" ]);
         basePath = if host == "desktop" then "/home/${username}/driveBig" else "/home/${username}";
       in {
-        "School" = { id = "r7hv7-6lau7"; path = "${basePath}/School/"; devices = sharedDevices; };
+        "Kobo" = { id = "m7cg8-2a7jo"; path = "${basePath}/Kobo/"; devices = sharedDevices; };
         "Guitar" = { id = "zevcu-jzwwx"; path = "${basePath}/Guitar/"; devices = sharedDevices; };
         "Music"  = { id = "csoaz-zgdyy"; path = "${basePath}/Music/";  devices = sharedDevices; };
         "Research Papers" = { id = "p2539-fht3j"; path = "${basePath}/Research Papers/"; devices = sharedDevices; };
