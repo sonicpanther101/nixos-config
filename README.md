@@ -2,6 +2,8 @@
 
 ### Nixos installation
 
+#### [For dual boot](https://drakerossman.com/blog/how-to-dualboot-windows-and-nixos)
+
 1. Make sure internet is connected, use nmtui to connect.
 
 2. In the installer select the time zone and keyboard layout, the default should be fine if the installer was started with internet. 
