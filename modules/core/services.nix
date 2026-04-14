@@ -57,7 +57,7 @@
   
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
-  } // (if (host == "laptop") then {
+  } // (if (host != "desktop") then {
 
     upower = {
       enable = true;
@@ -80,6 +80,7 @@
         };
       };
     };
+    
   } else if (host == "desktop") then {
     # nvidia
     xserver.videoDrivers = ["nvidia"];  
