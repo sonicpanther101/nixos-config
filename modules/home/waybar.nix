@@ -26,7 +26,7 @@
             warning = 50;
             critical = 25;
           };
-          format = "{icon}  {capacity}%";
+          format = "{capacity}%";
           format-charging = " {icon}  {capacity}%";
           format-full = " {icon}  {capacity}%";
           format-time = "{H}h{M}m";
@@ -78,9 +78,9 @@
 
         wireplumber = {
           format = "{volume}% {icon}";
-          format-muted = "0% ▁";
+          format-muted = "0% 󰝟";
           on-click = "pamixer -t";
-          format-icons = ["▃" "▅" "█"];
+          format-icons = ["󰕿" "󰖀" "󰕾"];
           on-scroll-up = "pamixer -i 2";
           on-scroll-down = "pamixer -d 2";
           on-click-middle = "helvum";
@@ -125,7 +125,7 @@
         
         backlight = {
           format = "{percent}% {icon}";
-          format-icons = ["" ""];
+          format-icons = ["󰃞" "󰃟" "󰃠"];
           tooltip = false;
         };
         
