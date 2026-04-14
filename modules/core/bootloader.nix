@@ -7,7 +7,7 @@
         enable = true;
         devices = [ "nodev" ];
         efiSupport = true;
-        useOSProber = false;
+        useOSProber = if (host == "laptop-2") then true else false;
         memtest86.enable = true;
       };
     };
