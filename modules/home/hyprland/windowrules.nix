@@ -2,132 +2,127 @@
   wayland.windowManager.hyprland.settings = {
 
     windowrule = [
-      "float,title:^(float_kitty)$"
-      "center,title:^(float_kitty)$"
-      "size 950 600,title:^(float_kitty)$"
+      "match:title float_kitty, float"
+      "match:title float_kitty, center"
+      "match:title float_kitty, size 950 600"
 
-      "float,class:^(float_nemo)$"
-      "center,class:^(float_nemo)$"
-      "size 950 600,class:^(float_nemo)$"
+      "match:class float_nemo, float"
+      "match:class float_nemo, center"
+      "match:class float_nemo, size 950 600"
 
-      "float,class:^(imv)$"
-      "center,class:^(imv)$"
-      "size 1200 725,class:^(imv)$"
+      "match:class imv, float"
+      "match:class imv, center"
+      "match:class imv, size 1200 725"
 
-      "float,class:^(mpv)$"
-      "center,class:^(mpv)$"
-      "size 1200 725,class:^(mpv)$"
+      "match:class mpv, float"
+      "match:class mpv, center"
+      "match:class mpv, size 1200 725"
 
-      "float,title:^(OpenRGB)$"
-      "tile,title:^(Grayjay)$"
+      "match:title OpenRGB, float"
+      "match:title Grayjay, tile"
 
-      "float,title:^(Open Folder)$"
-      "center,title:^(Open Folder)$"
-      "size 950 600,title:^(Open Folder)$"
+      "match:title Open Folder, float"
+      "match:title Open Folder, center"
+      "match:title Open Folder, size 950 600"
 
-      "float,title:^(Open File)$"
-      "center,title:^(Open File)$"
-      "size 950 600,title:^(Open File)$"
+      "match:title Open File, float"
+      "match:title Open File, center"
+      "match:title Open File, size 950 600"
 
-      "float,title:^(Open Files)$"
-      "center,title:^(Open Files)$"
-      "size 950 600,title:^(Open Files)$"
+      "match:title Open Files, float"
+      "match:title Open Files, center"
+      "match:title Open Files, size 950 600"
 
       # Decreases opacity
-      "opacity 0.9,class:^(codium)$"
-      "opacity 0.9,class:^(vivaldi-stable)$"
-      "opacity 0.99,title:^(.*YouTube.*)$"
-      "opacity 0.99,title:^(.*Last.fm.*)$"
-      "opacity 0.99,title:^(.*Movie.*)$"
-      "opacity 0.75,class:^(nemo)$"
+      "match:class codium, opacity 0.9"
+      "match:class vivaldi-stable, opacity 0.9"
+      "match:title .*(YouTube|Last.fm|Movie).*, opacity 0.99"
+      "match:class nemo, opacity 0.75"
     ];
 
     windowrulev2 = [
 
-      "float, title:^(.*SableUI.*)$"
-      "pin, title:^(.*SableUI.*)$"              # Pin to all workspaces
-      "noborder, title:^(.*SableUI.*)$"         # No border
-      "noblur, title:^(.*SableUI.*)$"           # No blur effects
-      "noshadow, title:^(.*SableUI.*)$"         # No shadow
-      "noanim, title:^(.*SableUI.*)$"           # No animations
-      # "nofocus, title:^(.*SableUI.*)$"          # Don't steal focus from other windows
-      "noinitialfocus, title:^(.*SableUI.*)$"   # Don't focus on spawn
-
-      # Position at top of screen with 40px height and full width
-      "move 0 0, title:^(.*SableUI.*)$"
+      "match:title .*SableUI.*, float"
+      "match:title .*SableUI.*, pin"              # Pin to all workspaces
+      "match:title .*SableUI.*, noborder"         # No border
+      "match:title .*SableUI.*, noblur"           # No blur effect
+      "match:title .*SableUI.*, noshadow"         # No shadow
+      "match:title .*SableUI.*, noanim"           # No animations
+      "match:title .*SableUI.*, noinitialfocus"   # Don't focus on start
+      "match:title .*SableUI.*, move 0 0"         # Position at top of screen with 40px height and full width
       
-      "float, title:^(.*Physics Simulation.*)$"
+      "float, match:title .*Physics Simulation.*"
 
       # Stops screen sleep on idle
-      "idleinhibit focus,class:^(mpv)$"
-      "idleinhibit focus,class:^(vlc)$"
-      "idleinhibit focus,title:^(.*YouTube.*)$"
-      "idleinhibit focus,title:^(.*Syncthing.*)$"
-      "idleinhibit focus,title:^(.*LEARN.*)$"
-      "idleinhibit focus,title:^(.*Tutorial.*)$"
-      "idleinhibit focus,title:^(.*Lab Report.*)$"
-      "idleinhibit focus,title:^(.*homework.*)$"
-      "idleinhibit focus,title:^(Grayjay)$"
-      "idleinhibit focus,title:^(cava)$"
+      "match:class mpv, idleinhibit focus"
+      "match:class vlc, idleinhibit focus"
+      "match:title .*YouTube.*, idleinhibit focus"
+      "match:title .*Syncthing.*, idleinhibit focus"
+      "match:title .*LEARN.*, idleinhibit focus"
+      "match:title .*Tutorial.*, idleinhibit focus"
+      "match:title .*Lab Report.*, idleinhibit focus"
+      "match:title .*homework.*, idleinhibit focus"
+      "match:title Grayjay, idleinhibit focus"
+      "match:title cava, idleinhibit focus"
       /*
 
-      "float,class:^(imv)$"
-      "center,class:^(imv)$"
-      "size 1200 725,class:^(imv)$"
+      "float,match:class imv, "
+      "center,match:class imv, "
+      "size 1200 725,match:class imv, "
 
-      "float,class:^(mpv)$"
-      "center,class:^(mpv)$"
-      "size 1200 725,class:^(mpv)$"
+      "float,match:class mpv, "
+      "center,match:class mpv, "
+      "size 1200 725,match:class mpv, "
 
-      "float,title:^(Open Folder)$"
-      "center,title:^(Open Folder)$"
-      "size 950 600,title:^(Open Folder)$"
+      "float,match:title Open Folder"
+      "center,match:title Open Folder"
+      "size 950 600,match:title Open Folder"
 
-      "float,title:^(Open File)$"
-      "center,title:^(Open File)$"
-      "size 950 600,title:^(Open File)$"
+      "float,match:title Open File"
+      "center,match:title Open File"
+      "size 950 600,match:title Open File"
 
       # Floating
-      "float,title:^(OpenRGB)$"
-      "float,class:^(pavucontrol)$"
-      "float,class:^(SoundWireServer)$"
-      "float,class:^(.sameboy-wrapped)$"
-      "float,class:^(file_progress)$"
-      "float,class:^(confirm)$"
-      "float,class:^(dialog)$"
-      "float,class:^(download)$"
-      "float,class:^(notification)$"
-      "float,class:^(error)$"
-      "float,class:^(confirmreset)$"
-      "float,title:^(Open File)$"
-      "float,title:^(branchdialog)$"
-      "float,title:^(Confirm to replace files)$"
-      "float,title:^(File Operation Progress)$"
+      "float,match:title OpenRGB"
+      "float,match:class pavucontrol, "
+      "float,match:class SoundWireServer, "
+      "float,match:class .sameboy-wrapped, "
+      "float,match:class file_progress, "
+      "float,match:class confirm, "
+      "float,match:class dialog, "
+      "float,match:class download, "
+      "float,match:class notification, "
+      "float,match:class error, "
+      "float,match:class confirmreset, "
+      "float,match:title Open File"
+      "float,match:title branchdialog"
+      "float,match:title Confirm to replace files"
+      "float,match:title File Operation Progress"
 
       # Force tiling
-      "tile,title:^(.*[foobar2000].*)$"
+      "tile,match:title .*[foobar2000].*"
       # Grayjay - since initialTitle is EMPTY, we need a workaround
       # Try matching on xwayland:1 with NO title/class filters
       "tile,xwayland:1,floating:1" # This forces any xwayland floating window to tile
 
       # For use with future astal/sableui projects
-      # "float,title:^(gemini-ui)$"
-      # "move 100%-0%,title:^(gemini-ui)$"
-      # "size 500 750,title:^(gemini-ui)$"
-      # "pin,title:^(gemini-ui)$"
+      # "float,match:title gemini-ui"
+      # "move 100%-0%,match:title gemini-ui"
+      # "size 500 750,match:title gemini-ui"
+      # "pin,match:title gemini-ui"
 
       # Decreases opacity (dubious)
-      "opacity 0.9,class:^(codium)$"
-      "opacity 0.9,class:^(vivaldi-stable)$"
-      "opacity 0.99,title:^(.*YouTube.*)$"
-      "opacity 0.75,class:^(nemo)$"
+      "opacity 0.9,match:class codium, "
+      "opacity 0.9,match:class vivaldi-stable, "
+      "opacity 0.99,match:title .*YouTube.*"
+      "opacity 0.75,match:class nemo, "
 
       # Stops screen sleep on idle
-      "idleinhibit focus,class:^(mpv)$"
-      "idleinhibit focus,class:^(vlc)$"
-      "idleinhibit focus,class:^(steam_proton)$"
-      "idleinhibit focus,title:^(.*YouTube.*)$"
-      "idleinhibit focus,title:^(Grayjay)$"
+      "idleinhibit focus,match:class mpv, "
+      "idleinhibit focus,match:class vlc, "
+      "idleinhibit focus,match:class steam_proton, "
+      "idleinhibit focus,match:title .*YouTube.*"
+      "idleinhibit focus,match:title Grayjay"
       */
     ]; 
 
@@ -140,24 +135,24 @@
       "workspace 8 silent, audacious"
       "tile, neovide"
       "float,udiskie"
-      "float,title:^(Transmission)$"
-      "float,title:^(Volume Control)$"
-      "size 700 450,title:^(Volume Control)$"
-      "move 40 55%,title:^(Volume Control)$"
+      "float,match:title Transmission"
+      "float,match:title Volume Control"
+      "size 700 450,match:title Volume Control"
+      "move 40 55%,match:title Volume Control"
       
     ]; */
 
     # windowrulev2
     /* windowrulev2 = [
-      "float, title:^(Picture-in-Picture)$"
-      "opacity 1.0 override 1.0 override, title:^(Picture-in-Picture)$"
-      "pin, title:^(Picture-in-Picture)$"
-      "opacity 1.0 override 1.0 override, title:^(.*imv.*)$"
-      "opacity 1.0 override 1.0 override, title:^(.*mpv.*)$"
+      "float, match:title Picture-in-Picture"
+      "opacity 1.0 override 1.0 override, match:title Picture-in-Picture"
+      "pin, match:title Picture-in-Picture"
+      "opacity 1.0 override 1.0 override, match:title .*imv.*"
+      "opacity 1.0 override 1.0 override, match:title .*mpv.*"
       "opacity 1.0 override 1.0 override, class:(Aseprite)"
       "opacity 1.0 override 1.0 override, class:(Unity)"
-      "idleinhibit focus, class:^(mpv)$"
-      "idleinhibit fullscreen, class:^(firefox)$"
+      "idleinhibit focus, match:class mpv, "
+      "idleinhibit fullscreen, match:class firefox, "
     ]; */
 
     layerrule = [

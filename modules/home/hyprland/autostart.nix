@@ -44,6 +44,7 @@
 
     ] else if (host == "laptop") then [
       "poweralertd"
+      "wvkbd-mobintl"
     ] else [                                              
     ]);
 
