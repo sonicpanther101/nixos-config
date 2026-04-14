@@ -45,11 +45,15 @@ git clone https://www.github.com/sonicpanther101/nixos-config
 ```bash
 cp /etc/nixos/hardware-configuration.nix ~/nixos-config/hosts/<host>/
 ```
-5. Rebuild system: 
+5. Allow modifications to .config folder:
+```bash
+sudo chown -R $USER ~/.config
+```
+6. Rebuild system: 
 ```bash
 sudo nixos-rebuild switch --flake ./nixos-config#<host>
 ```
-6. Reboot: 
+7. Reboot: 
 ```bash
 reboot
 ```
