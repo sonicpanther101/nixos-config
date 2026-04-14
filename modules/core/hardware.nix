@@ -70,9 +70,9 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-  } else {
+  } else if (host == "laptop") then {
     microsoft-surface.kernelVersion = "stable";
-  });
+  } else {});
 
   environment = {
     
