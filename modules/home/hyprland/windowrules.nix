@@ -2,35 +2,35 @@
   wayland.windowManager.hyprland.settings = {
 
     windowrule = [
-      "match:title float_kitty, float"
-      "match:title float_kitty, center"
+      "match:title float_kitty, float on"
+      "match:title float_kitty, center on"
       "match:title float_kitty, size 950 600"
 
-      "match:class float_nemo, float"
-      "match:class float_nemo, center"
+      "match:class float_nemo, float on"
+      "match:class float_nemo, center on"
       "match:class float_nemo, size 950 600"
 
-      "match:class imv, float"
-      "match:class imv, center"
+      "match:class imv, float on"
+      "match:class imv, center on"
       "match:class imv, size 1200 725"
 
-      "match:class mpv, float"
-      "match:class mpv, center"
+      "match:class mpv, float on"
+      "match:class mpv, center on"
       "match:class mpv, size 1200 725"
 
-      "match:title OpenRGB, float"
+      "match:title OpenRGB, float on"
       "match:title Grayjay, tile"
 
-      "match:title Open Folder, float"
-      "match:title Open Folder, center"
+      "match:title Open Folder, float on"
+      "match:title Open Folder, center on"
       "match:title Open Folder, size 950 600"
 
-      "match:title Open File, float"
-      "match:title Open File, center"
+      "match:title Open File, float on"
+      "match:title Open File, center on"
       "match:title Open File, size 950 600"
 
-      "match:title Open Files, float"
-      "match:title Open Files, center"
+      "match:title Open Files, float on"
+      "match:title Open Files, center on"
       "match:title Open Files, size 950 600"
 
       # Decreases opacity
@@ -42,13 +42,13 @@
 
     windowrulev2 = [
 
-      "match:title .*SableUI.*, float"
-      "match:title .*SableUI.*, pin"              # Pin to all workspaces
-      "match:title .*SableUI.*, noborder"         # No border
-      "match:title .*SableUI.*, noblur"           # No blur effect
-      "match:title .*SableUI.*, noshadow"         # No shadow
-      "match:title .*SableUI.*, noanim"           # No animations
-      "match:title .*SableUI.*, noinitialfocus"   # Don't focus on start
+      "match:title .*SableUI.*, float on"
+      "match:title .*SableUI.*, pin on"              # Pin to all workspaces
+      "match:title .*SableUI.*, noborder on"         # No border
+      "match:title .*SableUI.*, noblur on"           # No blur effect
+      "match:title .*SableUI.*, noshadow on"         # No shadow
+      "match:title .*SableUI.*, noanim on"           # No animations
+      "match:title .*SableUI.*, noinitialfocus on"   # Don't focus on start
       "match:title .*SableUI.*, move 0 0"         # Position at top of screen with 40px height and full width
       
       "float, match:title .*Physics Simulation.*"
