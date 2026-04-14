@@ -15,9 +15,8 @@
           (if (host == "desktop") then "cava" else "")
           "wireplumber"
           "tray"
-          "idle_inhibitor"
           "backlight"
-          (if (host == "laptop") then "battery" else "")
+          (if (host != "desktop") then "battery" else "")
           (if (host != "desktop") then "custom/keyboard" else "")
         ] ++ (lib.filter (x: x != "") [ ]);
 
@@ -26,7 +25,7 @@
             warning = 50;
             critical = 25;
           };
-          format = "{capacity}%";
+          format = "{icon} {capacity}%";
           format-charging = " {icon}  {capacity}%";
           format-full = " {icon}  {capacity}%";
           format-time = "{H}h{M}m";
