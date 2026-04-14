@@ -3,13 +3,6 @@
     enable = true;
 
     settings = {
-      general = {
-        # lock_cmd = "swaylock";
-
-        # before_sleep_cmd = "swaylock";
-        # after_sleep_cmd = "hyprctl dispatch dpms on";
-      };
-
       listener = [
         {
           timeout = 60;
@@ -17,10 +10,10 @@
 
           on-resume = "hyprctl dispatch dpms on";
         }
-      ] ++ (if (host == "laptop") then [
+      ] ++ (if (host != "desktop") then [
         {
           timeout = 600;
-          on-timeout = "pidof swaylock || swaylock";
+          on-timeout = "pidof swaylock || swaylock --daemonize";
         }
         {
           timeout = 1800;
