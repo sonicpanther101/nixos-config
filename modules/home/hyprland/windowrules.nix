@@ -41,26 +41,26 @@
 
       "match:title .*SableUI.*, float on"
       "match:title .*SableUI.*, pin on"              # Pin to all workspaces
-      "match:title .*SableUI.*, no_border on"         # No border
-      "match:title .*SableUI.*, no_blur on"           # No blur effect
-      "match:title .*SableUI.*, no_shadow on"         # No shadow
-      "match:title .*SableUI.*, no_anim on"           # No animations
-      "match:title .*SableUI.*, no_initial_focus on"   # Don't focus on start
-      "match:title .*SableUI.*, move 0 0"         # Position at top of screen with 40px height and full width
+      "match:title .*SableUI.*, border_size 0"       # No border
+      "match:title .*SableUI.*, no_blur on"          # No blur effect
+      "match:title .*SableUI.*, no_shadow on"        # No shadow
+      "match:title .*SableUI.*, no_anim on"          # No animations
+      "match:title .*SableUI.*, no_initial_focus on" # Don't focus on start
+      "match:title .*SableUI.*, move 0 0"            # Position at top of screen with 40px height and full width
       
       "float, match:title .*Physics Simulation.*"
 
       # Stops screen sleep on idle
-      "match:class mpv, idleinhibit focus"
-      "match:class vlc, idleinhibit focus"
-      "match:title .*YouTube.*, idleinhibit focus"
-      "match:title .*Syncthing.*, idleinhibit focus"
-      "match:title .*LEARN.*, idleinhibit focus"
-      "match:title .*Tutorial.*, idleinhibit focus"
-      "match:title .*Lab Report.*, idleinhibit focus"
-      "match:title .*homework.*, idleinhibit focus"
-      "match:title Grayjay, idleinhibit focus"
-      "match:title cava, idleinhibit focus"
+      "match:class mpv, idle_inhibit focus"
+      "match:class vlc, idle_inhibit focus"
+      "match:title .*YouTube.*, idle_inhibit focus"
+      "match:title .*Syncthing.*, idle_inhibit focus"
+      "match:title .*LEARN.*, idle_inhibit focus"
+      "match:title .*Tutorial.*, idle_inhibit focus"
+      "match:title .*Lab Report.*, idle_inhibit focus"
+      "match:title .*homework.*, idle_inhibit focus"
+      "match:title Grayjay, idle_inhibit focus"
+      "match:title cava, idle_inhibit focus"
       
       /*
 
@@ -116,11 +116,11 @@
       "opacity 0.75,match:class nemo, "
 
       # Stops screen sleep on idle
-      "idleinhibit focus,match:class mpv, "
-      "idleinhibit focus,match:class vlc, "
-      "idleinhibit focus,match:class steam_proton, "
-      "idleinhibit focus,match:title .*YouTube.*"
-      "idleinhibit focus,match:title Grayjay"
+      "idle_inhibit focus,match:class mpv, "
+      "idle_inhibit focus,match:class vlc, "
+      "idle_inhibit focus,match:class steam_proton, "
+      "idle_inhibit focus,match:title .*YouTube.*"
+      "idle_inhibit focus,match:title Grayjay"
       */
     ]; 
 
@@ -149,8 +149,8 @@
       "opacity 1.0 override 1.0 override, match:title .*mpv.*"
       "opacity 1.0 override 1.0 override, class:(Aseprite)"
       "opacity 1.0 override 1.0 override, class:(Unity)"
-      "idleinhibit focus, match:class mpv, "
-      "idleinhibit fullscreen, match:class firefox, "
+      "idle_inhibit focus, match:class mpv, "
+      "idle_inhibit fullscreen, match:class firefox, "
     ]; */
 
     layerrule = [
