@@ -42,9 +42,8 @@
 
       "imv ~/Pictures/system/Study\ times.png"
 
-    ] else if (host == "laptop") then [
+    ] else if (host != "desktop") then [
       "poweralertd"
-      "wvkbd-mobintl"
     ] else [                                              
     ]);
 
