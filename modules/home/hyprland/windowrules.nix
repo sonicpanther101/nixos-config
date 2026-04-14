@@ -48,7 +48,7 @@
       "match:title .*SableUI.*, no_initial_focus on" # Don't focus on start
       "match:title .*SableUI.*, move 0 0"            # Position at top of screen with 40px height and full width
       
-      "float, match:title .*Physics Simulation.*"
+      "match:title .*Physics Simulation.*, float on"
 
       # Stops screen sleep on idle
       "match:class mpv, idle_inhibit focus"
