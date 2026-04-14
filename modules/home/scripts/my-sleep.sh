@@ -9,7 +9,9 @@ pidof swaylock || swaylock               # Display lockscreen on wakeup
 
 if [[ $host == "desktop" ]]; then       
     openrgb --mode direct --color 000000 # Turn all RGB off if started on boot
-fi                 
+else
+    pidof wvkbd-mobintl || wvkbd-mobintl & # Start OSK on non-desktop hosts
+fi                  
 
 imv ~/Pictures/system/Study\ times.png   # Open study schedule
 

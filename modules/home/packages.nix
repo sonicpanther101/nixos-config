@@ -112,8 +112,8 @@
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
-  ]) else if (host == "laptop") then (with pkgs-stable; [
+  ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
-  ]) else [
-  ]);
+    wvkbd                                                 # Laptop touch keyboard
+  ]));
 }

@@ -159,5 +159,9 @@
       "idleinhibit focus, class:^(mpv)$"
       "idleinhibit fullscreen, class:^(firefox)$"
     ]; */
+
+    layerrule = [
+      "above_lock 2, match:namespace wvkbd"
+    ];
  };
 }
