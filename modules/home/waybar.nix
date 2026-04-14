@@ -16,6 +16,7 @@
           "wireplumber"
           "tray"
           "backlight"
+          "idle_inhibitor"
           (if (host != "desktop") then "battery" else "")
           (if (host != "desktop") then "custom/keyboard" else "")
         ] ++ (lib.filter (x: x != "") [ ]);
@@ -25,7 +26,7 @@
             warning = 50;
             critical = 25;
           };
-          format = "{icon} {capacity}%";
+          format = "{icon}  {capacity}%";
           format-charging = " {icon}  {capacity}%";
           format-full = " {icon}  {capacity}%";
           format-time = "{H}h{M}m";
@@ -131,8 +132,8 @@
         idle_inhibitor = {
           format = "{icon}";
           format-icons = {
-            activated = "";
-            deactivated = "";
+            activated = "◉";
+            deactivated = "○";
           };
           tooltip = false;
         };
@@ -147,7 +148,7 @@
     * {
         border:        none;
         border-radius: 0;
-        font-family:   Sans;
+        font-family:   Sans, "JetBrainsMono Nerd Font", "Symbols Nerd Font";
         font-size:     15px;
         box-shadow:    none;
         text-shadow:   none;
