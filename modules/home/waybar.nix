@@ -18,6 +18,7 @@
           "idle_inhibitor"
           "backlight"
           (if (host == "laptop") then "battery" else "")
+          (if (host != "desktop") then "custom/keyboard" else "")
         ] ++ (lib.filter (x: x != "") [ ]);
 
         battery = {
@@ -46,6 +47,18 @@
           } else {
             "*" = 5;
           };
+        };
+
+        "custom/keyboard" = lib.mkIf (host != "desktop") {
+          format = "⌨";
+          tooltip = false;
+          on-click = ''
+            if pgrep -x wvkbd-mobintl > /dev/null; then
+              pkill wvkbd-mobintl
+            else
+              wvkbd-mobintl -L 200 &
+            fi
+          '';
         };
 
         mpris = {
@@ -206,6 +219,11 @@
 
     #custom-storage.critical {
         color:      #f38ba8;
+    }
+
+    #custom-keyboard {
+        margin: 0px 6px 0px 10px;
+        min-width: 25px;
     }
 
     #tray {
