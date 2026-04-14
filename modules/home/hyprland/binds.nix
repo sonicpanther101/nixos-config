@@ -36,7 +36,7 @@
       "SUPER, F, fullscreen, 0"
       "SUPER, Space, togglefloating,"
       "SUPER, P, pseudo,"
-      "SUPER, J, togglesplit,"
+      "SUPER, J, layoutmsg, togglesplit"
       "ALT, Tab, cyclenext"
       "ALT, Tab, bringactivetotop"
       "ALT SHIFT, Tab, cyclenext, prev"
