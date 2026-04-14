@@ -19,7 +19,7 @@
       "match:class mpv, size 1200 725"
 
       "match:title OpenRGB, float on"
-      "match:title Grayjay, tile"
+      "match:title Grayjay, tile on"
 
       "match:title Open Folder, float on"
       "match:title Open Folder, center on"
@@ -41,11 +41,11 @@
 
       "match:title .*SableUI.*, float on"
       "match:title .*SableUI.*, pin on"              # Pin to all workspaces
-      "match:title .*SableUI.*, noborder on"         # No border
-      "match:title .*SableUI.*, noblur on"           # No blur effect
-      "match:title .*SableUI.*, noshadow on"         # No shadow
-      "match:title .*SableUI.*, noanim on"           # No animations
-      "match:title .*SableUI.*, noinitialfocus on"   # Don't focus on start
+      "match:title .*SableUI.*, no_border on"         # No border
+      "match:title .*SableUI.*, no_blur on"           # No blur effect
+      "match:title .*SableUI.*, no_shadow on"         # No shadow
+      "match:title .*SableUI.*, no_anim on"           # No animations
+      "match:title .*SableUI.*, no_initial_focus on"   # Don't focus on start
       "match:title .*SableUI.*, move 0 0"         # Position at top of screen with 40px height and full width
       
       "float, match:title .*Physics Simulation.*"
