@@ -153,8 +153,11 @@
       "idle_inhibit fullscreen, match:class firefox, "
     ]; */
 
+    # hyprctl layers to see namespace
+    # 2 means interactible, 1 means visible
     layerrule = [
       "above_lock 2, match:namespace wvkbd"
+      "above_lock 2, match:namespace waybar"
     ];
  };
 }
