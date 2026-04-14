@@ -66,7 +66,7 @@
           inputs.stylix.nixosModules.stylix
         ];
         specialArgs = {
-          host="desktop";
+          host = "desktop";
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
@@ -78,9 +78,20 @@
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
-          host="laptop";
+          host = "laptop";
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
+      };
+      laptop-2 = nixpkgs-unstable.lib.nixosSystem {
+      	inherit system;
+	modules = [
+	  ./hosts/laptop-2
+	  inputs.stylix.nixosModules.stylix
+	];
+	specialArgs = {
+	  host = "laptop-2";
+	  inherit self inputs username pkgs-stable pkgs-unstable;
+	};
       };
     };
   };
