@@ -12,5 +12,6 @@ in {
     "my-refresh"
     "focus-move"
     "maxfetch"
+    "syncthing-usb"
   ];
 }

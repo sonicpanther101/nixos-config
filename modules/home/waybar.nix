@@ -187,7 +187,7 @@
         color:      #f38ba8;
     }
 
-    #mode, #battery, #cpu, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #custom-weather, #custom-mail {
+    #mode, #battery, #cpu, #memory, #network, #pulseaudio, #backlight, #custom-storage, #custom-weather, #custom-mail {
         margin:     0px 6px 0px 10px;
         min-width:  25px;
     }
