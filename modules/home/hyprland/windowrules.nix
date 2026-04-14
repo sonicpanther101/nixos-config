@@ -38,9 +38,6 @@
       "match:class vivaldi-stable, opacity 0.9"
       "match:title .*(YouTube|Last.fm|Movie).*, opacity 0.99"
       "match:class nemo, opacity 0.75"
-    ];
-
-    windowrulev2 = [
 
       "match:title .*SableUI.*, float on"
       "match:title .*SableUI.*, pin on"              # Pin to all workspaces
@@ -64,6 +61,7 @@
       "match:title .*homework.*, idleinhibit focus"
       "match:title Grayjay, idleinhibit focus"
       "match:title cava, idleinhibit focus"
+      
       /*
 
       "float,match:class imv, "
