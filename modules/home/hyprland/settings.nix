@@ -138,7 +138,7 @@
       monitor = if (host == "desktop") then [
         "DP-1,2560x1440@170,0x0,1.3333"
         "HDMI-A-1,1920x1080@100,1921x0,1"
-      ] else [",preferred,auto,1.9"];
+      ] else [",preferred,auto,2"];
 
       xwayland.force_zero_scaling = true;
     };
