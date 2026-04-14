@@ -115,5 +115,6 @@
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     wvkbd                                                 # Laptop touch keyboard
+    poweralertd                                           # UPower-powered power alerter
   ]));
 }
