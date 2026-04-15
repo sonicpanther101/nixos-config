@@ -13,7 +13,7 @@
       ] ++ (if (host != "desktop") then [
         {
           timeout = 600;
-          on-timeout = "pidof swaylock || swaylock --daemonize";
+          on-timeout = "pidof swaylock || swaylock";
         }
         {
           timeout = 1800;
