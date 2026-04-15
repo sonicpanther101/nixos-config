@@ -30,6 +30,8 @@
         enable = true;
         accent = "blue";
         flavor = "mocha";
+
+        hyprlock.enable = false;
       };
 
       programs.home-manager.enable = true;

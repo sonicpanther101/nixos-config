@@ -10,6 +10,5 @@
     ./git.nix
     ./defaultapps.nix
     ./variables.nix
-    ./hyprlock.nix
   ];
 }
