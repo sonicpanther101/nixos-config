@@ -63,6 +63,7 @@
       vscode.enable = false;
       # hyprland.enable = false;
       qt.enable = false;
+      hyprlock.enable = false;
     };
   };
 }
