@@ -1,20 +1,22 @@
-{ pkgs-stable, config, ... } : {
+{ pkgs-unstable, ... } : {
   programs.swaylock = {
     enable = true;
-    package = pkgs-stable.swaylock-effects;
+    package = pkgs-unstable.swaylock;
+
     settings = {
       clock = true;
       timestr = "%l:%M %p";
       datestr = "%d/%m/%y";
+
       screenshots = true;
-      
+
       indicator = true;
       indicator-radius = 125;
       indicator-thickness = 10;
-      
-      effect-blur = "7x5";
-      effect-vignette = "0.5:0.5";
-      effect-pixelate = 5;
+
+      # optional nice additions
+      fade-in = 0.3;
+      grace = 2;
     };
   };
 }
