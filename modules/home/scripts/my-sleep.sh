@@ -6,11 +6,9 @@ fi
 
 playerctl pause                          # Pause all media
 
-pidof swaylock || swaylock               # Display lockscreen on wakeup
-
-sleep 0.5
-
 pkill hypridle && systemctl suspend      # Put to sleep
+
+pidof swaylock || swaylock               # Display lockscreen on wakeup
 
 if [[ $host == "desktop" ]]; then       
     openrgb --mode direct --color 000000 # Turn all RGB off if started on boot
