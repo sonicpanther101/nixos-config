@@ -1,7 +1,7 @@
 { ... } : {
   security = {
     rtkit.enable = true;
-    pam.services.swaylock = {
+    pam.services.hyprlock = {
       enable = true;
     };
     polkit.enable = true;

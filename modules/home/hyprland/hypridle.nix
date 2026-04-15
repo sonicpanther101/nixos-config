@@ -13,7 +13,7 @@
       ] ++ (if (host != "desktop") then [
         {
           timeout = 600;
-          on-timeout = "pidof swaylock || swaylock";
+          on-timeout = "pidof hyprlock || hyprlock";
         }
         {
           timeout = 1800;
