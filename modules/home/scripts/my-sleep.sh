@@ -6,7 +6,7 @@ fi
 
 playerctl pause                          # Pause all media
 
-pidof swaylock || swaylock --daemonize   # Display lockscreen on wakeup
+pidof swaylock || swaylock               # Display lockscreen on wakeup
 
 sleep 0.5
 

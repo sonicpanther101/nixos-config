@@ -16,7 +16,7 @@
       # Set startup apps
       "hyprsunset"
       "nm-applet"
-      "pidof swaylock || swaylock --daemonize"
+      "pidof swaylock || swaylock"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
