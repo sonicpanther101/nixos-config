@@ -10,7 +10,7 @@
         useOSProber = if (host == "laptop-2") then true else false;
         memtest86.enable = true;
         timeout = 5;
-        timeoutStyle = "menu";
+        timeoutStyle = if (host == "laptop-2") then "hidden" else "menu";
       };
     };
 
