@@ -9,12 +9,23 @@
         ignore_empty_input = true;
       };
 
-      background = [{
-        monitor = "";
-        color = "rgba(30, 30, 46, 1.0)";
-        blur_passes = 0;
-        blur_size = 0;
-      }];
+       animations = {
+        enabled = true;
+        fade_in = {
+          duration = 300;
+          bezier = "easeOutQuint";
+        };
+        fade_out = {
+          duration = 300;
+          bezier = "easeOutQuint";
+        };
+      };
+
+      background = {
+        path = "screenshot";
+        blur_passes = 3;
+        blur_size = 8;
+      };
 
       input-field = {
         size = "0, 0";
