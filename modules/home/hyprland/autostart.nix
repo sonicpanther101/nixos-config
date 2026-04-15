@@ -44,7 +44,6 @@
 
     ] else if (host != "desktop") then [
       "poweralertd"
-      "/run/current-system/sw/libexec/polkit-gnome-authentication-agent-1"
     ] else [                                              
     ]);
 
