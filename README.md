@@ -93,6 +93,9 @@ my-install
 
 ### Errors
 
+- Break bootloader:
+Boot into live usb nixos. Mount main partition to /mnt and bootloader to /mnt/boot, then use nixos-enter. Make fixes to config. Run ```nixos-rebuild boot --flake ./nixos-config#<host> --install-bootloader```
+
 - Files already in place home manager wants to control
 ```
 warning: the following units failed: home-manager-adam.service
