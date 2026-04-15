@@ -33,6 +33,10 @@
       "match:title Open Files, center on"
       "match:title Open Files, size 950 600"
 
+      "match:title Save File, float on"
+      "match:title Save File, center on"
+      "match:title Save File, size 950 600"
+
       # Decreases opacity
       "match:class codium, opacity 0.9"
       "match:class vivaldi-stable, opacity 0.9"
