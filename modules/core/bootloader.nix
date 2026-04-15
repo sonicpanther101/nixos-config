@@ -3,20 +3,14 @@
   boot = {
     loader = {
       efi.canTouchEfiVariables = true;
+      timeout = 5;
       grub = {
         enable = true;
         devices = [ "nodev" ];
         efiSupport = true;
         useOSProber = if (host == "laptop-2") then true else false;
         memtest86.enable = true;
-        timeout = 5;
-        timeoutStyle = if (host == "laptop-2") then "hidden" else "menu";
-      };
-    } // lib.optionalAttrs (host == "laptop-2") {
-      grub.enable = false;
-
-      refind = {
-        enable = true;
+        timeoutStyle = if (host == "laptop-2") then "menu" else "hidden";
       };
     };
 
