@@ -106,7 +106,7 @@
         };
         
         clock = {
-          format = "{:%a %d %b %I:%M%p}";
+          format = "{:%a %d %b %l:%M %p}";
           tooltip = false;
         };
         
