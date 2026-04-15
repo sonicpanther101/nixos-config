@@ -80,6 +80,8 @@
         };
       };
     };
+
+    input-remapper.enable = true;
     
   } else if (host == "desktop") then {
     # nvidia
