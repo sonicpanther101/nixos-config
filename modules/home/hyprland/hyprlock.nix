@@ -32,7 +32,7 @@
       label = [{
         # TIME
         monitor = "";
-        text = "$TIME12"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
+        text = "cmd[update:1000] date +'%l:%M %p'";
         font_size = 65;
         font_family = "$font";
         font_color = "rgb(205, 214, 244)";
@@ -42,7 +42,7 @@
       } {
         # DATE
         monitor = "";
-        text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
+        text = "cmd[update:60000] date +'%A, %d %B %Y'"; # update every 60 seconds
         font_size = 25;
         font_family = "$font";
         font_color = "rgb(205, 214, 244)";
