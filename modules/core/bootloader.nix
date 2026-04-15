@@ -1,4 +1,4 @@
-{ inputs, host, config, ... }:{
+{ inputs, host, config, lib, ... }:{
 
   boot = {
     loader = {
@@ -11,6 +11,12 @@
         memtest86.enable = true;
         timeout = 5;
         timeoutStyle = if (host == "laptop-2") then "hidden" else "menu";
+      };
+    } // lib.optionalAttrs (host == "laptop-2") {
+      grub.enable = false;
+
+      refind = {
+        enable = true;
       };
     };
 

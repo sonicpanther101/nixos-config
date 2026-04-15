@@ -42,7 +42,7 @@
       } {
         # DATE
         monitor = "";
-        text = "cmd[update:60000] date +'%A, %d %B %Y'"; # update every 60 seconds
+        text = "cmd[update:60000] date +'%A, %e %B %Y'"; # update every 60 seconds
         font_size = 25;
         font_family = "$font";
         font_color = "rgb(205, 214, 244)";

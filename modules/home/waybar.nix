@@ -9,7 +9,7 @@
         height = 30;
 
         modules-left = ["hyprland/workspaces"];
-        modules-center = [ "clock" ];
+        modules-center = [ "custom/clock" ];
         modules-right = [
           "mpris"
           (if (host == "desktop") then "cava" else "")
@@ -105,9 +105,9 @@
           };
         };
         
-        clock = {
-          format = "{:%a %d %b %l:%M %p}";
-          tooltip = false;
+        "custom/clock" = {
+          exec = "date '+%I:%M %p' | sed 's/^0//'";
+          interval = 60;
         };
         
         network = {
