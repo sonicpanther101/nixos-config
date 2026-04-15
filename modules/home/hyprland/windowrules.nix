@@ -29,6 +29,10 @@
       "match:title Open File, center on"
       "match:title Open File, size 950 600"
 
+      "match:title Open file, float on"
+      "match:title Open file, center on"
+      "match:title Open file, size 950 600"
+
       "match:title Open Files, float on"
       "match:title Open Files, center on"
       "match:title Open Files, size 950 600"
