@@ -8,8 +8,6 @@
       timestr = "%l:%M %p";
       datestr = "%d/%m/%y";
 
-      screenshots = true;
-
       indicator = true;
       indicator-radius = 125;
       indicator-thickness = 10;

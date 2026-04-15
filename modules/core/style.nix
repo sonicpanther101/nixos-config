@@ -63,7 +63,6 @@
       vscode.enable = false;
       # hyprland.enable = false;
       qt.enable = false;
-      swaylock.enable = false;
     };
   };
 }
