@@ -9,18 +9,6 @@
         ignore_empty_input = true;
       };
 
-       animations = {
-        enabled = true;
-        fade_in = {
-          duration = 300;
-          bezier = "easeOutQuint";
-        };
-        fade_out = {
-          duration = 300;
-          bezier = "easeOutQuint";
-        };
-      };
-
       background = {
         path = "screenshot";
         blur_passes = 3;
@@ -38,6 +26,26 @@
         placeholder_text = "";
         shadow_passes = 0;
       };
+
+      label = [{
+        # TIME
+        monitor = "";
+        text = "$TIME12"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
+        font_size = 65;
+        font_family = "$font";
+
+        position = "0, -10";
+        valign = "top";
+      } {
+        # DATE
+        monitor = "";
+        text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
+        font_size = 25;
+        font_family = "$font";
+
+        position = "0, -150";
+        valign = "top";
+      }];
     };
   };
 }
