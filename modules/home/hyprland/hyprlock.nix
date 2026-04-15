@@ -21,9 +21,9 @@
         monitor = "";
         dots_center = true;
         fade_on_empty = false;
-        font_color = "rgb(202, 211, 245)";
-        inner_color = "rgb(91, 96, 120)";
-        outer_color = "rgb(24, 25, 38)";
+        font_color = "rgb(205, 214, 244)";
+        inner_color = "rgb(30, 30, 46)";
+        outer_color = "rgb(137, 180, 250)";
         outline_thickness = 4;
         placeholder_text = "Password...";
         shadow_passes = 2;
@@ -35,6 +35,7 @@
         text = "$TIME12"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
         font_size = 65;
         font_family = "$font";
+        font_color = "rgb(205, 214, 244)";
 
         position = "0, -100";
         valign = "top";
@@ -44,6 +45,7 @@
         text = "cmd[update:3600000] date +'%A, %d %B %Y'"; # update every 60 seconds
         font_size = 25;
         font_family = "$font";
+        font_color = "rgb(205, 214, 244)";
 
         position = "0, -250";
         valign = "top";
