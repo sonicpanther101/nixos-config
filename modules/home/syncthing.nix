@@ -50,6 +50,12 @@
           path = "${basePath}/Research Papers/";
           devices = sharedDevices;
         };
+
+        "Uni Notes" = {
+          id = "aenix-pe2ge";
+          path = "${basePath}/Uni Notes/";
+          devices = sharedDevices;
+        };
       };
     };
   };
