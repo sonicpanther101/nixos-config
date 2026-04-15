@@ -117,5 +117,6 @@
     wvkbd                                                 # Laptop touch keyboard
     poweralertd                                           # UPower-powered power alerter
     xournalpp                                             # Note taking and pdf annotating app
+    polkit_gnome                                          # For pen rebinding
   ]));
 }
