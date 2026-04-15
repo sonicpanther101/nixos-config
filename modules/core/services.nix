@@ -21,6 +21,20 @@
       HandlePowerKeyLongPress = "poweroff";
     };
 
+    greetd = {
+      enable = true;
+
+      settings = {
+        default_session = {
+          user = username;
+
+          command = ''
+            start-hyprland
+          '';
+        };
+      };
+    };
+
     # Configure keymap in X11
     xserver.xkb = {
       layout = "nz";
