@@ -106,7 +106,7 @@
         };
         
         "custom/clock" = {
-          exec = "date '+%I:%M %p' | sed 's/^0//'";
+          exec = "date '+%a %d %b %l:%M %p'";
           interval = 60;
         };
         
