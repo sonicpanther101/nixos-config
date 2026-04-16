@@ -8,4 +8,4 @@ elif ((day % 10 == 3 && day % 100 != 13)); then suf="rd"
 else suf="th"
 fi
 
-date +"%a $day$suf  %b %l:%M %p"
+date +"%a $day$suf %b  %l:%M%p"
