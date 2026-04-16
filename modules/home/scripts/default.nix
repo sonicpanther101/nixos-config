@@ -13,5 +13,6 @@ in {
     "focus-move"
     "maxfetch"
     "syncthing-usb"
+    "date-formatter"
   ];
 }
