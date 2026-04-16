@@ -10,7 +10,7 @@
         efiSupport = true;
         useOSProber = if (host == "laptop-2") then true else false;
         memtest86.enable = true;
-        timeoutStyle = if (host == "laptop-2") then "menu" else "hidden";
+        timeoutStyle = "menu";
       };
     };
 
