@@ -106,8 +106,9 @@
         };
         
         "custom/clock" = {
-          exec = "date '+%a %d %b %l:%M %p'";
-          interval = 60;
+          exec = "date-formatter";
+          interval = 30;
+          tooltip = false;
         };
         
         network = {
