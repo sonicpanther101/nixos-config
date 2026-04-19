@@ -110,8 +110,8 @@
         ];
       };
 
-      workspace = if (host != host) then [
-      # workspace = if (host == "desktop") then [
+      # workspace = if (host != host) then [
+      workspace = if (host == "desktop") then [
         "1,monitor:HDMI-A-1"
         "2,monitor:HDMI-A-1"
         "3,monitor:HDMI-A-1"
