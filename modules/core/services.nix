@@ -122,6 +122,8 @@
       
       # Disable bluetooth wake (might be causing "early wake event")
       ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
+    '' ++ lib.mkIf (host == "laptop-2") ''
+      ACTION=="add", SUBSYSTEM=="input", ATTRS{name}=="WCOM*", TAG+="systemd", ENV{SYSTEMD_WANTS}="hyprland-wacom-init.service"
     '';
 
     # OpenRGB
