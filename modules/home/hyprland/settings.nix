@@ -1,7 +1,12 @@
-{ host, ... } : {
+{ host, lib, ... } : {
   wayland.windowManager.hyprland = {
     
     settings = {
+
+      device = lib.optionals (host == "laptop-2") [{
+        name = "wacom-hid-4915-pen";
+        output = "eDP-1";  # verify with hyprctl monitors
+      }];
 
       binds = { scroll_event_delay = 0; };
 
