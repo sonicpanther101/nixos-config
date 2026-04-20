@@ -57,9 +57,7 @@
       "match:title .*SableUI.*, move 0 0"            # Position at top of screen with 40px height and full width
       
       "match:title .*Physics Simulation.*, float on"
-
-      "match:class xournalpp, xwayland on"
-
+      
       # Stops screen sleep on idle
       "match:class mpv, idle_inhibit focus"
       "match:class vlc, idle_inhibit focus"
