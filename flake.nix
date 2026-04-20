@@ -19,10 +19,6 @@
       url = "github:hyprwm/Hyprland";
     };
 
-    hyprland-fixed = {
-      url = "github:hyprwm/Hyprland/f56ec18";
-    };
-
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
