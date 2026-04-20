@@ -58,7 +58,7 @@
       
       "match:title .*Physics Simulation.*, float on"
 
-      "match:class xournalpp, xwayland force_allow"
+      "match:class xournalpp, xwayland on"
 
       # Stops screen sleep on idle
       "match:class mpv, idle_inhibit focus"
