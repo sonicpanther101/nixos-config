@@ -86,6 +86,7 @@
     pamixer                                               # Pulseaudio command line mixer
     helvum                                                # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
+    sox                                                   # Tone generator
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
