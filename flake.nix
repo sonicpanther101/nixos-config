@@ -66,7 +66,7 @@
         modules = [
           ./hosts/desktop
           inputs.stylix.nixosModules.stylix
-          inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-index-database.nixosModules.default
         ];
         specialArgs = {
           host = "desktop";
@@ -78,7 +78,7 @@
         modules = [
           ./hosts/laptop
           inputs.stylix.nixosModules.stylix
-          inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-index-database.nixosModules.default
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
@@ -91,7 +91,7 @@
         modules = [
           ./hosts/laptop-2
           inputs.stylix.nixosModules.stylix
-          inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-index-database.nixosModules.default
         ];
         specialArgs = {
           host = "laptop-2";
