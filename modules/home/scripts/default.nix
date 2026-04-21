@@ -14,5 +14,6 @@ in {
     "maxfetch"
     "syncthing-usb"
     "date-formatter"
+    "promodoro"
   ];
 }

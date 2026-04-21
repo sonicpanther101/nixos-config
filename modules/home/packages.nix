@@ -99,6 +99,7 @@
 
                                                           # Misc
     cmatrix                                               # Matrix simulator
+    cbonsai                                               # Bonsai generator
     neovim                                                # TUI code editor
     vim-full                                              # Basic TUI code editor with tutorial
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
