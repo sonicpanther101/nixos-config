@@ -29,6 +29,8 @@
     hyprshutdown.url = "github:hyprwm/hyprshutdown";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    
+    nix-index-database.url = "github:nix-community/nix-index-database";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
@@ -64,6 +66,7 @@
         modules = [
           ./hosts/desktop
           inputs.stylix.nixosModules.stylix
+          inputs.nix-index-database.nixosModules.nix-index
         ];
         specialArgs = {
           host = "desktop";
@@ -75,6 +78,7 @@
         modules = [
           ./hosts/laptop
           inputs.stylix.nixosModules.stylix
+          inputs.nix-index-database.nixosModules.nix-index
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
@@ -84,14 +88,15 @@
       };
       laptop-2 = nixpkgs-unstable.lib.nixosSystem {
       	inherit system;
-	modules = [
-	  ./hosts/laptop-2
-	  inputs.stylix.nixosModules.stylix
-	];
-	specialArgs = {
-	  host = "laptop-2";
-	  inherit self inputs username pkgs-stable pkgs-unstable;
-	};
+        modules = [
+          ./hosts/laptop-2
+          inputs.stylix.nixosModules.stylix
+          inputs.nix-index-database.nixosModules.nix-index
+        ];
+        specialArgs = {
+          host = "laptop-2";
+          inherit self inputs username pkgs-stable pkgs-unstable;
+        };
       };
     };
   };
