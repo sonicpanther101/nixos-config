@@ -20,50 +20,34 @@ notify() {
   fi
 }
 
-pomodoro() {
-  duration=$1
-  label="$2"
-  L=$3
-  M=$4
-  colors="$5"
+pomodoro() { 
+  duration=$1 
+  label="$2" 
+  L=$3 M=$4 
+  colors="$5" 
 
-  # Estimate timing sync
-  steps=$((L * 12))
-  t=$(awk "BEGIN {print $duration / $steps}")
+  # Estimate timing sync 
+  steps=$((L * 12)) 
+  t=$(awk "BEGIN {print $duration / $steps}") 
 
-  cbonsai -l -L "$L" -t "$t" -M "$M" -k "$colors" -m "$label" &
-  PID=$!
+  cbonsai -l -L "$L" -t "$t" -M "$M" -k "$colors" -m "$label" & 
+  PID=$! 
 
-  for ((i=duration; i>0; i--)); do
-    mins=$((i / 60))
-    secs=$((i % 60))
-    tput cup 0 60
-    printf "⏳ %02d:%02d " "$mins" "$secs"
-    sleep 1
-  done
-
-  kill $PID 2>/dev/null
-  wait $PID 2>/dev/null
+  for ((i=duration; i>0; i--)); do 
+    mins=$((i / 60)) 
+    secs=$((i % 60)) 
+    tput cup 0 60 
+    printf "⏳ %02d:%02d " "$mins" "$secs" 
+    sleep 1 
+  done 
+  
+  kill $PID 2>/dev/null 
+  wait $PID 2>/dev/null 
 }
 
 run_pomodoro() {
   cycle=1
-
-  # ☕ Break logic
-  if (( cycle % 4 == 0 )); then
-    break_time=900
-    break_label="☕ Long Break (15 min)"
-    break_colors="250,240,255,245"
-  else
-    break_time=300
-    break_label="☕ Break (5 min)"
-    break_colors="94,94,136,136"
-  fi
-
-  pomodoro "$break_time" "$break_label" 40 2 "$break_colors"
-
-  notify "Pomodoro" "Break finished ☕" break
-  
+ 
   while true; do
     # 🌸 Seasonal styles
     case $((cycle % 4)) in
@@ -76,6 +60,21 @@ run_pomodoro() {
     pomodoro 1500 "$label" 60 2 "$colors"
 
     notify "Pomodoro" "Focus finished ✔" focus
+  
+    # ☕ Break logic
+    if (( cycle % 4 == 0 )); then
+      break_time=900
+      break_label="☕ Long Break (15 min)"
+      break_colors="22,94,34,136"
+    else
+      break_time=300
+      break_label="☕ Break (5 min)"
+      break_colors="22,94,34,136"
+    fi
+
+    pomodoro "$break_time" "$break_label" 40 2 "$break_colors"
+
+    notify "Pomodoro" "Break finished ☕" break
 
     ((cycle++))
   done
