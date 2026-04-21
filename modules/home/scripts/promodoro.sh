@@ -13,10 +13,10 @@ notify() {
 
   if [ "$type" = "focus" ]; then
     play -n synth 0.18 sine 660 fade h 0.01 0.18 0.05 : \
-             synth 0.28 sine 880 fade h 0.01 0.28 0.1 gain -8 &
+             synth 0.28 sine 880 fade h 0.01 0.28 0.1 gain -8  2>/dev/null 
   else
     play -n synth 0.15 sine 880 fade h 0.01 0.15 0.05 : \
-             synth 0.25 sine 1320 fade h 0.01 0.25 0.1 gain -6 &
+             synth 0.25 sine 1320 fade h 0.01 0.25 0.1 gain -6  2>/dev/null 
   fi
 }
 
