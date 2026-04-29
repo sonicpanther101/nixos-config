@@ -99,6 +99,7 @@
     nicotine-plus                                         # Soulseek peer to peer browser frontend
 
                                                           # Misc
+    qalculate-qt                                          # Calculator app
     cmatrix                                               # Matrix simulator
     cbonsai                                               # Bonsai generator
     neovim                                                # TUI code editor
