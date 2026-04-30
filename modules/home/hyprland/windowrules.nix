@@ -2,6 +2,10 @@
   wayland.windowManager.hyprland.settings = {
 
     windowrule = [
+      "match:class Matplotlib, float on"
+      "match:class Matplotlib, center on"
+      "match:class Matplotlib, size 950 600"
+
       "match:title float_kitty, float on"
       "match:title float_kitty, center on"
       "match:title float_kitty, size 950 600"
