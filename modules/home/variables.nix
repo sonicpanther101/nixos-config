@@ -1,6 +1,8 @@
 { host, lib, ... } : {
   home.sessionVariables = {
     NIXPKGS_ALLOW_UNFREE = "1"; # Allows unfree packages
+   
+    LC_ALL = "en_NZ.UTF-8";
 
     # XDG for screen sharing
     XDG_CURRENT_DESKTOP = "Hyprland";
