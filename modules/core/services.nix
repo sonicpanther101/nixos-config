@@ -47,6 +47,9 @@
     flatpak = {
       enable = true;
     };
+    
+    # For nemo trash
+    gvfs.enable = true;
 
     # Syncthing
     syncthing = {
