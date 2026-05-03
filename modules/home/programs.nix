@@ -71,6 +71,12 @@ in {
     };
   };
 
+  # Shell extension that manages your environment
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+  
   # Screen shader
   services.hyprsunset = {
     enable = true;
