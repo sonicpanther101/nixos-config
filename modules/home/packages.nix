@@ -61,6 +61,7 @@
     ripgrep                                               # Grep replacement
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
+    direnv                                                # Shell extension that manages your environment
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
