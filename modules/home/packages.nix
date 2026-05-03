@@ -110,6 +110,7 @@
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
     python314                                             # Latest release of python
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
+    anki-bin                                              # Flashcards app
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
     stremio                                               # Movie Streaming
