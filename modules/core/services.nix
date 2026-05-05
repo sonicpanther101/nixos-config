@@ -13,11 +13,7 @@
     # Getting sleep to work
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
-      HandlePowerKey = if (host == "desktop") then "
-        suspend-then-hibernate
-      " else "
-        ignore
-      ";
+      HandlePowerKey = "ignore";
       HandlePowerKeyLongPress = "poweroff";
     };
 
