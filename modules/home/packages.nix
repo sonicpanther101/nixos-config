@@ -4,7 +4,6 @@
     inputs.hyprshutdown.packages.${pkgs-stable.stdenv.hostPlatform.system}.default # For smooth shutdown of apps  # wait for nixos release
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
-    vscodium-fhs                                          # Code editor
     vsce                                                  # VS Code Extension Manager
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
