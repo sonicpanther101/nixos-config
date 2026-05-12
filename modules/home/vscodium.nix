@@ -6,6 +6,7 @@
 
     userSettings = {
       "workbench.colorTheme" = "Catppuccin Mocha";
+      "workbench.iconTheme" = "catppuccin-mocha";
       "catppuccin.accentColor" = "blue";
       "files.autoSave" = "afterDelay";
       "git.enableSmartCommit" = true;
