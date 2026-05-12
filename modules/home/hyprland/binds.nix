@@ -35,7 +35,6 @@
       "SUPER, Q, killactive,"
       "SUPER, F, fullscreen, 0"
       "SUPER, Space, togglefloating,"
-      "SUPER, P, pseudo,"
       "SUPER, J, layoutmsg, togglesplit"
       "ALT, Tab, cyclenext"
       "ALT, Tab, bringactivetotop"
