@@ -108,6 +108,7 @@
     toipe                                                 # Typing test in the terminal
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
     python314                                             # Latest release of python
+    nixd                                                  # Feature-rich Nix language server interoperating with C++ nix
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
     anki-bin                                              # Flashcards app
 

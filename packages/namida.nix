@@ -5,7 +5,8 @@
 , makeWrapper
 , gtk3
 , glib
-, xorg
+, libX11
+, libXext
 , libGL
 , libepoxy
 , libxkbcommon
@@ -38,8 +39,8 @@ stdenv.mkDerivation rec {
   buildInputs = [
     gtk3
     glib
-    xorg.libX11
-    xorg.libXext
+    libX11
+    libXext
     libGL
     libepoxy
     libxkbcommon
