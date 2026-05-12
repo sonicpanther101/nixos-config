@@ -1,4 +1,4 @@
-{ host, pkgs-stable, ... } : {
+{ host, ... } : {
 
   # Throttles CPU when it gets too hot
   services.thermald = if (host == "laptop") then {

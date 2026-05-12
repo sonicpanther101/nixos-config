@@ -58,7 +58,6 @@
         ];
       };
     };
-    lib = nixpkgs-unstable.lib;
   in {
     nixosConfigurations = {
       desktop = nixpkgs-unstable.lib.nixosSystem {

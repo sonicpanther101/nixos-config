@@ -1,4 +1,4 @@
-{ inputs, host, config, lib, ... }:{
+{ host, config, ... }:{
 
   boot = {
     loader = {

@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ ... } : {
   wayland.windowManager.hyprland.settings = {
 
     bind = [

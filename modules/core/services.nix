@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, pkgs-stable, lib, username, ... } : {
+{ host, pkgs-unstable, pkgs-stable, username, ... } : {
   
   services = {
 

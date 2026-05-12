@@ -1,4 +1,5 @@
-{ host, ... } : {
+{ ... } : {
+# { host, ... } : {
   imports = [
     ./audio.nix
     ./bootloader.nix

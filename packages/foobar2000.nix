@@ -1,7 +1,6 @@
-{ pkgs, lib, config, pkgs-stable, inputs, username, ... }:
+{ pkgs, pkgs-stable, inputs, username, ... }:
 
 let
-  japaneseFonts = pkgs-stable.noto-fonts-cjk-sans;
 
   # This tells beefweb to launch 'foobar2000'
   foobarPkg = inputs.erosanix.packages.${pkgs-stable.stdenv.hostPlatform.system}.foobar2000;
@@ -38,7 +37,7 @@ let
     doCheck = false;
   };
 
-  pyfoobeef = pkgs-stable.python3Packages.buildPythonPackage rec {
+  pyfoobeef = pkgs-stable.python3Packages.buildPythonPackage {
     pname = "pyfoobeef";
     version = "0.9.0.4";
 
@@ -82,7 +81,7 @@ let
     ];
   };
 
-  beefweb-mpris = pkgs-stable.python3Packages.buildPythonApplication rec {
+  beefweb-mpris = pkgs-stable.python3Packages.buildPythonApplication {
     pname = "beefweb-mpris";
     version = "0.0.1";
 

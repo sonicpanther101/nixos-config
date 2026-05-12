@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, ... } : {
+{ pkgs-unstable, ... } : {
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;

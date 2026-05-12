@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ ... } : {
   imports = [
     ./foobar2000.nix
   ];

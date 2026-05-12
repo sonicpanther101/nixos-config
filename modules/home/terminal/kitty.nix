@@ -1,4 +1,4 @@
-{ lib, host, ... } : {
+{ host, ... } : {
   programs.kitty = if (host == "desktop") then {
     themeFile = "Catppuccin-Mocha";
 

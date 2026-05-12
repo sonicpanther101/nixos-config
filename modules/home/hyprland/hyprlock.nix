@@ -1,4 +1,4 @@
-{ pkgs-stable, config, ... } : {
+{ pkgs-stable, ... } : {
   programs.hyprlock = {
     enable = true;
     package = pkgs-stable.hyprlock;

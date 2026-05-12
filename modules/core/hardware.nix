@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, pkgs-stable, inputs, config, ... } : {
+{ host, pkgs-unstable, pkgs-stable, config, ... } : {
 
   hardware = {
     # Common settings

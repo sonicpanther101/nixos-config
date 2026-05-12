@@ -21,7 +21,7 @@
 , libayatana-appindicator
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "namida";
   version = "6.0.6-beta";
 

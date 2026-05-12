@@ -1,4 +1,4 @@
-{ host, inputs, lib, pkgs-stable, ... } : {
+{ host, lib, pkgs-stable, ... } : {
   programs.waybar = {
     enable = true;
     package = pkgs-stable.waybar;
