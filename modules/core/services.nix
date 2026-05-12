@@ -1,9 +1,4 @@
 { host, pkgs-unstable, pkgs-stable, lib, username, ... } : {
-
-  # port 8384 is the default port to allow syncthing GUI access from the network.
-  networking.firewall = {
-    enable = true;
-  };
   
   services = {
 
