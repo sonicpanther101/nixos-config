@@ -10,6 +10,6 @@
     ./git.nix
     ./defaultapps.nix
     ./variables.nix
-    ./vscodium.nix
+    ./vscodium
   ];
 }
