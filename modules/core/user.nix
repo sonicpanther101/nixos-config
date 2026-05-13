@@ -31,6 +31,7 @@
         accent = "blue";
         flavor = "mocha";
 
+        vscode.profiles.default.enable = false;
         hyprlock.enable = false;
       };
 

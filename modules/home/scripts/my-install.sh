@@ -25,7 +25,7 @@ skip_git=false
 host=$(hostname)
 show_trace=false
 
-while getopts "anhcsgm:" option; do
+while getopts "anhtcsgm:" option; do
     case $option in
         h) # display Help
             Help
