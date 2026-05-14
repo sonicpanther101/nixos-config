@@ -32,6 +32,7 @@
       "python.analysis.autoImportCompletions" = true;
       "python.analysis.indexing" = true;
       "python.defaultInterpreterPath" = "";
+      "nix.serverPath" = "nixd";
       "wakatime.apiKey" = "REDACTED";
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;

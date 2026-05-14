@@ -26,7 +26,6 @@ in {
     catppuccin.catppuccin-vsc
     catppuccin.catppuccin-vsc-icons
     esbenp.prettier-vscode
-    jnoortheen.nix-ide
     llvm-vs-code-extensions.vscode-clangd
     ms-python.python
     ms-python.debugpy
