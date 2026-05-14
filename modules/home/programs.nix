@@ -42,6 +42,11 @@ in {
     };
   };
 
+  # Monitor of resources
+  programs.btop = {
+    enable = true;
+  };
+
   # Browser
   programs.chromium = {
     enable = true;

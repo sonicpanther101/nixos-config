@@ -46,8 +46,6 @@
     nemo-preview                                          # File previewer for Nemo
     qdirstat                                              # Visual file-system viewer like WizTree
                                                           # System monitoring & quick utilities
-    resources                                             # Graphical resource manager
-    htop                                                  # Resource manager
     eza                                                   # Replacement for ls
     jq                                                    # CL JSON interpreter
     usbutils                                              # Lists connected USB devices
@@ -80,6 +78,9 @@
     ffmpeg                                                # CLI image/video editor
     kooha                                                 # Screen recorder
     grimblast                                             # Screenshot taker
+    cmus                                                  # Small, fast and powerful console music player for Linux
+    cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
+    obs-studio                                            # Free and open source software for video recording and live streaming
 
                                                           # Audio tools
     playerctl                                             # To control media from cli
@@ -90,8 +91,9 @@
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
-    copyq                                                 # Clipboard manager
+    copyq                                                 # Clipboard manager applet
     cliphist                                              # Clipboard manager (duplicate of copyq)
+    wl-clip-persist                                       # To not lose last copied item when window is closed
 
                                                           # Networking / P2P tools
     protonvpn-gui                                         # VPN
@@ -122,5 +124,6 @@
     wvkbd                                                 # Laptop touch keyboard
     poweralertd                                           # UPower-powered power alerter
     xournalpp                                             # Note taking and pdf annotating app
+    resources                                             # Graphical resource manager
   ]));
 }

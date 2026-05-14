@@ -33,6 +33,7 @@
 
         vscode.profiles.default.enable = false;
         hyprlock.enable = false;
+        btop.enable = false;
       };
 
       programs.home-manager.enable = true;

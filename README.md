@@ -142,20 +142,20 @@ Error:
 - [x] Get the fuck package working (pay respects)
 - [x] Tagscanner and mp3tag
 - [x] Get Hyprlock focusing correctly (moved back to swaylock)
-- [ ] Get VSCodium settings nixified
+- [x] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
 - [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth
 - [ ] Awww for wallpaper (Successor to swww)
 - [ ] Set up windows VM
 - [x] Fix keyboard waking from sleep
-- [ ] Make network notification not permanent
+- [x] Make network notification not permanent
 - [x] Add back all programs from old config
 - [x] Add floating terminal
 - [ ] Write vivaldi explicit setup
 - [x] Stop fuzzy cursor
 - [x] Customise starship
-- [ ] Fill in components list in readme
+- [x] Fill in components list in readme
 - [ ] Typst to use instead of latex
 - [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
@@ -190,31 +190,32 @@ Error:
 | **Window Manager**          | [Hyprland][Hyprland] |
 | **Bar**                     | [Waybar][Waybar] |
 | **Application Launcher**    | [wofi][wofi] |
-| **Notification Daemon**     | [swaync][swaync] |
-| **Terminal Emulator**       | [Ghostty][Ghostty] |
-| **Shell**                   | [zsh][zsh] + [powerlevel10k][powerlevel10k] |
+| **Notification Daemon**     | [make][mako] |
+| **Terminal Emulator**       | [Kitty][Kitty] |
+| **Shell**                   | [zsh][zsh] + [starship][starship] |
 | **Text Editor**             | [VSCodium][VSCodium] + [Neovim][Neovim] |
 | **network management tool** | [NetworkManager][NetworkManager] + [network-manager-applet][network-manager-applet] |
 | **System resource monitor** | [Btop][Btop] |
-| **File Manager**            | [nemo][nemo] + [yazi][yazi] |
-| **Fonts**                   | [Maple Mono][Maple Mono] |
-| **Color Scheme**            | [Gruvbox Dark Hard][Gruvbox] |
-| **GTK theme**               | [Colloid gtk theme][Colloid gtk theme] |
-| **Cursor**                  | [Bibata-Modern-Ice][Bibata-Modern-Ice] |
+| **File Manager**            | [nemo][nemo] |
+| **Fonts**                   | [JetBrains Mono][JetBrains Mono] |
+| **Color Scheme**            | [Catppuccin Mocha Blue][Catppuccin] |
+| **Cursor**                  | [Catppuccin Cursors Mocha Dark][catppuccin-cursors] |
 | **Icons**                   | [Papirus-Dark][Papirus-Dark] |
-| **Lockscreen**              | [Hyprlock][Hyprlock] + [Swaylock-effects][Swaylock-effects] |
+| **Lockscreen**              | [Hyprlock][Hyprlock] |
 | **Image Viewer**            | [imv][imv] |
-| **Media Player**            | [mpv][mpv] |
-| **Music Player**            | [audacious][audacious] |
+| **Media Player**            | [mpv][mpv] + [vlc][vlc] |
+| **Music Player**            | [foobar2000][foobar2000] + [cmus][cmus] + [namida][namida] |
 | **Screenshot Software**     | [grimblast][grimblast] |
-| **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
-| **Clipboard**               | [wl-clip-persist][wl-clip-persist] |
+| **Screen Recording**        | ([wf-recorder][wf-recorder]) + [OBS][OBS] + [kooha][kooha] |
+| **Clipboard**               | [wl-clip-persist][wl-clip-persist] + [cliphist][cliphist] + ([copyq][copyq]) |
 | **Color Picker**            | [hyprpicker][hyprpicker] |
 
 <!-- Links -->
 [Hyprland]: https://github.com/hyprwm/Hyprland
 [Ghostty]: https://ghostty.org/
+[Kitty]: https://github.com/kovidgoyal/kitty
 [powerlevel10k]: https://github.com/romkatv/powerlevel10k
+[starship]: https://starship.rs
 [Waybar]: https://github.com/Alexays/Waybar
 [rofi]: https://github.com/lbonn/rofi
 [Btop]: https://github.com/aristocratos/btop
@@ -224,21 +225,32 @@ Error:
 [Swaylock-effects]: https://github.com/mortie/swaylock-effects
 [Hyprlock]: https://github.com/hyprwm/hyprlock
 [audacious]: https://audacious-media-player.org/
+[foobar2000]: https://www.foobar2000.org
+[cmus]: https://cmus.github.io
+[namida]: https://github.com/namidaco/namida
 [mpv]: https://github.com/mpv-player/mpv
+[vlc]: https://www.videolan.org/vlc/
 [VSCodium]:https://vscodium.com/
 [Neovim]: https://github.com/neovim/neovim
 [grimblast]: https://github.com/hyprwm/contrib
 [imv]: https://sr.ht/~exec64/imv/
 [swaync]: https://github.com/ErikReider/SwayNotificationCenter
+[mako]: https://github.com/emersion/mako
 [Maple Mono]: https://github.com/subframe7536/maple-font
+[Jetbrains Mono]: https://www.jetbrains.com/lp/mono/
 [NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
 [network-manager-applet]: https://gitlab.gnome.org/GNOME/network-manager-applet/
 [wl-clip-persist]: https://github.com/Linus789/wl-clip-persist
+[copyq]: https://hluk.github.io/CopyQ/
+[cliphist]: https://github.com/sentriz/cliphist
 [wf-recorder]: https://github.com/ammen99/wf-recorder
+[kooha]: https://github.com/SeaDve/Kooha
 [hyprpicker]: https://github.com/hyprwm/hyprpicker
 [Gruvbox]: https://github.com/morhetz/gruvbox
+[Catppuccin]: https://catppuccin.com
 [Papirus-Dark]: https://github.com/PapirusDevelopmentTeam/papirus-icon-theme
 [Bibata-Modern-Ice]: https://www.gnome-look.org/p/1197198
+[catppuccin-cursors]: https://github.com/catppuccin/cursors
 [maxfetch]: https://github.com/jobcmax/maxfetch
 [Colloid gtk theme]: https://github.com/vinceliuice/Colloid-gtk-theme
 [OBS]: https://obsproject.com/
