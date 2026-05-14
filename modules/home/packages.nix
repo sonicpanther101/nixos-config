@@ -78,11 +78,12 @@
     ffmpeg                                                # CLI image/video editor
     kooha                                                 # Screen recorder
     grimblast                                             # Screenshot taker
-    cmus                                                  # Small, fast and powerful console music player for Linux
-    cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     obs-studio                                            # Free and open source software for video recording and live streaming
 
                                                           # Audio tools
+    (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
+    cmus                                                  # Small, fast and powerful console music player for Linux
+    cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
     helvum                                                # Audio connection editor

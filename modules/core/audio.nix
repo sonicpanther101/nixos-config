@@ -16,4 +16,13 @@
       package = pkgs-stable.wireplumber;
     };
   };
+
+  # Foobar2000
+  systemd.user.services.foobar-mpris = {
+    description = "Foobar2000 MPRIS bridge";
+    serviceConfig = {
+      ExecStart = "beefweb_mpris";
+      Restart = "on-failure";
+    };
+  };
 }

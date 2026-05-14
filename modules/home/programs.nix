@@ -1,4 +1,4 @@
-{ lib, pkgs-unstable, pkgs-stable, username, ... } : let 
+{ lib, pkgs-unstable, pkgs-stable, username, inputs, ... } : let 
 
   catppuccin-qt5ct = pkgs-stable.fetchFromGitHub {
     owner = "catppuccin";
@@ -15,6 +15,12 @@
   };
 
 in {
+
+  # Foobar2000
+  home.file = {
+    ".config/beefweb_mpris/config.yaml".source =
+      "${pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; }}/share/beefweb_mpris/config.yaml";
+  };
 
   programs.nh = {
     enable = true;
