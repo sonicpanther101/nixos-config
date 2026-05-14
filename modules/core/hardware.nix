@@ -87,12 +87,5 @@
     } else {});
 
     pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
-
-    systemPackages = if (host == "desktop") then [
-      (pkgs-stable.callPackage ../../packages/openrgb.nix { })
-      (pkgs-stable.callPackage ../../packages/namida.nix { })
-    ] else [
-      (pkgs-stable.callPackage ../../packages/namida.nix { })
-    ];
   };
 }

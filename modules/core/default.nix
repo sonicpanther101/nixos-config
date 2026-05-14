@@ -10,7 +10,6 @@
     ./security.nix
     ./user.nix
     ./hardware.nix
-    ./../../packages
     ./gaming.nix
     ./wayland.nix
     ./printing.nix

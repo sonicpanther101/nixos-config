@@ -119,11 +119,13 @@
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
+    (pkgs-stable.callPackage ../../packages/openrgb.nix { })
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     wvkbd                                                 # Laptop touch keyboard
     poweralertd                                           # UPower-powered power alerter
     xournalpp                                             # Note taking and pdf annotating app
     resources                                             # Graphical resource manager
+    (pkgs-stable.callPackage ../../packages/namida.nix { })
   ]));
 }
