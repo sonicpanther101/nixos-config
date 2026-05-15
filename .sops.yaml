@@ -1,10 +1,10 @@
 keys:
-  - &me age1k8xrxph6pewdg4us8hyrd4p58078rumns7sqe57zsdpkpst8ue9sxvmh05  # your public key here
-  # - &newmachine age1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  - &desktop age1k8xrxph6pewdg4us8hyrd4p58078rumns7sqe57zsdpkpst8ue9sxvmh05  # your public key here
+  - &laptop-2 age1u8gr070sl7fjawag3l05sy4lgh5kmdanammlfsys9z2lg9v4s52slcr057
 
 creation_rules:
   - path_regex: secrets/.*\.yaml$
     key_groups:
       - age:
-        - *me
-        # - *newmachine
+        - *desktop
+        - *laptop-2
