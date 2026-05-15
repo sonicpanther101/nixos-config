@@ -79,7 +79,7 @@ install() {
             if ! nh os switch -H ${host} ./ -- --show-trace; then
                 # Only print logs if the HM service failed
                 systemctl status home-manager-${username}.service &>/dev/null
-                journalctl -xe --unit home-manager-adam.service
+                journalctl -xe --unit home-manager-${username}.service
                 if [[ $? -ne 0 ]]; then
                     print_hm_logs
                 else
@@ -91,7 +91,7 @@ install() {
             if ! nh os switch -H ${host} ./; then
                 # Only print logs if the HM service failed
                 systemctl status home-manager-${username}.service &>/dev/null
-                journalctl -xe --unit home-manager-adam.service
+                journalctl -xe --unit home-manager-${username}.service
                 if [[ $? -ne 0 ]]; then
                     print_hm_logs
                 else
