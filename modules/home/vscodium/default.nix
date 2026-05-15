@@ -33,7 +33,7 @@
       "python.analysis.indexing" = true;
       "python.defaultInterpreterPath" = "";
       "nix.serverPath" = "nixd";
-      "wakatime.apiKey" = config.sops.secrets.wakatime_api_key.path;
+      "wakatime.apiKey" = config.sops.secrets.wakatime_api_key;
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;
       };
