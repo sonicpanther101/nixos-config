@@ -1,6 +1,6 @@
 { pkgs-stable, ... }: 
 let
-  openVsxExtension = { publisher, name, version, sha256 }:
+  openVsxExtension = { publisher, name, version, sha256, fetchName ? "" }:
     pkgs-stable.stdenv.mkDerivation {
       pname = "vscode-extension-${publisher}-${name}";
       inherit version;
@@ -20,19 +20,11 @@ let
       vscodeExtName = name;
     };
 in {
+  # Path for most of the nixpkgs vscode extensions is fucked, that's why there is so many manually imported
   programs.vscode.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
     asvetliakov.vscode-neovim
     bbenoist.nix
-    catppuccin.catppuccin-vsc
     catppuccin.catppuccin-vsc-icons
-    esbenp.prettier-vscode
-    llvm-vs-code-extensions.vscode-clangd
-    ms-python.python
-    ms-python.debugpy
-    ms-vscode.cmake-tools
-    wakatime.vscode-wakatime
-    moshfeu.compare-folders
-    wmaurer.change-case
   ] ++ [
     # Extensions not in nixpkgs — built from Open VSX
     # https://open-vsx.org/api/{publisher}/{name}/{version}/file/{publisher}.{name}-{version}.vsix
@@ -64,6 +56,43 @@ in {
     (openVsxExtension {
       publisher = "sr-team"; name = "vscode-clangd-cmake"; version = "0.2.0";
       sha256 = "sha256-7gMJI0xzic3RKqVqbdC0Ir6sRfnIvDLlfBb9gQEMZ0E=";
+    })
+    (openVsxExtension {
+      publisher = "catppuccin"; name = "catppuccin-vsc"; version = "3.18.1";
+      sha256 = "16hxf4ka2cj46vlcz8xl0vpf21d1jxkrydmaaq1jhi8v12fpk61a";
+    })
+    (openVsxExtension {
+      publisher = "WakaTime"; name = "vscode-wakatime"; version = "25.3.2";
+      sha256 = "033456jmrkdlzvixk7qwhk9a5h3lacbpwrg3f3iqln4sw7psli15";
+    })
+    (openVsxExtension {
+      publisher = "wmaurer"; name = "change-case"; version = "1.0.0";
+      sha256 = "1qwwsh8ndcvijmkysr212b0w8p0vzi21xsv9qd30iwbaxqq4ag90";
+    })
+    (openVsxExtension {
+      publisher = "moshfeu"; name = "compare-folders"; version = "0.25.3";
+      sha256 = "1l3fvhw8b4ag23fm6942phqxvajm8wfk6dzw1b1f546h7i253icn";
+    })
+    (openVsxExtension {
+      publisher = "ms-vscode"; name = "cmake-tools"; version = "1.21.36";
+      sha256 = "060rmdg73axhifljp8pp7n8a9gcyv314gr4yk2b8xkq8xffiia12";
+    })
+    (openVsxExtension {
+      publisher = "ms-python"; name = "python"; version = "2025.16.0";
+      sha256 = "1gyvp6d783a9qd94d6fikch2x9w76y6gwbqmin5b1c0yh4470qsz";
+    })
+    # (openVsxExtension {
+    #   publisher = "ms-python"; name = "debugpy"; version = "2026.6.0";
+    #   fetchName = "ms-python.debugpy-2026.6.0-darwin-arm64.vsix";
+    #   sha256 = "sha256-NCW1JRsPBkK1aeZDl+/+cqsUHROKvZZrVnBBuqVgm0s=";
+    # })
+    (openVsxExtension {
+      publisher = "llvm-vs-code-extensions"; name = "vscode-clangd"; version = "0.2.0";
+      sha256 = "05zhkavj77lhskwgj4yjh83253gjrpsm97l8nyhq83xlihy3ppd7";
+    })
+    (openVsxExtension {
+      publisher = "esbenp"; name = "prettier-vscode"; version = "11.0.0";
+      sha256 = "1iyahpy3b53cajwzd7drhggzg8mc6ldx8xi414vpvyjps6xz8nfr";
     })
   ];
 }
