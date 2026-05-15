@@ -1,4 +1,4 @@
-{ pkgs-unstable, pkgs-stable, config, lib, ... } : {
+{ pkgs-unstable, pkgs-stable, config, lib, username, ... } : {
   imports = [
     ./extensions.nix
     ./keybinds.nix
@@ -39,7 +39,7 @@
         "extensions.experimental.affinity" = {
           "asvetliakov.vscode-neovim" = 1;
         };
-        "clangd.path" = "/home/adam/.config/VSCodium/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin/clangd";
+        "clangd.path" = "/home/${username}/.config/VSCodium/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/21.1.0/clangd_21.1.0/bin/clangd";
       };
       force = true;
     };

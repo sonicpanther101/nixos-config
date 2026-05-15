@@ -63,7 +63,7 @@ BLUE=$(tput setaf 4)
 
 print_hm_logs() {
     echo -e "\n${RED}Home Manager failed — showing last 20 log lines${NORMAL}\n"
-    sudo journalctl -u home-manager-adam.service -n 20 --no-pager || true
+    sudo journalctl -u home-manager-${username}.service -n 20 --no-pager || true
 }
 
 install() {
