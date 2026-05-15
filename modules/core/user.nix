@@ -24,6 +24,7 @@
       imports = [ 
         ./../home
         inputs.catppuccin.homeModules.catppuccin
+        inputs.sops-nix.homeManagerModules.sops
       ];
 
       catppuccin = {

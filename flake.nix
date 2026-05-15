@@ -10,6 +10,11 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -66,6 +71,7 @@
           ./hosts/desktop
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
+          inputs.sops-nix.nixosModules.sops
         ];
         specialArgs = {
           host = "desktop";
@@ -79,6 +85,7 @@
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
+          inputs.sops-nix.nixosModules.sops
         ];
         specialArgs = {
           host = "laptop";
@@ -91,6 +98,7 @@
           ./hosts/laptop-2
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
+          inputs.sops-nix.nixosModules.sops
         ];
         specialArgs = {
           host = "laptop-2";

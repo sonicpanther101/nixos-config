@@ -1,4 +1,4 @@
-{ pkgs-unstable, ... } : {
+{ pkgs-unstable, config, ... } : {
   imports = [
     ./extensions.nix
     ./keybinds.nix
@@ -33,7 +33,7 @@
       "python.analysis.indexing" = true;
       "python.defaultInterpreterPath" = "";
       "nix.serverPath" = "nixd";
-      "wakatime.apiKey" = "REDACTED";
+      "wakatime.apiKey" = config.sops.secrets.wakatime_api_key.path;
       "extensions.experimental.affinity" = {
         "asvetliakov.vscode-neovim" = 1;
       };
