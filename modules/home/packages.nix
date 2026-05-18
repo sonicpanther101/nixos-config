@@ -7,8 +7,9 @@
     vsce                                                  # VS Code Extension Manager
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
+    awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
 
-  ]) ++ (with pkgs-stable; [                               # Stable packages (less frequently updated)
+  ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
                                                           # Fonts
     corefonts
     noto-fonts

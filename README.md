@@ -114,7 +114,6 @@ Error:
 - [x] mpris on waybar
 - [ ] Dark mode wine for foobar
 - [ ] CJK fonts on wine for foobar 
-- [ ] sub pixel text on foobar
 - [x] hyprland workspace keybinds over scrolling
 - [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
@@ -135,7 +134,6 @@ Error:
 - [x] Back up stylus to this repo (did it with integrated google drive)
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
-- [ ] See if all intel graphics drivers are needed
 - [ ] Use Proton instead of bottles
 - [ ] Fix GPU rendering on vivaldi (for makerworld parametric models)
 - [x] Get all folders on syncthing
@@ -148,8 +146,7 @@ Error:
 - [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth
 - [ ] Awww for wallpaper (Successor to swww)
-- [ ] Set up build machines to be automatic
-- [ ] Set up windows VM
+- [ ] Set up build machines to be automatic (add instructions)
 - [x] Fix keyboard waking from sleep
 - [x] Make network notification not permanent
 - [x] Add back all programs from old config

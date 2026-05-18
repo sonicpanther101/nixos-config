@@ -2,6 +2,12 @@
 
 let
   foobarPkg = inputs.erosanix.packages.${pkgs-stable.stdenv.hostPlatform.system}.foobar2000;
+    # let base = inputs.erosanix.packages.${pkgs-stable.stdenv.hostPlatform.system}.foobar2000;
+    # in pkgs-stable.runCommand "foobar2000-win64-patched" {} ''
+    #   cp -r ${base} $out
+    #   chmod -R +w $out
+    #   sed -i 's|run_app () {|run_app () {\n  $WINE reg add "HKCU\\\\Control Panel\\\\Desktop" /v FontSmoothing /t REG_SZ /d 2 /f\n  $WINE reg add "HKCU\\\\Control Panel\\\\Desktop" /v FontSmoothingType /t REG_DWORD /d 2 /f\n  $WINE reg add "HKCU\\\\Control Panel\\\\Desktop" /v FontSmoothingGamma /t REG_DWORD /d 1400 /f\n  $WINE reg add "HKCU\\\\Control Panel\\\\Desktop" /v FontSmoothingOrientation /t REG_DWORD /d 1 /f\n  $WINE reg add "HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize" /v AppsUseLightTheme /t REG_DWORD /d 0 /f\n  $WINE reg add "HKCU\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize" /v SystemUsesLightTheme /t REG_DWORD /d 0 /f\n  $WINE reg add "HKLM\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize" /v AppsUseLightTheme /t REG_DWORD /d 0 /f\n  $WINE reg add "HKLM\\\\Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\Themes\\\\Personalize" /v SystemUsesLightTheme /t REG_DWORD /d 0 /f|' $out/bin/foobar2000-win64
+    # '';
 
   beefwebConfig = pkgs-stable.writeText "config.yaml" ''
     foobar2000-command: ${foobarPkg}/bin/foobar2000-win64

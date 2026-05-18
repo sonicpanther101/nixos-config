@@ -127,7 +127,27 @@
     ollama = {
       enable = true;
       package = pkgs-unstable.ollama-cuda;
-      loadModels = [ "mistral" ];
+      loadModels = [ "mistral" "qwen2.5-coder:14b" ];
+    };
+
+    open-webui = {
+      enable = true;
+      port = 8080;
+      host = "127.0.0.1";
+      environment = {
+        OLLAMA_BASE_URL = "http://127.0.0.1:11434";
+        # Enable RAG features
+        ENABLE_RAG_WEB_SEARCH = "true";
+        ENABLE_RAG_LOCAL_WEB_FETCH = "true";
+        # Chunk settings for better context
+        CHUNK_SIZE = "1500";
+        CHUNK_OVERLAP = "100";
+
+        # Disable telemetry
+        ANONYMIZED_TELEMETRY = "False";
+        DO_NOT_TRACK = "True";
+        SCARF_NO_ANALYTICS = "True";
+      };
     };
   } else {});
   boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
