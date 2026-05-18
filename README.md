@@ -142,10 +142,10 @@ Error:
 - [x] Get Hyprlock focusing correctly (moved back to swaylock)
 - [x] Get VSCodium settings nixified
 - [ ] Change bootloader theme to my fork
-- [ ] Add pc specs to maxfetch
+- [x] Add pc specs to maxfetch (use fastfetch)
 - [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth
-- [ ] Awww for wallpaper (Successor to swww)
+- [x] Awww for wallpaper (Successor to swww)
 - [ ] Set up build machines to be automatic (add instructions)
 - [x] Fix keyboard waking from sleep
 - [x] Make network notification not permanent

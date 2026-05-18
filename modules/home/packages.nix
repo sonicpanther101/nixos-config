@@ -39,6 +39,7 @@
     wofi                                                  # App launcher
     wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker
+    fastfetch                                             # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
