@@ -155,7 +155,7 @@ Error:
 - [x] Stop fuzzy cursor
 - [x] Customise starship
 - [x] Fill in components list in readme
-- [ ] Typst to use instead of latex
+- [x] Typst to use instead of latex
 - [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 - [ ] Get HDR working

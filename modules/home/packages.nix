@@ -39,7 +39,6 @@
     wofi                                                  # App launcher
     wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker
-    fastfetch                                             # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
@@ -48,6 +47,7 @@
     nemo-preview                                          # File previewer for Nemo
     qdirstat                                              # Visual file-system viewer like WizTree
                                                           # System monitoring & quick utilities
+    fastfetch                                             # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
     eza                                                   # Replacement for ls
     jq                                                    # CL JSON interpreter
     usbutils                                              # Lists connected USB devices
@@ -60,6 +60,7 @@
     ripgrep                                               # Grep replacement
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
+    typst                                                 # New markup-based typesetting system that is powerful and easy to learn
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
