@@ -20,22 +20,22 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-    };
-
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     catppuccin.url = "github:catppuccin/nix";
+
+    hyprland.url = "github:hyprwm/Hyprland";
     
     hyprshutdown.url = "github:hyprwm/hyprshutdown";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
     nix-index-database.url = "github:nix-community/nix-index-database";
+
+    grub2-themes.url = "github:sonicpanther101/grub2-themes";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
@@ -69,6 +69,7 @@
         inherit system;
         modules = [
           ./hosts/desktop
+          inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
         ];
@@ -81,6 +82,7 @@
         inherit system;
         modules = [
           ./hosts/laptop
+          inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
@@ -94,6 +96,7 @@
       	inherit system;
         modules = [
           ./hosts/laptop-2
+          inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
         ];

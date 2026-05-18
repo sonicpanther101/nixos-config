@@ -14,6 +14,13 @@
       };
     };
 
+    # Styling bootloader
+    loader.grub2-theme = {
+      enable = true;
+      theme = "tela";
+      footer = true;
+    };
+
     # For windows filesystems to work
     supportedFilesystems = [ "ntfs" ];
 
