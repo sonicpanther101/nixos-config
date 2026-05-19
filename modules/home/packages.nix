@@ -118,7 +118,6 @@
     anki-bin                                              # Flashcards app
 
   ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
-    stremio                                               # Movie Streaming
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software

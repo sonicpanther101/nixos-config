@@ -1,7 +1,8 @@
 { host, ... } : {
-wayland.windowManager.hyprland.extraConfig = 
-  let
-    shared = [
+  wayland.windowManager.hyprland.settings = {
+
+    # Autostart
+    exec-once = [
       # Setting variables globally
       "systemctl --user import-environment"
       "systemctl --user start hyprpolkitagent"
@@ -20,33 +21,28 @@ wayland.windowManager.hyprland.extraConfig =
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
       "cd ~/nixos-config && git fetch"
-    ];
-    desktop = [
+    ]++ (if (host == "desktop") then [
       "awww-daemon"
       "openrgb --startminimized -b 0 -m direct"
 
       # Opening programs by default (not needed, just nice)
       # Main Monitor
-      "hyprctl dispatch 'hl.dsp.exec_cmd(\\\"vivaldi --profile-directory=\\\\\\\"Default\\\\\\\"\\\")'"
+      "hyprctl dispatch focusmonitor DP-1"
+      "hyprctl dispatch exec '[workspace 11 silent] vivaldi --profile-directory=\"Default\"'"
 
       # Secondary Monitor
-      "hyprctl dispatch 'hl.dsp.focus({ monitor = \\\"HDMI-A-\\\" })'"
-      "hyprctl dispatch 'hl.dsp.exec_cmd(\\\"beefweb_mpris\\\")'"
-      "hyprctl dispatch 'hl.dsp.exec_cmd(\\\"codium\\\")'"
-      "hyprctl dispatch 'hl.dsp.exec_cmd(\\\"kitty\\\")'"
+      "hyprctl dispatch focusmonitor HDMI-A-1"
+      "hyprctl dispatch exec '[workspace 1 silent] beefweb_mpris'"
+      "hyprctl dispatch exec '[workspace 2 silent] codium'"
+      "hyprctl dispatch exec '[workspace 3 silent] kitty'"
 
       # Change focus back to main
-      "hyprctl dispatch 'hl.dsp.focus({ monitor = \\\"DP-1\\\" })'"
-      "hyprctl dispatch 'hl.dsp.focus({ workspace = 11 })'"
-    ];
-    laptops = [
+      "hyprctl dispatch workspace 1"
+      "hyprctl dispatch focusmonitor DP-1"
+      
+    ] else if (host != "desktop") then [
       "poweralertd"
-    ];
-    allCmds = shared ++ (if host == "desktop" then desktop else laptops);
-    mkExecCmd = cmd: ''hl.exec_cmd("${cmd}")'';
-  in ''
-    hl.on("hyprland.start", function()
-      ${builtins.concatStringsSep "\n  " (map mkExecCmd allCmds)}
-    end)
-  '';
+    ] else [                                              
+    ]);
+  };
 }

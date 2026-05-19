@@ -1,3 +1,3 @@
-hyprctl dispatch 'hl.dsp.dpms("off")'
+hyprctl dispatch dpms off
 sleep 5
-hyprctl dispatch 'hl.dsp.dpms("on")'
+hyprctl dispatch dpms on

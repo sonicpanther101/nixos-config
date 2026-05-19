@@ -126,7 +126,7 @@ stdenv.mkDerivation {
   autoPatchelfIgnoreMissingDeps = true;
 
   meta = with lib; {
-    description = "Beautiful music & video player for local libraries and YouTube";
+    description = "Beautiful music & video player for local libraries";
     homepage = "https://github.com/namidaco/namida";
     license = licenses.gpl3Only;
     platforms = [ "x86_64-linux" ];

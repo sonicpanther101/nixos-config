@@ -6,9 +6,9 @@
       listener = [
         {
           timeout = 60;
-          on-timeout = (if (host != "laptop-2") then ''hyprctl dispatch 'hl.dsp.dpms("off")' '' else "");
+          on-timeout = (if (host != "laptop-2") then "hyprctl dispatch dpms off" else "");
 
-          on-resume = (if (host != "laptop-2") then ''hyprctl dispatch 'hl.dsp.dpms("on")' '' else "");
+          on-resume = (if (host != "laptop-2") then "hyprctl dispatch dpms on" else "");
         }
       ] ++ (if (host != "desktop") then [
         {

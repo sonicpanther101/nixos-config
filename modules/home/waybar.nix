@@ -1,7 +1,7 @@
-{ host, lib, pkgs-stable, ... } : {
+{ host, lib, pkgs-unstable, ... } : {
   programs.waybar = {
     enable = true;
-    package = pkgs-stable.waybar;
+    package = pkgs-unstable.waybar;
     settings = {
       mainBar = {
         layer = "bottom";
@@ -51,6 +51,8 @@
             "*" = 5;
           };
           active-only = true;
+          on-scroll-up   = "hyprctl dispatch split-cycleworkspaces +1";
+          on-scroll-down = "hyprctl dispatch split-cycleworkspaces -1";
         };
 
         "custom/keyboard" = lib.mkIf (host != "desktop") {

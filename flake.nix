@@ -27,14 +27,19 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland";
-    
-    hyprshutdown.url = "github:hyprwm/hyprshutdown";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     split-monitor-workspaces = {
       url = "github:zjeffer/split-monitor-workspaces";
+
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.hyprland.follows = "hyprland";
     };
+    
+    hyprshutdown.url = "github:hyprwm/hyprshutdown";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
@@ -63,7 +68,7 @@
         allowUnfree = true;
 
         permittedInsecurePackages = [
-          "ventoy-gtk3-1.1.07"
+          "ventoy-gtk3-1.1.10"
           "qtwebengine-5.15.19"
         ];
       };
