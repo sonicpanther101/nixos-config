@@ -187,10 +187,6 @@
         color:      #89b4fa;
     }
 
-    #workspaces button.focused {
-        border-bottom: 3px solid #89b4fa;
-    }
-
     #workspaces button.urgent {
         color:      #f38ba8;
     }
