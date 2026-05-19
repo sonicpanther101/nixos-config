@@ -45,8 +45,8 @@
           };
           # persistent-workspaces = if (host != host) then {
           persistent-workspaces = if (host == "desktop") then {
-            "HDMI-A-1" = [ 1 2 3 4 5 ];
-            "DP-1" = [ 11 12 13 14 15 ];
+            "HDMI-A-1" = [ 11 12 13 14 15 ];
+            "DP-1" = [ 1 2 3 4 5 ];
           } else {
             "*" = 5;
           };
