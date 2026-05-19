@@ -4,7 +4,7 @@
     ./keybinds.nix
   ];
   
-  programs.vscode = {
+  programs.vscodium = {
     enable = true;
     package = pkgs-unstable.vscodium-fhs;
     mutableExtensionsDir = true;

@@ -5,6 +5,8 @@
     xwayland.enable = true;
     systemd.enable = true;
 
+    configType = "hyprlang"; # Change when updating to lua
+
     plugins = [
       inputs.split-monitor-workspaces.packages.${pkgs-stable.stdenv.hostPlatform.system}.split-monitor-workspaces
     ];
