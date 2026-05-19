@@ -12,9 +12,6 @@
       HandlePowerKeyLongPress = "poweroff";
     };
 
-    # Fingerprint
-    fprintd.enable = if (host == "laptop-2") then true else false;
-
     greetd = {
       enable = true;
 
