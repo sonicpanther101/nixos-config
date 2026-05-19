@@ -1,5 +1,23 @@
 { host, lib, ... } : {
   wayland.windowManager.hyprland = {
+
+    extraConfig = ''
+      hl.curve("md3_decel",      { type = "bezier", points = { {0.05, 0.7},  {0.1,  1}    } })
+      hl.curve("md3_accel",      { type = "bezier", points = { {0.3,  0},    {0.8,  0.15} } })
+      hl.curve("overshot",       { type = "bezier", points = { {0.05, 0.9},  {0.1,  1.1}  } })
+      hl.curve("crazyshot",      { type = "bezier", points = { {0.1,  1.5},  {0.76, 0.92} } })
+      hl.curve("hyprnostretch",  { type = "bezier", points = { {0.05, 0.9},  {0.1,  1.0}  } })
+      hl.curve("fluent_decel",   { type = "bezier", points = { {0.1,  1},    {0,    1}    } })
+      hl.curve("easeInOutCirc",  { type = "bezier", points = { {0.85, 0},    {0.15, 1}    } })
+      hl.curve("easeOutCirc",    { type = "bezier", points = { {0,    0.55}, {0.45, 1}    } })
+      hl.curve("easeOutExpo",    { type = "bezier", points = { {0.16, 1},    {0.3,  1}    } })
+
+      hl.animation({ leaf = "windows",         enabled = true, speed = 2,   bezier = "md3_decel",   style = "popin 60%" })
+      hl.animation({ leaf = "border",          enabled = true, speed = 10,  bezier = "default" })
+      hl.animation({ leaf = "fade",            enabled = true, speed = 2.5, bezier = "md3_decel" })
+      hl.animation({ leaf = "workspaces",      enabled = true, speed = 3,   bezier = "fluent_decel", style = "slide" })
+      hl.animation({ leaf = "specialWorkspace",enabled = true, speed = 3,   bezier = "md3_decel",    style = "slidevert" })
+    '';
     
     settings = {
 
@@ -89,30 +107,7 @@
         dim_special = 0;
       };
 
-      animations = {
-        enabled = true;
-        bezier = [
-          "md3_decel, 0.05, 0.7, 0.1, 1"
-          "md3_accel, 0.3, 0, 0.8, 0.15"
-          "overshot, 0.05, 0.9, 0.1, 1.1"
-          "crazyshot, 0.1, 1.5, 0.76, 0.92"
-          "hyprnostretch, 0.05, 0.9, 0.1, 1.0"
-          "fluent_decel, 0.1, 1, 0, 1"
-          "easeInOutCirc, 0.85, 0, 0.15, 1"
-          "easeOutCirc, 0, 0.55, 0.45, 1"
-          "easeOutExpo, 0.16, 1, 0.3, 1"
-        ];
-        animation = [
-          "windows, 1, 2, md3_decel, popin 60%"
-          "border, 1, 10, default"
-          "fade, 1, 2.5, md3_decel"
-          # "workspaces, 1, 3.5, md3_decel, slide"
-          "workspaces, 1, 3, fluent_decel, slide"
-          # "workspaces, 1, 7, fluent_decel, slidefade 15%"
-          # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
-          "specialWorkspace, 1, 3, md3_decel, slidevert"
-        ];
-      };
+      animations.enabled = true;
 
       # workspace = if (host != host) then [
       workspace = if (host == "desktop") then [
