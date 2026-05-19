@@ -1,4 +1,4 @@
-{ host, config, ... }:{
+{ host, config, pkgs-stable, ... }:{
 
   boot = {
     loader = {
@@ -17,8 +17,12 @@
     # Styling bootloader
     loader.grub2-theme = {
       enable = true;
-      theme = "tela";
+      theme = "stylish";
       footer = true;
+      splashImage = pkgs-stable.fetchurl {
+        url = "https://raw.githubusercontent.com/sonicpanther101/wallpapers/refs/heads/main/others/nixos-catppuccin.png";
+        sha256 = "sha256-BWiy7wLWHHPjvvElEbdJt75ht/lZtJMi/LlnPeaV0XM=";
+      };
     };
 
     # For windows filesystems to work

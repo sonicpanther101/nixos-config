@@ -45,7 +45,7 @@
     
     nix-index-database.url = "github:nix-community/nix-index-database";
 
-    grub2-themes.url = "github:sonicpanther101/grub2-themes";
+    grub2-themes.url = "github:vinceliuice/grub2-themes";
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
@@ -61,6 +61,15 @@
           "qtwebengine-5.15.19"
         ];
       };
+      overlays = [
+        (final: prev: {
+          pkgsi686Linux = prev.pkgsi686Linux.extend (final32: prev32: {
+            openldap = prev32.openldap.overrideAttrs (old: {
+              doCheck = false;
+            });
+          });
+        })
+      ];
     };
     pkgs-stable = import nixpkgs-stable {
       inherit system;

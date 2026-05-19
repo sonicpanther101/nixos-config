@@ -299,15 +299,15 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1779114043,
-        "narHash": "sha256-9775bNf6ADcUmOXaM+Ptg8xrdUnR2503usNwf4Bgzf4=",
-        "owner": "sonicpanther101",
+        "lastModified": 1757136219,
+        "narHash": "sha256-tKU+vq34KHu/A2wD7WdgP5A4/RCmSD8hB0TyQAUlixA=",
+        "owner": "vinceliuice",
         "repo": "grub2-themes",
-        "rev": "601a2bdc3596434fee6208cbcab93f2d51775546",
+        "rev": "80dd04ddf3ba7b284a7b1a5df2b1e95ee2aad606",
         "type": "github"
       },
       "original": {
-        "owner": "sonicpanther101",
+        "owner": "vinceliuice",
         "repo": "grub2-themes",
         "type": "github"
       }
@@ -954,11 +954,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1779198640,
-        "narHash": "sha256-lcrNgMTC3ubNgZs6csp1wy9w16RToifd0u1qRXi8e+I=",
+        "lastModified": 1779204729,
+        "narHash": "sha256-sPFhIaJRYdwQLgc0pVwaooeZ2v5+1CePdG1DcTKOS10=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8cd8ee769a1acfbae84cb6d18fd2717c1afca2e1",
+        "rev": "1cba71cd783bbad66a9baf8283048846f50c57cb",
         "type": "github"
       },
       "original": {

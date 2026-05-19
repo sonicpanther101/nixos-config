@@ -69,37 +69,17 @@ print_hm_logs() {
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
-    if [[ $corrupted_db == true ]]; then
-        echo -e "${RED}FIXING CORRUPTED DB${NORMAL}\n"
-        sudo nixos-rebuild switch --repair --flake .#${host}
-    else
-        # Build the system (flakes + home manager)
-        echo -e "Building the system...\n"
-        if [[ $show_trace == true ]]; then
-            if ! nh os switch -H ${host} ./ -- --show-trace; then
-                # Only print logs if the HM service failed
-                systemctl status home-manager-${username}.service &>/dev/null
-                journalctl -xe --unit home-manager-${username}.service
-                if [[ $? -ne 0 ]]; then
-                    print_hm_logs
-                else
-                    print_hm_logs
-                fi
-                exit 1
-            fi
-        else
-            if ! nh os switch -H ${host} ./; then
-                # Only print logs if the HM service failed
-                systemctl status home-manager-${username}.service &>/dev/null
-                journalctl -xe --unit home-manager-${username}.service
-                if [[ $? -ne 0 ]]; then
-                    print_hm_logs
-                else
-                    print_hm_logs
-                fi
-                exit 1
-            fi
+    local nh_cmd="nh os switch -H ${host} ./"
+    [[ $show_trace == true ]] && nh_cmd+=" -- --show-trace"
+    [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
+
+    if ! eval "$nh_cmd"; then
+        # Only show HM journal if HM service specifically failed, not nix build errors
+        if systemctl is-failed --quiet home-manager-${username}.service 2>/dev/null; then
+            echo -e "\n${RED}Home Manager failed — showing last 20 log lines${NORMAL}\n"
+            journalctl -xe --unit home-manager-${username}.service -n 20 --no-pager || true
         fi
+        exit 1
     fi
 }
 
