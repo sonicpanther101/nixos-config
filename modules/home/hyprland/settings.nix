@@ -26,8 +26,6 @@
         output = "eDP-1";  # verify with hyprctl monitors
       }];
 
-      binds = { scroll_event_delay = 0; };
-
       input = {
         # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut
         kb_layout = "us";

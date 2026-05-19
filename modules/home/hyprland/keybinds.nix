@@ -141,5 +141,6 @@ wayland.windowManager.hyprland.extraConfig =
 
       # Gesture
       ''hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })''
+      ''hl.config.binds.scroll_event_delay(0)''
   ];
 }
