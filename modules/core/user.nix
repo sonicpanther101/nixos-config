@@ -27,16 +27,6 @@
         inputs.sops-nix.homeManagerModules.sops
       ];
 
-      catppuccin = {
-        enable = true;
-        accent = "blue";
-        flavor = "mocha";
-
-        vscode.profiles.default.enable = false;
-        hyprlock.enable = false;
-        btop.enable = false;
-      };
-
       sops = {
         age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
         defaultSopsFile = ../../secrets/secrets.yaml;  # path to your secrets file

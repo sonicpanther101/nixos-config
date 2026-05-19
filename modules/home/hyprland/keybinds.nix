@@ -69,8 +69,7 @@ wayland.windowManager.hyprland.extraConfig =
       (bind "SUPER + F" "hl.dsp.window.fullscreen({ mode = 0 })")
       (bind "SUPER + Space" "hl.dsp.window.float({ action = 'toggle' })")
       (bind "SUPER + J" "hl.dsp.layout('togglesplit')")
-      (bind "ALT + Tab" "hl.dsp.focus({ cycle = 'next' })")
-      (bind "ALT + SHIFT + Tab" "hl.dsp.focus({ cycle = 'prev' })")
+      (bind "ALT + Tab" "hl.dsp.focus({ last })")
 
       # Move windows
       (bind  "SUPER + SHIFT + left"  (hctl "movewindow" "l"))
