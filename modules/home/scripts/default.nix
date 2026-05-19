@@ -11,6 +11,7 @@ in {
     "my-icon-browser"
     "my-refresh"
     "my-sha256"
+    "my-add-vscode-ext"
     "my-rwall"
     "maxfetch"
     "syncthing-usb"

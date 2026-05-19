@@ -46,7 +46,6 @@ resolved_version=$(echo "$meta" | python3 -c "import sys,json; d=json.load(sys.s
 vsix_url=$(echo "$meta" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['files']['download'])")
 
 echo "${CYAN}→ Found version ${BOLD}${resolved_version}${RESET}${CYAN}, fetching hash...${RESET}"
-echo "nix-prefetch-url --type sha256 $vsix_url"
 
 # Check if the URL contains '@' (platform-specific extension — illegal in nix store paths).
 # In that case, download to a temp file and hash it directly.
@@ -63,13 +62,13 @@ if [[ "$vsix_url" == *"@"* ]]; then
 
   # Hash the file and convert to SRI format
   raw_hash=$(nix-hash --type sha256 --flat "$tmpfile")
-  sri=$(nix hash to-sri --type sha256 "$raw_hash")
+  sri=$(nix hash convert --hash-algo sha256 --to sri "$raw_hash")
 
   # We need fetchName so fetchurl uses the sanitised filename
   fetch_name_line="      fetchName = \"${safe_filename}\";"
 else
   raw_hash=$(nix-prefetch-url --type sha256 "$vsix_url" 2>/dev/null | tail -1)
-  sri=$(nix hash to-sri --type sha256 "$raw_hash")
+  sri=$(nix hash convert --hash-algo sha256 --to sri "$raw_hash")
 fi
 
 echo

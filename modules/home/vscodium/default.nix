@@ -36,6 +36,7 @@
         "python.analysis.indexing" = true;
         "python.defaultInterpreterPath" = "";
         "nix.serverPath" = "nixd";
+        "extensions.autoUpdate" = false;
         "extensions.experimental.affinity" = {
           "asvetliakov.vscode-neovim" = 1;
         };

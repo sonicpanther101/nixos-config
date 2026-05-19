@@ -57,28 +57,28 @@ in {
       sha256 = "sha256-7gMJI0xzic3RKqVqbdC0Ir6sRfnIvDLlfBb9gQEMZ0E=";
     })
     (openVsxExtension {
-      publisher = "catppuccin"; name = "catppuccin-vsc"; version = "3.18.1";
-      sha256 = "16hxf4ka2cj46vlcz8xl0vpf21d1jxkrydmaaq1jhi8v12fpk61a";
+      publisher = "catppuccin"; name = "catppuccin-vsc"; version = "3.19.0";
+      sha256 = "sha256-6/NHZkg37b6RyZIP89FMltSii+7sC5UTfHYFgyYyl4A=";
     })
     (openVsxExtension {
-      publisher = "WakaTime"; name = "vscode-wakatime"; version = "25.3.2";
-      sha256 = "033456jmrkdlzvixk7qwhk9a5h3lacbpwrg3f3iqln4sw7psli15";
+      publisher = "WakaTime"; name = "vscode-wakatime"; version = "30.2.0";
+      sha256 = "sha256-VsrFTOK01Rh9lty7BGVZa7jzSvDLxznKjEDnwf2jaSA=";
     })
     (openVsxExtension {
       publisher = "wmaurer"; name = "change-case"; version = "1.0.0";
       sha256 = "1qwwsh8ndcvijmkysr212b0w8p0vzi21xsv9qd30iwbaxqq4ag90";
     })
     (openVsxExtension {
-      publisher = "moshfeu"; name = "compare-folders"; version = "0.25.3";
-      sha256 = "1l3fvhw8b4ag23fm6942phqxvajm8wfk6dzw1b1f546h7i253icn";
+      publisher = "moshfeu"; name = "compare-folders"; version = "0.30.0";
+      sha256 = "sha256-kuLJFMDSMbkd8mtGZQqyi8ARnPVSidbKjz4d4odGVlY=";
     })
     (openVsxExtension {
-      publisher = "ms-vscode"; name = "cmake-tools"; version = "1.21.36";
-      sha256 = "060rmdg73axhifljp8pp7n8a9gcyv314gr4yk2b8xkq8xffiia12";
+      publisher = "ms-vscode"; name = "cmake-tools"; version = "1.23.52";
+      sha256 = "sha256-LfYoKiiaETtlq4Jqe1bd5WaS5nBoci9K6BugZjgY2Ho=";
     })
     (openVsxExtension {
-      publisher = "ms-python"; name = "python"; version = "2025.16.0";
-      sha256 = "1gyvp6d783a9qd94d6fikch2x9w76y6gwbqmin5b1c0yh4470qsz";
+      publisher = "ms-python"; name = "python"; version = "2026.4.0";
+      sha256 = "sha256-Iyrq+wHwaYJP3ZLT5ijBxEK7z6HTzJRf+XB2NAuytKY=";
     })
     # (openVsxExtension {
     #   publisher = "ms-python"; name = "debugpy"; version = "2026.6.0";
@@ -86,12 +86,12 @@ in {
     #   sha256 = "sha256-NCW1JRsPBkK1aeZDl+/+cqsUHROKvZZrVnBBuqVgm0s=";
     # })
     (openVsxExtension {
-      publisher = "llvm-vs-code-extensions"; name = "vscode-clangd"; version = "0.2.0";
-      sha256 = "05zhkavj77lhskwgj4yjh83253gjrpsm97l8nyhq83xlihy3ppd7";
+      publisher = "llvm-vs-code-extensions"; name = "vscode-clangd"; version = "0.4.0";
+      sha256 = "sha256-r71PACuJZBASsWYFHKoq8vVu1zK32/S8AKVtCJHkGqk=";
     })
     (openVsxExtension {
-      publisher = "esbenp"; name = "prettier-vscode"; version = "11.0.0";
-      sha256 = "1iyahpy3b53cajwzd7drhggzg8mc6ldx8xi414vpvyjps6xz8nfr";
+      publisher = "esbenp"; name = "prettier-vscode"; version = "12.4.0";
+      sha256 = "sha256-+3MOpDBtCc3Ao6qp6bquKAWMyXpPv86LBWs3egY5qf4=";
     })
     (openVsxExtension {
       publisher = "asvetliakov"; name = "vscode-neovim"; version = "1.19.0";
