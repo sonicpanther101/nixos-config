@@ -1,150 +1,145 @@
 { ... } : {
-  wayland.windowManager.hyprland.settings = {
+wayland.windowManager.hyprland.extraConfig =
+  let
+    # Bind helpers — each generates a hl.bind() call
+    bind  = key: action:        ''hl.bind("${key}", ${action})'';
+    bindl = key: action:        ''hl.bind("${key}", ${action}, { locked = true })'';
+    binde = key: action:        ''hl.bind("${key}", ${action}, { repeating = true })'';
+    bindm = key: action:        ''hl.bind("${key}", ${action}, { mouse = true })'';
+    bindlr = key: action:       ''hl.bind("${key}", ${action}, { locked = true, repeating = true })'';
 
-    bind = [
-      # keybindings
+    # Dispatcher helpers
+    exec   = cmd: ''hl.dsp.exec_cmd("${cmd}")'';
+    # For dispatchers not yet in the Lua API, fall back to hyprctl
+    hctl   = dispatcher: args: ''hl.dsp.exec_cmd("hyprctl dispatch ${dispatcher} ${args}")'';
 
-      # terminal
-      "SUPER, Return, exec, kitty"
-      "ALT, Return, exec, kitty --title float_kitty"
-      "SUPER SHIFT, Return, exec, kitty --start-as=fullscreen -o 'font_size=16'"
+    lines = builtins.concatStringsSep "\n";
+  in
+    lines [
+      # Terminal
+      (bind "SUPER + Return" (exec "kitty"))
+      (bind "ALT + Return" (exec "kitty --title float_kitty"))
+      (bind "SUPER + SHIFT + Return" (exec "kitty --start-as=fullscreen -o 'font_size=16'"))
 
       # Browser
-      "SUPER, B, exec, vivaldi --profile-directory=\"Default\" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne"
+      (bind "SUPER + B" (exec "vivaldi --profile-directory=\"Default\" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne"))
       # School Profile
-      "SUPER SHIFT, B, exec, vivaldi --profile-directory=\"Profile 1\""
+      (bind "SUPER + SHIFT + B" (exec "vivaldi --profile-directory=\"Profile 1\""))
 
       # File browser
-      "SUPER, E, exec, nemo"
-      # "ALT, E, exec, nemo --name=float_nemo"
+      (bind "SUPER + E" (exec "nemo"))
+      (bind "SUPER + SHIFT + E" (exec "nemo --name=float_nemo"))
 
-      # ags
-      "SUPER, R, exec, wofi --show drun"
-      # "SUPER, R, exec, my-ags"
-      "SUPER SHIFT, R, exec, my-ags -l"
-      "SUPER, D, exec, ags toggle app-launcher"
-      "ALT, V, exec, copyq show"
-      # "ALT, V, exec, ags toggle clipboard"
-      "SUPER, G, exec, ags toggle apis"
-      "SUPER, W, exec, ags toggle wallpaper"
-      "SUPER SHIFT, W, exec, ags toggle mouse-helper"
-      "SUPER, F1, exec, show-keybinds"
-      "SUPER SHIFT, F8, exec, sh -c 'pkill waybar; waybar'"
+      # Launchers
+      (bind "SUPER + R" (exec "wofi --show drun"))
+      # (bind "SUPER + R" (exec "my-ags"))
+      (bind "SUPER + SHIFT + R" (exec "my-ags -l"))
+      (bind "SUPER + D" (exec "ags toggle app-launcher"))
+      (bind "ALT + V" (exec "copyq show"))
+      # (bind "ALT + V" (exec "ags toggle clipboard"))
+      (bind "SUPER + G" (exec "ags toggle apis"))
+      (bind "SUPER + W" (exec "ags toggle wallpaper"))
+      (bind "SUPER + SHIFT + W" (exec "ags toggle mouse-helper"))
+      (bind "SUPER + F1" (exec "show-keybinds"))
+      (bind "SUPER + SHIFT + F8" (exec "sh -c 'pkill waybar; waybar'"))
 
-      # window controls
-      "SUPER, Q, killactive,"
-      "SUPER, F, fullscreen, 0"
-      "SUPER, Space, togglefloating,"
-      "SUPER, J, layoutmsg, togglesplit"
-      "ALT, Tab, cyclenext"
-      "ALT, Tab, bringactivetotop"
-      "ALT SHIFT, Tab, cyclenext, prev"
-      "ALT SHIFT, Tab, bringactivetotop"
+      # Vscodium
+      (bind "SUPER + V" (exec "codium"))
+      (bind "SUPER + SHIFT + V" (exec "codium ~/nixos-config"))
+      (bind "SUPER + SHIFT + CTRL + V" (exec "codium ~/nixos-config/modules/home/ags/ags"))
 
-      # vscode options
-      "SUPER, V, exec, codium"
-      "SUPER SHIFT, V, exec, codium ~/nixos-config"
-      "SUPER SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
+      # Misc
+      (bind "SUPER + C" (exec "hyprpicker -a"))
+      (bind "SUPER + period" (exec "wofi-emoji"))
 
-      # misc
-      "SUPER, C ,exec, hyprpicker -a"
-      "SUPER, period ,exec, wofi-emoji"
+      # Screenshot
+      (bind "SUPER + S" (exec "grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Hh%Mm%Ss').png"))
+      (bind "SUPER + SHIFT + S" (exec "kooha"))
 
-      # screenshot
-      "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Hh%Mm%Ss').png"
-      "SUPER SHIFT, S, exec, kooha"
+      # Focus
+      (bind "SUPER + left" (exec "focus-move l"))
+      (bind "SUPER + right" (exec "focus-move r"))
+      (bind "SUPER + up" "hl.dsp.focus({ direction = 'up' })")
+      (bind "SUPER + down" "hl.dsp.focus({ direction = 'down' })")
 
-      # switch focus
-      "SUPER, left, exec, focus-move l"
-      "SUPER, right, exec, focus-move r"
-      "SUPER, up, movefocus, u"
-      "SUPER, down, movefocus, d"
+      (bind "SUPER + CTRL + c" "hl.dsp.window.move({ workspace = 'emptynm' })")
 
-      "SUPER CTRL, c, movetoworkspace, emptynm"
+      # Window controls
+      (bind "SUPER + Q" "hl.dsp.window.close()")
+      (bind "SUPER + F" "hl.dsp.window.fullscreen({ mode = 0 })")
+      (bind "SUPER + Space" "hl.dsp.window.float({ action = 'toggle' })")
+      (bind "SUPER + J" "hl.dsp.layout('togglesplit')")
+      (bind "ALT + Tab" "hl.dsp.focus({ cycle = 'next' })")
+      (bind "ALT + SHIFT + Tab" "hl.dsp.focus({ cycle = 'prev' })")
 
-      # window control
-      "SUPER SHIFT, left, movewindow, l"
-      "SUPER SHIFT, right, movewindow, r"
-      "SUPER SHIFT, up, movewindow, u"
-      "SUPER SHIFT, down, movewindow, d"
-      "SUPER CTRL, left, resizeactive, -80 0"
-      "SUPER CTRL, right, resizeactive, 80 0"
-      "SUPER CTRL, up, resizeactive, 0 -80"
-      "SUPER CTRL, down, resizeactive, 0 80"
-      "SUPER ALT, left, moveactive,  -80 0"
-      "SUPER ALT, right, moveactive, 80 0"
-      "SUPER ALT, up, moveactive, 0 -80"
-      "SUPER ALT, down, moveactive, 0 80"
+      # Move windows
+      (bind  "SUPER + SHIFT + left"  (hctl "movewindow" "l"))
+      (bind  "SUPER + SHIFT + right" (hctl "movewindow" "r"))
+      (bind  "SUPER + SHIFT + up"    (hctl "movewindow" "u"))
+      (bind  "SUPER + SHIFT + down"  (hctl "movewindow" "d"))
 
-      # switch workspace
-      "SUPER, 1, exec, hyprsome workspace 1"
-      "SUPER, 2, exec, hyprsome workspace 2"
-      "SUPER, 3, exec, hyprsome workspace 3"
-      "SUPER, 4, exec, hyprsome workspace 4"
-      "SUPER, 5, exec, hyprsome workspace 5"
-      "SUPER, 6, exec, hyprsome workspace 6"
-      "SUPER, 7, exec, hyprsome workspace 7"
-      "SUPER, 8, exec, hyprsome workspace 8"
-      "SUPER, 9, exec, hyprsome workspace 9"
-      "SUPER, 0, exec, hyprsome workspace 10"
+      # Resize windows
+      (binde "SUPER + CTRL + left"   (hctl "resizeactive" "-80 0"))
+      (binde "SUPER + CTRL + right"  (hctl "resizeactive" "80 0"))
+      (binde "SUPER + CTRL + up"     (hctl "resizeactive" "0 -80"))
+      (binde "SUPER + CTRL + down"   (hctl "resizeactive" "0 80"))
 
-      "SUPER SHIFT, 1, exec, hyprsome move 1"
-      "SUPER SHIFT, 2, exec, hyprsome move 2"
-      "SUPER SHIFT, 3, exec, hyprsome move 3"
-      "SUPER SHIFT, 4, exec, hyprsome move 4"
-      "SUPER SHIFT, 5, exec, hyprsome move 5"
-      "SUPER SHIFT, 6, exec, hyprsome move 6"
-      "SUPER SHIFT, 7, exec, hyprsome move 7"
-      "SUPER SHIFT, 8, exec, hyprsome move 8"
-      "SUPER SHIFT, 9, exec, hyprsome move 9"
-      "SUPER SHIFT, 0, exec, hyprsome move 10"
+      # Move floating windows
+      (bind  "SUPER + ALT + left"    (hctl "moveactive" "-80 0"))
+      (bind  "SUPER + ALT + right"   (hctl "moveactive" "80 0"))
+      (bind  "SUPER + ALT + up"      (hctl "moveactive" "0 -80"))
+      (bind  "SUPER + ALT + down"    (hctl "moveactive" "0 80"))
+
+      # Workspace switching (hyprsome)
+      (builtins.concatStringsSep "\n" (builtins.genList (i:
+        let n = toString (i + 1); in
+        ''
+        hl.bind("SUPER + ${if i == 9 then "0" else n}", hl.dsp.exec_cmd("hyprsome workspace ${n}"))
+        hl.bind("SUPER + SHIFT + ${if i == 9 then "0" else n}", hl.dsp.exec_cmd("hyprsome move ${n}"))
+        ''
+      ) 10))
       
-      "SUPER, mouse_up, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"
-      "SUPER, mouse_down, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"
+      # Workspace scroll
+      (bind "SUPER + mouse_up" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"))
+      (bind "SUPER + mouse_down" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"))
+      (bind "SUPER + Tab" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"))
+      (bind "SUPER + SHIFT + Tab" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"))
 
-      "SUPER, Tab, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"
-      "SUPER SHIFT, Tab, exec, hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"
-    ];
+      # Locked binds (work on lockscreen)
 
-    gesture = [
-      "3, horizontal, workspace"
-    ];
+      # Laptop brightness
+      (bindlr "XF86MonBrightnessUp" (exec "brightnessctl set 5%+"))
+      (bindlr "XF86MonBrightnessDown" (exec "brightnessctl set 5%-"))
+      (bindl "SUPER + XF86MonBrightnessUp" (exec "brightnessctl set 100%+"))
+      (bindl "SUPER + XF86MonBrightnessDown" (exec "brightnessctl set 100%-"))
 
-    # keybinds that work even on lockscreen
-    bindl = [
-      # laptop brightness
-      ",XF86MonBrightnessUp, exec, brightnessctl set 5%+"
-      ",XF86MonBrightnessDown, exec, brightnessctl set 5%-"
-      "SUPER, XF86MonBrightnessUp, exec, brightnessctl set 100%+"
-      "SUPER, XF86MonBrightnessDown, exec, brightnessctl set 100%-"
+      # Desktop brightness
+      (bindlr "code:233" (exec "ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"))
+      (bindlr "code:232" (exec "ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 - 10"))
+      (bindl "SUPER + code:233" (exec "ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"))
+      (bindl "SUPER + code:232" (exec "ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"))
 
-      # desktop brightness
-      ",code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 + 10"
-      ",code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 - 10"
-      "SUPER, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
-      "SUPER, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
+      # Shutdown options
+      (bindl "SUPER + Escape" (exec "pidof hyprlock || hyprlock"))
+      (bindl "SUPER + SHIFT + Escape" (exec "my-sleep"))
+      (bindl "SUPER + SHIFT + CTRL + Escape" (exec "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"))
+      (bindl "SUPER + SHIFT + CTRL + ALT + Escape" (exec "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"))
+      (bindl ", switch:Lid Switch" (exec "my-sleep"))
 
-      # shutdown options
-      "SUPER, Escape, exec, pidof hyprlock || hyprlock"
-      "SUPER SHIFT, Escape, exec, my-sleep"
-      "SUPER SHIFT CTRL, Escape, exec, hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"
-      "SUPER SHIFT CTRL ALT, Escape, exec, hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"
-      ", switch:Lid Switch, exec, my-sleep"
+      # Media and volume controls
+      (bindlr "XF86AudioRaiseVolume" (exec "pamixer -i 2"))
+      (bindlr "XF86AudioLowerVolume" (exec "pamixer -d 2"))
+      (bindl "XF86AudioMute" (exec "pamixer -t"))
+      (bindl "XF86AudioPlay" (exec "playerctl play-pause"))
+      (bindl "XF86AudioNext" (exec "playerctl next"))
+      (bindl "XF86AudioPrev" (exec "playerctl previous"))
+      (bindl "XF86AudioStop" (exec "playerctl stop"))
 
-      # media and volume controls
-      ",XF86AudioRaiseVolume,exec, pamixer -i 2"
-      ",XF86AudioLowerVolume,exec, pamixer -d 2"
-      ",XF86AudioMute,exec, pamixer -t"
-      ",XF86AudioPlay,exec, playerctl play-pause"
-      ",XF86AudioNext,exec, playerctl next"
-      ",XF86AudioPrev,exec, playerctl previous"
-      ",XF86AudioStop, exec, playerctl stop"
-    ];
+      # Mouse binds
+      (bindm "SUPER + mouse:272" "hl.dsp.window.drag()")
+      (bindm "SUPER + mouse:273" "hl.dsp.window.resize()")
 
-    # mouse binding
-    bindm = [
-      "SUPER, mouse:272, movewindow"
-      "SUPER, mouse:273, resizewindow"
-    ];
-  };
+      # Gesture
+      ''hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })''
+  ];
 }
