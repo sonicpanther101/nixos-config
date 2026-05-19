@@ -107,8 +107,6 @@
         dim_special = 0;
       };
 
-      animations.enabled = true;
-
       # workspace = if (host != host) then [
       workspace = if (host == "desktop") then [
         "1,monitor:HDMI-A-1"
