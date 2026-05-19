@@ -99,12 +99,11 @@ wayland.windowManager.hyprland.extraConfig =
         end
       ''
       
-      
       # Workspace scroll
-      (bind "SUPER + mouse_up" "smw.cycle_workspaces(1)")
-      (bind "SUPER + mouse_down" "smw.cycle_workspaces(-1)")
-      (bind "SUPER + Tab" "smw.cycle_workspaces(1)")
-      (bind "SUPER + SHIFT + Tab" "smw.cycle_workspaces(-1)")
+      (bind "SUPER + mouse_up" "function() return smw.cycle_workspaces(1) end")
+      (bind "SUPER + mouse_down" "function() return smw.cycle_workspaces(-1) end")
+      (bind "SUPER + Tab" "function() return smw.cycle_workspaces(1) end")
+      (bind "SUPER + SHIFT + Tab" "function() return smw.cycle_workspaces(-1) end")
 
       # Locked binds (work on lockscreen)
 

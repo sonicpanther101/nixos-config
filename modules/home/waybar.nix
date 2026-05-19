@@ -38,8 +38,9 @@
           format = "<sub>{icon}</sub>";
           format-icons = {
             empty = "";
-            active = "";
-            default = "";
+            active = "";
+            visible = "";
+            default = "";
             urgent = "";
           };
           # persistent-workspaces = if (host != host) then {
@@ -49,6 +50,7 @@
           } else {
             "*" = 5;
           };
+          active-only = true;
         };
 
         "custom/keyboard" = lib.mkIf (host != "desktop") {
@@ -174,16 +176,19 @@
 
     #workspaces button {
         padding:    0 5px;
-        color:      #89b4fa;
-    }
-
-    #workspaces button.visible {
         color:      #cdd6f4;
     }
 
+    #workspaces button.empty {
+        color:      #45475a;
+    }
+
+    #workspaces button.visible {
+        color:      #89b4fa;
+    }
+
     #workspaces button.focused {
-        border-top: 3px solid #cdd6f4;
-        border-bottom: 3px solid #89b4fa;
+        border-bottom: 3px solid #1e1e2e;
     }
 
     #workspaces button.urgent {

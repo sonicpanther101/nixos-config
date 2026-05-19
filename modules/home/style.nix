@@ -11,6 +11,9 @@
   };
 
   stylix = {
-    targets.hyprland.enable = false;
+    targets = {
+      hyprland.enable = false;
+      waybar.enable = false;
+    };
   };
 }
