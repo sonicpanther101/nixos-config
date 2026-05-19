@@ -17,6 +17,8 @@
       hl.animation({ leaf = "fade",            enabled = true, speed = 2.5, bezier = "md3_decel" })
       hl.animation({ leaf = "workspaces",      enabled = true, speed = 3,   bezier = "fluent_decel", style = "slide" })
       hl.animation({ leaf = "specialWorkspace",enabled = true, speed = 3,   bezier = "md3_decel",    style = "slidevert" })
+
+      hl.config({ cursor = { no_warps = true } })
     '';
     
     settings = {
@@ -47,7 +49,6 @@
         sensitivity = 0.6;
       };
 
-      cursor.no_warps = true;
       debug.disable_logs = false;
 
       general = {
