@@ -57,8 +57,8 @@ wayland.windowManager.hyprland.extraConfig =
       (bind "SUPER + SHIFT + S" (exec "kooha"))
 
       # Focus
-      (bind "SUPER + left" (exec "focus-move l"))
-      (bind "SUPER + right" (exec "focus-move r"))
+      (bind "SUPER + left" "hl.dsp.focus({ direction = 'left' })")
+      (bind "SUPER + right" "hl.dsp.focus({ direction = 'right' })")
       (bind "SUPER + up" "hl.dsp.focus({ direction = 'up' })")
       (bind "SUPER + down" "hl.dsp.focus({ direction = 'down' })")
 
@@ -89,7 +89,7 @@ wayland.windowManager.hyprland.extraConfig =
       (bind  "SUPER + ALT + up"      (hctl "moveactive" "0 -80"))
       (bind  "SUPER + ALT + down"    (hctl "moveactive" "0 80"))
 
-      # Workspace switching (hyprsome)
+      # Workspace switching (split_monitor_workspaces)
       ''
         local smw = hl.plugin.split_monitor_workspaces
         for i = 1, 10 do
@@ -100,6 +100,7 @@ wayland.windowManager.hyprland.extraConfig =
       ''
       
       # Workspace scroll
+      (bind "SUPER + Tab" "function() return smw.change_monitor_silent(1) end")
       (bind "SUPER + mouse_up" "function() return smw.cycle_workspaces(1) end")
       (bind "SUPER + mouse_down" "function() return smw.cycle_workspaces(-1) end")
       (bind "SUPER + Tab" "function() return smw.cycle_workspaces(1) end")

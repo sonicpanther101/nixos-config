@@ -11,7 +11,6 @@ in {
     "my-icon-browser"
     "my-refresh"
     "my-rwall"
-    "focus-move"
     "maxfetch"
     "syncthing-usb"
     "date-formatter"

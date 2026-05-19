@@ -16,6 +16,6 @@ fi
 
 imv ~/Pictures/system/Study\ times.png   # Open study schedule
 
-hyprctl dispatch dpms on                 # Turn display on
+hyprctl dispatch 'hl.dsp.dpms("on")'     # Turn display on
 
 cd ~/nixos-config && git fetch

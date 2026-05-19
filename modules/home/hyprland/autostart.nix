@@ -27,18 +27,17 @@ wayland.windowManager.hyprland.extraConfig =
 
       # Opening programs by default (not needed, just nice)
       # Main Monitor
-      "hyprctl dispatch focusmonitor DP-1"
-      "hyprctl dispatch exec '[workspace 11 silent] vivaldi --profile-directory=\\\"Default\\\"'"
+      "hyprctl dispatch 'hl.dsp.exec_cmd(\"vivaldi --profile-directory=\\\"Default\\\"\")'"
 
       # Secondary Monitor
-      "hyprctl dispatch focusmonitor HDMI-A-1"
-      "hyprctl dispatch workspace 1 && hyprctl dispatch exec '[workspace 1 silent] beefweb_mpris'"
-      "hyprctl dispatch workspace 2 && hyprctl dispatch exec '[workspace 2 silent] codium'"
-      "hyprctl dispatch workspace 3 && hyprctl dispatch exec '[workspace 3 silent] kitty'"
+      "hyprctl dispatch 'hl.dsp.focus({ monitor = \"HDMI-A-1\" })'"
+      "hyprctl dispatch 'hl.dsp.exec_cmd(\"beefweb_mpris\")'"
+      "hyprctl dispatch 'hl.dsp.exec_cmd(\"codium\")'"
+      "hyprctl dispatch 'hl.dsp.exec_cmd(\"kitty\")'"
 
       # Change focus back to main
-      "hyprctl dispatch workspace 1"
-      "hyprctl dispatch focusmonitor DP-1"
+      "hyprctl dispatch 'hl.dsp.focus({ monitor = \"DP-1\" })'"
+      "hyprctl dispatch 'hl.dsp.focus({ workspace = 11 })'"
 
       "imv ~/Pictures/system/Study\ times.png"
 
