@@ -7,6 +7,10 @@
 
     configType = "lua";
 
+    plugins = [
+      inputs.split-monitor-workspaces.packages.${pkgs-stable.stdenv.hostPlatform.system}.split-monitor-workspaces
+    ];
+
     # set the flake package
     package = inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.hyprland;
     # make sure to also set the portal package, so that they are in sync

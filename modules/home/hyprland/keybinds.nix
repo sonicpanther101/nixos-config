@@ -90,19 +90,21 @@ wayland.windowManager.hyprland.extraConfig =
       (bind  "SUPER + ALT + down"    (hctl "moveactive" "0 80"))
 
       # Workspace switching (hyprsome)
-      (builtins.concatStringsSep "\n" (builtins.genList (i:
-        let n = toString (i + 1); in
-        ''
-        hl.bind("SUPER + ${if i == 9 then "0" else n}", hl.dsp.exec_cmd("hyprsome workspace ${n}"))
-        hl.bind("SUPER + SHIFT + ${if i == 9 then "0" else n}", hl.dsp.exec_cmd("hyprsome move ${n}"))
-        ''
-      ) 10))
+      ''
+        local smw = hl.plugin.split_monitor_workspaces
+        for i = 1, 10 do
+          local key = tostring(i%10)
+          hl.bind("SUPER + " .. key, function() return smw.workspace(i) end)
+          hl.bind("SUPER + SHIFT + " .. key, function() return smw.move_to_workspace_silent(i) end)
+        end
+      ''
+      
       
       # Workspace scroll
-      (bind "SUPER + mouse_up" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"))
-      (bind "SUPER + mouse_down" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"))
-      (bind "SUPER + Tab" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | (.activeWorkspace.id%10)+1'`"))
-      (bind "SUPER + SHIFT + Tab" (exec "hyprsome workspace `hyprctl monitors -j | jq '.[] | select(.focused) | ((.activeWorkspace.id + 8) % 10) + 1'`"))
+      (bind "SUPER + mouse_up" "smw.cycle_workspaces(1)")
+      (bind "SUPER + mouse_down" "smw.cycle_workspaces(-1)")
+      (bind "SUPER + Tab" "smw.cycle_workspaces(1)")
+      (bind "SUPER + SHIFT + Tab" "smw.cycle_workspaces(-1)")
 
       # Locked binds (work on lockscreen)
 

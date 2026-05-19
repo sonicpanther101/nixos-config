@@ -97,6 +97,13 @@
         },
 
         master = { special_scale_factor = 1 },
+
+        plugin = {
+          split_monitor_workspaces = {
+            enable_persistent_workspaces = 1,
+            enable_wrapping = 1,
+          },
+        },
       })
       hl.config({
         xwayland = {
@@ -116,14 +123,11 @@
         position = "1921x0",
         scale = "1"
       })
-    '' + (
-      builtins.concatStringsSep "\n" (builtins.genList (i:
-        let n = i + 1; in
-        ''
-        hl.workspace_rule({ workspace = "${toString(n)}", monitor = "HDMI-A-1"})
-        hl.workspace_rule({ workspace = "${toString(n+10)}", monitor = "DP-1"})
-        '' ) 10)
-    ) else ''
+      local smw = hl.plugin.split_monitor_workspaces
+      smw.monitor_priority({ "DP-1", "HDMI-A-1" })
+      smw.max_workspaces({ monitor = "DP-1", max = 10 })
+      smw.max_workspaces({ monitor = "HDMI-A-1", max = 10 })
+    '' else ''
       hl.monitor({
         output = "",
         mode = "preferred",

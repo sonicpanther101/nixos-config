@@ -33,7 +33,6 @@
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations
     waybar-mpris                                          # To show music on bar
-    hyprsome                                              # Hyprland extension to have monitor specific workspaces
     hyprsysteminfo                                        # Displays information about the running system
     hyprpolkitagent                                       # Required for GUI applications to be able to sudo
     wofi                                                  # App launcher

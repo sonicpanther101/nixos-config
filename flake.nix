@@ -31,6 +31,11 @@
     
     hyprshutdown.url = "github:hyprwm/hyprshutdown";
 
+    split-monitor-workspaces = {
+      url = "github:zjeffer/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
+
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
     nix-index-database.url = "github:nix-community/nix-index-database";

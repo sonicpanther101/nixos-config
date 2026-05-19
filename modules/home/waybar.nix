@@ -37,8 +37,10 @@
         "hyprland/workspaces" = {
           format = "<sub>{icon}</sub>";
           format-icons = {
+            empty = "";
             active = "";
             default = "";
+            urgent = "";
           };
           # persistent-workspaces = if (host != host) then {
           persistent-workspaces = if (host == "desktop") then {
