@@ -1,5 +1,5 @@
 { ... } : {
-programs.vscode.profiles.default.keybindings = [
+programs.vscodium.profiles.default.keybindings = [
         { key = "ctrl+w"; command = "-workbench.action.closeActiveEditor"; }
         { key = "ctrl+w"; command = "workbench.action.closeActiveEditor"; }
         { key = "alt+f4"; command = "-workbench.action.closeWindow"; }

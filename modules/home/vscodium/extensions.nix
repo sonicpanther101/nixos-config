@@ -21,7 +21,7 @@ let
     };
 in {
   # Path for most of the nixpkgs vscode extensions is fucked, that's why there is so many manually imported
-  programs.vscode.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
+  programs.vscodium.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
     bbenoist.nix
     catppuccin.catppuccin-vsc-icons
   ] ++ [

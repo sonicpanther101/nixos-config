@@ -34,8 +34,6 @@
 
     split-monitor-workspaces = {
       url = "github:zjeffer/split-monitor-workspaces";
-
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.hyprland.follows = "hyprland";
     };
     
