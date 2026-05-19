@@ -40,7 +40,7 @@
         gaps_out = 6;
         gaps_workspaces = 10;
         border_size = 2;
-        col.active_border = "#89b4fa";
+        "col.active_border" = "rgb(89b4fa)";
       };
 
       misc = {
