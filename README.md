@@ -141,7 +141,7 @@ Error:
 - [x] Tagscanner and mp3tag
 - [x] Get Hyprlock focusing correctly (moved back to swaylock)
 - [x] Get VSCodium settings nixified
-- [ ] Change bootloader theme to my fork
+- [x] Change bootloader theme to my fork
 - [x] Add pc specs to maxfetch (use fastfetch)
 - [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth

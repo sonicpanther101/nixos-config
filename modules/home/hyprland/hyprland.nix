@@ -2,10 +2,10 @@
 
   wayland.windowManager.hyprland  = {
     enable = true;
-
     xwayland.enable = true;
-    
     systemd.enable = true;
+
+    configType = "lua";
 
     # set the flake package
     package = inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.hyprland;
