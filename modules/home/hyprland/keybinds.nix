@@ -22,9 +22,9 @@ wayland.windowManager.hyprland.extraConfig =
       (bind "SUPER + SHIFT + Return" (exec "kitty --start-as=fullscreen -o 'font_size=16'"))
 
       # Browser
-      (bind "SUPER + B" (exec "vivaldi --profile-directory=\"Default\" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne"))
+      (bind "SUPER + B" (exec "vivaldi --profile-directory=\\\"Default\\\" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne"))
       # School Profile
-      (bind "SUPER + SHIFT + B" (exec "vivaldi --profile-directory=\"Profile 1\""))
+      (bind "SUPER + SHIFT + B" (exec "vivaldi --profile-directory=\\\"Profile 1\\\""))
 
       # File browser
       (bind "SUPER + E" (exec "nemo"))
