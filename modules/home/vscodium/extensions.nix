@@ -22,7 +22,6 @@ let
 in {
   # Path for most of the nixpkgs vscode extensions is fucked, that's why there is so many manually imported
   programs.vscode.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
-    asvetliakov.vscode-neovim
     bbenoist.nix
     catppuccin.catppuccin-vsc-icons
   ] ++ [
@@ -93,6 +92,10 @@ in {
     (openVsxExtension {
       publisher = "esbenp"; name = "prettier-vscode"; version = "11.0.0";
       sha256 = "1iyahpy3b53cajwzd7drhggzg8mc6ldx8xi414vpvyjps6xz8nfr";
+    })
+    (openVsxExtension {
+      publisher = "asvetliakov"; name = "vscode-neovim"; version = "1.19.0";
+      sha256 = "sha256-DWK7daxHjHOKY7HHCeI89eWTYaIPB2LQ/C1VdnyIqu8=";
     })
   ];
 }

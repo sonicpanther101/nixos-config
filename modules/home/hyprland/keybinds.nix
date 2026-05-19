@@ -69,7 +69,7 @@ wayland.windowManager.hyprland.extraConfig =
       (bind "SUPER + F" "hl.dsp.window.fullscreen({ mode = 0 })")
       (bind "SUPER + Space" "hl.dsp.window.float({ action = 'toggle' })")
       (bind "SUPER + J" "hl.dsp.layout('togglesplit')")
-      (bind "ALT + Tab" "hl.dsp.focus({ last })")
+      (bind "ALT + Tab" "hl.dsp.focus({ last = true })")
 
       # Move windows
       (bind  "SUPER + SHIFT + left"  (hctl "movewindow" "l"))
@@ -123,7 +123,7 @@ wayland.windowManager.hyprland.extraConfig =
       (bindl "SUPER + SHIFT + Escape" (exec "my-sleep"))
       (bindl "SUPER + SHIFT + CTRL + Escape" (exec "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"))
       (bindl "SUPER + SHIFT + CTRL + ALT + Escape" (exec "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"))
-      (bindl ", switch:Lid Switch" (exec "my-sleep"))
+      (bindl "switch:Lid Switch" (exec "my-sleep"))
 
       # Media and volume controls
       (bindlr "XF86AudioRaiseVolume" (exec "pamixer -i 2"))
@@ -140,6 +140,5 @@ wayland.windowManager.hyprland.extraConfig =
 
       # Gesture
       ''hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })''
-      ''hl.config.binds.scroll_event_delay(0)''
   ];
 }

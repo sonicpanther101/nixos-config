@@ -20,6 +20,8 @@
 
       hl.config({ 
 
+        binds = { scroll_event_delay = 0 },
+
         cursor = { no_warps = true },
         decoration = {
           rounding = 3,
@@ -59,7 +61,8 @@
           gaps_in = 3,
           gaps_out = 6,
           gaps_workspaces = 10,
-          border_size = 2
+          border_size = 2,
+          col = { active_border = "rgb(89b4fa)" }
         },
 
         input = {
