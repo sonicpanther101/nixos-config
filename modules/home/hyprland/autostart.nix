@@ -22,7 +22,7 @@
       # "wl-copy" # Might clear the clipboard history on boot
       "cd ~/nixos-config && git fetch"
     ]++ (if (host == "desktop") then [
-      "awww-daemon"
+      "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
 
       # Opening programs by default (not needed, just nice)

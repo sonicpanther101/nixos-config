@@ -1,4 +1,4 @@
-{ pkgs-stable, ... }: 
+{ pkgs-stable, lib, ... }: 
 let
   openVsxExtension = { publisher, name, version, sha256, fetchName ? "" }:
     pkgs-stable.stdenv.mkDerivation {
@@ -24,7 +24,6 @@ in {
   programs.vscodium.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
     bbenoist.nix
     catppuccin.catppuccin-vsc-icons
-    catppuccin.catppuccin-vsc
   ] ++ [
     # Extensions not in nixpkgs — built from Open VSX
     # https://open-vsx.org/api/{publisher}/{name}/{version}/file/{publisher}.{name}-{version}.vsix
@@ -95,4 +94,12 @@ in {
       sha256 = "sha256-DWK7daxHjHOKY7HHCeI89eWTYaIPB2LQ/C1VdnyIqu8=";
     })
   ];
+
+  home.activation.catppuccinVsc = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ext_src="${pkgs-stable.vscode-extensions.catppuccin.catppuccin-vsc}/share/vscode/extensions/catppuccin.catppuccin-vsc"
+    ext_dst="$HOME/.vscode-oss/extensions/catppuccin.catppuccin-vsc"
+    rm -rf "$ext_dst"
+    cp -r "$ext_src" "$ext_dst"
+    chmod -R +w "$ext_dst"
+  '';
 }
