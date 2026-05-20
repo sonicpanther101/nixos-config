@@ -37,6 +37,7 @@
         "python.defaultInterpreterPath" = "";
         "nix.serverPath" = "nixd";
         "extensions.autoUpdate" = false;
+        "extensions.autoCheckUpdates" = false;
         "extensions.experimental.affinity" = {
           "asvetliakov.vscode-neovim" = 1;
         };
