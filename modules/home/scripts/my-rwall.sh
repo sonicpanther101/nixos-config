@@ -3,24 +3,26 @@ wallpapers=$HOME/Pictures/wallpapers
 space_wallpapers=$HOME/Pictures/wallpapers/wide/space
 random=$(ls $previews | shuf | head -1)
 
-while getopts "n:" option; do
+while getopts "ln:" option; do
     case $option in
         n)
             type="$OPTARG"
             random=$(ls $previews | grep $type | shuf | head -1)
             ;;
+        l)
+            echo $previews
+            exit;;
         \?) # Invalid option
             echo "Error: Invalid option"
             exit;;
     esac
 done
 
-if ! pgrep -x "awww-daemon" >/dev/null; then
+awww query >/dev/null 2>&1 || {
     echo "Starting awww-daemon..."
-    awww-daemon &
-else
-    echo "awww-daemon is already running."
-fi
+    awww-daemon >/dev/null 2>&1 &
+    sleep 0.5
+}
 
 echo $random
 
