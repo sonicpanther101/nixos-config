@@ -3,6 +3,9 @@ wallpapers=$HOME/Pictures/wallpapers
 space_wallpapers=$HOME/Pictures/wallpapers/wide/space
 random=$(ls $previews | shuf | head -1)
 
+type=""
+list_mode=false
+
 while getopts "ln:" option; do
     case $option in
         n)
@@ -10,13 +13,22 @@ while getopts "ln:" option; do
             random=$(ls $previews | grep $type | shuf | head -1)
             ;;
         l)
-            echo $previews
-            exit;;
+            list_mode=true
+            ;;
         \?) # Invalid option
             echo "Error: Invalid option"
             exit;;
     esac
 done
+
+if $list_mode; then
+    if [[ -n "$type" ]]; then
+        ls "$previews" | grep -F "$type"
+    else
+        ls "$previews"
+    fi
+    exit 0
+fi
 
 awww query >/dev/null 2>&1 || {
     echo "Starting awww-daemon..."
