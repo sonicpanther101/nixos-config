@@ -15,12 +15,9 @@ while getopts "n:" option; do
     esac
 done
 
-SOCKET="/run/user/1000/wayland-1-awww-daemon.sock"
-
-if [ ! -S "$SOCKET" ]; then
+if ! pgrep -x "awww-daemon" >/dev/null; then
     echo "Starting awww-daemon..."
     awww-daemon &
-    disown
 else
     echo "awww-daemon is already running."
 fi
@@ -31,8 +28,8 @@ echo $random
 if echo $random | grep -q widevideo-; then
     random="${random%.*}"
     random="${random#widevideo-}"
-    awww img -o "DP-1" --transition-type random $wallpapers/wide/right/$random.webp&
-    awww img -o "HDMI-A-1" --transition-type random $wallpapers/wide/left/$random.webp
+    awww img -o "DP-1" --transition-type random $wallpapers/wide/left/$random.webp&
+    awww img -o "HDMI-A-1" --transition-type random $wallpapers/wide/right/$random.webp
 elif echo $random | grep -q wide-random_space_image; then
     random=$(ls $space_wallpapers | shuf | head -1)
     convert -crop 50%x100% $space_wallpapers/$random /tmp/output.png
