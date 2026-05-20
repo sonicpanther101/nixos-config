@@ -146,7 +146,7 @@ Error:
 - [x] Try get a GWFL window with hyprwayland-scanner
 - [x] Set up bluetooth
 - [x] Awww for wallpaper (Successor to swww)
-- [ ] Set up build machines to be automatic (add instructions)
+- [x] Set up build machines to be automatic (add instructions)
 - [x] Fix keyboard waking from sleep
 - [x] Make network notification not permanent
 - [x] Add back all programs from old config
