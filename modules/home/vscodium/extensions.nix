@@ -24,6 +24,7 @@ in {
   programs.vscodium.profiles.default.extensions = with pkgs-stable.vscode-extensions; [
     bbenoist.nix
     catppuccin.catppuccin-vsc-icons
+    catppuccin.catppuccin-vsc
   ] ++ [
     # Extensions not in nixpkgs — built from Open VSX
     # https://open-vsx.org/api/{publisher}/{name}/{version}/file/{publisher}.{name}-{version}.vsix
@@ -55,10 +56,6 @@ in {
     (openVsxExtension {
       publisher = "sr-team"; name = "vscode-clangd-cmake"; version = "0.2.0";
       sha256 = "sha256-7gMJI0xzic3RKqVqbdC0Ir6sRfnIvDLlfBb9gQEMZ0E=";
-    })
-    (openVsxExtension {
-      publisher = "catppuccin"; name = "catppuccin-vsc"; version = "3.19.0";
-      sha256 = "sha256-6/NHZkg37b6RyZIP89FMltSii+7sC5UTfHYFgyYyl4A=";
     })
     (openVsxExtension {
       publisher = "WakaTime"; name = "vscode-wakatime"; version = "30.2.0";
