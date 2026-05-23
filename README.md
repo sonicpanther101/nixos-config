@@ -134,6 +134,7 @@ Error:
 - [x] Back up stylus to this repo (did it with integrated google drive)
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
+- [ ] Write initial install script
 - [ ] Use Proton instead of bottles
 - [ ] Fix GPU rendering on vivaldi (for makerworld parametric models)
 - [x] Get all folders on syncthing
@@ -151,14 +152,13 @@ Error:
 - [x] Make network notification not permanent
 - [x] Add back all programs from old config
 - [x] Add floating terminal
-- [ ] Write vivaldi explicit setup
+- [x] Write vivaldi explicit setup
 - [x] Stop fuzzy cursor
 - [x] Customise starship
 - [x] Fill in components list in readme
 - [x] Typst to use instead of latex
 - [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
-- [ ] Get HDR working
 
 ## Browser Setup
 
@@ -181,6 +181,7 @@ Error:
 17. Change weather location to correct location, select kmph over m/s
 18. Remove toolbar widgets; notes, translate, reading list, mail, contacts, calendar, tasks, feeds, vivaldi social, vivaldi help, wikipedia, vpn, the gap between search and vpn, vivaldi share.
 19. Add toolbar widgets; status bar's zoom and page tiler to the top bar, google translate, discord, proton and vivaldi settings to panel.
+20. Import settings to dark reader and stylus extension from `~/nixos-config/modules/home/vivaldi`.
 
 
 ## TODO: 📓 Components

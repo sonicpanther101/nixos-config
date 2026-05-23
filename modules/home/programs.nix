@@ -53,18 +53,6 @@ in {
     enable = true;
   };
 
-  # Browser
-  programs.chromium = {
-    enable = true;
-    package = pkgs-unstable.vivaldi;
-    extensions = [ "clngdbkpkpeebahjckkjfobafhncgmne" ];
-    commandLineArgs = [
-      "--enable-features=WebRTCPipeWireCapturer"
-      "--ozone-platform=wayland"
-      "--disable-component-update"
-    ];
-  };
-
   # Audio visualiser
   programs.cava = {
     enable = true;
@@ -118,7 +106,6 @@ in {
     [General]
     theme=catppuccin-mocha-blue
   '';
-
 
   # QT
   home.file.".config/qt5ct/colors/catppuccin-mocha-mauve.conf".source = "${catppuccin-qt5ct}/themes/catppuccin-mocha-blue.conf";

@@ -11,6 +11,7 @@
     ./git.nix
     ./defaultapps.nix
     ./variables.nix
+    ./vivaldi
     ./vscodium
   ];
 }

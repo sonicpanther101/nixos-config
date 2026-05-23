@@ -46,6 +46,7 @@
 
       # Decreases opacity
       "match:class codium, opacity 0.9"
+      "match:class foobar.exe, opacity 0.9"
       "match:class vivaldi-stable, opacity 0.9"
       "match:title .*(Last.fm|Movie).*, opacity 0.99"
       "match:class nemo, opacity 0.75"
