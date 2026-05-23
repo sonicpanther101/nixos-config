@@ -134,9 +134,9 @@ Error:
 - [x] Back up stylus to this repo (did it with integrated google drive)
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
-- [ ] Write initial install script
+- [x] Write initial install script (might need rebuild to boot instead of switch)
 - [ ] Use Proton instead of bottles
-- [ ] Fix GPU rendering on vivaldi (for makerworld parametric models)
+- [x] Fix GPU rendering on vivaldi (for makerworld parametric models)
 - [x] Get all folders on syncthing
 - [x] Get the fuck package working (pay respects)
 - [x] Tagscanner and mp3tag
