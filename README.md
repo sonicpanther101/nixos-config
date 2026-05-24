@@ -24,7 +24,7 @@
 7. Make sure partitions are done correctly, you can lose everything on the drive if messed up. On my laptop I had to create an extra fat32 partition so it didn't overwrite the windows bootloader.
 ```
 
-8. Install (don't get worriedif it gets stuck on 46% complete)
+8. Install (don't get worried if it gets stuck on 46% complete, this is the stage where it downloads necessary packages)
 
 9. Reboot
 
@@ -41,54 +41,27 @@ nix-shell -p git
 ```bash
 git clone https://www.github.com/sonicpanther101/nixos-config
 ```
-4. Replace hardware config with appropriate host: 
+4. Run install script: 
 ```bash
-cp /etc/nixos/hardware-configuration.nix ~/nixos-config/hosts/<host>/
+cd nixos-config && chmod +x ./install.sh && ./install.sh
 ```
-5. Allow modifications to .config folder:
-```bash
-sudo chown -R $USER ~/.config
-```
-6. Rebuild system: 
-```bash
-sudo nixos-rebuild switch --flake ./nixos-config#<host>
-```
-7. Reboot: 
+5. Reboot: 
 ```bash
 reboot
 ```
 
+### Ways to rebuild in order of preference
 
-
-### Normal rebuild
+```bash
+my-install
+```
 
 ```bash
 nh os switch ~/nixos-config/ -H <host>
 ```
 
-### My-install Rebuild
-
-#### Setup
-
-1. Change to ssh
 ```bash
-cd ~/nixos-config
-git remote set-url origin git@github.com:sonicpanther101/nixos-config.git
-```
-2. Then make sure you have SSH keys set up:
-
-```bash
-# Generate SSH key
-ssh-keygen -t ed25519 -C "your_email@example.com"
-
-# Copy the public key (ignore the email)
-cat ~/.ssh/id_ed25519.pub
-```
-3. Add the public key to GitHub: Settings → SSH and GPG keys → New SSH key
-
-#### Usage
-```bash
-my-install
+sudo nixos-rebuild switch --flake ./nixos-config#<host>
 ```
 
 ### Errors
@@ -184,7 +157,7 @@ Error:
 20. Import settings to dark reader and stylus extension from `~/nixos-config/modules/home/vivaldi`.
 
 
-## TODO: 📓 Components
+## Components
 |                             | NixOS + Hyprland                                                                              |
 | --------------------------- | :---------------------------------------------------------------------------------------------:
 | **Window Manager**          | [Hyprland][Hyprland] |

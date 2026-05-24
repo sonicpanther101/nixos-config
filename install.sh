@@ -289,5 +289,11 @@ if [ newHost ]; then
     sudo nixos-rebuild switch --flake .#${HOST}
 fi
 
-echo -e "${INFO}After you reboot, make sure to set up any specialised hardware by looking in the ./modules/core/hardware.nix and changing some of the host checking stakements throughout the config"
+echo -e "${INFO}Setting up my-install script"
+git remote set-url origin git@github.com:${gitname}/nixos-config.git
+ssh-keygen -t ed25519 -C "${gitemail}"
+key=$(cat ~/.ssh/id_ed25519.pub | tr -s '[:space:]' '\n' | head -n 2 | tail -n 1 )
+echo -e "${INFO}Copy this key:\nssh-ed25519 ${key}\nThen add the public key to GitHub: Account Settings → SSH and GPG keys → New SSH key"
+
 echo -e "${INFO}You can now reboot to apply the config"
+echo -e "${INFO}After you reboot, make sure to set up any specialised hardware by looking in the ./modules/core/hardware.nix and changing some of the host checking stakements throughout the config"
