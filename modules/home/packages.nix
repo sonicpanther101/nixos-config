@@ -25,7 +25,7 @@
 
                                                           # Gaming tools (some may be unecessary)
     mangohud                                              # FPS/performance overlay
-    protonup-qt                                           # Manage custom Proton versions
+    protonplus                                            # Simple Wine and Proton-based compatibility tools manager
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
     prismlauncher                                         # Minecraft launcher

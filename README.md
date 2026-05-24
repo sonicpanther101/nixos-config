@@ -135,7 +135,7 @@ Error:
 - [x] Add gnupg for security
 - [x] Replace all mentions of adam with variable
 - [x] Write initial install script (might need rebuild to boot instead of switch)
-- [ ] Use Proton instead of bottles
+- [x] Use Proton instead of bottles
 - [x] Fix GPU rendering on vivaldi (for makerworld parametric models)
 - [x] Get all folders on syncthing
 - [x] Get the fuck package working (pay respects)
