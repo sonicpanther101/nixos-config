@@ -121,6 +121,13 @@
     # OpenRGB
     udev.packages = [ pkgs-unstable.openrgb ];
 
+    sunshine = {
+      enable = true;
+      autoStart = true;
+      capSysAdmin = true;   # needed for virtual display/input capture
+      openFirewall = true;
+    };
+
     ollama = {
       enable = true;
       package = pkgs-unstable.ollama-cuda;

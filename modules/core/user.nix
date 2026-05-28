@@ -9,6 +9,9 @@
       "wheel"
     ] ++ (if (host == "laptop") then [
       "surface-control"
+    ] else if (host == "desktop") then [
+      "input"
+      "video"
     ] else []);
     shell = pkgs-stable.zsh;
   };
