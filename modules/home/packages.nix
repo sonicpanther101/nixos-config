@@ -47,6 +47,7 @@
     qdirstat                                              # Visual file-system viewer like WizTree
                                                           # System monitoring & quick utilities
     fastfetch                                             # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
+    onefetch                                              # Git repository summary on your terminal
     eza                                                   # Replacement for ls
     jq                                                    # CL JSON interpreter
     usbutils                                              # Lists connected USB devices
@@ -110,6 +111,7 @@
     neovim                                                # TUI code editor
     vim-full                                              # Basic TUI code editor with tutorial
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
+    palettum                                              # CLI tool that lets you recolor images, GIFs and videos
     toipe                                                 # Typing test in the terminal
     gperftools                                            # Fast, multi-threaded malloc() and nifty performance analysis tools
     python314                                             # Latest release of python

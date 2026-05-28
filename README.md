@@ -85,8 +85,6 @@ Error:
 - [x] lock screen
 - [x] connect fobar2000 to mpris
 - [x] mpris on waybar
-- [ ] Dark mode wine for foobar
-- [ ] CJK fonts on wine for foobar 
 - [x] hyprland workspace keybinds over scrolling
 - [x] Get `my` scripts working
 - [x] Make my-install change depending on host/username and commit changes before nh
@@ -130,6 +128,8 @@ Error:
 - [x] Customise starship
 - [x] Fill in components list in readme
 - [x] Typst to use instead of latex
+- [ ] Set up remote desktop
+- [ ] Remove so much reliance on hostname, try to go off specs
 - [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
