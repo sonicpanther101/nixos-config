@@ -18,7 +18,7 @@
           "backlight"
           "idle_inhibitor"
           (if (host != "desktop") then "battery" else "")
-          (if (host != "desktop") then "custom/keyboard" else "")
+          "custom/keyboard"
         ] ++ (lib.filter (x: x != "") [ ]);
 
         battery = {
@@ -54,7 +54,7 @@
           on-scroll-down = "hyprctl dispatch split-cycleworkspaces -1";
         };
 
-        "custom/keyboard" = lib.mkIf (host != "desktop") {
+        "custom/keyboard" = {
           format = "⌨";
           tooltip = false;
           on-click = ''

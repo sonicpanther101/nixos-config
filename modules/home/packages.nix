@@ -68,6 +68,7 @@
     networkmanagerapplet                                  # Tray GUI for NetworkManager
     nextdns                                               # For toggling DoH on/off
     libnotify                                             # Notification daemon (duplicate, but needed for install script)
+    wvkbd                                                 # Onscreen touch keyboard
                                                           # Misc
     os-prober                                             # Detect other OSes for GRUB
     ventoy-full-gtk                                       # To set up drives to be bootable while still carrying files
@@ -126,7 +127,6 @@
     (pkgs-stable.callPackage ../../packages/openrgb.nix { })
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
-    wvkbd                                                 # Laptop touch keyboard
     poweralertd                                           # UPower-powered power alerter
     xournalpp                                             # Note taking and pdf annotating app
     resources                                             # Graphical resource manager
