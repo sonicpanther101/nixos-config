@@ -42,7 +42,6 @@
     slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
     nemo-with-extensions                                  # File browser
-    adwaita-icon-theme                                    # Icon theme for Nemo
     nemo-preview                                          # File previewer for Nemo
     qdirstat                                              # Visual file-system viewer like WizTree
                                                           # System monitoring & quick utilities
