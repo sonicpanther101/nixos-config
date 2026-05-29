@@ -13,6 +13,7 @@ in {
     "my-sha256"
     "my-add-vscode-ext"
     "my-rwall"
+    "my-keybinds"
     "maxfetch"
     "syncthing-usb"
     "date-formatter"

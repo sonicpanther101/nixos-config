@@ -25,8 +25,8 @@
       # "SUPER, G, exec, ags toggle apis"
       # "SUPER, W, exec, ags toggle wallpaper"
       # "SUPER SHIFT, W, exec, ags toggle mouse-helper"
-      # "SUPER, F1, exec, show-keybinds"
-      "SUPER SHIFT, F8, exec, sh -c 'pkill waybar; waybar'"
+      "SUPER, F1, exec, kitty --title float_kitty -e my-keybinds"
+      "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
 
       # Vscodium
       "SUPER, V, exec, codium"
@@ -47,17 +47,22 @@
       "SUPER, up, movefocus, u"
       "SUPER, down, movefocus, d"
 
-      "SUPER CTRL, c, movetoworkspace, emptynm"
+      "SUPER ALT, E, movetoworkspace, emptynm"
 
       # Window controls
       "SUPER, Q, killactive,"
       "SUPER, F, fullscreen, 0"
       "SUPER, Space, togglefloating,"
       "SUPER, J, layoutmsg, togglesplit"
+      "SUPER ALT, G, split-grabroguewindows"
       "ALT, Tab, cyclenext"
       "ALT, Tab, bringactivetotop"
       "ALT SHIFT, Tab, cyclenext, prev"
       "ALT SHIFT, Tab, bringactivetotop"
+
+      # Monitor movement (SUPER+SHIFT mirrors the "move window" pattern with arrows)
+      "SUPER SHIFT, comma,  split-changemonitor, prev"
+      "SUPER SHIFT, period, split-changemonitor, next"
 
       # Move windows
       "SUPER SHIFT, left, movewindow, l"
@@ -126,7 +131,7 @@
       "SUPER, code:233, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 100"
       "SUPER, code:232, exec, ddcutil --display `hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1` setvcp 10 0"
       
-      "SUPER SHIFT, F6, exec, my-refresh"
+      "SUPER ALT, R, exec, my-refresh"
 
       # shutdown options
       "SUPER, Escape, exec, pidof hyprlock || hyprlock"

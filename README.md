@@ -130,7 +130,7 @@ Error:
 - [x] Typst to use instead of latex
 - [x] Set up remote desktop
 - [ ] Remove so much reliance on hostname, try to go off specs
-- [ ] Ask AI to make niche keybinds more intuitive
+- [x] Ask AI to make niche keybinds more intuitive
 - [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
