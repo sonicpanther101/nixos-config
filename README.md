@@ -64,6 +64,10 @@ nh os switch ~/nixos-config/ -H <host>
 sudo nixos-rebuild switch --flake ./nixos-config#<host>
 ```
 
+### Keybinds
+
+Use `SUPER + F1` to view and search keybinds.
+
 ### Errors
 
 - Break bootloader:

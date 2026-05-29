@@ -30,15 +30,34 @@ KEY_MAP = {
     "mouse_up":  "Scroll↑",  "mouse_down": "Scroll↓",
     "mouse:272": "LClick",   "mouse:273":  "RClick",
 }
-def fmt_key(key: str) -> str:
+# Keycodes used when hyprctl reports keycode instead of a key name (key == "")
+KEYCODE_MAP = {
+    233: "Bright↑",
+    232: "Bright↓",
+}
+def fmt_key(key: str, keycode: int = 0) -> str:
+    if not key and keycode:
+        return KEYCODE_MAP.get(keycode, f"key:{keycode}")
     return KEY_MAP.get(key, key)
 
-# ── Direction shorthand ───────────────────────────────────────────────────────
-DIR = {
-    "l": "←", "r": "→", "u": "↑", "d": "↓",
-    "left": "←", "right": "→", "up": "↑", "down": "↓",
-    "prev": "← prev", "next": "→ next", "+1": "→", "-1": "←",
-}
+# ── Canonical direction from an arg string ────────────────────────────────────
+def canonical_dir(arg: str) -> str | None:
+    a = arg.strip().lower()
+    if a in ("l", "left"):  return "←"
+    if a in ("r", "right"): return "→"
+    if a in ("u", "up"):    return "↑"
+    if a in ("d", "down"):  return "↓"
+    if a in ("prev", "-1"): return "←"
+    if a in ("next", "+1"): return "→"
+    try:
+        dx, dy = map(int, a.split())
+        if dx < 0: return "←"
+        if dx > 0: return "→"
+        if dy < 0: return "↑"
+        if dy > 0: return "↓"
+    except Exception:
+        pass
+    return None
 
 # ── Dispatcher → human description ───────────────────────────────────────────
 def fmt_action(dispatcher: str, arg: str) -> str | None:
@@ -52,11 +71,19 @@ def fmt_action(dispatcher: str, arg: str) -> str | None:
         case "movetoworkspace":             return f"Move window → workspace {a}"
         case "split-workspace":             return f"Switch to workspace {a}"
         case "split-movetoworkspacesilent": return f"Move window → workspace {a} (silent)"
-        case "split-changemonitorsilent":   return f"Move window → {a} monitor (silent)"
         case "split-grabroguewindows":      return "Grab windows orphaned by disconnected monitor"
-        case "split-cycleworkspaces":       return f"Cycle workspaces {DIR.get(a, a)}"
-        case "movefocus":                   return f"Move focus {DIR.get(a, a)}"
-        case "movewindow":                  return f"Move window {DIR.get(a, a)}"
+        case "split-cycleworkspaces":
+            sym = "→" if a in ("+1", "next") else "←"
+            return f"Cycle workspaces {sym}"
+        case "movefocus":
+            d = canonical_dir(a)
+            return f"Move focus {d}" if d else f"Move focus {a}"
+        case "movewindow":
+            d = canonical_dir(a)
+            return f"Move window {d}" if d else f"Move window {a}"
+        case "split-changemonitorsilent":
+            d = canonical_dir(a)
+            return f"Move window {d} monitor (silent)" if d else f"Move window to {a} monitor (silent)"
         case "resizeactive":
             try:
                 dx, dy = map(int, a.split())
@@ -75,7 +102,7 @@ def fmt_action(dispatcher: str, arg: str) -> str | None:
             except Exception:
                 return f"Move floating {a}"
         case "cyclenext":         return f"Cycle window {'← prev' if 'prev' in a else '→ next'}"
-        case "bringactivetotop":  return None   # suppress — always paired with cyclenext
+        case "bringactivetotop":  return None   # always paired with cyclenext — suppress
         case "layoutmsg":         return f"Layout: {a}"
         case "dpms":              return f"Display power: {a}"
         case "workspace":         return f"Switch to workspace {a}"
@@ -105,8 +132,8 @@ CAT_MAP = {
 CAT_ORDER = ["Launch", "Window", "Focus", "Resize", "Float",
              "Workspace", "Monitor", "System", "Other"]
 
-# ── Collapse repetitive sequential workspace groups ───────────────────────────
-def collapse_groups(raw: list) -> tuple[set, list]:
+# ── Collapse sequential workspace groups (1–10) ───────────────────────────────
+def collapse_workspace_groups(raw: list) -> tuple[set, list]:
     skip: set[int] = set()
     extra: list[tuple] = []
 
@@ -128,21 +155,68 @@ def collapse_groups(raw: list) -> tuple[set, list]:
             numeric.sort()
             vals = [v for v, _ in numeric]
             if vals != list(range(min(vals), max(vals) + 1)):
-                continue  # not perfectly sequential — leave as-is
+                continue
 
             for _, m in numeric:
                 skip.add(id(m))
 
-            keys     = [fmt_key(m["key"]) for _, m in numeric]
+            keys     = [fmt_key(m["key"], m.get("keycode", 0)) for _, m in numeric]
             mod      = mod_str(mask)
             bind_str = f"{mod} + {keys[0]}–{keys[-1]}" if mod else f"{keys[0]}–{keys[-1]}"
-
-            if disp == "split-workspace":
-                desc = f"Switch to workspace {vals[0]}–{vals[-1]}"
-            else:
-                desc = f"Move window → workspace {vals[0]}–{vals[-1]} (silent)"
-
+            desc = (
+                f"Switch to workspace {vals[0]}–{vals[-1]}" if disp == "split-workspace"
+                else f"Move window → workspace {vals[0]}–{vals[-1]} (silent)"
+            )
             extra.append(("Workspace", bind_str, desc, "", ""))
+
+    return skip, extra
+
+# ── Collapse arrow-direction groups ───────────────────────────────────────────
+# 4-directional: movefocus / movewindow / resizeactive / moveactive
+# 2-directional: split-changemonitorsilent (prev/next share same modmask)
+DISPATCHERS_4 = {"movefocus", "movewindow", "resizeactive", "moveactive"}
+DISPATCHERS_2 = {"split-changemonitorsilent"}
+
+ARROW_LABELS_4 = {
+    "movefocus":   "Move focus",
+    "movewindow":  "Move window",
+    "resizeactive":"Resize window",
+    "moveactive":  "Move floating",
+}
+
+def collapse_arrow_groups(raw: list) -> tuple[set, list]:
+    skip: set[int] = set()
+    extra: list[tuple] = []
+
+    groups: dict[tuple, list] = defaultdict(list)
+    for b in raw:
+        if b["dispatcher"] in DISPATCHERS_4 | DISPATCHERS_2:
+            groups[(b["dispatcher"], b["modmask"])].append(b)
+
+    for (disp, mask), members in groups.items():
+        dir_map: dict[str, dict] = {}
+        for m in members:
+            d = canonical_dir(m["arg"])
+            if d:
+                dir_map[d] = m
+
+        if disp in DISPATCHERS_4 and {"←", "→", "↑", "↓"} <= dir_map.keys():
+            for m in members:
+                if canonical_dir(m["arg"]) in {"←", "→", "↑", "↓"}:
+                    skip.add(id(m))
+            mod      = mod_str(mask)
+            bind_str = f"{mod} + ↑↓←→" if mod else "↑↓←→"
+            desc     = f"{ARROW_LABELS_4[disp]} ↑↓←→"
+            cat      = CAT_MAP.get(disp, "Other")
+            extra.append((cat, bind_str, desc, "", ""))
+
+        elif disp in DISPATCHERS_2 and {"←", "→"} <= dir_map.keys():
+            for m in members:
+                if canonical_dir(m["arg"]) in {"←", "→"}:
+                    skip.add(id(m))
+            mod      = mod_str(mask)
+            bind_str = f"{mod} + ←→" if mod else "←→"
+            extra.append(("Monitor", bind_str, "Move window ←→ monitor (silent)", "", ""))
 
     return skip, extra
 
@@ -164,7 +238,9 @@ def main() -> None:
         print(f"show-keybinds: failed to read hyprctl binds: {exc}", file=sys.stderr)
         sys.exit(1)
 
-    skip, extra = collapse_groups(raw)
+    ws_skip,    ws_extra    = collapse_workspace_groups(raw)
+    arrow_skip, arrow_extra = collapse_arrow_groups(raw)
+    skip = ws_skip | arrow_skip
 
     entries: list[tuple] = []
     for b in raw:
@@ -175,11 +251,13 @@ def main() -> None:
             continue
         cat      = CAT_MAP.get(b["dispatcher"], "Other")
         mod      = mod_str(b["modmask"])
-        key      = fmt_key(b["key"])
+        key      = fmt_key(b["key"], b.get("keycode", 0))
         bind_str = f"{mod} + {key}" if mod else key
         entries.append((cat, bind_str, desc, b["dispatcher"], b["arg"]))
 
-    entries += extra
+    for cat, bind_str, desc, *rest in (ws_extra + arrow_extra):
+        entries.append((cat, bind_str, desc, "", ""))
+
     entries.sort(key=lambda e: (
         CAT_ORDER.index(e[0]) if e[0] in CAT_ORDER else 99,
         e[1],
@@ -226,7 +304,7 @@ def main() -> None:
 
     dispatcher, arg = match
     if not dispatcher:
-        sys.exit(0)   # reference-only entry (collapsed range, etc.)
+        sys.exit(0)   # reference-only entry (collapsed range)
 
     if dispatcher == "exec":
         subprocess.Popen(["hyprctl", "dispatch", "exec", "--", arg])
