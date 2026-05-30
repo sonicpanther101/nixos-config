@@ -8,7 +8,7 @@
       enable = true;
       enable32Bit = true;
       
-      extraPackages = with pkgs-unstable; (if (host == "desktop") then [
+      extraPackages = with pkgs-unstable; (if config.my.hasNvidia then [
         libva-vdpau-driver
         libvdpau-va-gl
         nvidia-vaapi-driver
@@ -18,11 +18,11 @@
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
       ] else []);
       
-      extraPackages32 = with pkgs-unstable.pkgsi686Linux; (if (host == "desktop") then [
+      extraPackages32 = with pkgs-unstable.pkgsi686Linux; (if config.my.hasNvidia then [
         libva-vdpau-driver
         libvdpau-va-gl
       ] else []);
-    } // (if (host == "desktop") then {
+    } // (if config.my.hasNvidia then {
       # Use pkgs consistently for desktop
       package = pkgs-unstable.mesa;
       package32 = pkgs-unstable.pkgsi686Linux.mesa;
@@ -33,12 +33,7 @@
       powerOnBoot = true;
     };
 
-  } // (if (host == "desktop") then {
-    # OpenRGB
-    i2c.enable = true;
-
-    # XBox controller
-    xpadneo.enable = true;
+  } // (if config.my.hasNvidia then {
 
     nvidia = {
       # Modesetting is required.
@@ -70,6 +65,12 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+  } else if config.my.isHighPower then {
+    # OpenRGB
+    i2c.enable = true;
+
+    # XBox controller
+    xpadneo.enable = true;
   } else if (host == "laptop") then {
     microsoft-surface.kernelVersion = "stable";
   } else {});

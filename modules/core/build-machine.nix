@@ -23,14 +23,14 @@
 #     ip -4 addr show | grep inet
 #
 # ─────────────────────────────────────────────────────────────────────────────
-{ pkgs-stable, ... }: {
+{ pkgs-stable, lib, config, ... }: {
 
-  services.openssh = {
+  services.openssh = lib.mkIf config.my.isHighPower {
     enable = true;
     settings.PubkeyAuthentication = true;
   };
 
-  users.users.nix-remote-builder = {
+  users.users.nix-remote-builder = lib.mkIf config.my.isHighPower {
     isSystemUser = true;
     group = "nix-remote-builder";
     shell = pkgs-stable.bash;
@@ -41,7 +41,7 @@
     ];
   };
 
-  users.groups.nix-remote-builder = {};
+  users.groups.nix-remote-builder = lib.mkIf config.my.isHighPower {};
 
-  nix.settings.trusted-users = [ "root" "nix-remote-builder" ];
+  nix.settings.trusted-users = lib.mkIf config.my.isHighPower [ "root" "nix-remote-builder" ];
 }

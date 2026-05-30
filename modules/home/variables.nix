@@ -1,4 +1,4 @@
-{ host, lib, ... } : {
+{ isLaptop, lib, ... } : {
   home.sessionVariables = {
     NIXPKGS_ALLOW_UNFREE = "1"; # Allows unfree packages
    
@@ -36,7 +36,7 @@
     XCURSOR_SIZE = 22;
 
     # Scaling
-    GDK_SCALE = if (host == "laptop") then 2 else 1;
+    GDK_SCALE = if isLaptop then 2 else 1;
 
     # Only keep these if you have specific GPU issues:
     # WLR_NO_HARDWARE_CURSORS = "1";

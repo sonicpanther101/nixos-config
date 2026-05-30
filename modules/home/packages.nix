@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, pkgs-stable, host, ... } : {
+{ inputs, pkgs-unstable, pkgs-stable, isHighPower, ... } : {
 
   home.packages = [                                       # From inputs
     inputs.hyprshutdown.packages.${pkgs-stable.stdenv.hostPlatform.system}.default # For smooth shutdown of apps  # wait for nixos release
@@ -119,7 +119,7 @@
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
     anki-bin                                              # Flashcards app
 
-  ]) ++ (if (host == "desktop") then (with pkgs-stable; [ # Host-specific additions
+  ]) ++ (if isHighPower then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software

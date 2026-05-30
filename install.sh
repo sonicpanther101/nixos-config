@@ -137,6 +137,34 @@ if [ HOST == "new" ]; then
 fi
 
 #---------------------------#
+#   Hardware configuration  #
+#---------------------------#
+
+if (whiptail --yesno "Is this machine a laptop?" 8 40 --title "Hardware: Laptop"); then
+    isLaptop=true
+else
+    isLaptop=false
+fi
+
+if (whiptail --yesno "Does this machine have an Nvidia GPU?" 8 40 --title "Hardware: Nvidia"); then
+    hasNvidia=true
+else
+    hasNvidia=false
+fi
+
+if (whiptail --yesno "Is this a high-power machine? (desktop/powerful laptop)" 8 40 --title "Hardware: Power"); then
+    isHighPower=true
+else
+    isHighPower=false
+fi
+
+if (whiptail --yesno "Is this machine using dual boot?" 8 40 --title "Hardware: Boot"); then
+    isDualBoot=true
+else
+    isDualBoot=false
+fi
+
+#---------------------------#
 #     Enter git details     #
 #---------------------------#
 
@@ -169,10 +197,13 @@ done
 #---------------------------#
 
 SUMMARY="\
-Username:   $username
-Host:       $HOST
-Git Name:   $gitname
-Git Email:  $gitemail
+Username:    $username
+Host:        $HOST
+Git Name:    $gitname
+Git Email:   $gitemail
+Laptop:      $isLaptop
+Nvidia:      $hasNvidia
+High Power:  $isHighPower
 "
 
 whiptail --msgbox "$SUMMARY" 11 40 --title "Installation Summary"
@@ -241,11 +272,24 @@ if [ ! -f /etc/nixos/hardware-configuration.nix ]; then
     exit 1
 fi
 echo -e "${INFO}Copying ${MAGENTA}/etc/nixos/hardware-configuration.nix${RESET} to ${MAGENTA}./hosts/${HOST}/${RESET}"
+
+## Create the hardware config if it is a new host
 if [ newHost ]; then
     mkdir -p hosts/${HOST}
-    cp hosts/desktop/default.nix hosts/${HOST}/default.nix
-    git add .
+    cat > hosts/${HOST}/default.nix << ENDOFNIX
+{ ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ./../../modules/core
+  ];
+  my.isLaptop    = ${isLaptop};
+  my.hasNvidia   = ${hasNvidia};
+  my.isHighPower = ${isHighPower};
+  my.isDualBoot  = ${isDualBoot};
+}
+ENDOFNIX
 fi
+
 cp /etc/nixos/hardware-configuration.nix hosts/${HOST}/hardware-configuration.nix
 
 ## Create swap file for sleeping

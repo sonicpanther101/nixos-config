@@ -1,4 +1,4 @@
-{ host, lib, pkgs-unstable, ... } : {
+{ isHighPower, isLaptop, lib, pkgs-unstable, ... } : {
   programs.waybar = {
     enable = true;
     package = pkgs-unstable.waybar;
@@ -10,16 +10,16 @@
 
         modules-left = ["hyprland/workspaces"];
         modules-center = [ "custom/clock" ];
-        modules-right = [
+        modules-right = lib.filter (x: x != "") [
           "mpris"
-          (if (host == "desktop") then "cava" else "")
+          (if isHighPower then "cava" else "")
           "wireplumber"
           "tray"
           "backlight"
           "idle_inhibitor"
-          (if (host != "desktop") then "battery" else "")
+          (if isLaptop then "battery" else "")
           "custom/keyboard"
-        ] ++ (lib.filter (x: x != "") [ ]);
+        ];
 
         battery = {
           states = {

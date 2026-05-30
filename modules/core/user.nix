@@ -1,4 +1,4 @@
-{ host, inputs, username, pkgs-stable, pkgs-unstable, ... } : {
+{ host, inputs, username, pkgs-stable, pkgs-unstable, config, ... } : {
 
   # Define a user account.
   users.users.${username} = {
@@ -9,7 +9,7 @@
       "wheel"
     ] ++ (if (host == "laptop") then [
       "surface-control"
-    ] else if (host == "desktop") then [
+    ] else if config.my.isHighPower then [
       "input"
       "video"
     ] else []);
@@ -22,7 +22,13 @@
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs username host pkgs-stable pkgs-unstable; };
+    extraSpecialArgs = { 
+      inherit inputs username host pkgs-stable pkgs-unstable;
+      isLaptop   = config.my.isLaptop;
+      hasNvidia  = config.my.hasNvidia;
+      isHighPower = config.my.isHighPower;
+      isDualBoot = config.my.isDualBoot;
+    };
     users.${username} = {
       imports = [ 
         ./../home

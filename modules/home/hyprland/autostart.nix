@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ isHighPower, isLaptop, ... } : {
   wayland.windowManager.hyprland.settings = {
 
     # Autostart
@@ -21,7 +21,7 @@
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
       "cd ~/nixos-config && git fetch"
-    ]++ (if (host == "desktop") then [
+    ]++ (if isHighPower then [
       "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
       "sunshine"
@@ -41,7 +41,7 @@
       "hyprctl dispatch workspace 1"
       "hyprctl dispatch focusmonitor DP-1"
       
-    ] else if (host != "desktop") then [
+    ] else if isLaptop then [
       "poweralertd"
     ] else [                                              
     ]);

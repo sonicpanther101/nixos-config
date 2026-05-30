@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ host, config, ... } : {
   imports = [
     ./audio.nix
     ./bootloader.nix
@@ -15,17 +15,13 @@
     # ─── Remote builds ───────────────────────────────────────────────────────
     # To make a machine act as a BUILD SERVER:
     #   1. Follow the steps in build-machine.nix
-    #   2. Uncomment the line for that host below
     #
     # To make a machine OFFLOAD builds to the server:
     #   1. Follow the steps in weak-machine.nix
-    #   2. Uncomment the line for that host below
+    #   3. Comment out the imports above if it is first build for a laptop
     # ─────────────────────────────────────────────────────────────────────────
-  ] ++ (if (host == "desktop") then [
-    # ./build-machine.nix   # ← uncomment to make desktop the build server
-  ] else if (host == "laptop-2") then [
-    # ./weak-machine.nix    # ← uncomment to offload laptop-2 builds to desktop
-  ] else if (host == "laptop") then [
-    # ./weak-machine.nix    # ← uncomment to offload laptop builds to desktop
-  ] else []);
+    # Uncomment to enable
+    # ./build-machine.nix
+    # ./weak-machine.nix
+  ];
 }

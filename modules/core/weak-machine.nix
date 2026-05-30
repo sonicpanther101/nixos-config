@@ -27,8 +27,8 @@
 #     my-install
 #
 # ─────────────────────────────────────────────────────────────────────────────
-{ ... }: {
-  nix = {
+{ config, lib, ... }: {
+  nix = lib.mkIf config.my.isLaptop {
     distributedBuilds = true;
 
     extraOptions = ''

@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, pkgs-stable, username, ... } : {
+{ lib, pkgs-unstable, pkgs-stable, username, config, ... } : {
   
   services = {
 
@@ -65,7 +65,7 @@
   
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
-  } // (if (host != "desktop") then {
+  } // (lib.optionalAttrs config.my.isLaptop {
 
     upower = {
       enable = true;
@@ -89,9 +89,15 @@
       };
     };
 
+    # Throttles CPU when it gets too hot
+    thermald = {
+      enable = true;
+      configFile = ./thermal-conf.xml;
+    };
+
     input-remapper.enable = true;
     
-  } else if (host == "desktop") then {
+  }) // (lib.optionalAttrs config.my.hasNvidia {
     # nvidia
     xserver.videoDrivers = ["nvidia"];  
 
@@ -117,6 +123,8 @@
       # Disable bluetooth wake (might be causing "early wake event")
       ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
     '';
+
+  }) // (lib.optionalAttrs config.my.isHighPower {
 
     # OpenRGB
     udev.packages = [ pkgs-unstable.openrgb ];
@@ -153,8 +161,8 @@
         SCARF_NO_ANALYTICS = "True";
       };
     };
-  } else {});
-  boot.kernelModules = if (host == "desktop") then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
+  });
+  boot.kernelModules = if config.my.isHighPower then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 
   # Terminal command correction, alternative to thefuck, written in Rust

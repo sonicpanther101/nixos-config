@@ -23,9 +23,10 @@
         deviceNames = builtins.attrNames config.services.syncthing.settings.devices;
         sharedDevices = builtins.filter (d: d != host) deviceNames;
 
-        basePath = if host == "desktop"
-          then "/home/${username}/driveBig"
-          else "/home/${username}";
+        basePath = if host == "desktop" then
+          "/home/${username}/driveBig"
+        else
+          "/home/${username}";
       in {
         "Kobo" = {
           id = "m7cg8-2a7jo";

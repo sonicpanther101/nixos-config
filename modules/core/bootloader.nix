@@ -1,4 +1,4 @@
-{ host, config, pkgs-stable, ... }:{
+{ config, pkgs-stable, ... }:{
 
   boot = {
     loader = {
@@ -8,7 +8,7 @@
         enable = true;
         devices = [ "nodev" ];
         efiSupport = true;
-        useOSProber = if (host == "laptop-2") then true else false;
+        useOSProber = config.my.isDualBoot;
         memtest86.enable = true;
         timeoutStyle = "menu";
       };
@@ -29,9 +29,9 @@
     supportedFilesystems = [ "ntfs" ];
 
     # Getting sleep to work
-    kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if (host == "desktop") then [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ] else []);
+    kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if config.my.hasNvidia then [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ] else []);
 
-  } // (if (host == "desktop") then {
+  } // (if config.my.isHighPower then {
 
     # Getting sleep to stay
     postBootCommands = ''
