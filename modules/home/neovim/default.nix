@@ -1,7 +1,11 @@
 { pkgs-stable, pkgs-unstable, ... }:
 let
-  # Pull vimPlugins once so references are unambiguous
   vp = pkgs-unstable.vimPlugins;
+
+  # Bind this so we can interpolate the store path directly into initLua.
+  # This bypasses home-manager's rtp mechanism entirely — nvim will always
+  # find the module regardless of how plugins are added to rtp.
+  treesitter = vp.nvim-treesitter.withAllGrammars;
 in {
 
   programs.neovim = {
@@ -10,8 +14,8 @@ in {
     defaultEditor = true;
     viAlias       = true;
     vimAlias      = true;
-    
-    withRuby = false;
+
+    withRuby    = false;
     withPython3 = true;
 
     extraPackages = with pkgs-unstable; [
@@ -29,27 +33,17 @@ in {
     ];
 
     plugins = [
-      # ── Colourscheme ───────────────────────────────────────────────────────
       vp.catppuccin-nvim
-
-      # ── Fuzzy finding ──────────────────────────────────────────────────────
       vp.telescope-nvim
       vp.telescope-fzf-native-nvim
       vp.plenary-nvim
-
-      # ── File bookmarks ─────────────────────────────────────────────────────
       vp.harpoon2
 
-      # ── Treesitter — must be specified this way for home-manager to correctly
-      # add it to the runtimepath. withAllGrammars bundles every parser as a
-      # single derivation; Nix handles it, nvim never tries to download grammars.
-      vp.nvim-treesitter.withAllGrammars
+      # Still list it here so home-manager knows about it
+      treesitter
       vp.nvim-treesitter-textobjects
 
-      # ── LSP ────────────────────────────────────────────────────────────────
       vp.nvim-lspconfig
-
-      # ── Completion ─────────────────────────────────────────────────────────
       vp.nvim-cmp
       vp.cmp-nvim-lsp
       vp.cmp-buffer
@@ -58,17 +52,13 @@ in {
       vp.luasnip
       vp.cmp_luasnip
       vp.friendly-snippets
-
-      # ── AI completion via ollama ────────────────────────────────────────────
       vp.cmp-ai
 
-      # ── UI ─────────────────────────────────────────────────────────────────
       vp.lualine-nvim
       vp.nvim-web-devicons
       vp.which-key-nvim
       vp.gitsigns-nvim
 
-      # ── Editing helpers ────────────────────────────────────────────────────
       vp.nvim-surround
       vp.comment-nvim
       vp.nvim-autopairs
@@ -77,12 +67,15 @@ in {
       vp.todo-comments-nvim
       vp.trouble-nvim
       vp.undotree
-
-      # ── Fun ────────────────────────────────────────────────────────────────
       vp.vim-be-good
     ];
 
     initLua = ''
+      -- Force treesitter onto rtp using its exact nix store path.
+      -- This is necessary because home-manager's rtp injection for withAllGrammars
+      -- is unreliable with neovim-unwrapped. The path is stamped at build time.
+      vim.opt.rtp:prepend("${treesitter}")
+
       require('options')
       require('keymaps')
       require('plugins.ui')
@@ -97,15 +90,15 @@ in {
   };
 
   xdg.configFile = {
-    "nvim/lua/options.lua".source                    = ./options.lua;
-    "nvim/lua/keymaps.lua".source                    = ./keymaps.lua;
-    "nvim/lua/plugins/ui.lua".source                 = ./plugins/ui.lua;
-    "nvim/lua/plugins/telescope.lua".source          = ./plugins/telescope.lua;
-    "nvim/lua/plugins/harpoon.lua".source            = ./plugins/harpoon.lua;
-    "nvim/lua/plugins/treesitter.lua".source         = ./plugins/treesitter.lua;
-    "nvim/lua/plugins/lsp.lua".source                = ./plugins/lsp.lua;
-    "nvim/lua/plugins/completion.lua".source         = ./plugins/completion.lua;
-    "nvim/lua/plugins/ollama-completion.lua".source  = ./plugins/ollama-completion.lua;
-    "nvim/lua/plugins/editing.lua".source            = ./plugins/editing.lua;
+    "nvim/lua/options.lua".source                   = ./options.lua;
+    "nvim/lua/keymaps.lua".source                   = ./keymaps.lua;
+    "nvim/lua/plugins/ui.lua".source                = ./plugins/ui.lua;
+    "nvim/lua/plugins/telescope.lua".source         = ./plugins/telescope.lua;
+    "nvim/lua/plugins/harpoon.lua".source           = ./plugins/harpoon.lua;
+    "nvim/lua/plugins/treesitter.lua".source        = ./plugins/treesitter.lua;
+    "nvim/lua/plugins/lsp.lua".source               = ./plugins/lsp.lua;
+    "nvim/lua/plugins/completion.lua".source        = ./plugins/completion.lua;
+    "nvim/lua/plugins/ollama-completion.lua".source = ./plugins/ollama-completion.lua;
+    "nvim/lua/plugins/editing.lua".source           = ./plugins/editing.lua;
   };
 }
