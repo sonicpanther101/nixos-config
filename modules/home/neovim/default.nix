@@ -1,109 +1,84 @@
-{ pkgs-stable, pkgs-unstable, ... }: {
-
-  # ─── Neovim ──────────────────────────────────────────────────────────────────
-  # Nix manages plugins (no plugin manager like lazy.nvim needed for installation)
-  # but we still write all config in Lua — best of both worlds.
-  # LSP servers are installed as normal Nix packages so they're always on PATH.
-  # ─────────────────────────────────────────────────────────────────────────────
+{ pkgs-stable, pkgs-unstable, ... }:
+let
+  # Pull vimPlugins once so references are unambiguous
+  vp = pkgs-unstable.vimPlugins;
+in {
 
   programs.neovim = {
-    enable    = true;
-    package   = pkgs-unstable.neovim-unwrapped;
-    defaultEditor = true;  # sets $EDITOR=nvim
-    viAlias   = true;      # `vi` opens nvim
-    vimAlias  = true;      # `vim` opens nvim
+    enable        = true;
+    package       = pkgs-unstable.neovim-unwrapped;
+    defaultEditor = true;
+    viAlias       = true;
+    vimAlias      = true;
 
-    withRuby = false;
-    withPython3 = true;
-
-    # ── LSP servers & tools Neovim calls out to ───────────────────────────────
-    # These land on PATH inside Neovim so nvim-lspconfig can find them.
     extraPackages = with pkgs-unstable; [
-      # C / C++ ── clangd ships inside clang-tools
       clang-tools
-
-      # Python
       pyright
-
-      # GLSL (vertex/fragment/compute shaders)
       glsl_analyzer
-
-      # CMake
       cmake-language-server
-
-      # Hyprland config files
       hyprls
-
-      # Nix
       nixd
-
-      # Telescope needs ripgrep (live_grep) and fd (find_files)
+      lua-language-server
       ripgrep
       fd
-
-      # Lua (for editing init.lua / plugin configs)
-      lua-language-server
-
-      # Formatter helpers (optional but useful)
-      prettier   # JS/JSON/YAML/Markdown
-      black                   # Python
+      black
     ];
 
-    # ── Plugins (Nix downloads & links them — no :PackerSync needed) ──────────
-    plugins = (with pkgs-unstable.vimPlugins; [
+    plugins = [
+      # ── Colourscheme ───────────────────────────────────────────────────────
+      vp.catppuccin-nvim
 
-      # ── Colourscheme ─────────────────────────────────────────────────────────
-      catppuccin-nvim
+      # ── Fuzzy finding ──────────────────────────────────────────────────────
+      vp.telescope-nvim
+      vp.telescope-fzf-native-nvim
+      vp.plenary-nvim
 
-      # ── Fuzzy finding ────────────────────────────────────────────────────────
-      telescope-nvim
-      telescope-fzf-native-nvim   # compiled C extension, much faster sorting
-      plenary-nvim                # Lua utility lib telescope depends on
+      # ── File bookmarks ─────────────────────────────────────────────────────
+      vp.harpoon2
 
-      # ── File bookmarks ───────────────────────────────────────────────────────
-      harpoon2                    # quick-access marks for files you actively edit
+      # ── Treesitter — must be specified this way for home-manager to correctly
+      # add it to the runtimepath. withAllGrammars bundles every parser as a
+      # single derivation; Nix handles it, nvim never tries to download grammars.
+      vp.nvim-treesitter.withAllGrammars
+      vp.nvim-treesitter-textobjects
 
-      # ── LSP ──────────────────────────────────────────────────────────────────
-      nvim-lspconfig              # one-line setup per language server
+      # ── LSP ────────────────────────────────────────────────────────────────
+      vp.nvim-lspconfig
 
-      # ── Completion ───────────────────────────────────────────────────────────
-      nvim-cmp                    # completion engine
-      cmp-nvim-lsp                # source: LSP
-      cmp-buffer                  # source: words in open buffers
-      cmp-path                    # source: filesystem paths
-      cmp-cmdline                 # source: : commands and / search
-      luasnip                     # snippet engine (required by nvim-cmp)
-      cmp_luasnip                 # cmp ↔ luasnip bridge
-      friendly-snippets           # large snippet library (C++, Python, etc.)
+      # ── Completion ─────────────────────────────────────────────────────────
+      vp.nvim-cmp
+      vp.cmp-nvim-lsp
+      vp.cmp-buffer
+      vp.cmp-path
+      vp.cmp-cmdline
+      vp.luasnip
+      vp.cmp_luasnip
+      vp.friendly-snippets
 
-      # ── AI completion ────────────────────────────────────────────────────────
-      cmp-ai                      # fast inline AI completions (free tier available)
+      # ── AI completion via ollama ────────────────────────────────────────────
+      vp.cmp-ai
 
-      # ── UI ───────────────────────────────────────────────────────────────────
-      lualine-nvim                # statusline
-      nvim-web-devicons           # file-type icons
-      which-key-nvim              # popup showing available keymaps after <leader>
-      gitsigns-nvim               # git change indicators in the gutter
+      # ── UI ─────────────────────────────────────────────────────────────────
+      vp.lualine-nvim
+      vp.nvim-web-devicons
+      vp.which-key-nvim
+      vp.gitsigns-nvim
 
-      # ── Editing helpers ──────────────────────────────────────────────────────
-      nvim-surround               # cs"' to change surrounding quotes, etc.
-      comment-nvim                # gcc to toggle line comment
-      nvim-autopairs              # auto-close brackets/quotes
+      # ── Editing helpers ────────────────────────────────────────────────────
+      vp.nvim-surround
+      vp.comment-nvim
+      vp.nvim-autopairs
+      vp.vim-visual-multi
+      vp.indent-blankline-nvim
+      vp.todo-comments-nvim
+      vp.trouble-nvim
+      vp.undotree
 
-      # ── Fun ──────────────────────────────────────────────────────────────────
-      vim-be-good                 # :VimBeGood — drills for motions & operators
-
-    ]) ++ [
-      # ── Syntax / highlighting ────────────────────────────────────────────────
-      pkgs-unstable.vimPlugins.nvim-treesitter.withAllGrammars
-      pkgs-unstable.vimPlugins.nvim-treesitter-textobjects
+      # ── Fun ────────────────────────────────────────────────────────────────
+      vp.vim-be-good
     ];
 
-    # ── init.lua ─────────────────────────────────────────────────────────────
-    # This becomes ~/.config/nvim/init.lua.
-    # Each `require` loads a file from ~/.config/nvim/lua/<name>.lua
-    # (placed there by the xdg.configFile entries below).
-    initLua = ''
+    extraLuaConfig = ''
       require('options')
       require('keymaps')
       require('plugins.ui')
@@ -112,24 +87,21 @@
       require('plugins.treesitter')
       require('plugins.lsp')
       require('plugins.completion')
-      require('plugins.cmp-ai')
+      require('plugins.ollama-completion')
       require('plugins.editing')
     '';
   };
 
-  # ── Link Lua source files into ~/.config/nvim/lua/ ───────────────────────
-  # Nix copies these from your repo at activation time.
-  # Edit the .lua files, then run my-install — no plugin-manager dance needed.
   xdg.configFile = {
-    "nvim/lua/options.lua".source            = ./options.lua;
-    "nvim/lua/keymaps.lua".source            = ./keymaps.lua;
-    "nvim/lua/plugins/ui.lua".source         = ./plugins/ui.lua;
-    "nvim/lua/plugins/telescope.lua".source  = ./plugins/telescope.lua;
-    "nvim/lua/plugins/harpoon.lua".source    = ./plugins/harpoon.lua;
-    "nvim/lua/plugins/treesitter.lua".source = ./plugins/treesitter.lua;
-    "nvim/lua/plugins/lsp.lua".source        = ./plugins/lsp.lua;
-    "nvim/lua/plugins/completion.lua".source = ./plugins/completion.lua;
-    "nvim/lua/plugins/ollama-completion.lua".source = ./plugins/ollama-completion.lua;
-    "nvim/lua/plugins/editing.lua".source    = ./plugins/editing.lua;
+    "nvim/lua/options.lua".source                    = ./options.lua;
+    "nvim/lua/keymaps.lua".source                    = ./keymaps.lua;
+    "nvim/lua/plugins/ui.lua".source                 = ./plugins/ui.lua;
+    "nvim/lua/plugins/telescope.lua".source          = ./plugins/telescope.lua;
+    "nvim/lua/plugins/harpoon.lua".source            = ./plugins/harpoon.lua;
+    "nvim/lua/plugins/treesitter.lua".source         = ./plugins/treesitter.lua;
+    "nvim/lua/plugins/lsp.lua".source                = ./plugins/lsp.lua;
+    "nvim/lua/plugins/completion.lua".source         = ./plugins/completion.lua;
+    "nvim/lua/plugins/ollama-completion.lua".source  = ./plugins/ollama-completion.lua;
+    "nvim/lua/plugins/editing.lua".source            = ./plugins/editing.lua;
   };
 }
