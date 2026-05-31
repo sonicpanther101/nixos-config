@@ -46,7 +46,6 @@
 
       # Decreases opacity
       "match:class codium, opacity 0.9"
-      "match:title nvim.*, opacity 0.9"
       "match:class foobar2000.exe, opacity 0.9"
       "match:class vivaldi-stable, opacity 0.9"
       "match:title .*(Last.fm|Movie).*, opacity 0.99"

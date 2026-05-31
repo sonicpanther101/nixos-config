@@ -67,3 +67,23 @@ opt.showmode       = false  -- lualine shows the mode, no need for the cmdline o
 
 -- Create undo directory if it doesn't exist yet
 vim.fn.mkdir(vim.fn.stdpath('data') .. '/undo', 'p')
+
+-- Transparent background — lets kitty's terminal opacity show through.
+-- Without this, nvim renders its own solid background colour which doesn't
+-- reach the kitty window edges (visible as a colour mismatch border).
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    local groups = {
+      'Normal', 'NormalNC', 'NormalFloat',
+      'SignColumn', 'StatusLine', 'StatusLineNC',
+      'EndOfBuffer', 'LineNr', 'CursorLineNr',
+      'FoldColumn', 'WinBar', 'WinBarNC',
+    }
+    for _, g in ipairs(groups) do
+      vim.api.nvim_set_hl(0, g, { bg = 'none', ctermbg = 'none' })
+    end
+  end,
+})
+-- Fire immediately for the initial colorscheme load
+vim.cmd('doautocmd ColorScheme')
