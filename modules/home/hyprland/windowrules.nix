@@ -46,7 +46,6 @@
 
       # Decreases opacity
       "match:class codium, opacity 0.9"
-      "opacity 0.9 0.9,class:^(kitty)$,title:^(nvim.*)$"
       "match:class foobar2000.exe, opacity 0.9"
       "match:class vivaldi-stable, opacity 0.9"
       "match:title .*(Last.fm|Movie).*, opacity 0.99"
@@ -72,7 +71,11 @@
       "match:title .*Lab Report.*, idle_inhibit focus"
       "match:title .*homework.*, idle_inhibit focus"
       "match:title cava, idle_inhibit focus"
-    ]; 
+    ];
+
+    windowrulev2 = [
+      "opacity 0.9 0.9,class:^(kitty)$,title:^(nvim.*)$"
+    ];
 
     # hyprctl layers to see namespace
     # 2 means interactible, 1 means visible
