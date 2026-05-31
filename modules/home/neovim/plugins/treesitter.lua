@@ -6,9 +6,6 @@
 --   3. Text objects: `vif` = select inside a function, `]f` = jump to next function
 --   4. Incremental selection: <C-space> to expand selection along the tree
 --
--- In your NixOS config, parsers are bundled via `nvim-treesitter.withPlugins`.
--- `ensure_installed` is intentionally empty — Nix handles installation.
---
 -- GLSL note: tree-sitter-glsl understands vertex/fragment/compute shader syntax.
 -- For it to activate on .vert/.frag/.comp files, those filetypes are registered
 -- below in the filetype detection block.
@@ -29,10 +26,6 @@ vim.filetype.add({
 })
 
 require('nvim-treesitter.configs').setup({
-  -- Nix manages installation, so leave these empty:
-  ensure_installed  = {},
-  auto_install      = false,  -- don't try to download parsers at runtime
-
   -- ── Highlighting ─────────────────────────────────────────────────────────
   -- TIP: this replaces vim's regex-based syntax. Colours are more accurate
   -- and update as you type rather than re-scanning the whole buffer.

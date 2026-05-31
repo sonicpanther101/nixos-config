@@ -50,7 +50,7 @@
     ];
 
     # ── Plugins (Nix downloads & links them — no :PackerSync needed) ──────────
-    plugins = with pkgs-unstable.vimPlugins; [
+    plugins = (with pkgs-unstable.vimPlugins; [
 
       # ── Colourscheme ─────────────────────────────────────────────────────────
       catppuccin-nvim
@@ -62,27 +62,6 @@
 
       # ── File bookmarks ───────────────────────────────────────────────────────
       harpoon2                    # quick-access marks for files you actively edit
-
-      # ── Syntax / highlighting ────────────────────────────────────────────────
-      # withPlugins bundles the parsers so `ensure_installed` does nothing —
-      # Nix handles the grammar binaries, you just pick which ones you want.
-      (nvim-treesitter.withPlugins (p: with p; [
-        tree-sitter-c
-        tree-sitter-cpp
-        tree-sitter-python
-        tree-sitter-glsl       # GLSL shaders
-        tree-sitter-cmake
-        tree-sitter-lua
-        tree-sitter-nix
-        tree-sitter-bash
-        tree-sitter-json
-        tree-sitter-yaml
-        tree-sitter-markdown
-        tree-sitter-markdown-inline
-        tree-sitter-vim
-        tree-sitter-vimdoc
-      ]))
-      nvim-treesitter-textobjects  # `]f` next function, `vif` select inside function, etc.
 
       # ── LSP ──────────────────────────────────────────────────────────────────
       nvim-lspconfig              # one-line setup per language server
@@ -114,6 +93,10 @@
       # ── Fun ──────────────────────────────────────────────────────────────────
       vim-be-good                 # :VimBeGood — drills for motions & operators
 
+    ]) ++ [
+      # ── Syntax / highlighting ────────────────────────────────────────────────
+      pkgs-unstable.vimPlugins.nvim-treesitter.withAllGrammars
+      pkgs-unstable.vimPlugins.nvim-treesitter-textobjects
     ];
 
     # ── init.lua ─────────────────────────────────────────────────────────────
