@@ -37,5 +37,7 @@
       "ctrl+shift+left" = "no_op";
       "ctrl+shift+right" = "no_op";
     };
+
+    extraConfig = "dynamic_background_opacity yes";
   };
 }
