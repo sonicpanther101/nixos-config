@@ -10,6 +10,9 @@ in {
     defaultEditor = true;
     viAlias       = true;
     vimAlias      = true;
+    
+    withRuby = false;
+    withPython3 = true;
 
     extraPackages = with pkgs-unstable; [
       clang-tools
@@ -21,6 +24,7 @@ in {
       lua-language-server
       ripgrep
       fd
+      prettier
       black
     ];
 
@@ -78,7 +82,7 @@ in {
       vp.vim-be-good
     ];
 
-    extraLuaConfig = ''
+    initLua = ''
       require('options')
       require('keymaps')
       require('plugins.ui')
