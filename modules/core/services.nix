@@ -98,8 +98,8 @@
     input-remapper.enable = true;
     
   }) // (lib.optionalAttrs config.my.hasNvidia {
-    # nvidia
     xserver.videoDrivers = ["nvidia"];  
+  }) // (lib.optionalAttrs config.my.isHighPower {
 
     # Stop keypresses and mouse movement turning on from sleep.
     # CRITICAL FIXES:
@@ -123,8 +123,6 @@
       # Disable bluetooth wake (might be causing "early wake event")
       ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
     '';
-
-  }) // (lib.optionalAttrs config.my.isHighPower {
 
     # OpenRGB
     udev.packages = [ pkgs-unstable.openrgb ];
@@ -169,7 +167,7 @@
   programs.pay-respects = {
     enable = true;
     package = pkgs-stable.pay-respects;
-    aiIntegration = {
+    aiIntegration = lib.mkIf config.my.isHighPower {
       locale = "en-nz";
       model = "mistral:latest";
       url = "http://127.0.0.1:11434/v1/chat/completions";

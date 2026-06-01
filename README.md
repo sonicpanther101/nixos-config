@@ -135,7 +135,10 @@ Error:
 - [x] Set up remote desktop
 - [x] Remove so much reliance on hostname, try to go off specs
 - [x] Ask AI to make niche keybinds more intuitive
-- [ ] Neovim (telescope, supermavin and HyprLS, vimbegood)
+- [x] Neovim (telescope, supermavin and HyprLS, vimbegood)
+- [ ] Replace else's with lib.mkIf to stop config.my combo failures
+- [ ] Make zsh alias guide or tool
+- [ ] Make mouse visable in lock screen
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
 ## Browser Setup
