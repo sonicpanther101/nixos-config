@@ -44,6 +44,9 @@
       "match:title Save File, center on"
       "match:title Save File, size 950 600"
 
+      "match:title Active connection found, float on"
+      "match:title Active connection found, center on"
+
       # Decreases opacity
       "match:class codium, opacity 0.9"
       "match:class foobar2000.exe, opacity 0.9"

@@ -84,67 +84,18 @@ Error:
 - If nemo confirmations have dark text and background, change colour scheme to catppuccin mocha in qt5ct and qt6ct
 
 ## Todo:
-- [x] Get sleeping working
-- [x] Get openrgb to work for sleep
-- [x] lock screen
-- [x] connect fobar2000 to mpris
-- [x] mpris on waybar
-- [x] hyprland workspace keybinds over scrolling
-- [x] Get `my` scripts working
-- [x] Make my-install change depending on host/username and commit changes before nh
-- [x] remove dirty warning from switch
-- [x] 1 min timeout
-- [x] Install openRGB udev rules
-- [x] Get fans RGB working
-- [x] autostart hyprland, 
-- [x] autostart everything else in hyprland
-- [x] fix hyprlock not working first try
-- [x] Add other drives to auto mount in hardware-config
-- [x] Add upower and auto-cpufreq services for laptop
-- [x] Change my-shutdown to turn off rgb
-- [x] Set up mime for default apps
-- [x] Set up vscode-neovim as transition to neovim
-- [x] Wakatime
-- [x] Get l and ll working
-- [x] Back up stylus to this repo (did it with integrated google drive)
-- [x] Add gnupg for security
-- [x] Replace all mentions of adam with variable
-- [x] Write initial install script (might need rebuild to boot instead of switch)
-- [x] Use Proton instead of bottles
-- [x] Fix GPU rendering on vivaldi (for makerworld parametric models)
-- [x] Get all folders on syncthing
-- [x] Get the fuck package working (pay respects)
-- [x] Tagscanner and mp3tag
-- [x] Get Hyprlock focusing correctly (moved back to swaylock)
-- [x] Get VSCodium settings nixified
-- [x] Change bootloader theme to my fork
-- [x] Add pc specs to maxfetch (use fastfetch)
-- [x] Try get a GWFL window with hyprwayland-scanner
-- [x] Set up bluetooth
-- [x] Awww for wallpaper (Successor to swww)
-- [x] Set up build machines to be automatic (add instructions)
-- [x] Fix keyboard waking from sleep
-- [x] Make network notification not permanent
-- [x] Add back all programs from old config
-- [x] Add floating terminal
-- [x] Write vivaldi explicit setup
-- [x] Stop fuzzy cursor
-- [x] Customise starship
-- [x] Fill in components list in readme
-- [x] Typst to use instead of latex
-- [x] Set up remote desktop
-- [x] Remove so much reliance on hostname, try to go off specs
-- [x] Ask AI to make niche keybinds more intuitive
-- [x] Neovim (telescope, supermavin and HyprLS, vimbegood)
-- [x] Replace else's with lib.mkIf to stop config.my combo failures
-- [x] Make zsh alias guide or tool
-- [x] Make mouse visable in lock screen
-- [x] Fix spacing of waybar right side
 - [ ] Write a mkWindowapp thing for music tagging apps
 - [x] Update to 26.05
 - [ ] Make network restarting alias for funny wifi things
 - [ ] Add the ability to wake on lan for remote desktop
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
+- [ ] App runner that also browses files, calculates, clipboard, wallpaper and searches
+- [ ] Show weather, github contributions graph and wakatime in hyprlock
+- [ ] Good clipboard manager to replace copyq 
+- [ ] Promodoro integration with waybar
+- [ ] Replace mako with a better notification manager
+- [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
+- [ ] Get jounaling and budgeting apps that sync needs to work on android
 
 ## Browser Setup
 

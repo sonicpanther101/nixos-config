@@ -87,6 +87,7 @@
                                                           # Audio tools
     (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
+    (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
     cmus                                                  # Small, fast and powerful console music player for Linux
     cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     playerctl                                             # To control media from cli

@@ -1,7 +1,7 @@
 { pkgs-stable, inputs, lib, ... }:
 inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC rec {
-  pname = "tagscanner-win64";
-  version = "6.1.21";
+  pname = "mp3tag-win64";
+  version = "3.34.1";
   dontUnpack = true;
   enableMonoBootPrompt = false;
   nativeBuildInputs = [
@@ -15,21 +15,30 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
 
   src = {
     win64 = pkgs-stable.fetchurl {
-      url = "https://www.xdlab.ru/files/tagscan-${version}_x64.zip";
-      sha256 = "sha256-s19qDwmpcGRX1TINROmYkDnro9c+EG/UVziaTh1B/qk="; #:hash64:
+      url = "https://www.mp3tag.de/en/dodownload64.html";
+      sha256 = "sha256-d0tbG7skXqdhKOyMJQwz0QIT3M3gkcHP1OzPsx81QpY="; #:hash64:
     };
   }."win64";
 
   winAppInstall = ''
     d="$WINEPREFIX/drive_c/${pname}"
-    config_dir="$HOME/.config/tagscanner"
 
     mkdir -p "$d"
-    ${pkgs-stable.unzip}/bin/unzip ${src} -d "$d"
+    
   '';
 
   winAppRun = ''
-    $WINE "$WINEPREFIX/drive_c/${pname}/Tagscan.exe" "$ARGS"
+    $WINE "$WINEPREFIX/drive_c/${pname}/Mp3tag.exe" "$ARGS"
+  '';
+
+  installPhase = ''
+    runHook preInstall
+
+    runHook postInstall
+  '';
+
+  postInstall = ''
+    mv $out/bin/.launcher $out/bin/${pname}
   '';
 
   desktopItems = [
@@ -37,8 +46,8 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "Tagscanner";
-      comment = "Advanced Freeware Audio Tagger";
+      desktopName = "Mp3tag";
+      comment = "The universal tag editor and more ...";
       categories = [ "AudioVideo" "Audio" ];
       mimeTypes = builtins.map (s: "audio/" + s) [ "mpeg" "mp4" "aac" "x-vorbis+ogg" "x-opus+ogg" "flac" "x-wavpack" "x-wav" "x-aiff" "x-musepack" "x-speex" ];
     })
@@ -48,14 +57,14 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
     name = pname;
     icoIndex = 0;
     src = pkgs-stable.fetchurl {
-      url = "https://www.xdlab.ru/favicon.ico";
-      sha256 = "sha256-GWNMjhCQMrxTlN1N4yYt5HRgkucgV65N3LzFg6BoDfQ=";
+      url = "https://www.mp3tag.de/favicon.ico";
+      sha256 = "sha256-0XuSlQjrGQlQxZnAOjw3+uZX1cHkVBpKffyHbstRPMQ=";
     };
   };
 
   meta = with lib; {
-    description = "The flexible tool to manage your music collection";
-    homepage = "https://www.xdlab.ru/en/index.html";
+    description = "The universal tag editor and more ...";
+    homepage = "https://www.mp3tag.de/en/";
     license = licenses.free;
     maintainers = [];
     platforms = [ "i686-linux" "x86_64-linux" ];
