@@ -84,11 +84,11 @@ Error:
 - If nemo confirmations have dark text and background, change colour scheme to catppuccin mocha in qt5ct and qt6ct
 
 ## Todo:
-- [ ] Write a mkWindowapp thing for music tagging apps
+- [x] Write a mkWindowapp thing for music tagging apps
 - [x] Update to 26.05
-- [ ] Make network restarting alias for funny wifi things
+- [x] Make network restarting alias for funny wifi things
 - [ ] Local documentation app
-- [ ] Add the ability to wake on lan for remote desktop
+- [x] Add the ability to wake on lan for remote desktop
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 - [ ] App runner that also browses files, calculates, clipboard, wallpaper and searches
 - [ ] Show weather, github contributions graph and wakatime in hyprlock

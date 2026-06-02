@@ -20,7 +20,7 @@
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
       ]);
       
-      extraPackages32 = with pkgs-unstable.pkgsi686Linux;lib.optionals config.my.hasNvidia [
+      extraPackages32 = with pkgs-unstable.pkgsi686Linux; lib.optionals config.my.hasNvidia [
         libva-vdpau-driver
         libvdpau-va-gl
       ];

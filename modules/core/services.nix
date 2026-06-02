@@ -116,10 +116,6 @@
       # Comment this out if it causes issues, but it may be needed
       ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
       
-      # Disable network adapter wake-on-LAN/WiFi
-      ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth*|enp*", RUN+="${pkgs-stable.ethtool}/bin/ethtool -s $name wol d"
-      ACTION=="add", SUBSYSTEM=="net", KERNEL=="wl*", ATTR{device/power/wakeup}="disabled"
-      
       # Disable bluetooth wake (might be causing "early wake event")
       ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
     '';

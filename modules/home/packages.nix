@@ -133,6 +133,7 @@
     poweralertd                                           # UPower-powered power alerter
     xournalpp                                             # Note taking and pdf annotating app
     resources                                             # Graphical resource manager
+    wakeonlan                                             # wakeonlan -i <ip> <target_mac_address (74:56:3c:74:e3:8a for desktop)>
     (pkgs-stable.callPackage ../../packages/namida.nix { })
   ]));
 }
