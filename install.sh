@@ -360,7 +360,7 @@ if [ newHost ]; then
 "hosts/${HOST}/hardware-configuration.nix"
 
     echo -e "${INFO}Starting second system build to enable sleep... this one should be quicker."
-    sudo nixos-rebuild switch --flake .#${HOST}
+    nh os switch ~/nixos-config/ -H ${host}
 fi
 
 echo -e "${INFO}Setting up my-install script"

@@ -109,6 +109,7 @@
 
                                                           # Misc
     qalculate-qt                                          # Calculator app
+    zeal                                                  # Simple offline API documentation browser
     cmatrix                                               # Matrix simulator
     cbonsai                                               # Bonsai generator
     vim-full                                              # Basic TUI code editor with tutorial

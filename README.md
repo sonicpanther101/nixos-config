@@ -87,12 +87,12 @@ Error:
 - [x] Write a mkWindowapp thing for music tagging apps
 - [x] Update to 26.05
 - [x] Make network restarting alias for funny wifi things
-- [ ] Local documentation app
+- [x] Local documentation app
 - [x] Add the ability to wake on lan for remote desktop
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 - [ ] App runner that also browses files, calculates, clipboard, wallpaper and searches
 - [ ] Show weather, github contributions graph and wakatime in hyprlock
-- [ ] Show album art and progress in waybar
+- [x] Show album art and progress in waybar
 - [ ] Good clipboard manager to replace copyq 
 - [ ] Promodoro integration with waybar
 - [ ] Replace mako with a better notification manager

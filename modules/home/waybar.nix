@@ -11,6 +11,7 @@
         modules-left = ["hyprland/workspaces"];
         modules-center = [ "custom/clock" ];
         modules-right = [
+          "image/album-art"
           "mpris"
         ] ++ lib.optionals isHighPower [
           "cava"
@@ -67,6 +68,16 @@
               wvkbd-mobintl -L 250 &
             fi
           '';
+        };
+
+        "image/album-art" = {
+          exec = "playerctl metadata mpris:artUrl";
+          size = 30;
+          interval = 1;
+          on-click = "playerctl play-pause";
+          on-scroll-up = "playerctl next";
+          on-scroll-down = "playerctl previous";
+          tooltip = false;
         };
 
         mpris = {
