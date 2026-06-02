@@ -13,7 +13,7 @@
 
       # File browser
       "SUPER, E, exec, nemo"
-      "SUPER SHIFT, E, exec, nemo --name=float_nemo"
+      "ALT, E, exec, nemo --name=float_nemo"
 
       # AGS / stuff to be written by me
       "SUPER, R, exec, wofi --show drun"
@@ -40,6 +40,7 @@
 
       # Screenshot
       "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Hh%Mm%Ss').png"
+      "SUPER CTRL, S, exec, bash -c 'tmp=$(mktemp /tmp/ocr-XXXX.png) && grimblast save area \"$tmp\" && tesseract $tmp stdout 2>/dev/null | wl-copy && notify-send \"OCR complete\" \"Copied to clipboard\"'"
       "SUPER SHIFT, S, exec, kooha"
 
       # Focus

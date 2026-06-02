@@ -11,25 +11,34 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
   enableInstallNotification = true;
   inhibitIdle = true;
   wineArch = "win64";
-  wine = pkgs-stable.wineWow64Packages.base;
+  wine = pkgs-stable.wineWow64Packages.staging;
 
   src = {
     win64 = pkgs-stable.fetchurl {
-      url = "https://www.xdlab.ru/files/tagscan-${version}_x64.zip";
-      sha256 = "sha256-s19qDwmpcGRX1TINROmYkDnro9c+EG/UVziaTh1B/qk="; #:hash64:
+      url = "https://www.xdlab.ru/files/tagscan-${version}_x64-setup.exe";
+      sha256 = "sha256-YUnkqTvpWT8VFkKQ5KZAmNsHuJotDuPhet/UBexCSZE=";
     };
   }."win64";
 
   winAppInstall = ''
-    d="$WINEPREFIX/drive_c/${pname}"
-    config_dir="$HOME/.config/tagscanner"
-
-    mkdir -p "$d"
-    ${pkgs-stable.unzip}/bin/unzip ${src} -d "$d"
+    set -e
+    mkdir -p "$WINEPREFIX/drive_c/${pname}"
+    echo "Just click next on everything, don't try to change anything."
+    $WINE "${src}" /NORESTART /SP-
   '';
 
+  # Can require you to remove lock file if broken `ls -ld /tmp/*.lock`
   winAppRun = ''
-    $WINE "$WINEPREFIX/drive_c/${pname}/Tagscan.exe" "$ARGS"
+    $WINE "$WINEPREFIX/drive_c/Program Files/TagScanner/Tagscan.exe" "$ARGS"
+  '';
+
+  installPhase = ''
+    runHook preInstall
+    runHook postInstall
+  '';
+
+  postInstall = ''
+    mv $out/bin/.launcher $out/bin/${pname}
   '';
 
   desktopItems = [
@@ -55,7 +64,7 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
 
   meta = with lib; {
     description = "The flexible tool to manage your music collection";
-    homepage = "https://www.xdlab.ru/en/index.html";
+    homepage = "https://www.xdlab.ru/en/index.htm";
     license = licenses.free;
     maintainers = [];
     platforms = [ "i686-linux" "x86_64-linux" ];

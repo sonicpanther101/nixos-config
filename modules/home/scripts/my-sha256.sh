@@ -11,4 +11,5 @@ trap "rm -f $tmpfile" EXIT
 curl -fsSL "$1" -o "$tmpfile" || { echo "Failed to download: $1"; exit 1; }
 
 raw=$(nix hash file --type sha256 "$tmpfile")
-echo "$raw"
+wl-copy "$raw"
+echo "Copied $raw to clipboard"

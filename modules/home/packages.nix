@@ -52,6 +52,8 @@
     usbutils                                              # Lists connected USB devices
     bitwise                                               # CLI tool for bit / hex manipulation
     file                                                  # Show file information
+    wine                                                  # Windows emulator
+    tesseract                                             # OCR engine
     gtrash                                                # rm replacement, put deleted files in system trash
     nix-prefetch-git                                      # Prefetches github things for nix
     nix-index                                             # For pay-respects to find packages
@@ -86,8 +88,6 @@
 
                                                           # Audio tools
     (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
-    (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
-    (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
     cmus                                                  # Small, fast and powerful console music player for Linux
     cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     playerctl                                             # To control media from cli
@@ -126,6 +126,8 @@
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
     (pkgs-stable.callPackage ../../packages/openrgb.nix { })
+    (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
+    (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     poweralertd                                           # UPower-powered power alerter

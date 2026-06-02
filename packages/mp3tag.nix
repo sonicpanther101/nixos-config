@@ -15,25 +15,24 @@ inputs.erosanix.lib.${pkgs-stable.stdenv.hostPlatform.system}.mkWindowsAppNoCC r
 
   src = {
     win64 = pkgs-stable.fetchurl {
-      url = "https://www.mp3tag.de/en/dodownload64.html";
-      sha256 = "sha256-d0tbG7skXqdhKOyMJQwz0QIT3M3gkcHP1OzPsx81QpY="; #:hash64:
+      url = "https://download.mp3tag.de/mp3tag-v${version}-x64-setup.exe";
+      sha256 = "sha256-jAHlfc9Qc8ItNp7zgUc7WSusyjnbjunO4yzqqKE0Uiw=";
     };
   }."win64";
 
   winAppInstall = ''
-    d="$WINEPREFIX/drive_c/${pname}"
-
-    mkdir -p "$d"
-    
+    set -e
+    mkdir -p "$WINEPREFIX/drive_c/${pname}"
+    echo "Just click next on everything, don't try to change anything."
+    $WINE "${src}" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
   '';
 
   winAppRun = ''
-    $WINE "$WINEPREFIX/drive_c/${pname}/Mp3tag.exe" "$ARGS"
+    $WINE "$WINEPREFIX/drive_c/Program Files/Mp3tag/Mp3tag.exe" "$ARGS"
   '';
 
   installPhase = ''
     runHook preInstall
-
     runHook postInstall
   '';
 

@@ -51,6 +51,12 @@ if ! command -v efibootmgr &> /dev/null; then
     exit $?
 fi
 
+if ! command -v nh &> /dev/null; then
+    echo -e "${INFO} nix helper not found, downloading required packages"
+    nix-shell -p nh --run "$(realpath "$0")"
+    exit $?
+fi
+
 clear
 
 echo -E "$CYAN
@@ -330,7 +336,7 @@ fi
 #------------------#
 
 echo -e "${INFO}Starting system build... this may take a while."
-sudo nixos-rebuild switch --flake .#${HOST}
+nh os switch ~/nixos-config/ -H ${host}
 
 echo -e "${INFO}System build finished successfully"
 
