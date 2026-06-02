@@ -1,4 +1,4 @@
-{ host, inputs, username, pkgs-stable, pkgs-unstable, config, ... } : {
+{ host, inputs, username, pkgs-stable, pkgs-unstable, config, lib, ... } : {
 
   # Define a user account.
   users.users.${username} = {
@@ -7,12 +7,12 @@
     extraGroups = [
       "networkmanager"
       "wheel"
-    ] ++ (if (host == "laptop") then [
+    ] ++ lib.optionals (host == "laptop") [
       "surface-control"
-    ] else if config.my.isHighPower then [
+    ] ++ lib.optionals config.my.isHighPower [
       "input"
       "video"
-    ] else []);
+    ];
     shell = pkgs-stable.zsh;
   };
 

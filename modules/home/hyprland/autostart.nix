@@ -1,4 +1,4 @@
-{ isHighPower, isLaptop, ... } : {
+{ isHighPower, isLaptop, lib, ... } : {
   wayland.windowManager.hyprland.settings = {
 
     # Autostart
@@ -16,12 +16,13 @@
       # Set startup apps
       "hyprsunset"
       "nm-applet"
+      "blueman-applet"
       "pidof hyprlock || hyprlock"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot
       "cd ~/nixos-config && git fetch"
-    ]++ (if isHighPower then [
+    ] ++ lib.optionals isHighPower [
       "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
       "sunshine"
@@ -41,9 +42,8 @@
       "hyprctl dispatch workspace 1"
       "hyprctl dispatch focusmonitor DP-1"
       
-    ] else if isLaptop then [
+    ] ++ lib.optionals isLaptop [
       "poweralertd"
-    ] else [                                              
-    ]);
+    ];
   };
 }

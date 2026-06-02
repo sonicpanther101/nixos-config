@@ -1,39 +1,41 @@
-{ host, pkgs-unstable, pkgs-stable, config, ... } : {
+{ host, pkgs-unstable, pkgs-stable, config, lib, ... } : {
 
-  hardware = {
+  hardware = lib.mkMerge [{
     # Common settings
     enableRedistributableFirmware = true;
     
-    graphics = {
+    graphics = lib.mkMerge [{
       enable = true;
       enable32Bit = true;
       
-      extraPackages = with pkgs-unstable; (if config.my.hasNvidia then [
-        libva-vdpau-driver
-        libvdpau-va-gl
-        nvidia-vaapi-driver
-      ] else if (host == "laptop") then [
+      extraPackages = (with pkgs-unstable;
+        lib.optionals config.my.hasNvidia [
+          libva-vdpau-driver
+          libvdpau-va-gl
+          nvidia-vaapi-driver
+        ]
+      ) ++ (with pkgs-unstable; lib.optionals (host == "laptop") [
         intel-media-driver # LIBVA_DRIVER_NAME=iHD
         libvdpau-va-gl
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
-      ] else []);
+      ]);
       
-      extraPackages32 = with pkgs-unstable.pkgsi686Linux; (if config.my.hasNvidia then [
+      extraPackages32 = with pkgs-unstable.pkgsi686Linux;lib.optionals config.my.hasNvidia [
         libva-vdpau-driver
         libvdpau-va-gl
-      ] else []);
-    } // (if config.my.hasNvidia then {
+      ];
+    } (lib.mkIf config.my.hasNvidia {
       # Use pkgs consistently for desktop
       package = pkgs-unstable.mesa;
       package32 = pkgs-unstable.pkgsi686Linux.mesa;
-    } else {});
+    })];
 
     bluetooth = {
       enable = true; # enables support for Bluetooth
       powerOnBoot = true;
     };
 
-  } // (if config.my.hasNvidia then {
+  } (lib.mkIf config.my.hasNvidia {
 
     nvidia = {
       # Modesetting is required.
@@ -65,15 +67,15 @@
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-  } else if config.my.isHighPower then {
+  }) (lib.mkIf config.my.isHighPower {
     # OpenRGB
     i2c.enable = true;
 
     # XBox controller
     xpadneo.enable = true;
-  } else if (host == "laptop") then {
+  }) (if (host == "laptop") then {
     microsoft-surface.kernelVersion = "stable";
-  } else {});
+  } else {})];
 
   environment = {
     
@@ -82,11 +84,14 @@
       WLR_NO_HARDWARE_CURSORS = "1";
       # Hint electron apps to use wayland
       NIXOS_OZONE_WL = "1";
-    } // (if (host == "laptop") then {
+    } // lib.optionalAttrs (host == "laptop") {
       # Intel-specific environment variables
       LIBVA_DRIVER_NAME = "iHD"; # or "i965" if iHD doesn't work
-    } else {});
+    };
 
-    pathsToLink = [ "/share/applications" "/share/xdg-desktop-portal" ];
+    pathsToLink = [
+      "/share/applications"
+      "/share/xdg-desktop-portal"
+    ];
   };
 }

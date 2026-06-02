@@ -5,7 +5,7 @@
     settings = {
 
       general = {
-        hide_cursor = true;
+        hide_cursor = false;
       };
 
       background = {

@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ host, lib, ... } : {
   services.hypridle = {
     enable = true;
 
@@ -6,11 +6,11 @@
       listener = [
         {
           timeout = 60;
-          on-timeout = (if (host != "laptop-2") then "hyprctl dispatch dpms off" else "");
+          on-timeout = lib.mkIf (host != "laptop-2") "hyprctl dispatch dpms off";
 
-          on-resume = (if (host != "laptop-2") then "hyprctl dispatch dpms on" else "");
+          on-resume = lib.mkIf (host != "laptop-2") "hyprctl dispatch dpms on";
         }
-      ] ++ (if (host != "desktop") then [
+      ] ++ lib.optionals (host != "desktop") [
         {
           timeout = 600;
           on-timeout = "pidof hyprlock || hyprlock";
@@ -19,7 +19,7 @@
           timeout = 1800;
           on-timeout = "my-sleep";
         }
-      ] else []);
+      ];
     };
   };
 }

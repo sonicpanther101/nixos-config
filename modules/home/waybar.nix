@@ -10,15 +10,18 @@
 
         modules-left = ["hyprland/workspaces"];
         modules-center = [ "custom/clock" ];
-        modules-right = lib.filter (x: x != "") [
+        modules-right = [
           "mpris"
-          (if isHighPower then "cava" else "")
+        ] ++ lib.optionals isHighPower [
+          "cava"
+        ] ++ [
           "wireplumber"
           "tray"
+          "custom/keyboard"
           "backlight"
           "idle_inhibitor"
-          (if isLaptop then "battery" else "")
-          "custom/keyboard"
+        ] ++ lib.optionals isLaptop [
+          "battery"
         ];
 
         battery = {

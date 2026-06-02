@@ -116,7 +116,7 @@
       };
 
       # workspace = if (host != host) then [
-      workspace = if (host == "desktop") then [
+      workspace = lib.mkIf (host == "desktop") [
         "1,monitor:HDMI-A-1"
         "2,monitor:HDMI-A-1"
         "3,monitor:HDMI-A-1"
@@ -138,9 +138,9 @@
         "18,monitor:DP-1"
         "19,monitor:DP-1"
         "20,monitor:DP-1"
-      ] else [];
+      ];
 
-      monitor = if (host == "desktop") then [
+      monitor = if host == "desktop" then [
         "DP-1,2560x1440@170,0x0,1.3333"
         "HDMI-A-1,1920x1080@100,1921x0,1"
       ] else if isLaptop then

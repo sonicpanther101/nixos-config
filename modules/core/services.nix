@@ -172,7 +172,7 @@
       };
     };
   });
-  boot.kernelModules = if config.my.isHighPower then [ "i2c-dev" "i2c-piix4" ] else []; # "nouveau" ];
+  boot.kernelModules = lib.mkIf config.my.isHighPower [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 
   # Terminal command correction, alternative to thefuck, written in Rust
