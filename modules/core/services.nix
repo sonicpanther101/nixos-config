@@ -138,6 +138,9 @@
       enable = true;
       package = pkgs-unstable.ollama-cuda;
       loadModels = [ "mistral" "qwen2.5-coder:14b" ];
+      environmentVariables = {
+        OLLAMA_NO_CLOUD = "1";
+      };
     };
 
     open-webui = {

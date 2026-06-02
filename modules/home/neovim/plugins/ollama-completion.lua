@@ -20,7 +20,7 @@ cmp_ai:setup({
       num_predict = 100,
     },
   },
-  run_on_every_keystroke = true,
+  run_on_every_keystroke = false,
   notify = false,
   ignored_file_types = { 'help', 'TelescopePrompt' },
 })

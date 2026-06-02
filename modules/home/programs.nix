@@ -1,4 +1,4 @@
-{ lib, pkgs-unstable, pkgs-stable, username, inputs, ... } : let 
+{ lib, pkgs-unstable, pkgs-stable, username, inputs, hasNvidia, ... } : let 
 
   catppuccin-qt5ct = pkgs-stable.fetchFromGitHub {
     owner = "catppuccin";
@@ -51,6 +51,7 @@ in {
   # Monitor of resources
   programs.btop = {
     enable = true;
+    package = if hasNvidia then pkgs-stable.btop-cuda else pkgs-stable.btop;
   };
 
   # Audio visualiser
