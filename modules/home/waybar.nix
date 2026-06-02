@@ -229,8 +229,12 @@
         color:      #f38ba8;
     }
 
+    #idle_inhibitor {
+        margin-right: 3px;
+    }
+
     #custom-keyboard {
-        margin: 0px 6px 0px 10px;
+        margin: 0px 2px 0px 5px;
         min-width: 25px;
     }
 

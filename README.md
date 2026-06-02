@@ -139,8 +139,11 @@ Error:
 - [x] Replace else's with lib.mkIf to stop config.my combo failures
 - [x] Make zsh alias guide or tool
 - [x] Make mouse visable in lock screen
+- [x] Fix spacing of waybar right side
 - [ ] Write a mkWindowapp thing for music tagging apps
-- [ ] Update to 26.05
+- [x] Update to 26.05
+- [ ] Make network restarting alias for funny wifi things
+- [ ] Add the ability to wake on lan for remote desktop
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
 ## Browser Setup
