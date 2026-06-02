@@ -136,7 +136,7 @@ Error:
 - [x] Remove so much reliance on hostname, try to go off specs
 - [x] Ask AI to make niche keybinds more intuitive
 - [x] Neovim (telescope, supermavin and HyprLS, vimbegood)
-- [ ] Replace else's with lib.mkIf to stop config.my combo failures
+- [x] Replace else's with lib.mkIf to stop config.my combo failures
 - [x] Make zsh alias guide or tool
 - [x] Make mouse visable in lock screen
 - [ ] Write a mkWindowapp thing for music tagging apps

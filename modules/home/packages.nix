@@ -90,7 +90,7 @@
     cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     playerctl                                             # To control media from cli
     pamixer                                               # Pulseaudio command line mixer
-    helvum                                                # Audio connection editor
+    crosspipe                                             # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
     sox                                                   # Tone generator
 
@@ -101,7 +101,7 @@
     wl-clip-persist                                       # To not lose last copied item when window is closed
 
                                                           # Networking / P2P tools
-    protonvpn-gui                                         # VPN
+    proton-vpn                                            # VPN
     qbittorrent                                           # Torrenting GUI
     nicotine-plus                                         # Soulseek peer to peer browser frontend
 

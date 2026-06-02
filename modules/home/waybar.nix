@@ -91,7 +91,7 @@
           format-icons = ["󰕿" "󰖀" "󰕾"];
           on-scroll-up = "pamixer -i 2";
           on-scroll-down = "pamixer -d 2";
-          on-click-middle = "helvum";
+          on-click-middle = "crosspipe";
           on-click-right = "pwvucontrol";
         };
 

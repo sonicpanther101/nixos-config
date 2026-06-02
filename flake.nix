@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     erosanix = {
       url = "github:emmanuelrosa/erosanix";
@@ -75,7 +75,7 @@
         allowUnfree = true;
 
         permittedInsecurePackages = [
-          "ventoy-gtk3-1.1.10"
+          "ventoy-gtk3-1.1.12"
           "qtwebengine-5.15.19"
         ];
       };
