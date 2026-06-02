@@ -1,4 +1,7 @@
-{ isDualBoot, lib, ...} : {                              
+{ isDualBoot, lib, host, ...}: 
+let
+  dualBootId = "0004";
+in {                              
   programs.zsh = {                                                         
     enable = true; 
 
@@ -39,7 +42,7 @@
       piv = "python -m venv .venv";                                         # Create virtual environment in .venv
       psv = "source .venv/bin/activate";                                    # Activate the virtual environment
       
-      winboot = if isDualBoot then "sudo efibootmgr -n 0004 && reboot" else ""; # reboot into windows one time
+      winboot = lib.mkIf isDualBoot "sudo efibootmgr -n ${dualBootId} && reboot";    # reboot into windows one time
 
       usb = "sudo mount -o gid=users,fmask=113,dmask=002 /dev/sdb1 ~/driveUSB"; # Mount an external usb drive, only works if one sd is already connected
     };

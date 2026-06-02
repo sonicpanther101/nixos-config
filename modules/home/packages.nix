@@ -60,6 +60,7 @@
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
     typst                                                 # New markup-based typesetting system that is powerful and easy to learn
+    efibootmgr                                            # Linux user-space application to modify the Intel Extensible Firmware Interface (EFI) Boot Manager
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs

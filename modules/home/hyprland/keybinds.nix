@@ -26,6 +26,7 @@
       # "SUPER, W, exec, ags toggle wallpaper"
       # "SUPER SHIFT, W, exec, ags toggle mouse-helper"
       "SUPER, F1, exec, kitty --title float_kitty -e my-keybinds"
+      "SUPER, F2, exec, kitty --title float_kitty -e my-aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
 
       # Vscodium

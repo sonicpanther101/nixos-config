@@ -45,6 +45,12 @@ if ! command -v whiptail &> /dev/null; then
     exit $?
 fi
 
+if ! command -v efibootmgr &> /dev/null; then
+    echo -e "${INFO}efibootmgr not found, downloading required packages"
+    nix-shell -p efibootmgr --run "$(realpath "$0")"
+    exit $?
+fi
+
 clear
 
 echo -E "$CYAN
@@ -160,6 +166,18 @@ fi
 
 if (whiptail --yesno "Is this machine using dual boot?" 8 40 --title "Hardware: Boot"); then
     isDualBoot=true
+
+    while true; do
+        bootCode=$(whiptail --inputbox "$(efibootmgr)\n\nEnter the 4 digit boot code (BootXXXX <-- these 4 numbers) of your other OS:" 25 130 --title "Code" 3>&1 1>&2 2>&3)
+
+        if [ $? != 0 ]; then
+            exit 1
+        fi
+
+        if (whiptail --yesno "Use '$bootCode' as boot code? (will only break a shell alias)" 8 40 --title "Confirm Code"); then
+            break
+        fi
+    done
 else
     isDualBoot=false
 fi
@@ -204,6 +222,7 @@ Git Email:   $gitemail
 Laptop:      $isLaptop
 Nvidia:      $hasNvidia
 High Power:  $isHighPower
+Dual Boot:   $isDualBoot
 "
 
 whiptail --msgbox "$SUMMARY" 11 40 --title "Installation Summary"
@@ -299,6 +318,11 @@ if [ newHost ]; then
 \n    device = \"/swapfile\";\
 \n    size = ${swapSize} * 1024; # ${swapSize}GB\
 \n  }];|" hosts/${HOST}/hardware-configuration.nix
+fi
+
+## Change boot ID for dualboot alias
+if [ isDualBoot ]; then
+    sed -i "s|dualBootId = \"0004\";|dualBootId = \"${dualBootId}\";|" modules/home/terminal/zsh.nix
 fi
 
 #------------------#

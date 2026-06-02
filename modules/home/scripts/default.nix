@@ -14,6 +14,8 @@ in {
     "my-add-vscode-ext"
     "my-rwall"
     "my-keybinds"
+    "my-aliases"
+    "my-nixdump"
     "maxfetch"
     "syncthing-usb"
     "date-formatter"
