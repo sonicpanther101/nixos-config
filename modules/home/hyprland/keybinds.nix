@@ -15,28 +15,19 @@
       "SUPER, E, exec, nemo"
       "ALT, E, exec, nemo --name=float_nemo"
 
-      # AGS / stuff to be written by me
-      "SUPER, R, exec, wofi --show drun"
-      # "SUPER, R, exec, my-ags"
-      # "SUPER SHIFT, R, exec, my-ags -l"
-      # "SUPER, D, exec, ags toggle app-launcher"
-      "ALT, V, exec, copyq show"
-      # "ALT, V, exec, ags toggle clipboard"
-      # "SUPER, G, exec, ags toggle apis"
+      # Misc
+      "SUPER, R, exec, walker"
+      "ALT, V, exec, walker -m clipboard"
+      "SUPER, period ,exec, walker -m symbols"
       # "SUPER, W, exec, ags toggle wallpaper"
-      # "SUPER SHIFT, W, exec, ags toggle mouse-helper"
       "SUPER, F1, exec, kitty --title float_kitty -e my-keybinds"
       "SUPER, F2, exec, kitty --title float_kitty -e my-aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
+      "SUPER, C ,exec, hyprpicker -a"
 
       # Vscodium
       "SUPER, V, exec, codium"
       "SUPER SHIFT, V, exec, codium ~/nixos-config"
-      # "SUPER SHIFT CTRL, V, exec, codium ~/nixos-config/modules/home/ags/ags"
-
-      # Misc
-      "SUPER, C ,exec, hyprpicker -a"
-      "SUPER, period ,exec, wofi-emoji"
 
       # Screenshot
       "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Hh%Mm%Ss').png"

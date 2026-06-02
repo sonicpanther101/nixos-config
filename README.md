@@ -90,11 +90,11 @@ Error:
 - [x] Local documentation app
 - [x] Add the ability to wake on lan for remote desktop
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
-- [ ] App runner that also browses files, calculates, clipboard, wallpaper and searches
+- [x] App runner that also browses files, calculates, clipboard, wallpaper and searches
 - [ ] Show weather, github contributions graph and wakatime in hyprlock
 - [x] Show album art and progress in waybar
-- [ ] Good clipboard manager to replace copyq 
-- [ ] Promodoro integration with waybar
+- [x] Good clipboard manager to replace copyq 
+- [x] Promodoro integration with waybar
 - [ ] Replace mako with a better notification manager
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] Get jounaling and budgeting apps that sync needs to work on android

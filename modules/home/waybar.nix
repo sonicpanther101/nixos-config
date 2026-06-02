@@ -81,7 +81,13 @@
         };
 
         "custom/pomodoro" = {
-          exec = "tail -f /tmp/pomodoro-waybar";
+          exec = ''
+            if [ -f /tmp/pomodoro-waybar ] &&
+              [ $(( $(date +%s) - $(stat -c %Y /tmp/pomodoro-waybar) )) -lt 3 ]
+            then
+              tail -f /tmp/pomodoro-waybar
+            fi
+          '';
           restart-interval = 1;
           return-type = "plain";
           tooltip = false;
@@ -252,7 +258,7 @@
     }
 
     #image {
-        margin: 0px 10px 0px 3px;
+        margin: 0px 7px 0px 3px;
     }
 
     #image.empty {
@@ -260,7 +266,7 @@
     }
 
     #custom-keyboard {
-        margin: 0px 2px 0px 5px;
+        margin: 3px 2px 0px 3px;
         min-width: 25px;
     }
 

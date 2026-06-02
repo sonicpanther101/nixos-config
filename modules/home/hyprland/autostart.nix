@@ -17,6 +17,7 @@
       "hyprsunset"
       "nm-applet"
       "blueman-applet"
+      "elephant"
       "pidof hyprlock || hyprlock"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
@@ -26,7 +27,6 @@
       "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
       "sunshine"
-      "zeal --minimized"
 
       # Opening programs by default (not needed, just nice)
       # Main Monitor

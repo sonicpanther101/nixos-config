@@ -6,6 +6,13 @@ trap "tput cnorm" EXIT
 
 STATUS_FILE="/tmp/pomodoro-waybar"
 
+cleanup() {
+    echo "" > "$STATUS_FILE"
+    tput cnorm
+}
+
+trap cleanup EXIT INT TERM
+
 notify() {
   title="$1"
   body="$2"

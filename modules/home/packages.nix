@@ -35,8 +35,6 @@
     waybar-mpris                                          # To show music on bar
     hyprsysteminfo                                        # Displays information about the running system
     hyprpolkitagent                                       # Required for GUI applications to be able to sudo
-    wofi                                                  # App launcher
-    wofi-emoji                                            # Wofi emoji picker
     hyprpicker                                            # Colour picker
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
@@ -98,9 +96,6 @@
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
-    copyq                                                 # Clipboard manager applet
-    cliphist                                              # Clipboard manager (duplicate of copyq)
-    wl-clip-persist                                       # To not lose last copied item when window is closed
 
                                                           # Networking / P2P tools
     proton-vpn                                            # VPN

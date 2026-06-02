@@ -22,83 +22,54 @@ in {
       "${pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; }}/share/beefweb_mpris/config.yaml";
   };
 
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-  };
-
-  # Temporary notifications daemon to shut grimblast up
-  services.mako = {
-    enable = true;
-    
-    settings.default-timeout = 5000; # 5 seconds default for all notifications
-    
-    # Set NetworkManager Applet notifications to timeout after 3 seconds
-    extraConfig = ''
-      [app-name="NetworkManager Applet"]
-      default-timeout=3000
-    '';
-  };
-
-  # Cat alternative
-  programs.bat = {
-    enable = true;
-    config = {
-      pager = "less -FR";
+  programs = {
+    nh = {
+      enable = true;
+      clean.enable = true;
     };
-  };
 
-  # Monitor of resources
-  programs.btop = {
-    enable = true;
-    package = if hasNvidia then pkgs-stable.btop-cuda else pkgs-stable.btop;
-  };
-
-  # Audio visualiser
-  programs.cava = {
-    enable = true;
-    settings = {
-      output = {
-        method = "raw";
-        raw_target = "/tmp/cava.fifo";
-        data_format = "ascii";
-        ascii_max_range = 8;
-        bar_delimiter = 59;
-        bars = 10;
-        frame_delimiter = 10;
+    # Cat alternative
+    bat = {
+      enable = true;
+      config = {
+        pager = "less -FR";
       };
-      general.framerate = 30;
     };
-  };
 
-  # Shell extension that manages your environment
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-  
-  # Screen shader
-  services.hyprsunset = {
-    enable = true;
-
-    settings = {
-      profile = [{
-        time = "7:30";
-        identity = true;
-      }
-
-      {
-        time = "21:00";
-        temperature = 5500;
-        gamma = 0.8;
-      }];
+    # Monitor of resources
+    btop = {
+      enable = true;
+      package = if hasNvidia then pkgs-stable.btop-cuda else pkgs-stable.btop;
     };
-  };
 
-  # Styling to override stylix
-  programs.bat.config.theme = lib.mkForce "Catppuccin Mocha";
-  programs.fzf.colors = lib.mkForce {
-    "bg+" = "#313244";
+    # Audio visualiser
+    cava = {
+      enable = true;
+      settings = {
+        output = {
+          method = "raw";
+          raw_target = "/tmp/cava.fifo";
+          data_format = "ascii";
+          ascii_max_range = 8;
+          bar_delimiter = 59;
+          bars = 10;
+          frame_delimiter = 10;
+        };
+        general.framerate = 30;
+      };
+    };
+
+    # Shell extension that manages your environment
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
+    # Styling to override stylix
+    bat.config.theme = lib.mkForce "Catppuccin Mocha";
+    fzf.colors = lib.mkForce {
+      "bg+" = "#313244";
+    };
   };
 
   # Kvantum
