@@ -211,7 +211,7 @@ Error:
 [namida]: https://github.com/namidaco/namida
 [mpv]: https://github.com/mpv-player/mpv
 [vlc]: https://www.videolan.org/vlc/
-[VSCodium]:https://vscodium.com/
+[VSCodium]: https://vscodium.com/
 [Neovim]: https://github.com/neovim/neovim
 [grimblast]: https://github.com/hyprwm/contrib
 [imv]: https://sr.ht/~exec64/imv/

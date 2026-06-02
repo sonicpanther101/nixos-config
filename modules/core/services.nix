@@ -137,9 +137,12 @@
     ollama = {
       enable = true;
       package = pkgs-unstable.ollama-cuda;
-      loadModels = [ "mistral" "qwen2.5-coder:14b" ];
+      loadModels = [ "mistral" "qwen2.5-coder:14b" "qwen3:14b-q4_K_M" ];
       environmentVariables = {
         OLLAMA_NO_CLOUD = "1";
+        OLLAMA_KEEP_ALIVE = "1h";
+        OLLAMA_NUM_PARALLEL = "1";
+        OLLAMA_MAX_LOADED_MODELS = "1";
       };
     };
 
@@ -155,6 +158,12 @@
         # Chunk settings for better context
         CHUNK_SIZE = "1500";
         CHUNK_OVERLAP = "100";
+
+        OLLAMA_REQUEST_TIMEOUT = "600";
+
+        # Tools / functions
+        ENABLE_COMMUNITY_SHARING = "false";
+        ENABLE_TOOLS = "true";
 
         # Disable telemetry
         ANONYMIZED_TELEMETRY = "False";
