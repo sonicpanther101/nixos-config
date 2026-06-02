@@ -1,4 +1,4 @@
-{ config, pkgs-stable, ... }:{
+{ config, pkgs-stable, lib, ... }:{
 
   boot = {
     loader = {
@@ -29,9 +29,9 @@
     supportedFilesystems = [ "ntfs" ];
 
     # Getting sleep to work
-    kernelParams = [ "acpi_enforce_resources=lax" ] ++ (if config.my.hasNvidia then [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ] else []);
+    kernelParams = [ "acpi_enforce_resources=lax" ] ++ lib.optionals config.my.hasNvidia [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ];
 
-  } // (if config.my.isHighPower then {
+  } // lib.optionalAttrs config.my.isHighPower {
 
     # Getting sleep to stay
     postBootCommands = ''
@@ -46,7 +46,7 @@
 
     # OpenRGB
     kernelModules = [ "i2c-dev" ];
-  } else {});
+  };
 
   # Sleep config
   systemd.sleep.settings.Sleep = {

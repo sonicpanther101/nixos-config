@@ -140,6 +140,7 @@ Error:
 - [x] Make zsh alias guide or tool
 - [x] Make mouse visable in lock screen
 - [ ] Write a mkWindowapp thing for music tagging apps
+- [ ] Update to 26.05
 - [ ] Astal working or try quickshell (If libraries translated to c, then use that)
 
 ## Browser Setup
