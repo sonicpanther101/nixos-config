@@ -4,6 +4,8 @@
 tput civis
 trap "tput cnorm" EXIT
 
+STATUS_FILE="/tmp/pomodoro-waybar"
+
 notify() {
   title="$1"
   body="$2"
@@ -37,12 +39,14 @@ pomodoro() {
     mins=$((i / 60)) 
     secs=$((i % 60)) 
     tput cup 0 60 
-    printf "⏳ %02d:%02d " "$mins" "$secs" 
+    printf "⏳ %02d:%02d " "$mins" "$secs"
+    printf "$(echo $label | sed 's|^❄|❄ |' | head -c 4 | sed 's| ||') %02d:%02d ⏳\n" "$mins" "$secs" > "$STATUS_FILE"
     sleep 1 
   done 
   
   kill $PID 2>/dev/null 
-  wait $PID 2>/dev/null 
+  wait $PID 2>/dev/null
+  echo "" > "$STATUS_FILE"
 }
 
 run_pomodoro() {

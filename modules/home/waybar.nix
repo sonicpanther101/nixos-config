@@ -9,10 +9,10 @@
         height = 30;
 
         modules-left = ["hyprland/workspaces"];
-        modules-center = [ "custom/clock" ];
+        modules-center = [ "custom/pomodoro" "custom/clock" ];
         modules-right = [
-          "image/album-art"
           "mpris"
+          "image#album-art"
         ] ++ lib.optionals isHighPower [
           "cava"
         ] ++ [
@@ -70,13 +70,20 @@
           '';
         };
 
-        "image/album-art" = {
-          exec = "playerctl metadata mpris:artUrl";
-          size = 30;
-          interval = 1;
+        "image#album-art" = {
+          exec = "playerctl metadata mpris:artUrl | sed 's|^file://||'";
+          interval = 10;
           on-click = "playerctl play-pause";
           on-scroll-up = "playerctl next";
           on-scroll-down = "playerctl previous";
+          size = 24;
+          tooltip = false;
+        };
+
+        "custom/pomodoro" = {
+          exec = "tail -f /tmp/pomodoro-waybar";
+          restart-interval = 1;
+          return-type = "plain";
           tooltip = false;
         };
 
@@ -244,9 +251,22 @@
         margin-right: 3px;
     }
 
+    #image {
+        margin: 0px 10px 0px 3px;
+    }
+
+    #image.empty {
+        margin: 0px;
+    }
+
     #custom-keyboard {
         margin: 0px 2px 0px 5px;
         min-width: 25px;
+    }
+
+    #custom-pomodoro {
+        min-width: 90px;
+        margin: 0 10px;
     }
 
     #tray {
