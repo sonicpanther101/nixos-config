@@ -58,6 +58,7 @@
     nix-index                                             # For pay-respects to find packages
     nix-search-cli                                        # For pay-respects to find packages
     ripgrep                                               # Grep replacement
+    gh                                                    # GitHub CLI tool
     bc                                                    # GNU software calculator
     wakatime-cli                                          # WakaTime command line interface
     xeyes                                                 # If the eyes move the app is running on xwayland

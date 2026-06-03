@@ -100,7 +100,7 @@ Error:
 - [x] Make enter paste the text and shift enter put it in clipboard
 - [x] Replace mako with a better notification manager
 - [ ] Fix cava in waybar and terminal
-- [ ] Add program to quickly set up monitors
+- [x] Add program to quickly set up monitors
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] hyprgrass for laptop
