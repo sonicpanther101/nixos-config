@@ -155,17 +155,9 @@
         };
 
         cava = {
-          framerate = 60;
           bars = 8;
-          lower_cutoff_freq = 30;
-          higher_cutoff_freq = 15000;
-          sleep_timer = 1;
-          format_silent = "";
           method = "pipewire";
           stereo = false;
-          bar_delimiter = 0;
-          noise_reduction = 0.75;
-          input_delay = 2;
           format-icons = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
           actions = {
             on-click-right = "mode";

@@ -89,7 +89,6 @@ Error:
 - [x] Make network restarting alias for funny wifi things
 - [x] Local documentation app
 - [x] Add the ability to wake on lan for remote desktop
-- [ ] Look at rices that have nix run in github
 - [x] App runner that also browses files, calculates, clipboard, wallpaper and searches
 - [x] Show weather, github contributions graph and wakatime in hyprlock
 - [x] Show album art and progress in waybar
@@ -102,8 +101,9 @@ Error:
 - [ ] Fix cava in waybar and terminal
 - [x] Add program to quickly set up monitors
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
-- [ ] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] hyprgrass for laptop
+- [ ] Get jounaling and budgeting apps that sync needs to work on android
+- [ ] Look at rices that have nix run in github
 
 ## Browser Setup
 
