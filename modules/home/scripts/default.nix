@@ -15,6 +15,7 @@ in {
     "my-rwall"
     "my-nixdump"
     "my-screenrecording"
+    "mpris-waybar"
     "maxfetch"
     "syncthing-usb"
     "date-formatter"

@@ -8,10 +8,10 @@
         position = "top";
         height = 30;
 
-        modules-left = ["hyprland/workspaces"];
+        modules-left = [ "custom/menu" "hyprland/workspaces" ];
         modules-center = [ "custom/pomodoro" "custom/clock" ];
         modules-right = [
-          "mpris"
+          "custom/mpris"
           "image#album-art"
         ] ++ lib.optionals isHighPower [
           "cava"
@@ -93,19 +93,55 @@
           tooltip = false;
         };
 
+        "custom/mpris" = {
+          exec = "mpris-waybar";
+          return-type = "json";
+          restart-interval = 1;
+          tooltip = false;
+          on-click = "playerctl play-pause";
+          on-scroll-up = "playerctl next";
+          on-scroll-down = "playerctl previous";
+        };
+
         mpris = {
           format = "{player_icon} {dynamic}";
           format-paused = "{status_icon} {dynamic}";
           player-icons = {
-            default = "▐▐";
+            default = "⏸";
           };
           status-icons = {
-            paused = "▶ ";
+            paused = "▶";
           };
           tooltip = false;
           on-scroll-up = "playerctl next";
           on-scroll-down = "playerctl previous";
           max-length = 45;
+        };
+
+        "custom/menu" = {
+          format = "";
+          tooltip = "Power & Screen Rotation";
+          menu = "on-click";
+          menu-file = "${./menu.xml}";
+          menu-actions = {
+            lock = "pidof hyprlock || hyprlock";
+            sleep = "my-sleep";
+            poweroff = "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'";
+            reboot = "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'";
+            
+            wallpaper = "walker -m menus:wallpapers";
+            keybinds = "walker -m menus:keybinds";
+            aliases = "walker -m menus:aliases";
+
+            upright = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,0\"";
+            left = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,1\"";
+            upside = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,2\"";
+            right = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,3\"";
+
+            cw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 1) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+            ccw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 3) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+            flip = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 2) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+          };
         };
 
         wireplumber = {
@@ -158,7 +194,7 @@
         
         backlight = {
           format = "{percent}% {icon}";
-          format-icons = ["󰃞" "󰃟" "󰃠"];
+          format-icons = [ "" "" "" "" "" "" "" "" "" ];
           tooltip = false;
         };
         
@@ -181,7 +217,7 @@
     * {
         border:        none;
         border-radius: 0;
-        font-family:   Sans, "JetBrainsMono Nerd Font", "Symbols Nerd Font";
+        font-family:   "JetBrainsMono Nerd Font", "Symbols Nerd Font", Sans;
         font-size:     15px;
         box-shadow:    none;
         text-shadow:   none;
@@ -258,7 +294,7 @@
     }
 
     #image {
-        margin: 0px 7px 0px 3px;
+        margin: 0px 3px 0px 7px;
     }
 
     #image.empty {
@@ -273,6 +309,14 @@
     #custom-pomodoro {
         min-width: 90px;
         margin: 0 10px;
+    }
+
+    #custom-mpris {
+        margin-top: 3px;
+    }
+    
+    #custom-menu {
+        margin: 0 3px 0 7px;
     }
 
     #tray {

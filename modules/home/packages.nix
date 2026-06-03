@@ -57,6 +57,7 @@
     nix-index                                             # For pay-respects to find packages
     nix-search-cli                                        # For pay-respects to find packages
     ripgrep                                               # Grep replacement
+    bc                                                    # GNU software calculator
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
     typst                                                 # New markup-based typesetting system that is powerful and easy to learn

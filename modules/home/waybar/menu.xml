@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+
+<object class="GtkMenu" id="menu">
+
+  <!-- SESSION -->
+  <child>
+    <object class="GtkMenuItem" id="session">
+      <property name="label">Session</property>
+      <property name="visible">true</property>
+      <property name="submenu">session_menu</property>
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkMenu" id="session_menu">
+      <property name="visible">true</property>
+
+      <child>
+        <object class="GtkMenuItem" id="lock">
+          <property name="label">Lock</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="sleep">
+          <property name="label">Sleep</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="poweroff">
+          <property name="label">Power Off</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="reboot">
+          <property name="label">Reboot</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+    </object>
+  </child>
+
+  <!-- ROTATE -->
+  <child>
+    <object class="GtkMenuItem" id="rotate">
+      <property name="label">Rotate</property>
+      <property name="visible">true</property>
+      <property name="submenu">rotate_menu</property>
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkMenu" id="rotate_menu">
+      <property name="visible">true</property>
+
+      <child>
+        <object class="GtkMenuItem" id="upright">
+          <property name="label">Upright</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="left">
+          <property name="label">Left Side Up</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="upside">
+          <property name="label">Upside Down</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="right">
+          <property name="label">Right Side Up</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkSeparatorMenuItem" id="sep">
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="cw">
+          <property name="label">Rotate Clockwise</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="ccw">
+          <property name="label">Rotate Counter Clockwise</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkMenuItem" id="flip">
+          <property name="label">Rotate 180°</property>
+          <property name="visible">true</property>
+        </object>
+      </child>
+
+    </object>
+  </child>
+
+  <!-- SIMPLE ITEMS -->
+  <child>
+    <object class="GtkMenuItem" id="wallpaper">
+      <property name="label">Wallpaper</property>
+      <property name="visible">true</property>
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkMenuItem" id="keybinds">
+      <property name="label">Keybinds</property>
+      <property name="visible">true</property>
+    </object>
+  </child>
+
+  <child>
+    <object class="GtkMenuItem" id="aliases">
+      <property name="label">Aliases</property>
+      <property name="visible">true</property>
+    </object>
+  </child>
+
+</object>
+
+</interface>

@@ -2,7 +2,6 @@
   imports = [
     ./programs.nix
     ./syncthing.nix
-    ./waybar.nix
     ./packages.nix
     ./hyprland
     ./neovim
@@ -16,5 +15,6 @@
     ./vivaldi
     ./vscodium
     ./walker
+    ./waybar
   ];
 }
