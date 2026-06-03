@@ -101,8 +101,8 @@ Error:
 - [x] Fix cava in waybar and terminal
 - [x] Add program to quickly set up monitors
 - [x] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
-- [ ] hyprgrass for laptop
-- [ ] Get jounaling and budgeting apps that sync needs to work on android
+- [x] hyprgrass for laptop
+- [x] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] Look at rices that have nix run in github
 
 ## Browser Setup

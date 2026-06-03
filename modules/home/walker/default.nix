@@ -17,7 +17,6 @@
         default = [
           "desktopapplications"
           "calc"
-          "runner"
           "websearch"
         ];
         prefixes = [
