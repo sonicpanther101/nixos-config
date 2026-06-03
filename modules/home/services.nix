@@ -1,17 +1,11 @@
 { ... } : {
   services = {
-    
-    # Temporary notifications daemon to shut grimblast up
-    mako = {
+
+    swaync = {
       enable = true;
-      
-      settings.default-timeout = 5000; # 5 seconds default for all notifications
-      
-      # Set NetworkManager Applet notifications to timeout after 3 seconds
-      extraConfig = ''
-        [app-name="NetworkManager Applet"]
-        default-timeout=3000
-      '';
+      settings = {
+        timeout = 5;
+      };
     };
       
     # Screen shader

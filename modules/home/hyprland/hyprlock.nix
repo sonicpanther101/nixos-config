@@ -41,13 +41,28 @@
       } {
         # DATE
         monitor = "";
-        text = "cmd[update:60000] date +'%A, %e %B %Y'"; # update every 60 seconds
+        text = "cmd[update:60000] date +'%A, %e %B %Y' | sed 's|  | |'"; # update every 60 seconds
         font_size = 25;
         font_family = "$font";
         font_color = "rgb(205, 214, 244)";
 
         position = "0, -250";
         valign = "top";
+      } {
+        # Weather
+        text = "cmd[update:600000] weather";
+        position = "0, 250";
+        font_size = 18;
+      } {
+        # GitHub
+        text = "cmd[update:3600000] github-contributions";
+        position = "0, 200";
+        font_size = 16;
+      } {
+        # WakaTime
+        text = "cmd[update:300000] wakatime-cli --today";
+        position = "0, 150";
+        font_size = 16;
       }];
     };
   };

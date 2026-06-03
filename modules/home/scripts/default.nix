@@ -20,5 +20,7 @@ in {
     "syncthing-usb"
     "date-formatter"
     "promodoro"
+    "weather"
+    "github-contributions"
   ];
 }

@@ -89,7 +89,7 @@ Error:
 - [x] Make network restarting alias for funny wifi things
 - [x] Local documentation app
 - [x] Add the ability to wake on lan for remote desktop
-- [ ] Astal working or try quickshell (If libraries translated to c, then use that)
+- [ ] Look at rices that have nix run in github
 - [x] App runner that also browses files, calculates, clipboard, wallpaper and searches
 - [ ] Show weather, github contributions graph and wakatime in hyprlock
 - [x] Show album art and progress in waybar
@@ -98,9 +98,9 @@ Error:
 - [ ] Change opacity based on current wallpaper
 - [x] Convert my-aliases and my-keybinds to walker menus
 - [x] Make enter paste the text and shift enter put it in clipboard
-- [ ] Replace mako with a better notification manager
+- [x] Replace mako with a better notification manager
 - [ ] Fix cava in waybar and terminal
-- [ ] Add program to quickly set up mmonitors
+- [ ] Add program to quickly set up monitors
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] hyprgrass for laptop

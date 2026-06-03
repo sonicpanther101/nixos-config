@@ -95,7 +95,6 @@
 
         "custom/mpris" = {
           exec = "mpris-waybar";
-          return-type = "json";
           restart-interval = 1;
           tooltip = false;
           on-click = "playerctl play-pause";
@@ -312,11 +311,20 @@
     }
 
     #custom-mpris {
-        margin-top: 3px;
+        margin: 3px 4px 0 0;
     }
     
     #custom-menu {
         margin: 0 3px 0 7px;
+    }
+
+    menu {
+        border-radius: 15px;
+        background: #1e1e2e;
+        color: #cdd6f4;
+    }
+    menuitem {
+        border-radius: 15px;
     }
 
     #tray {

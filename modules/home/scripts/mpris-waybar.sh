@@ -56,6 +56,6 @@ while true; do
   # Escape for JSON
   TEXT=$(echo "$TEXT" | sed 's/"/\\"/g' | cut -c1-65)
 
-  echo "{\"text\": \"$TEXT\", \"tooltip\": \"\", \"class\": \"playing\", \"alt\": \"\", \"css\": \"$GRADIENT\"}"
+  echo "$TEXT"
   sleep 1
 done
