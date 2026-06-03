@@ -128,7 +128,7 @@ Error:
 | --------------------------- | :---------------------------------------------------------------------------------------------:
 | **Window Manager**          | [Hyprland][Hyprland] |
 | **Bar**                     | [Waybar][Waybar] |
-| **Application Launcher**    | [wofi][wofi] |
+| **Application Launcher**    | [walker][walker] |
 | **Notification Daemon**     | [make][mako] |
 | **Terminal Emulator**       | [Kitty][Kitty] |
 | **Shell**                   | [zsh][zsh] + [starship][starship] |
@@ -145,8 +145,8 @@ Error:
 | **Media Player**            | [mpv][mpv] + [vlc][vlc] |
 | **Music Player**            | [foobar2000][foobar2000] + [cmus][cmus] + [namida][namida] |
 | **Screenshot Software**     | [grimblast][grimblast] |
-| **Screen Recording**        | ([wf-recorder][wf-recorder]) + [OBS][OBS] + [kooha][kooha] |
-| **Clipboard**               | [wl-clip-persist][wl-clip-persist] + [cliphist][cliphist] + ([copyq][copyq]) |
+| **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
+| **Clipboard**               | [walker][walker] |
 | **Color Picker**            | [hyprpicker][hyprpicker] |
 
 <!-- Links -->
@@ -157,6 +157,7 @@ Error:
 [starship]: https://starship.rs
 [Waybar]: https://github.com/Alexays/Waybar
 [rofi]: https://github.com/lbonn/rofi
+[walker]: https://github.com/abenz1267/walker
 [Btop]: https://github.com/aristocratos/btop
 [nemo]: https://github.com/linuxmint/nemo/
 [yazi]: https://github.com/sxyazi/yazi

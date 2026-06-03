@@ -43,6 +43,7 @@ in {
       psv = "source .venv/bin/activate";                                    # Activate the virtual environment
       
       network-restart = "_ systemctl restart NetworkManager.service";       # Restarts the network manager, for when wifi is acting up
+      zsh-reload = "rm ~/.zcompdump*";                                      # Reloads zsh autocomplete
       
       winboot = lib.mkIf isDualBoot "sudo efibootmgr -n ${dualBootId} && reboot";    # reboot into windows one time
 

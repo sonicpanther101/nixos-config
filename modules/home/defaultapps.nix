@@ -6,6 +6,9 @@ let
   file-manager = "nemo.desktop";
   image-viewer = "imv.desktop";
   image-editor = "pinta.desktop";
+  video-viewer = "mpv.desktop";
+  video-viewer-extra = "vlc.desktop";
+  video-editor = "handbrake.desktop";
   torrent = "org.qbittorrent.qBittorrent.desktop";
 in {
   xdg = {
@@ -55,6 +58,29 @@ in {
         "image/svg+xml-compressed" = image-viewer;
         "image/vnd.wap.wbmp" = image-viewer;
         "image/x-icns" = image-viewer;
+
+        "video/mp4" = video-viewer;
+        "video/x-matroska" = video-viewer;      # mkv
+        "video/webm" = video-viewer;
+        "video/x-msvideo" = video-viewer;       # avi
+        "video/quicktime" = video-viewer;       # mov
+        "video/x-flv" = video-viewer;
+        "video/x-ms-wmv" = video-viewer;
+        "video/mpeg" = video-viewer;
+        "video/3gpp" = video-viewer;
+        "video/ogg" = video-viewer;
+        "video/MP2T" = video-viewer;            # ts
+        "video/mp2t" = video-viewer;
+        
+        "application/vnd.rn-realmedia" = video-viewer-extra;
+        "video/x-ms-asf" = video-viewer-extra;
+        "video/x-ms-wm" = video-viewer-extra;
+        "video/x-fli" = video-viewer-extra;
+        
+        "video/x-raw" = video-editor;
+        "application/mxf" = video-editor;
+        "video/x-mxf" = video-editor;
+        "application/vnd.apple.prores" = video-editor;
       };
     };
   };

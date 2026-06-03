@@ -32,7 +32,7 @@
       # Screenshot
       "SUPER, S, exec, grimblast --notify copysave area ~/Pictures/screenshots/$(date +'%Y-%m-%d-At-%Hh%Mm%Ss').png"
       "SUPER CTRL, S, exec, bash -c 'tmp=$(mktemp /tmp/ocr-XXXX.png) && grimblast save area \"$tmp\" && tesseract $tmp stdout 2>/dev/null | wl-copy && notify-send \"OCR complete\" \"Copied to clipboard\"'"
-      "SUPER SHIFT, S, exec, kooha"
+      "SUPER SHIFT, S, exec, my-screenrecording"
 
       # Focus
       "SUPER, left, movefocus, l"

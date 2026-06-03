@@ -16,6 +16,7 @@ in {
     "my-keybinds"
     "my-aliases"
     "my-nixdump"
+    "my-screenrecording"
     "maxfetch"
     "syncthing-usb"
     "date-formatter"

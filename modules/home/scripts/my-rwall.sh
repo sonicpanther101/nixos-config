@@ -6,6 +6,14 @@ random=$(ls $previews | shuf | head -1)
 type=""
 list_mode=false
 
+if [[ "$1" == "--walker" ]]; then
+    for img in "$previews"/*; do
+        name=$(basename "$img")
+        echo "{\"label\":\"$name\",\"icon\":\"$img\",\"exec\":\"$HOME/scripts/wallpaper.sh -n '$name'\"}"
+    done
+    exit 0
+fi
+
 while getopts "ln:" option; do
     case $option in
         n)

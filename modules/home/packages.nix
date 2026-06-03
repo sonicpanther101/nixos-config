@@ -80,7 +80,7 @@
     imv                                                   # Image viewer
     mpv                                                   # Minimal video player
     ffmpeg                                                # CLI image/video editor
-    kooha                                                 # Screen recorder
+    wf-recorder                                           # Screen recorder
     grimblast                                             # Screenshot taker
     obs-studio                                            # Free and open source software for video recording and live streaming
 
