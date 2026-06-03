@@ -91,7 +91,7 @@ Error:
 - [x] Add the ability to wake on lan for remote desktop
 - [ ] Look at rices that have nix run in github
 - [x] App runner that also browses files, calculates, clipboard, wallpaper and searches
-- [ ] Show weather, github contributions graph and wakatime in hyprlock
+- [x] Show weather, github contributions graph and wakatime in hyprlock
 - [x] Show album art and progress in waybar
 - [x] Good clipboard manager to replace copyq 
 - [x] Promodoro integration with waybar

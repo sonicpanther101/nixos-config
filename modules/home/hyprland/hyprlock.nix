@@ -29,41 +29,55 @@
       };
 
       label = [{
-        # TIME
+        # TIME (top center)
         monitor = "";
         text = "cmd[update:1000] date +'%l:%M %p'";
         font_size = 65;
         font_family = "$font";
 
-        position = "0, -100";
+        position = "0, -320";
+        halign = "center";
         valign = "top";
       } {
-        # DATE
+        # DATE (top center under time)
         monitor = "";
-        text = "cmd[update:60000] date +'%A, %e %B %Y' | sed 's|  | |'"; # update every 60 seconds
-        font_size = 25;
+        text = "cmd[update:60000] date +'%A, %e %B %Y' | sed 's|  | |'";
+        font_size = 22;
         font_family = "$font";
 
         position = "0, -250";
+        halign = "center";
         valign = "top";
       } {
-        # Weather
+        # WEATHER (right side, tall block)
+        monitor = "";
         text = "cmd[update:600000] weather";
-        position = "0, 250";
-        font_size = 18;
-        font-family = "JetBrainsMono Nerd Font";
+        font_size = 16;
+        font_family = "JetBrainsMono Nerd Font";
+
+        position = "600, 0";
+        halign = "center";
+        valign = "center";
       } {
-        # GitHub
+        # GITHUB (left upper)
+        monitor = "";
         text = "cmd[update:3600000] github-contributions";
-        position = "0, 200";
-        font_size = 16;
-        font-family = "JetBrainsMono Nerd Font";
+        font_size = 14;
+        font_family = "JetBrainsMono Nerd Font";
+
+        position = "-600, 0";
+        halign = "center";
+        valign = "center";
       } {
-        # WakaTime
-        text = "cmd[update:300000] wakatime-cli --today";
-        position = "0, 150";
-        font_size = 16;
-        font-family = "JetBrainsMono Nerd Font";
+        # WAKATIME (left lower)
+        monitor = "";
+        text = "cmd[update:300000] echo \"Coded for $(wakatime-cli --today) today\"";
+        font_size = 14;
+        font_family = "JetBrainsMono Nerd Font";
+
+        position = "-600, -200";
+        halign = "center";
+        valign = "center";
       }];
     };
   };

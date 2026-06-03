@@ -36,6 +36,7 @@
     hyprsysteminfo                                        # Displays information about the running system
     hyprpolkitagent                                       # Required for GUI applications to be able to sudo
     hyprpicker                                            # Colour picker
+    hyprmon                                               # TUI monitor configuration tool for Hyprland with visual layout and drag-and-drop
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
