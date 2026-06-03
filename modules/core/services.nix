@@ -56,6 +56,16 @@
       ];
     };
 
+    # Server for calendar and tasks  
+    radicale = {
+      enable = true;
+      settings = {
+        server.hosts = [ "0.0.0.0:5232" ];
+        auth.type = "none"; # or htpasswd if you want security
+        storage.type = "filesystem";
+      };
+    };
+
     # Auto login for hyprland startup
     displayManager.autoLogin = {
       enable = true;

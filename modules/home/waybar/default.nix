@@ -295,7 +295,7 @@
     }
 
     #image {
-        margin: 0px 3px 0px 7px;
+        margin: 0px 7px 0px 5px;
     }
 
     #image.empty {

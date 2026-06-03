@@ -51,15 +51,12 @@ in {
           framerate = 60;
           sleep_timer = 1;
         };
-
         input = {
           method = "pipewire";
         };
-
         smoothing = {
           noise_reduction = 0.75;
         };
-
         output = {
           method = "ncurses";
         };

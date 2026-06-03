@@ -98,7 +98,7 @@ Error:
 - [x] Convert my-aliases and my-keybinds to walker menus
 - [x] Make enter paste the text and shift enter put it in clipboard
 - [x] Replace mako with a better notification manager
-- [ ] Fix cava in waybar and terminal
+- [x] Fix cava in waybar and terminal
 - [x] Add program to quickly set up monitors
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] hyprgrass for laptop
