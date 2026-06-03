@@ -155,14 +155,24 @@
         };
 
         cava = {
-          bars = 8;
           method = "pipewire";
+          bars = 8;
+          framerate = 60;
           stereo = false;
-          format-icons = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+          lower_cutoff_freq = 30;
+          higher_cutoff_freq = 15000;
+          noise_reduction = 0.75;
+          sleep_timer = 1;
+          bar_delimiter = 0;
+          format_silent = "";
+          format-icons = [
+            "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"
+          ];
           actions = {
             on-click-right = "mode";
           };
-        };
+          tooltip = false;
+        }; 
         
         "custom/clock" = {
           exec = "date-formatter";

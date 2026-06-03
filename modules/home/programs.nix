@@ -45,12 +45,25 @@ in {
     # Audio visualiser
     cava = {
       enable = true;
+
       settings = {
         general = {
-          framerate = 30;
+          framerate = 60;
+          sleep_timer = 1;
         };
-        input.method = "pipewire"; 
-      };
+
+        input = {
+          method = "pipewire";
+        };
+
+        smoothing = {
+          noise_reduction = 0.75;
+        };
+
+        output = {
+          method = "ncurses";
+        };
+      }; 
     };
 
     # Shell extension that manages your environment
