@@ -1,3 +1,4 @@
+read LAT LON <<<"$(curl -s ipinfo.io/loc | tr ',' ' ')"
 curl -s "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LON&hourly=temperature_2m,precipitation,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max&timezone=auto" \
 | jq -r '
   "NOW",

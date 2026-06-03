@@ -315,7 +315,7 @@
     }
     
     #custom-menu {
-        margin: 0 3px 0 7px;
+        padding: 0 3px 0 7px;
     }
 
     menu {
