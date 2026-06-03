@@ -13,8 +13,6 @@ in {
     "my-sha256"
     "my-add-vscode-ext"
     "my-rwall"
-    "my-keybinds"
-    "my-aliases"
     "my-nixdump"
     "my-screenrecording"
     "maxfetch"

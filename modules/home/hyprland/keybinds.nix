@@ -20,8 +20,8 @@
       "ALT, V, exec, walker -m clipboard"
       "SUPER, period ,exec, walker -m symbols"
       "SUPER, W, exec, walker -m menus:wallpapers"
-      "SUPER, F1, exec, kitty --title float_kitty -e my-keybinds"
-      "SUPER, F2, exec, kitty --title float_kitty -e my-aliases"
+      "SUPER, F1, exec, walker -m menus:keybinds"
+      "SUPER, F2, exec, walker -m menus:aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
       "SUPER, C ,exec, hyprpicker -a"
       "SUPER, M, exec, hyprctl dispatch dpms toggle HDMI-A-1" # For movies

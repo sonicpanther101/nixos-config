@@ -13,6 +13,7 @@
         };
       };
       providers = {
+        max_results = 256;
         default = [
           "desktopapplications"
           "calc"
@@ -41,5 +42,6 @@
   
   xdg.configFile."elephant/menus/wallpapers.lua".source = ./wallpapers.lua;
   xdg.configFile."elephant/menus/aliases.lua".source = ./aliases.lua;
+  xdg.configFile."elephant/menus/keybinds.lua".source = ./keybinds.lua;
   xdg.configFile."walker/themes/catppuccin/style.css".source = ./style.css;
 }
