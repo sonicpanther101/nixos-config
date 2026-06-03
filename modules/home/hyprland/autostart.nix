@@ -18,6 +18,7 @@
       "nm-applet"
       "blueman-applet"
       "elephant"
+      "walker --gapplication-service"
       "pidof hyprlock || hyprlock"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"

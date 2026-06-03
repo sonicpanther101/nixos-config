@@ -10,6 +10,17 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    elephant = {
+      url = "github:abenz1267/elephant";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+    walker = {
+      url = "github:abenz1267/walker";
+      # url = "github:zspher/walker/dev";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.elephant.follows = "elephant";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-stable";

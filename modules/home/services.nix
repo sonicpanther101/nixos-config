@@ -31,8 +31,5 @@
         }];
       };
     };
-    
-    # For walker
-    elephant.enable = true;
   };
 }
