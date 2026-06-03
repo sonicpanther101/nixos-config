@@ -62,7 +62,6 @@
       settings = {
         server.hosts = [ "0.0.0.0:5232" ];
         auth.type = "none"; # or htpasswd if you want security
-        storage.type = "filesystem";
       };
     };
 
@@ -177,6 +176,12 @@
       };
     };
   });
+  
+  systemd.tmpfiles.rules = [
+    "d /var/lib/radicale 0750 radicale radicale -"
+    "d /var/lib/radicale/collections 0750 radicale radicale -"
+  ];
+
   boot.kernelModules = lib.mkIf config.my.isHighPower [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 

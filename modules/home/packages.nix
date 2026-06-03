@@ -108,6 +108,7 @@
 
                                                           # Misc
     qalculate-qt                                          # Calculator app
+    thunderbird                                           # Calendar and tasks app
     zeal                                                  # Simple offline API documentation browser
     cmatrix                                               # Matrix simulator
     cbonsai                                               # Bonsai generator

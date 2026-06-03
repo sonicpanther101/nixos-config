@@ -10,6 +10,8 @@
     # port 8384 is the default port to allow syncthing GUI access from the network.
     firewall = {
       enable = true;
+      # Calendar server
+      allowedTCPPorts = [ 5232 ];
       # Wake on lan
       allowedUDPPorts = lib.mkIf config.my.isHighPower [ 9 ];
     };
