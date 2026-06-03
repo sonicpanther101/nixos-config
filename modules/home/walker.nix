@@ -12,41 +12,25 @@
         "websearch"
       ];
 
-      builtins = {
-        websearch = {
-          enabled = true;
-          entries = [{
-              name = "Brave";
-              url = "https://search.brave.com/search?q={}";
-              prefix = "b";
-              switcher_only = false;
-            } {
-              name = "GitHub";
-              url = "https://github.com/search?q={}";
-              prefix = "g";
-              switcher_only = false;
-            }
-          ];
-        };
-      };
+      builtins.websearch = {
+        enabled = true;
+        entries = [
+          { name = "Brave"; url = "https://search.brave.com/search?q={}"; prefix = "b"; switcher_only = false; }
+          { name = "GitHub"; url = "https://github.com/search?q={}"; prefix = "g"; switcher_only = false; }
+        ];
+      }; 
 
       plugins = [{
         name = "wallpapers";
-
         placeholder = "Select wallpaper";
 
         entries = {
           command = "${pkgs-stable.writeShellScript "walker-wallpapers" ''
-            my-rwall --walker
+            my-rwall -l | while IFS= read -r name; do
+              echo "{\"label\":\"$name\",\"icon\":\"/home/$(whoami)/Pictures/wallpapers/preview/$name\",\"exec\":\"my-rwall -n $name\"}"
+            done
           ''}";
         };
-
-        actions = [
-          {
-            name = "Set";
-            command = "my-rwall -n {label}";
-          }
-        ];
       }];
     };
 
