@@ -28,6 +28,10 @@
           { action = "runAlias"; label = "run in kitty"; bind = "shift Return"; after = "Close"; }
           { action = "copyAlias"; label = "copy command"; bind = "Return"; after = "Close"; }
         ];
+        actions.clipboard = [
+          { action = "paste"; label = "paste"; bind = "Return";       after = "Close"; }
+          { action = "copy";  label = "copy";  bind = "shift Return"; after = "Close"; }
+        ];
       };
 
       builtins.websearch = {

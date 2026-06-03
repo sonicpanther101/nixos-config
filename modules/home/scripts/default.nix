@@ -15,6 +15,7 @@ in {
     "my-rwall"
     "my-nixdump"
     "my-screenrecording"
+    "my-budgeting"
     "mpris-waybar"
     "maxfetch"
     "syncthing-usb"

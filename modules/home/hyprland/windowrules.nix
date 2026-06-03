@@ -47,6 +47,9 @@
       "match:title Active connection found, float on"
       "match:title Active connection found, center on"
 
+      "match:title Edit Item, float on"
+      "match:title Edit Item, center on"
+
       # Decreases opacity
       "match:class codium, opacity 0.9"
       "match:class foobar2000.exe, opacity 0.9"

@@ -96,11 +96,11 @@ Error:
 - [x] Promodoro integration with waybar
 - [ ] Change opacity based on current wallpaper
 - [x] Convert my-aliases and my-keybinds to walker menus
-- [x] Make enter paste the text and shift enter put it in clipboard
+- [ ] Make enter paste the text and shift enter put it in clipboard
 - [x] Replace mako with a better notification manager
 - [x] Fix cava in waybar and terminal
 - [x] Add program to quickly set up monitors
-- [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
+- [x] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] hyprgrass for laptop
 - [ ] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] Look at rices that have nix run in github
