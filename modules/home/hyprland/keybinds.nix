@@ -24,6 +24,7 @@
       "SUPER, F2, exec, kitty --title float_kitty -e my-aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
       "SUPER, C ,exec, hyprpicker -a"
+      "SUPER, M, exec, hyprctl dispatch dpms toggle HDMI-A-1" # For movies
 
       # Vscodium
       "SUPER, V, exec, codium"

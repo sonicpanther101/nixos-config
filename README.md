@@ -98,9 +98,11 @@ Error:
 - [ ] Change opacity based on current wallpaper
 - [ ] Convert my-aliases and my-keybinds to walker menus
 - [ ] Make misc tools walker menu
+- [ ] Make enter paste the text and shift enter put it in clipboard
 - [ ] Replace mako with a better notification manager
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] Get jounaling and budgeting apps that sync needs to work on android
+- [ ] hyprgrass for laptop
 
 ## Browser Setup
 

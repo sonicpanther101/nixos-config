@@ -21,6 +21,11 @@
         ];
         prefixes = [
           { prefix = "+"; provider = "menus:wallpapers"; }
+          { prefix = "#"; provider = "menus:aliases"; }
+        ];
+        actions.fallback = [
+          { action = "runAlias"; label = "run in kitty"; bind = "shift Return"; after = "Close"; }
+          { action = "copyAlias"; label = "copy command"; bind = "Return"; after = "Close"; }
         ];
       };
 
@@ -35,6 +40,6 @@
   };
   
   xdg.configFile."elephant/menus/wallpapers.lua".source = ./wallpapers.lua;
-  # xdg.configFile."elephant/menus/aliases.lua".source = ./aliases.lua;
+  xdg.configFile."elephant/menus/aliases.lua".source = ./aliases.lua;
   xdg.configFile."walker/themes/catppuccin/style.css".source = ./style.css;
 }
