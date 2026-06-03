@@ -96,7 +96,7 @@ Error:
 - [x] Promodoro integration with waybar
 - [ ] Change opacity based on current wallpaper
 - [x] Convert my-aliases and my-keybinds to walker menus
-- [ ] Make enter paste the text and shift enter put it in clipboard
+- [x] Make enter paste the text and shift enter put it in clipboard
 - [x] Replace mako with a better notification manager
 - [x] Fix cava in waybar and terminal
 - [x] Add program to quickly set up monitors

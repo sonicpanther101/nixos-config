@@ -1,8 +1,8 @@
-{ pkgs-stable, pkgs-unstable, ... } : {
+{ pkgs-stable, pkgs-unstable, ... }: {
+
   programs.walker = {
     enable = true;
     runAsService = true;
-
     config = {
       theme = "catppuccin";
       force_keyboard_focus = true;
@@ -29,7 +29,6 @@
           { action = "copyAlias"; label = "copy command"; bind = "Return"; after = "Close"; }
         ];
       };
-
       builtins.websearch = {
         enabled = true;
         entries = [
@@ -39,11 +38,7 @@
       };
     };
   };
-  
-  xdg.configFile."elephant/menus/wallpapers.lua".source = ./wallpapers.lua;
-  xdg.configFile."elephant/menus/aliases.lua".source = ./aliases.lua;
-  xdg.configFile."elephant/menus/keybinds.lua".source = ./keybinds.lua;
-  xdg.configFile."walker/themes/catppuccin/style.css".source = ./style.css;
+
   xdg.configFile."elephant/clipboard.toml".text =
     let
       smartPasteScript = pkgs-stable.writeShellScript "smart-paste" ''
@@ -88,4 +83,9 @@
     ignore_symbols = false
     auto_cleanup = 0
   '';
+
+  xdg.configFile."elephant/menus/wallpapers.lua".source = ./wallpapers.lua;
+  xdg.configFile."elephant/menus/aliases.lua".source = ./aliases.lua;
+  xdg.configFile."elephant/menus/keybinds.lua".source = ./keybinds.lua;
+  xdg.configFile."walker/themes/catppuccin/style.css".source = ./style.css;
 }
