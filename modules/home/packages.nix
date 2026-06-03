@@ -60,6 +60,7 @@
     ripgrep                                               # Grep replacement
     gh                                                    # GitHub CLI tool
     bc                                                    # GNU software calculator
+    wtype                                                 # Fake keyboard input (for pasting from clipboard manager)
     wakatime-cli                                          # WakaTime command line interface
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
