@@ -104,7 +104,6 @@
 
                                                           # Misc
     qalculate-qt                                          # Calculator app
-    libqalculate                                          # Calculator library for walker
     zeal                                                  # Simple offline API documentation browser
     cmatrix                                               # Matrix simulator
     cbonsai                                               # Bonsai generator

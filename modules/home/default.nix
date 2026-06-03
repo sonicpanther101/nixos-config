@@ -15,6 +15,6 @@
     ./variables.nix
     ./vivaldi
     ./vscodium
-    ./walker
+    ./walker.nix
   ];
 }
