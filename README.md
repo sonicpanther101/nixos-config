@@ -95,6 +95,9 @@ Error:
 - [x] Show album art and progress in waybar
 - [x] Good clipboard manager to replace copyq 
 - [x] Promodoro integration with waybar
+- [ ] Change opacity based on current wallpaper
+- [ ] Convert my-aliases and my-keybinds to walker menus
+- [ ] Make misc tools walker menu
 - [ ] Replace mako with a better notification manager
 - [ ] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
 - [ ] Get jounaling and budgeting apps that sync needs to work on android

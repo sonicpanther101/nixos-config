@@ -19,7 +19,7 @@
       "SUPER, R, exec, walker"
       "ALT, V, exec, walker -m clipboard"
       "SUPER, period ,exec, walker -m symbols"
-      "SUPER, W, exec, walker -m wallpapers"
+      "SUPER, W, exec, walker -m menus:wallpapers"
       "SUPER, F1, exec, kitty --title float_kitty -e my-keybinds"
       "SUPER, F2, exec, kitty --title float_kitty -e my-aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"

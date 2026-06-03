@@ -17,6 +17,11 @@
     };
   };
 
+  system.activationScripts.pipewireSanity = ''
+    rm -f /home/*/.config/systemd/user/pipewire.service || true
+    rm -f /home/*/.config/systemd/user/wireplumber.service || true
+  '';
+
   # Foobar2000
   systemd.user.services.foobar-mpris = {
     description = "Foobar2000 MPRIS bridge";
