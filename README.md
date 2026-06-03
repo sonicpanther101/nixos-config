@@ -94,7 +94,7 @@ Error:
 - [x] Show album art and progress in waybar
 - [x] Good clipboard manager to replace copyq 
 - [x] Promodoro integration with waybar
-- [ ] Change opacity based on current wallpaper
+- [x] Change opacity based on current wallpaper
 - [x] Convert my-aliases and my-keybinds to walker menus
 - [x] Make enter paste the text and shift enter put it in clipboard
 - [x] Replace mako with a better notification manager

@@ -44,6 +44,32 @@ awww query >/dev/null 2>&1 || {
     sleep 0.5
 }
 
+set_browser_opacity() {
+    local image="$1"
+
+    entropy=$(magick "$image" \
+        -colorspace Gray \
+        -format "%[entropy]" info:)
+
+    opacity=$(awk -v e="$entropy" '
+    BEGIN {
+        min=0.80
+        max=0.98
+
+        if (e > 1) e = 1
+        if (e < 0) e = 0
+
+        print min + e*(max-min)
+    }')
+
+    echo "entropy: ${entropy}"
+    echo "opacity: ${opacity}"
+
+    hyprctl -j clients | jq -r '.[] | select(.class == "vivaldi-stable") | .address' | while read -r addr; do
+        hyprctl dispatch setprop "address:${addr}" opacity $opacity >/dev/null 2>&1
+    done   
+}
+
 echo $random
 
 # split image
@@ -54,14 +80,22 @@ if echo $random | grep -q widevideo-; then
     awww img -o "HDMI-A-1" --transition-type random $wallpapers/wide/right/$random.webp
 elif echo $random | grep -q wide-random_space_image; then
     random=$(ls $space_wallpapers | shuf | head -1)
-    convert -crop 50%x100% $space_wallpapers/$random /tmp/output.png
+    img="$space_wallpapers/$random"
+    set_browser_opacity "$img"
+    convert -crop 50%x100% "$img" /tmp/output.png
     awww img -o "DP-1" --transition-type random /tmp/output-0.png&
     awww img -o "HDMI-A-1" --transition-type random /tmp/output-1.png
 elif echo $random | grep -q wide-; then
     random="${random#wide-}"
+    img="$wallpapers/wide/$random"
+    set_browser_opacity "$img"
+    convert -crop 50%x100% "$img" /tmp/output.png
     convert -crop 50%x100% $wallpapers/wide/$random /tmp/output.png
     awww img -o "DP-1" --transition-type random /tmp/output-0.png&
     awww img -o "HDMI-A-1" --transition-type random /tmp/output-1.png
 else
-    awww img --transition-type random $wallpapers/others/$random
+    img="$wallpapers/others/$random"
+    set_browser_opacity "$img"
+    awww img --transition-type random "$img"
 fi
+

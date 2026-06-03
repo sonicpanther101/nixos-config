@@ -16,8 +16,6 @@
         max_results = 256;
         default = [
           "desktopapplications"
-          "calc"
-          "websearch"
         ];
         prefixes = [
           { prefix = "+"; provider = "menus:wallpapers"; }
