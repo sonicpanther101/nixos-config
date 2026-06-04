@@ -84,26 +84,8 @@ Error:
 - If nemo confirmations have dark text and background, change colour scheme to catppuccin mocha in qt5ct and qt6ct
 
 ## Todo:
-- [x] Write a mkWindowapp thing for music tagging apps
-- [x] Update to 26.05
-- [x] Make network restarting alias for funny wifi things
-- [x] Local documentation app
-- [x] Add the ability to wake on lan for remote desktop
-- [x] App runner that also browses files, calculates, clipboard, wallpaper and searches
-- [x] Show weather, github contributions graph and wakatime in hyprlock
-- [x] Show album art and progress in waybar
-- [x] Good clipboard manager to replace copyq 
-- [x] Promodoro integration with waybar
-- [x] Change opacity based on current wallpaper
-- [x] Convert my-aliases and my-keybinds to walker menus
-- [x] Make enter paste the text and shift enter put it in clipboard
-- [x] Replace mako with a better notification manager
-- [x] Fix cava in waybar and terminal
-- [x] Add program to quickly set up monitors
-- [x] Get good task, goal and calendar manager that syncs to replace google calendar needs to work on android
-- [x] hyprgrass for laptop
-- [x] Get jounaling and budgeting apps that sync needs to work on android
 - [ ] Look at rices that have nix run in github
+- [ ] Stylus working on laptop (after exams)
 
 ## Browser Setup
 
