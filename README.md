@@ -88,8 +88,8 @@ Error:
 - [ ] Stylus working on laptop (after exams)
 - [ ] Add filename with extension to walker wallpaper script
 - [ ] Make it easy to add floating windows
-- [ ] Update components list
-- [ ] Add empty glyph for mpris-waybar
+- [x] Update components list
+- [x] Add empty glyph for mpris-waybar
 
 ## Browser Setup
 
@@ -121,7 +121,7 @@ Error:
 | **Window Manager**          | [Hyprland][Hyprland] |
 | **Bar**                     | [Waybar][Waybar] |
 | **Application Launcher**    | [walker][walker] |
-| **Notification Daemon**     | [make][mako] |
+| **Notification Daemon**     | [swaync][swaync]  |
 | **Terminal Emulator**       | [Kitty][Kitty] |
 | **Shell**                   | [zsh][zsh] + [starship][starship] |
 | **Text Editor**             | [VSCodium][VSCodium] + [Neovim][Neovim] |
@@ -138,7 +138,7 @@ Error:
 | **Music Player**            | [foobar2000][foobar2000] + [cmus][cmus] + [namida][namida] |
 | **Screenshot Software**     | [grimblast][grimblast] |
 | **Screen Recording**        | [wf-recorder][wf-recorder] + [OBS][OBS] |
-| **Clipboard**               | [walker][walker] |
+| **Clipboard**               | [walker][walker] + [wl-clip-persist][wl-clip-persist] |
 | **Color Picker**            | [hyprpicker][hyprpicker] |
 
 <!-- Links -->
@@ -150,6 +150,7 @@ Error:
 [Waybar]: https://github.com/Alexays/Waybar
 [rofi]: https://github.com/lbonn/rofi
 [walker]: https://github.com/abenz1267/walker
+[wl-clip-persist]: https://github.com/Linus789/wl-clip-persist
 [Btop]: https://github.com/aristocratos/btop
 [nemo]: https://github.com/linuxmint/nemo/
 [yazi]: https://github.com/sxyazi/yazi

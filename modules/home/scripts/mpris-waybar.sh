@@ -51,11 +51,11 @@ while true; do
     OUTPUT+="$p"
   done
 
-  GLYPHS=(⠁ ⠉ ⠋ ⠛ ⠟ ⠿ ⡿ ⣿)
+  GLYPHS=(" " ⠁ ⠉ ⠋ ⠛ ⠟ ⠿ ⡿ ⣿)
 
   if [ -n "$POS" ] && [ -n "$LEN_S" ] && [ "$LEN_S" != "0" ]; then
-    IDX=$(echo "$PCT / 12.5" | bc)
-    (( IDX > 7 )) && IDX=7
+    IDX=$(echo "$PCT / 11.11" | bc)
+    (( IDX > 8 )) && IDX=8
     GLYPH=${GLYPHS[$IDX]}
   else
     GLYPH=" "
