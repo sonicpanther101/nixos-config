@@ -88,6 +88,7 @@ Error:
 - [ ] Stylus working on laptop (after exams)
 - [ ] Add filename with extension to walker wallpaper script
 - [ ] Make it easy to add floating windows
+- [ ] Set up config as ssh for my-install in install.sh
 - [x] Update components list
 - [x] Add empty glyph for mpris-waybar
 

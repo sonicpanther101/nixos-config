@@ -34,7 +34,7 @@
     openssh.authorizedKeys.keys = [
       # Paste the output of `sudo cat /etc/nix/remote-build-key.pub` here
       # Example: "ssh-ed25519 AAAA... nix-remote-builder@surface"
-      ""
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ujGp/LZZTDtCpeYklekkvSHZuVGDijegBvaMR+7IJ nix-remote-builder@desktop"
     ];
   };
 
