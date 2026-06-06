@@ -22,11 +22,6 @@
 # ─────────────────────────────────────────────────────────────────────────────
 { pkgs-stable, lib, config, ... }: {
 
-  services.openssh = lib.mkIf config.my.isHighPower {
-    enable = true;
-    settings.PubkeyAuthentication = true;
-  };
-
   users.users.nix-remote-builder = lib.mkIf config.my.isHighPower {
     isSystemUser = true;
     group = "nix-remote-builder";

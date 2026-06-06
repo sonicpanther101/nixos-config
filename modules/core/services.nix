@@ -41,6 +41,12 @@
     # For nemo trash
     gvfs.enable = true;
 
+    # For build machine setup not needed permanently on weak machines
+    openssh = {
+      enable = true;
+      settings.PubkeyAuthentication = true;
+    };
+
     # Syncthing
     syncthing = {
       openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
