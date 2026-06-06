@@ -46,6 +46,8 @@
       "fmask=0022"
       "big_writes"
       "windows_names"
+      "nofail"
+      "x-systemd.device-timeout=1"
     ];
   };
 

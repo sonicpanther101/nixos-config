@@ -13,18 +13,37 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/86fd6f62-06f5-4b2c-ac58-ae62eab33f0a";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/86fd6f62-06f5-4b2c-ac58-ae62eab33f0a";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/50B1-DC78";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/50B1-DC78";
+    fsType = "vfat";
+    options = [ "fmask=0077" "dmask=0077" ];
+  };
 
-  swapDevices = [ ];
+  fileSystems."/home/adam/driveBig" = { 
+    device = "/dev/disk/by-uuid/4d36aeec-04e7-47f8-b05f-9d76e9c0b8a4";
+    fsType = "ntfs-3g";
+    options = [ 
+      "rw" 
+      "uid=1000"  # Your user ID (usually 1000 for first user)
+      "gid=100"   # users group
+      "dmask=0022" 
+      "fmask=0022"
+      "big_writes"
+      "windows_names"
+      "nofail"
+      "x-systemd.device-timeout=1"
+    ];
+  };
+
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024; # 16GB
+  }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
