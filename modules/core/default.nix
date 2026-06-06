@@ -21,7 +21,7 @@
     #   3. Comment out the imports above if it is first build for a laptop
     # ─────────────────────────────────────────────────────────────────────────
     # Uncomment to enable
-    # ./build-machine.nix
-    # ./weak-machine.nix
+    ./build-machine.nix
+    ./weak-machine.nix
   ];
 }

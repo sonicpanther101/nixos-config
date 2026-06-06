@@ -101,6 +101,7 @@
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
+    wl-clip-persist                                       # Keep clipboard contents after app closes
 
                                                           # Networking / P2P tools
     proton-vpn                                            # VPN

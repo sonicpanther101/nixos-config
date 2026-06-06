@@ -50,6 +50,9 @@
       "match:title Edit Item, float on"
       "match:title Edit Item, center on"
 
+      "match:title Calendar Reminders, float on"
+      "match:title Calendar Reminders, center on"
+
       # Decreases opacity
       "match:class codium, opacity 0.9"
       "match:class foobar2000.exe, opacity 0.9"

@@ -4,10 +4,7 @@
 # Run these steps ONCE on the machine you want to act as the build server:
 #
 #   STEP 1 — Generate a dedicated SSH key for the builder user:
-#     sudo ssh-keygen -t ed25519 \
-#       -f /etc/nix/remote-build-key \
-#       -N "" \
-#       -C "nix-remote-builder@$(hostname)"
+#     sudo ssh-keygen -t ed25519 -f /etc/nix/remote-build-key -N "" -C "nix-remote-builder@$(hostname)"
 #
 #   STEP 2 — Lock down permissions:
 #     sudo chmod 600 /etc/nix/remote-build-key

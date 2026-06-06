@@ -19,8 +19,7 @@
 #     sudo ssh-keyscan -t ed25519 <server-ip> | sudo tee -a /root/.ssh/known_hosts
 #
 #   STEP 5 — Test the connection before rebuilding:
-#     sudo nix store ping --store \
-#       "ssh-ng://nix-remote-builder@<server-ip>?ssh-key=/etc/nix/remote-build-key"
+#     sudo nix store ping --store "ssh-ng://nix-remote-builder@<server-ip>?ssh-key=/etc/nix/remote-build-key"
 #     (Should print: Trusted: 1)
 #
 #   STEP 6 — Rebuild this machine:
@@ -37,13 +36,13 @@
 
     # Fast timeout so offline desktop fails immediately rather than hanging
     settings = {
-      connect-timeout = 8;
+      connect-timeout = 5;
       fallback = true;
     };
 
     buildMachines = [
       {
-        hostName = ""; # ← Paste the server's IP here (e.g. "192.168.1.50")
+        hostName = "10.194.64.149"; # ← Paste the server's IP here (e.g. "192.168.1.50")
         system = "x86_64-linux";
         protocol = "ssh-ng";
         sshUser = "nix-remote-builder";

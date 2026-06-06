@@ -9,17 +9,15 @@
       "dbus-update-activation-environment --systemd"
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
-      # To be changed
-      "sleep 1 && waybar"
-      "copyq"
-
       # Set startup apps
+      "pidof hyprlock || hyprlock"
       "hyprsunset"
+      "sleep 1 && waybar"
       "nm-applet"
       "blueman-applet"
       "elephant"
       "walker --gapplication-service"
-      "pidof hyprlock || hyprlock"
+      "wl-clip-persist --clipboard regular"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
       # "wl-copy" # Might clear the clipboard history on boot

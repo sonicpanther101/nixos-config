@@ -86,6 +86,10 @@ Error:
 ## Todo:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
+- [ ] Add filename with extension to walker wallpaper script
+- [ ] Make it easy to add floating windows
+- [ ] Update components list
+- [ ] Add empty glyph for mpris-waybar
 
 ## Browser Setup
 
