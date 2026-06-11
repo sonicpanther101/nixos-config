@@ -7,20 +7,23 @@ Action = "my-rwall -n %VALUE%"
 function GetEntries()
   local entries = {}
   local preview_dir = os.getenv("HOME") .. "/Pictures/wallpapers/preview"
-  local handle = io.popen("ls '" .. preview_dir .. "'")
+  local handle = io.popen('find "' .. preview_dir .. '" -maxdepth 1 -type f')
   if handle then
-    for filename in handle:lines() do
+    for path in handle:lines() do
+      local filename = path:match("([^/]+)$")
+
       local clean = filename:match("(.+)%.") or filename
       local display = clean:gsub("[_%-]", " ")
+
       table.insert(entries, {
         Text = display,
         Value = filename,
-        Icon = preview_dir .. "/" .. filename,
-        Preview = preview_dir .. "/" .. filename,
+        Icon = path,
+        Preview = path,
         PreviewType = "file"
       })
     end
     handle:close()
-  end
+  end 
   return entries
 end

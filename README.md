@@ -94,11 +94,11 @@ Error:
 ## Todo:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
-- [ ] Add filename with extension to walker wallpaper script
+- [x] Add filename with extension to walker wallpaper script
 - [ ] Make it easy to add floating windows
 - [x] Set up config as ssh for my-install in install.sh
 - [ ] Set up virtual monitor for sunshine
-- [ ] moonlight for laptops
+- [x] moonlight for laptops
 - [x] add hyprland cache
 - [x] add extra instructions for weak build machine
 - [x] change weather to show next 12h not first 12h of day
