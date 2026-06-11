@@ -95,7 +95,7 @@ Error:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
 - [x] Add filename with extension to walker wallpaper script
-- [ ] Make it easy to add floating windows
+- [x] Make it easy to add floating windows
 - [x] Set up config as ssh for my-install in install.sh
 - [x] Set up virtual monitor for sunshine
 - [x] moonlight for laptops

@@ -1,58 +1,48 @@
-{ ... } : {
+{ ... }:
+let
+  mkFloatRules = { match, type, extra ? [] , size ? null }:
+    let
+      base = [
+        "match:${type} ${match}, float on"
+        "match:${type} ${match}, center on"
+      ];
+      sizeRule =
+        if size != null then [ "match:${type} ${match}, size ${toString (builtins.elemAt size 0)} ${toString (builtins.elemAt size 1)}" ]
+        else [];
+    in base ++ sizeRule ++ extra;
+
+  floatByClass = [
+    { match = "Matplotlib"; size = [950 600]; type = "class"; }
+    { match = "float_nemo"; size = [950 600]; type = "class"; }
+    { match = "imv"; size = [1200 725]; type = "class"; }
+    { match = "mpv"; size = [1200 725]; type = "class"; }
+    { match = "nemo"; type = "class"; }
+  ];
+
+  floatByTitle = [
+    { match = "float_kitty"; size = [950 600]; type = "title"; }
+    { match = "Open Folder"; size = [950 600]; type = "title"; }
+    { match = "Open File"; size = [950 600]; type = "title"; }
+    { match = "Open file"; size = [950 600]; type = "title"; }
+    { match = "Open Files"; size = [950 600]; type = "title"; }
+    { match = "Save File"; size = [950 600]; type = "title"; }
+    { match = "Active connection found"; type = "title"; }
+    { match = "Edit Item"; type = "title"; }
+    { match = "Calendar Reminders"; type = "title"; }
+    { match = "OpenRGB"; type = "title"; }
+    { match = ".*Physics Simulation.*"; type = "title"; }
+  ];
+
+  floatRules =
+    builtins.concatLists (
+      (map (r: mkFloatRules r) floatByClass) ++
+      (map (r: mkFloatRules r) floatByTitle)
+    );
+
+in {
   wayland.windowManager.hyprland.settings = {
 
-    windowrule = [
-      "match:class Matplotlib, float on"
-      "match:class Matplotlib, center on"
-      "match:class Matplotlib, size 950 600"
-
-      "match:title float_kitty, float on"
-      "match:title float_kitty, center on"
-      "match:title float_kitty, size 950 600"
-
-      "match:class float_nemo, float on"
-      "match:class float_nemo, center on"
-      "match:class float_nemo, size 950 600"
-
-      "match:class imv, float on"
-      "match:class imv, center on"
-      "match:class imv, size 1200 725"
-
-      "match:class mpv, float on"
-      "match:class mpv, center on"
-      "match:class mpv, size 1200 725"
-
-      "match:title OpenRGB, float on"
-
-      "match:title Open Folder, float on"
-      "match:title Open Folder, center on"
-      "match:title Open Folder, size 950 600"
-
-      "match:title Open File, float on"
-      "match:title Open File, center on"
-      "match:title Open File, size 950 600"
-
-      "match:title Open file, float on"
-      "match:title Open file, center on"
-      "match:title Open file, size 950 600"
-
-      "match:title Open Files, float on"
-      "match:title Open Files, center on"
-      "match:title Open Files, size 950 600"
-
-      "match:title Save File, float on"
-      "match:title Save File, center on"
-      "match:title Save File, size 950 600"
-
-      "match:title Active connection found, float on"
-      "match:title Active connection found, center on"
-
-      "match:title Edit Item, float on"
-      "match:title Edit Item, center on"
-
-      "match:title Calendar Reminders, float on"
-      "match:title Calendar Reminders, center on"
-
+    windowrule = floatRules ++ [
       # Decreases opacity
       "match:class codium, opacity 0.9"
       "match:class foobar2000.exe, opacity 0.9"
@@ -68,8 +58,6 @@
       "match:title .*SableUI.*, no_anim on"          # No animations
       "match:title .*SableUI.*, no_initial_focus on" # Don't focus on start
       "match:title .*SableUI.*, move 0 0"            # Position at top of screen with 40px height and full width
-      
-      "match:title .*Physics Simulation.*, float on"
       
       # Stops screen sleep on idle
       "match:class mpv, idle_inhibit focus"
