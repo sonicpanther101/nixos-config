@@ -257,6 +257,8 @@ if [ newHost ]; then
         \n          inputs.grub2-themes.nixosModules.default\
         \n          inputs.stylix.nixosModules.stylix\
         \n          inputs.nix-index-database.nixosModules.default\
+        \n          inputs.nur.modules.nixos.default\
+        \n          inputs.chaotic.nixosModules.default\
         \n        ];\
         \n        specialArgs = {\
         \n          host = \"${HOST}\";\

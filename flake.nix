@@ -5,6 +5,11 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     erosanix = {
       url = "github:emmanuelrosa/erosanix";
       inputs.nixpkgs.follows = "nixpkgs-stable";
@@ -59,6 +64,8 @@
     
     nix-index-database.url = "github:nix-community/nix-index-database";
 
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
     grub2-themes.url = "github:vinceliuice/grub2-themes";
   };
 
@@ -105,6 +112,8 @@
           inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
+          inputs.nur.modules.nixos.default
+          inputs.chaotic.nixosModules.default
         ];
         specialArgs = {
           host = "desktop";
@@ -118,6 +127,8 @@
           inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
+          inputs.nur.modules.nixos.default
+          inputs.chaotic.nixosModules.default
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
@@ -132,6 +143,8 @@
           inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
+          inputs.nur.modules.nixos.default
+          inputs.chaotic.nixosModules.default
         ];
         specialArgs = {
           host = "laptop-2";

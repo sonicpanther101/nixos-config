@@ -13,18 +13,26 @@
       experimental-features = [ "nix-command" "flakes" ];
 
       substituters = [
-        # "https://nyx.chaotic.cx/"
+        "https://cache.nixos.org"
+        "https://home-manager.cachix.org"
         "https://nix-community.cachix.org"
+        "https://nyx.chaotic.cx/"
+        "https://nur.cachix.org"
         "https://walker.cachix.org"
         "https://walker-git.cachix.org"
+        "https://hyprland.cachix.org"
       ];
 
       trusted-public-keys = [
-        # "nyx.chaotic.cx-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+        "nyx.chaotic.cx-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
         # "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
         "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "home-manager.cachix.org-1:wLVmpPs9J1Na6uhEkqcJcdSmPR61rd76jOnlps6zvM8="
+        "nur.cachix.org-1:Wf8j2K7aJRYsse0vq1w4/4xqZLNlGLLaQKk0P8LgQME="
       ];
     };
 

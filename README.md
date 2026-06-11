@@ -68,6 +68,14 @@ sudo nixos-rebuild switch --flake ./nixos-config#<host>
 
 Use `SUPER + F1` to view and search keybinds.
 
+### Adding Packages
+
+Ideally use the official package manager [Nixpkgs](https://search.nixos.org), if needed put it in the unstable section to use a more up to date version.
+
+Otherwise, look to the [Nix User Repository](https://nur.nix-community.org) or [Chaotic's Nix](https://www.nyx.chaotic.cx/#lists-of-options-and-packages), but be careful as these aren't checked by nixpkgs maintainers and should be considered bleeding edge.
+
+If that still doesn't have what you are looking for, weigh up your options; find an alternative, run a windows version through wine/bottles, or create your own package to build it for nix.
+
 ### Errors
 
 - Break bootloader:
@@ -81,18 +89,19 @@ Error:
    1: Activating configuration (exit status Exited(4))
 ```
 
-- If nemo confirmations have dark text and background, change colour scheme to catppuccin mocha in qt5ct and qt6ct
+- If wifi is not working, reboot or restart network manager service (it does the same thing as a reboot).
 
 ## Todo:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
 - [ ] Add filename with extension to walker wallpaper script
 - [ ] Make it easy to add floating windows
-- [ ] Set up config as ssh for my-install in install.sh
+- [x] Set up config as ssh for my-install in install.sh
 - [ ] Set up virtual monitor for sunshine
 - [ ] moonlight for laptops
-- [ ] add hyprland cache
-- [ ] add extra instructions for weak build machine
+- [x] add hyprland cache
+- [x] add extra instructions for weak build machine
+- [x] change weather to show next 12h not first 12h of day
 - [ ] dont build all modules for surface linux
 - [x] Update components list
 - [x] Add empty glyph for mpris-waybar

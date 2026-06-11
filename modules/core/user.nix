@@ -35,6 +35,7 @@
         inputs.catppuccin.homeModules.catppuccin
         inputs.sops-nix.homeManagerModules.sops
         inputs.walker.homeManagerModules.default
+        inputs.chaotic.homeManagerModules.default
       ];
 
       sops = {
