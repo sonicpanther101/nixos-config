@@ -97,7 +97,7 @@ Error:
 - [x] Add filename with extension to walker wallpaper script
 - [ ] Make it easy to add floating windows
 - [x] Set up config as ssh for my-install in install.sh
-- [ ] Set up virtual monitor for sunshine
+- [x] Set up virtual monitor for sunshine
 - [x] moonlight for laptops
 - [x] add hyprland cache
 - [x] add extra instructions for weak build machine
