@@ -16,7 +16,6 @@ let
     { match = "float_nemo"; size = [950 600]; type = "class"; }
     { match = "imv"; size = [1200 725]; type = "class"; }
     { match = "mpv"; size = [1200 725]; type = "class"; }
-    { match = "nemo"; type = "class"; }
   ];
 
   floatByTitle = [

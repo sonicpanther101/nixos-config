@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-USB_DEV="enp0s20f0u6"
 WIFI_DEV="wlp109s0"
 
-USB_IP=$(ip addr show "$USB_DEV" 2>/dev/null | awk '/inet / {split($2,a,"/"); print a[1]}')
+USB_DEV=$(ip -o link show | awk -F': ' '/enp.*u[0-9]+/ {print $2; exit}')
 PHONE_IP=$(ip route show dev "$USB_DEV" | awk '/default via/ {print $3}')
 WIFI_IP=$(ip addr show "$WIFI_DEV" 2>/dev/null | awk '/inet / {split($2,a,"/"); print a[1]}')
 
