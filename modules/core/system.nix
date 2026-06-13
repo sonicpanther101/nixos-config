@@ -16,23 +16,22 @@
         "https://cache.nixos.org"
         "https://home-manager.cachix.org"
         "https://nix-community.cachix.org"
-        "https://nyx.chaotic.cx/"
+        "https://nyx-cache.chaotic.cx/"
         "https://nur.cachix.org"
+        "https://hyprland.cachix.org"
         "https://walker.cachix.org"
         "https://walker-git.cachix.org"
-        "https://hyprland.cachix.org"
       ];
 
       trusted-public-keys = [
-        "nyx.chaotic.cx-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
-        # "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
         "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "home-manager.cachix.org-1:wLVmpPs9J1Na6uhEkqcJcdSmPR61rd76jOnlps6zvM8="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
+        "nur.cachix.org-1:Wf8j2K7aJRYsse0vq1w4/4xqZLNlGLLaQKk0P8LgQME="
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
         "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
         "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-        "home-manager.cachix.org-1:wLVmpPs9J1Na6uhEkqcJcdSmPR61rd76jOnlps6zvM8="
-        "nur.cachix.org-1:Wf8j2K7aJRYsse0vq1w4/4xqZLNlGLLaQKk0P8LgQME="
       ];
     };
 

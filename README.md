@@ -102,7 +102,7 @@ Error:
 - [x] add hyprland cache
 - [x] add extra instructions for weak build machine
 - [x] change weather to show next 12h not first 12h of day
-- [ ] dont build all modules for surface linux
+- [x] dont build all modules for surface linux
 - [x] Update components list
 - [x] Add empty glyph for mpris-waybar
 
