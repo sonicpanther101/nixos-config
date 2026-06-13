@@ -37,6 +37,8 @@
 
   } (lib.mkIf config.my.hasNvidia {
 
+    nvidia-container-toolkit.enable = true;
+
     nvidia = {
       # Modesetting is required.
       modesetting.enable = true;
