@@ -94,7 +94,7 @@
         };
 
         "custom/mpris" = {
-          exec = "mpris-waybar";
+          exec = "my-mpris-waybar";
           restart-interval = 1;
           tooltip = false;
           on-click = "playerctl play-pause";
@@ -175,7 +175,7 @@
         }; 
         
         "custom/clock" = {
-          exec = "date-formatter";
+          exec = "my-date-formatter";
           interval = 30;
           tooltip = false;
         };

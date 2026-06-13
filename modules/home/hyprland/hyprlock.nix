@@ -51,7 +51,7 @@
       } {
         # WEATHER (right side, tall block)
         monitor = "";
-        text = "cmd[update:600000] weather";
+        text = "cmd[update:600000] my-weather";
         font_size = 16;
         font_family = "JetBrainsMono Nerd Font";
 
@@ -61,7 +61,7 @@
       } {
         # GITHUB (left upper)
         monitor = "";
-        text = "cmd[update:3600000] github-contributions";
+        text = "cmd[update:3600000] my-github-contributions";
         font_size = 14;
         font_family = "JetBrainsMono Nerd Font";
 

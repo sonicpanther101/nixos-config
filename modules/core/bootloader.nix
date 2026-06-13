@@ -44,8 +44,8 @@
       options bluetooth disable_ertm=Y
     '';
 
-    # OpenRGB and virtual monitor for sunshine
-    kernelModules = [ "i2c-dev" "vkms" ];
+    # OpenRGB
+    kernelModules = [ "i2c-dev" ];
   };
 
   # Sleep config

@@ -16,12 +16,12 @@ in {
     "my-nixdump"
     "my-screenrecording"
     "my-budgeting"
-    "mpris-waybar"
+    "my-mpris-waybar"
     "maxfetch"
-    "syncthing-usb"
-    "date-formatter"
-    "promodoro"
-    "weather"
-    "github-contributions"
+    "my-syncthing-usb"
+    "my-date-formatter"
+    "my-promodoro"
+    "my-weather"
+    "my-github-contributions"
   ];
 }
