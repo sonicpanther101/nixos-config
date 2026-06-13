@@ -12,6 +12,7 @@
     ] ++ lib.optionals config.my.isHighPower [
       "input"
       "video"
+      "docker"
     ];
     shell = pkgs-stable.zsh;
   };
