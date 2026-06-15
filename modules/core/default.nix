@@ -11,7 +11,6 @@
     ./hardware.nix
     ./gaming.nix
     ./wayland.nix
-    ./virtualisation.nix
     
     # ─── Remote builds ───────────────────────────────────────────────────────
     # To make a machine act as a BUILD SERVER:

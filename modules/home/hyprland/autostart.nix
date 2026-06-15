@@ -30,13 +30,14 @@
       # Opening programs by default (not needed, just nice)
       # Main Monitor
       "hyprctl dispatch focusmonitor DP-1"
-      "hyprctl dispatch exec '[workspace 1 silent] vivaldi --profile-directory=\"Default\"'"
+      "hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Profile 1\"'"
+      "cd ~/nixos-config && hyprctl dispatch exec '[workspace 1 silent] nvim'"
 
       # Secondary Monitor
       "hyprctl dispatch focusmonitor HDMI-A-1"
-      "hyprctl dispatch exec '[workspace 11 silent] beefweb_mpris'"
-      "hyprctl dispatch exec '[workspace 12 silent] codium'"
-      "hyprctl dispatch exec '[workspace 13 silent] kitty'"
+      "hyprctl dispatch exec '[workspace 11 silent] vivaldi --profile-directory=\"Default\"'"
+      "hyprctl dispatch exec '[workspace 13 silent] beefweb_mpris'"
+      "hyprctl dispatch exec '[workspace 12 silent] kitty'"
 
       # Change focus back to main
       "hyprctl dispatch workspace 1"
