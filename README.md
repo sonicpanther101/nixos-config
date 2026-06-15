@@ -94,17 +94,6 @@ Error:
 ## Todo:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
-- [x] Add filename with extension to walker wallpaper script
-- [x] Make it easy to add floating windows
-- [x] Set up config as ssh for my-install in install.sh
-- [x] Set up virtual monitor for sunshine
-- [x] moonlight for laptops
-- [x] add hyprland cache
-- [x] add extra instructions for weak build machine
-- [x] change weather to show next 12h not first 12h of day
-- [x] dont build all modules for surface linux
-- [x] Update components list
-- [x] Add empty glyph for mpris-waybar
 
 ## Browser Setup
 
