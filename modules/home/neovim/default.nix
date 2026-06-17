@@ -71,11 +71,6 @@ in {
     ];
 
     initLua = ''
-      -- Force treesitter onto rtp using its exact nix store path.
-      -- This is necessary because home-manager's rtp injection for withAllGrammars
-      -- is unreliable with neovim-unwrapped. The path is stamped at build time.
-      vim.opt.rtp:prepend("${treesitter}")
-
       require('options')
       require('keymaps')
       require('plugins.ui')
