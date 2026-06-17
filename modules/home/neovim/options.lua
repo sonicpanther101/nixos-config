@@ -12,11 +12,21 @@ opt.number         = true   -- show absolute number on the cursor line
 opt.relativenumber = true   -- show relative numbers everywhere else
 
 -- ── Tabs & indentation ───────────────────────────────────────────────────────
-opt.tabstop        = 4      -- a <Tab> character looks like 4 spaces
-opt.softtabstop    = 4      -- pressing <Tab> inserts 4 spaces
-opt.shiftwidth     = 4      -- >> and << indent by 4 spaces
+opt.tabstop        = 2      -- a <Tab> character looks like 4 spaces
+opt.softtabstop    = 2      -- pressing <Tab> inserts 4 spaces
+opt.shiftwidth     = 2      -- >> and << indent by 4 spaces
 opt.expandtab      = true   -- always insert spaces, never a real tab character
 opt.smartindent    = true   -- auto-indent on new lines based on context
+
+-- 4-space filetypes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python", "c", "cpp", "rust" },
+  callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+    vim.bo.softtabstop = 4
+  end,
+})
 
 -- ── Search ───────────────────────────────────────────────────────────────────
 opt.ignorecase     = true   -- /foo matches Foo, FOO, etc.
