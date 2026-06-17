@@ -18,8 +18,8 @@
         ] ++ [
           "wireplumber"
           "tray"
-          "custom/keyboard"
           "backlight"
+          "custom/keyboard"
           "idle_inhibitor"
         ] ++ lib.optionals isLaptop [
           "battery"
@@ -256,7 +256,7 @@
         color:      #f38ba8;
     }
 
-    #mode, #battery, #cpu, #memory, #network, #pulseaudio, #backlight, #custom-storage, #custom-weather, #custom-mail {
+    #mode, #battery, #cpu, #memory, #network, #pulseaudio, #custom-storage, #custom-weather, #custom-mail {
         margin:     0px 6px 0px 10px;
         min-width:  25px;
     }

@@ -1,4 +1,4 @@
-{ host, lib, ... } : {
+{ host, lib, username, ... } : {
 
   options.my = {
     isLaptop    = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine is a laptop."; };
@@ -33,6 +33,8 @@
         "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
         "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
       ];
+
+      trusted-users = [ "root" username ];
     };
 
     nixpkgs.config = {

@@ -80,8 +80,9 @@ map('n', '<leader>nn', '<cmd>e ~/nixos-config/modules/home/neovim/lua/<CR>',
 
 -- ── Diagnostic navigation ────────────────────────────────────────────────────
 -- TIP: [d and ]d jump between LSP errors/warnings (like the squigglies in VSCode)
-map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Diagnostic: previous' })
-map('n', ']d', vim.diagnostic.goto_next, { desc = 'Diagnostic: next'     })
+map('n', '[d', vim.diagnostic.jump({ count =  1, float = true }), { desc = 'Diagnostic: previous' })
+map('n', ']d', vim.diagnostic.jump({ count = -1, float = true }), { desc = 'Diagnostic: next'     })
+map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Action', silent = true })
 map('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Diagnostic: show message' })
 map('n', '<leader>q', vim.diagnostic.setloclist,  { desc = 'Diagnostic: list all'    })
 
