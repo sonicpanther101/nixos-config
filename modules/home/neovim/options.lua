@@ -68,6 +68,51 @@ opt.showmode       = false  -- lualine shows the mode, no need for the cmdline o
 -- Create undo directory if it doesn't exist yet
 vim.fn.mkdir(vim.fn.stdpath('data') .. '/undo', 'p')
 
+-- ── Autosave (afterDelay equivalent) ────────────────────────────────────────
+-- Mirrors VSCode's "files.autoSave": "afterDelay" — saves automatically
+-- after you stop typing for a short period, but only for real files.
+
+local autosave_delay = 1000  -- ms, matches VSCode's default 1000ms
+
+vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
+  pattern = '*',
+  callback = function()
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    if vim.bo[bufnr].buftype ~= '' then return end
+    if not vim.bo[bufnr].modifiable then return end
+    if vim.api.nvim_buf_get_name(bufnr) == '' then return end
+    if not vim.bo[bufnr].modified then return end
+
+    -- Debounce: cancel any pending save timer for this buffer
+    local existing = vim.b[bufnr].autosave_timer
+    if existing ~= nil then
+      existing:stop()
+      existing:close()
+      vim.b[bufnr].autosave_timer = nil
+    end
+
+    local timer = vim.loop.new_timer()
+    vim.b[bufnr].autosave_timer = timer
+
+    if timer ~= nil then
+      timer:start(autosave_delay, 0, function()
+        vim.schedule(function()
+          if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].modified then
+            vim.api.nvim_buf_call(bufnr, function()
+              vim.cmd('silent! write')
+            end)
+          end
+        end)
+        if timer ~= nil then
+          timer:stop()
+          timer:close()
+        end
+      end)
+    end
+  end,
+})
+
 -- Transparent background — lets kitty's terminal opacity show through.
 -- Without this, nvim renders its own solid background colour which doesn't
 -- reach the kitty window edges (visible as a colour mismatch border).
