@@ -94,6 +94,9 @@ Error:
 ## Todo:
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
+- [ ] Style notifications nicely
+- [ ] Get git and file editing working nicely on neovim
+- [ ] Get lastfm to work on laptop cmus
 
 ## Browser Setup
 
