@@ -69,10 +69,8 @@ opt.showmode       = false  -- lualine shows the mode, no need for the cmdline o
 vim.fn.mkdir(vim.fn.stdpath('data') .. '/undo', 'p')
 
 -- ── Autosave (afterDelay equivalent) ────────────────────────────────────────
--- Mirrors VSCode's "files.autoSave": "afterDelay" — saves automatically
--- after you stop typing for a short period, but only for real files.
-
 local autosave_delay = 1000  -- ms, matches VSCode's default 1000ms
+local autosave_timers = {}   -- bufnr -> uv_timer_t, kept in plain Lua memory
 
 vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
   pattern = '*',
@@ -85,15 +83,15 @@ vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
     if not vim.bo[bufnr].modified then return end
 
     -- Debounce: cancel any pending save timer for this buffer
-    local existing = vim.b[bufnr].autosave_timer
+    local existing = autosave_timers[bufnr]
     if existing ~= nil then
       existing:stop()
       existing:close()
-      vim.b[bufnr].autosave_timer = nil
+      autosave_timers[bufnr] = nil
     end
 
     local timer = vim.loop.new_timer()
-    vim.b[bufnr].autosave_timer = timer
+    autosave_timers[bufnr] = timer
 
     if timer ~= nil then
       timer:start(autosave_delay, 0, function()
@@ -104,11 +102,26 @@ vim.api.nvim_create_autocmd({ 'TextChanged', 'InsertLeave' }, {
             end)
           end
         end)
-        if timer ~= nil then
-          timer:stop()
-          timer:close()
+        local t = autosave_timers[bufnr]
+        if t ~= nil then
+          t:stop()
+          t:close()
+          autosave_timers[bufnr] = nil
         end
       end)
+    end
+  end,
+})
+
+-- Clean up timers for buffers that get deleted, so they don't leak
+vim.api.nvim_create_autocmd('BufDelete', {
+  pattern = '*',
+  callback = function(args)
+    local t = autosave_timers[args.buf]
+    if t ~= nil then
+      t:stop()
+      t:close()
+      autosave_timers[args.buf] = nil
     end
   end,
 })
