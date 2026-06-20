@@ -1,3 +1,13 @@
+## Todo:
+- [ ] Look at rices that have nix run in github
+- [ ] Stylus working on laptop (after exams)
+- [ ] Style notifications nicely
+- [ ] Fix laptop sleep
+- [ ] Get git and file editing working nicely on neovim
+- [x] Get lastfm to work on laptop cmus
+- [ ] Write reasons to switch to nixos
+- [ ] Bottles shouldn't build from scratch
+
 ## Usage:
 
 ### Nixos installation
@@ -90,13 +100,6 @@ Error:
 ```
 
 - If wifi is not working, reboot or restart network manager service (it does the same thing as a reboot).
-
-## Todo:
-- [ ] Look at rices that have nix run in github
-- [ ] Stylus working on laptop (after exams)
-- [ ] Style notifications nicely
-- [ ] Get git and file editing working nicely on neovim
-- [ ] Get lastfm to work on laptop cmus
 
 ## Browser Setup
 

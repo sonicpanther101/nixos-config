@@ -4,7 +4,6 @@ while true; do
   STATUS=$(playerctl status 2>/dev/null)
 
   if [ -z "$STATUS" ]; then
-    echo '{"text": "", "class": "empty"}'
     sleep 1
     continue
   fi

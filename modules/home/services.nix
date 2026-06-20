@@ -1,6 +1,7 @@
 { ... } : {
   services = {
 
+    # Notification Manager
     swaync = {
       enable = true;
       settings = {

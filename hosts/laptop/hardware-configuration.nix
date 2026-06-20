@@ -36,7 +36,7 @@
     size = 16 * 1024; # 16GB
   }];
 
-  boot.kernelParams = [ "mem_sleep_default=deep" "resume_offset=921600" ];
+  boot.kernelParams = [ "resume_offset=921600" ];
 
   boot.resumeDevice = "/dev/disk/by-uuid/86fd6f62-06f5-4b2c-ac58-ae62eab33f0a";
 

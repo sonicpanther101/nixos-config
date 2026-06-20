@@ -121,7 +121,7 @@ while true; do
 done
 
 newHost=""
-if [ HOST == "new" ]; then
+if [ "$HOST" = "new" ]; then
     while true; do
         newHost=$(whiptail --inputbox "Enter your new host name (cannot be an existing one):" 8 40 --title "Host Name" 3>&1 1>&2 2>&3)
 
@@ -231,7 +231,7 @@ High Power:  $isHighPower
 Dual Boot:   $isDualBoot
 "
 
-whiptail --msgbox "$SUMMARY" 11 40 --title "Installation Summary"
+whiptail --msgbox "$SUMMARY" 20 40 --title "Installation Summary"
 
 #-----------------------#
 #   Last Confirmation   #
@@ -338,6 +338,8 @@ fi
 #------------------#
 
 echo -e "${INFO}Starting system build... this may take a while."
+cd nixos-config
+git add .
 nh os switch ~/nixos-config/ -H ${host}
 
 echo -e "${INFO}System build finished successfully"
