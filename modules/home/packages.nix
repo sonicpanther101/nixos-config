@@ -5,7 +5,6 @@
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
     vsce                                                  # VS Code Extension Manager
-    (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
 
@@ -29,6 +28,7 @@
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
     prismlauncher                                         # Minecraft launcher
+    (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
 
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations

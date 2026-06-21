@@ -340,6 +340,7 @@ fi
 echo -e "${INFO}Starting system build... this may take a while."
 cd nixos-config
 git add .
+export NIX_CONFIG="experimental-features = nix-command flakes"
 nh os switch ~/nixos-config/ -H ${host}
 
 echo -e "${INFO}System build finished successfully"
@@ -362,6 +363,12 @@ if [ newHost ]; then
 
   boot.resumeDevice = \"/dev/disk/by-uuid/${uuid}\";|s" \
 "hosts/${HOST}/hardware-configuration.nix"
+
+    canDeep=$(cat /sys/power/mem_sleep | grep deep)
+
+    if [ canDeep ]; then
+      sed -i "s| \"mem_sleep_default=deep\"||" "hosts/${HOST}/hardware-configuration.nix"
+    fi
 
     echo -e "${INFO}Starting second system build to enable sleep... this one should be quicker."
     nh os switch ~/nixos-config/ -H ${host}

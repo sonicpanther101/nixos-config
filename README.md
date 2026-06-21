@@ -1,12 +1,26 @@
 ## Todo:
+
 - [ ] Look at rices that have nix run in github
 - [ ] Stylus working on laptop (after exams)
 - [ ] Style notifications nicely
-- [ ] Fix laptop sleep
+- [x] Fix laptop sleep
 - [ ] Get git and file editing working nicely on neovim
 - [x] Get lastfm to work on laptop cmus
-- [ ] Write reasons to switch to nixos
-- [ ] Bottles shouldn't build from scratch
+- [x] Write reasons to switch to nixos
+- [x] Bottles shouldn't build from scratch
+
+## Reasons to switch:
+
+- Microsoft integrating AI into everything
+- Windows is slow on old devices
+- Windows had security exploit in their text editor
+- Microsoft adding more and more spyware
+- Nixos is easily set up on new devices
+- Once something is set up, it is set up on all devices and all future devices
+- Updates can be made while the OS is still in use
+- Linux very rarely requires a reboot to enable a setting
+
+And many more...
 
 ## Usage:
 
