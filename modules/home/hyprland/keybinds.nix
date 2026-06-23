@@ -15,6 +15,9 @@
       "SUPER, E, exec, nemo"
       "ALT, E, exec, nemo --name=float_nemo"
 
+      # Note taking
+      "SUPER, X, exec, xournalpp"
+
       # Misc
       "SUPER, R, exec, walker"
       "ALT, V, exec, walker -m clipboard"
