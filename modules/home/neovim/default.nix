@@ -68,6 +68,10 @@ in {
       vp.trouble-nvim
       vp.undotree
       vp.vim-be-good
+
+      vp.oil-nvim
+      vp.neogit
+      vp.diffview-nvim
     ];
 
     initLua = ''
@@ -81,6 +85,8 @@ in {
       require('plugins.completion')
       require('plugins.ollama-completion')
       require('plugins.editing')
+      require('plugins.oil')
+      require('plugins.neogit')
     '';
   };
 
@@ -95,5 +101,7 @@ in {
     "nvim/lua/plugins/completion.lua".source        = ./plugins/completion.lua;
     "nvim/lua/plugins/ollama-completion.lua".source = ./plugins/ollama-completion.lua;
     "nvim/lua/plugins/editing.lua".source           = ./plugins/editing.lua;
+    "nvim/lua/plugins/oil.lua".source               = ./plugins/oil.lua;
+    "nvim/lua/plugins/neogit.lua".source            = ./plugins/neogit.lua;
   };
 }

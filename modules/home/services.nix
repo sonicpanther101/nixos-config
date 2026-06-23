@@ -6,18 +6,8 @@
       enable = true;
       settings = {
         timeout = 5;
+        notification-window-width = 300;
       };
-      style = ''
-        .notification-row {
-          min-height: 0px;
-        }
-
-        .notification {
-          min-width: 0px;
-          min-height: 0px;
-          padding: 8px;
-        }
-      '';
     };
       
     # Screen shader

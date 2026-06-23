@@ -8,12 +8,12 @@
     hyprlock.enable = false;
     btop.enable = false;
     hyprland.enable = false;
-    swaync.enable = false;
   };
 
   stylix = {
     targets = {
       hyprland.enable = false;
+      swaync.enable = false;
     };
   };
 
