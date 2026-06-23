@@ -7,6 +7,17 @@
       settings = {
         timeout = 5;
       };
+      style = ''
+        .notification-row {
+          min-height: 0px;
+        }
+
+        .notification {
+          min-width: 0px;
+          min-height: 0px;
+          padding: 8px;
+        }
+      '';
     };
       
     # Screen shader

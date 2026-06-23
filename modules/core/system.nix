@@ -1,4 +1,4 @@
-{ host, lib, username, ... } : {
+{ lib, username, ... } : {
 
   options.my = {
     isLaptop    = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine is a laptop."; };
@@ -19,6 +19,7 @@
         "https://nyx-cache.chaotic.cx/"
         "https://nur.cachix.org"
         "https://hyprland.cachix.org"
+        "https://catppuccin.cachix.org"
         "https://walker.cachix.org"
         "https://walker-git.cachix.org"
       ];
@@ -30,6 +31,7 @@
         "nyx-cache.chaotic.cx:dJxTrgMC3V3cFfyIiBQDQorG6k1LsqurH/srpMSq7qk="
         "nur.cachix.org-1:Wf8j2K7aJRYsse0vq1w4/4xqZLNlGLLaQKk0P8LgQME="
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+        "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
         "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
         "walker-git.cachix.org-1:vmC0ocfPWh0S/vRAQGtChuiZBTAe4wiKDeyyXM0/7pM="
       ];
