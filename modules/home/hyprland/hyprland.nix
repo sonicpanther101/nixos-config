@@ -10,7 +10,7 @@
     plugins = [
       inputs.split-monitor-workspaces.packages.${pkgs-stable.stdenv.hostPlatform.system}.split-monitor-workspaces
     ] ++ lib.optionals isLaptop [
-      inputs.hyprgrass.packages.${pkgs-stable.system}.default
+      inputs.hyprgrass.packages.${pkgs-stable.stdenv.hostPlatform.system}.default
     ];
 
     extraConfig = ''
