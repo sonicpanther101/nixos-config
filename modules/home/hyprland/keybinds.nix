@@ -16,7 +16,8 @@
       "ALT, E, exec, nemo --name=float_nemo"
 
       # Note taking
-      "SUPER, X, exec, xournalpp"
+      "SUPER, N, exec, xournalpp"
+      "SUPER ALT, N, exec, sleep 2 && wlrctl pointer move 1 1 || true"
 
       # Misc
       "SUPER, R, exec, walker"

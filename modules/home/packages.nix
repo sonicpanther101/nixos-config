@@ -38,6 +38,7 @@
     hyprpicker                                            # Colour picker
     hyprmon                                               # TUI monitor configuration tool for Hyprland with visual layout and drag-and-drop
     wev                                                   # Wayland input watcher
+    wlrctl                                                # WLroots cl utils for fixing stylus on laptop
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
                                                           # File managers, icons & visual disk tools
