@@ -30,6 +30,7 @@ let
     { match = "Calendar Reminders"; type = "title"; }
     { match = "OpenRGB"; type = "title"; }
     { match = ".*Physics Simulation.*"; type = "title"; }
+    { match = "Pipewire Volume Control"; type = "title"; }
   ];
 
   floatRules =

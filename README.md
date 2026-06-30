@@ -1,13 +1,6 @@
 ## Todo:
 
 - [ ] Look at rices that have nix run in github
-- [x] Stylus working on laptop (after exams)
-- [x] Style notifications nicely
-- [x] Fix laptop sleep
-- [x] Get git and file editing working nicely on neovim
-- [x] Get lastfm to work on laptop cmus
-- [x] Write reasons to switch to nixos
-- [x] Bottles shouldn't build from scratch
 
 ## Reasons to switch:
 
