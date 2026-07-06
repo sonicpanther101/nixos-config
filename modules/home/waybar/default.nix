@@ -119,6 +119,7 @@
           menu-actions = {
             lock = "pidof hyprlock || hyprlock";
             sleep = "my-sleep";
+            sleep-1 = "my-sleep";
             poweroff = "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'";
             reboot = "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'";
             
