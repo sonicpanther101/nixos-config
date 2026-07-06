@@ -27,6 +27,7 @@
       "SUPER, F1, exec, walker -m menus:keybinds"
       "SUPER, F2, exec, walker -m menus:aliases"
       "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
+      "SUPER ALT, K, exec, my-toggle-keyboard"
       "SUPER, C ,exec, hyprpicker -a"
       "SUPER, M, exec, hyprctl dispatch dpms toggle $(hyprctl monitors -j | jq -r '.[] | select(.focused == false) | .name')" # For movies
 

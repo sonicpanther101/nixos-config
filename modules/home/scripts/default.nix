@@ -23,5 +23,6 @@ in {
     "my-promodoro"
     "my-weather"
     "my-github-contributions"
+    "my-toggle-keyboard"
   ];
 }

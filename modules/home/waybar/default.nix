@@ -61,13 +61,7 @@
         "custom/keyboard" = {
           format = "⌨";
           tooltip = false;
-          on-click = ''
-            if pgrep -x wvkbd-mobintl > /dev/null; then
-              pkill wvkbd-mobintl
-            else
-              wvkbd-mobintl -L 250 &
-            fi
-          '';
+          on-click = "my-toggle-keyboard";
         };
 
         "image#album-art" = {
