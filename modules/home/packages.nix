@@ -71,6 +71,7 @@
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs
+    file-roller                                           # Graphical extractor
                                                           # Desktop integration & trays
     networkmanagerapplet                                  # Tray GUI for NetworkManager
     nextdns                                               # For toggling DoH on/off

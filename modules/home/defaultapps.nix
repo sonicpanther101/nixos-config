@@ -10,6 +10,7 @@ let
   video-viewer-extra = "vlc.desktop";
   video-editor = "handbrake.desktop";
   torrent = "org.qbittorrent.qBittorrent.desktop";
+  archive-manager = "org.gnome.FileRoller.desktop";
 in {
   xdg = {
     mimeApps = {
@@ -81,6 +82,46 @@ in {
         "application/mxf" = video-editor;
         "video/x-mxf" = video-editor;
         "application/vnd.apple.prores" = video-editor;
+
+        # ZIP
+        "application/zip" = archive-manager;
+        "application/x-zip-compressed" = archive-manager;
+
+        # 7z
+        "application/x-7z-compressed" = archive-manager;
+
+        # RAR
+        "application/vnd.rar" = archive-manager;
+        "application/x-rar" = archive-manager;
+        "application/x-rar-compressed" = archive-manager;
+
+        # Tar
+        "application/x-tar" = archive-manager;
+
+        # gzip
+        "application/gzip" = archive-manager;
+        "application/x-gzip" = archive-manager;
+
+        # bzip2
+        "application/x-bzip2" = archive-manager;
+
+        # xz
+        "application/x-xz" = archive-manager;
+
+        # tar.gz / tgz
+        "application/x-compressed-tar" = archive-manager;
+        "application/x-gtar" = archive-manager;
+
+        # tar.xz
+        "application/x-xz-compressed-tar" = archive-manager;
+
+        # tar.bz2
+        "application/x-bzip-compressed-tar" = archive-manager;
+
+        # Zstandard
+        "application/zstd" = archive-manager;
+        "application/x-zstd" = archive-manager;
+        "application/x-zstd-compressed-tar" = archive-manager;
       };
     };
   };
