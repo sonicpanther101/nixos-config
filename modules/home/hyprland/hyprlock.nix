@@ -71,7 +71,7 @@
       } {
         # WAKATIME (left lower)
         monitor = "";
-        text = "cmd[update:300000] echo \"Coded for $(wakatime-cli --today) today\"";
+        text = "cmd[update:300000] today=$(wakatime-cli --today 2>/dev/null); echo \"Coded for \${today:-0 secs} today\"";
         font_size = 14;
         font_family = "JetBrainsMono Nerd Font";
 
