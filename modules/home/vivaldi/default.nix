@@ -204,7 +204,10 @@ ENDOFPREFS
 
   programs.chromium = {
     enable = true;
-    package = pkgs-unstable.vivaldi;
+    package = pkgs-unstable.vivaldi.override {
+      proprietaryCodecs = true;
+      enableWidevine = true;
+    };
     extensions = [ 
       "clngdbkpkpeebahjckkjfobafhncgmne"  # Stylus
       "eimadpbcbfnmbkopoojfekhnkhdbieeh"  # Dark Reader
@@ -214,7 +217,7 @@ ENDOFPREFS
     commandLineArgs = [
       "--enable-features=WebRTCPipeWireCapturer"
       "--ozone-platform=wayland"
-      "--disable-component-update"
+      # "--disable-component-update" Enable to stop extensions from updating
     ];
   };
 
