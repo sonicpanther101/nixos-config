@@ -143,8 +143,8 @@
           format-muted = "0% 󰝟";
           on-click = "pamixer -t";
           format-icons = ["󰕿" "󰖀" "󰕾"];
-          on-scroll-up = "pamixer -i 2";
-          on-scroll-down = "pamixer -d 2";
+          on-scroll-up = "pamixer -d 2";
+          on-scroll-down = "pamixer -i 2";
           on-click-middle = "crosspipe";
           on-click-right = "pwvucontrol";
         };
@@ -192,6 +192,7 @@
           format = "{percent}% {icon}";
           format-icons = [ "" "" "" "" "" "" "" "" "" ];
           tooltip = false;
+          reverse-scrolling = true;
         };
         
         idle_inhibitor = {
