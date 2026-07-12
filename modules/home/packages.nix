@@ -101,6 +101,7 @@
     crosspipe                                             # Audio connection editor
     pwvucontrol                                           # Audio device volume editor
     sox                                                   # Tone generator
+    lidarr                                                # Music release tracker
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
