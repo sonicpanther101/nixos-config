@@ -111,11 +111,34 @@ stop_shtris() {
     fi
 }
 
+# --- sudo keepalive ---------------------------------------------------------
+# shtris takes keyboard focus once it opens, so if the build prompts for a
+# sudo password AFTER that point there's no way to type it in without
+# killing shtris first. Fix: authenticate sudo up front (while the main
+# terminal still has focus) and keep the credential cache refreshed in the
+# background so nothing inside the build ever has to prompt again.
+sudo_refresh_pid=""
+
+start_sudo_keepalive() {
+    sudo -v || return 1
+    ( while true; do sudo -n true; sleep 60; done ) 2> /dev/null &
+    sudo_refresh_pid=$!
+}
+
+stop_sudo_keepalive() {
+    if [[ -n "$sudo_refresh_pid" ]]; then
+        kill "$sudo_refresh_pid" &> /dev/null || true
+        wait "$sudo_refresh_pid" 2> /dev/null
+        sudo_refresh_pid=""
+    fi
+}
+# ---------------------------------------------------------------------------
+
 # Safety net: no matter how/where the script exits (normal completion,
-# `exit 0` early-outs, Ctrl-C, kill), make sure the shtris split gets
-# cleaned up. stop_shtris() is a no-op if shtris was never started.
-trap 'stop_shtris' EXIT
-trap 'stop_shtris; exit 130' INT TERM
+# `exit 0` early-outs, Ctrl-C, kill), make sure the shtris split and the
+# sudo keepalive loop both get cleaned up. Both are no-ops if never started.
+trap 'stop_shtris; stop_sudo_keepalive' EXIT
+trap 'stop_shtris; stop_sudo_keepalive; exit 130' INT TERM
 # ---------------------------------------------------------------------------
 
 install() {
@@ -125,6 +148,9 @@ install() {
     [[ $show_trace == true ]] && nh_cmd+=" -- --show-trace"
     [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
 
+    # Prompt for the sudo password NOW, while the main terminal still has
+    # focus, so shtris never grabs focus before you've had a chance to type it.
+    start_sudo_keepalive
     start_shtris
 
     if ! eval "$nh_cmd"; then
@@ -136,7 +162,8 @@ install() {
         exit 1
     fi
 
-    stop_shtris  # close it as soon as the build's done, don't wait for git commit/push
+    stop_shtris          # close it as soon as the build's done, don't wait for git commit/push
+    stop_sudo_keepalive
 }
 
 pushd "/home/${username}/nixos-config"  > /dev/null
