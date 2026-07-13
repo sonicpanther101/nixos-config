@@ -72,6 +72,7 @@ print_hm_logs() {
 
 # --- shtris split helpers -------------------------------------------------
 shtris_win_id=""
+shtris_prev_layout=""
 
 start_shtris() {
     [[ $no_game == true ]] && return
@@ -79,10 +80,18 @@ start_shtris() {
     command -v shtris &> /dev/null || return       # shtris not installed
     command -v kitty &> /dev/null || return
 
+    # --location=vsplit only produces a real left/right split when the
+    # active layout is "splits" — remember the current layout so we can
+    # switch to splits, then put it back when we're done.
+    shtris_prev_layout=$(kitty @ ls 2> /dev/null \
+        | grep -o '"layout_name": *"[^"]*"' | head -1 \
+        | sed -E 's/.*"([^"]+)"$/\1/')
+
+    kitty @ goto-layout splits &> /dev/null || true
+
     shtris_win_id=$(kitty @ launch \
         --type=window \
         --location=vsplit \
-        --keep-focus \
         --title="shtris" \
         shtris 2> /dev/null) || shtris_win_id=""
 
@@ -96,7 +105,17 @@ stop_shtris() {
         kitty @ close-window --match id:$shtris_win_id &> /dev/null || true
         shtris_win_id=""
     fi
+    if [[ -n "$shtris_prev_layout" ]]; then
+        kitty @ goto-layout "$shtris_prev_layout" &> /dev/null || true
+        shtris_prev_layout=""
+    fi
 }
+
+# Safety net: no matter how/where the script exits (normal completion,
+# `exit 0` early-outs, Ctrl-C, kill), make sure the shtris split gets
+# cleaned up. stop_shtris() is a no-op if shtris was never started.
+trap 'stop_shtris' EXIT
+trap 'stop_shtris; exit 130' INT TERM
 # ---------------------------------------------------------------------------
 
 install() {
@@ -107,7 +126,6 @@ install() {
     [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
 
     start_shtris
-    trap stop_shtris EXIT
 
     if ! eval "$nh_cmd"; then
         # Only show HM journal if HM service specifically failed, not nix build errors
@@ -118,8 +136,7 @@ install() {
         exit 1
     fi
 
-    stop_shtris
-    trap - EXIT
+    stop_shtris  # close it as soon as the build's done, don't wait for git commit/push
 }
 
 pushd "/home/${username}/nixos-config"  > /dev/null
