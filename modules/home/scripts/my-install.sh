@@ -13,7 +13,7 @@ Help()
    echo "m     Git Commit Message"
    echo "g     Don't git commit"
    echo "t     Show error trace"
-   echo "p     Don't launch shtris during the build"
+   echo "p     Launch shtris during the build"
    echo "h     Print this Help"
 }
 
@@ -25,7 +25,7 @@ skip_install=false
 skip_git=false
 host=$(hostname)
 show_trace=false
-no_game=false
+no_game=true
 
 while getopts "anhtcsgpm:" option; do
     case $option in
@@ -45,7 +45,7 @@ while getopts "anhtcsgpm:" option; do
         t)
             show_trace=true;;
         p)
-            no_game=true;;
+            no_game=false;;
         m)
             message="$OPTARG";;
         \?) # Invalid option
