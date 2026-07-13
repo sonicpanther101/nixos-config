@@ -7,12 +7,6 @@
     vsce                                                  # VS Code Extension Manager
     prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
-    # (pkgs-unstable.dwarf-fortress-packages.dwarf-fortress-full.override {
-    #   dfVersion = "0.47.05";
-    #   enableSound = false;
-    #   theme = null;
-    #   dwarf-therapist = null;
-    # })                                                    # Dwarf fortress advanced simulation game
 
   ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
                                                           # Fonts
@@ -36,6 +30,7 @@
     prismlauncher                                         # Minecraft launcher
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     shtris                                                # Terminal tetris
+    dwarf-fortress-packages.dwarf-fortress_0_47_05        # Dwarf fortress advanced simulation game
 
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations
