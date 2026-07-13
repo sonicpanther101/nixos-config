@@ -57,10 +57,6 @@ in {
       sha256 = "sha256-7gMJI0xzic3RKqVqbdC0Ir6sRfnIvDLlfBb9gQEMZ0E=";
     })
     (openVsxExtension {
-      publisher = "WakaTime"; name = "vscode-wakatime"; version = "30.2.0";
-      sha256 = "sha256-VsrFTOK01Rh9lty7BGVZa7jzSvDLxznKjEDnwf2jaSA=";
-    })
-    (openVsxExtension {
       publisher = "wmaurer"; name = "change-case"; version = "1.0.0";
       sha256 = "1qwwsh8ndcvijmkysr212b0w8p0vzi21xsv9qd30iwbaxqq4ag90";
     })

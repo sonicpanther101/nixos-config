@@ -7,6 +7,12 @@
     vsce                                                  # VS Code Extension Manager
     prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
+    # (pkgs-unstable.dwarf-fortress-packages.dwarf-fortress-full.override {
+    #   dfVersion = "0.47.05";
+    #   enableSound = false;
+    #   theme = null;
+    #   dwarf-therapist = null;
+    # })                                                    # Dwarf fortress advanced simulation game
 
   ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
                                                           # Fonts
@@ -30,7 +36,6 @@
     prismlauncher                                         # Minecraft launcher
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     shtris                                                # Terminal tetris
-    dfhack                                                # Dwarf fortress advanced simulation game
 
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations
@@ -65,7 +70,6 @@
     gh                                                    # GitHub CLI tool
     bc                                                    # GNU software calculator
     wtype                                                 # Fake keyboard input (for pasting from clipboard manager)
-    wakatime-cli                                          # WakaTime command line interface
     xeyes                                                 # If the eyes move the app is running on xwayland
     texliveMedium                                         # LaTeX packages
     typst                                                 # New markup-based typesetting system that is powerful and easy to learn

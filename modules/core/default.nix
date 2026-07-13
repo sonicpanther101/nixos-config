@@ -1,4 +1,4 @@
-{ host, config, ... } : {
+{ ... } : {
   imports = [
     ./audio.nix
     ./bootloader.nix
@@ -22,6 +22,6 @@
     # ─────────────────────────────────────────────────────────────────────────
     # Uncomment to enable
     ./build-machine.nix
-    ./weak-machine.nix
+    # ./weak-machine.nix
   ];
 }

@@ -45,17 +45,5 @@
       };
       force = true;
     };
-
-    activation.wakatimeApiKey = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      settings="${config.xdg.configHome}/VSCodium/User/settings.json"
-      secret=$(cat ${config.sops.secrets.wakatime_api_key.path})
-
-      $DRY_RUN_CMD ${pkgs-stable.jq}/bin/jq \
-        --arg key "$secret" \
-        '."wakaTime.apiKey" = $key' \
-        "$settings" > /tmp/vscodium-settings.json
-
-      $DRY_RUN_CMD mv /tmp/vscodium-settings.json "$settings"
-    '';
   };
 }

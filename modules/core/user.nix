@@ -34,17 +34,9 @@
       imports = [ 
         ./../home
         inputs.catppuccin.homeModules.catppuccin
-        inputs.sops-nix.homeManagerModules.sops
         inputs.walker.homeManagerModules.default
         inputs.chaotic.homeManagerModules.default
       ];
-
-      sops = {
-        age.keyFile = "/home/${username}/.config/sops/age/keys.txt";
-        defaultSopsFile = ../../secrets/secrets.yaml;  # path to your secrets file
-
-        secrets.wakatime_api_key = {};  # declares the secret
-      };
 
       programs.home-manager.enable = true;
       home.username = "${username}";

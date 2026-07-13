@@ -68,16 +68,6 @@
         position = "-600, 0";
         halign = "center";
         valign = "center";
-      } {
-        # WAKATIME (left lower)
-        monitor = "";
-        text = "cmd[update:300000] today=$(wakatime-cli --today 2>/dev/null); echo \"Coded for \${today:-0 secs} today\"";
-        font_size = 14;
-        font_family = "JetBrainsMono Nerd Font";
-
-        position = "-600, -200";
-        halign = "center";
-        valign = "center";
       }];
     };
   };
