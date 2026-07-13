@@ -29,6 +29,7 @@
     lutris                                                # Multi-launcher
     prismlauncher                                         # Minecraft launcher
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
+    shtris                                                # Terminal tetris
 
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations

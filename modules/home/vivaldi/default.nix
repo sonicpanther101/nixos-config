@@ -217,7 +217,7 @@ ENDOFPREFS
     commandLineArgs = [
       "--enable-features=WebRTCPipeWireCapturer"
       "--ozone-platform=wayland"
-      # "--disable-component-update" Enable to stop extensions from updating
+      "--disable-component-update" # Enable to stop extensions from updating
     ];
   };
 

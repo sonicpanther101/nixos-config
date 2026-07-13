@@ -4,7 +4,7 @@ Help()
 {
    # Display Help
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|h]"
    echo "options:"
    echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
    echo "a     Restart ags"
@@ -13,6 +13,7 @@ Help()
    echo "m     Git Commit Message"
    echo "g     Don't git commit"
    echo "t     Show error trace"
+   echo "p     Don't launch shtris during the build"
    echo "h     Print this Help"
 }
 
@@ -24,8 +25,9 @@ skip_install=false
 skip_git=false
 host=$(hostname)
 show_trace=false
+no_game=false
 
-while getopts "anhtcsgm:" option; do
+while getopts "anhtcsgpm:" option; do
     case $option in
         h) # display Help
             Help
@@ -42,6 +44,8 @@ while getopts "anhtcsgm:" option; do
             skip_git=true;;
         t)
             show_trace=true;;
+        p)
+            no_game=true;;
         m)
             message="$OPTARG";;
         \?) # Invalid option
@@ -66,12 +70,44 @@ print_hm_logs() {
     sudo journalctl -u home-manager-${username}.service -n 20 --no-pager || true
 }
 
+# --- shtris split helpers -------------------------------------------------
+shtris_win_id=""
+
+start_shtris() {
+    [[ $no_game == true ]] && return
+    [[ -z "$KITTY_WINDOW_ID" ]] && return          # not inside kitty
+    command -v shtris &> /dev/null || return       # shtris not installed
+    command -v kitty &> /dev/null || return
+
+    shtris_win_id=$(kitty @ launch \
+        --type=window \
+        --location=vsplit \
+        --keep-focus \
+        --title="shtris" \
+        shtris 2> /dev/null) || shtris_win_id=""
+
+    if [[ -z "$shtris_win_id" ]]; then
+        echo "(shtris: couldn't open split — is 'allow_remote_control yes' set in kitty.conf?)"
+    fi
+}
+
+stop_shtris() {
+    if [[ -n "$shtris_win_id" ]]; then
+        kitty @ close-window --match id:$shtris_win_id &> /dev/null || true
+        shtris_win_id=""
+    fi
+}
+# ---------------------------------------------------------------------------
+
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
     local nh_cmd="nh os switch -H ${host} ./"
     [[ $show_trace == true ]] && nh_cmd+=" -- --show-trace"
     [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
+
+    start_shtris
+    trap stop_shtris EXIT
 
     if ! eval "$nh_cmd"; then
         # Only show HM journal if HM service specifically failed, not nix build errors
@@ -81,6 +117,9 @@ install() {
         fi
         exit 1
     fi
+
+    stop_shtris
+    trap - EXIT
 }
 
 pushd "/home/${username}/nixos-config"  > /dev/null
