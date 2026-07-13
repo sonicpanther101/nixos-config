@@ -45,5 +45,6 @@
       };
       force = true;
     };
+    file.".local/share/df_linux/data/init/init.txt".source = ../df.txt;
   };
 }
