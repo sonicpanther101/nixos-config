@@ -30,6 +30,7 @@
     prismlauncher                                         # Minecraft launcher
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     shtris                                                # Terminal tetris
+    dwarf-fortress-full                                   # Dwarf fortress in terminal `dfhack`
 
                                                           # System tools / Utilities
                                                           # Wayland / launcher / compositor integrations
