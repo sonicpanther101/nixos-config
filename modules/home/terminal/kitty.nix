@@ -1,4 +1,4 @@
-{ host, ... } : {
+{ ... } : {
   programs.kitty = {
     enable = true;
 
@@ -10,7 +10,7 @@
       scrollback_lines = 10000;
       enable_audio_bell = false;
       mouse_hide_wait = 60;
-      allow_remote_control = true;
+      allow_remote_control = "yes";
       
       ## Tabs
       tab_title_template = "{index}";

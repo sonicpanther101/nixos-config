@@ -155,3 +155,10 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 })
 -- Fire immediately for the initial colorscheme load
 vim.cmd('doautocmd ColorScheme')
+
+vim.api.nvim_create_autocmd("FocusLost", {
+  pattern = "*",
+  callback = function()
+    vim.cmd("stopinsert")
+  end,
+})
