@@ -95,3 +95,41 @@ map('n', '<leader>q', vim.diagnostic.setloclist,  { desc = 'Diagnostic: list all
 -- TIP: <C-\><C-n> exits terminal insert mode back to normal mode
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Terminal: exit insert mode' })
 map('n', '<leader>t',  '<cmd>split | terminal<CR>i', { desc = 'Terminal: open in split' })
+
+-- ── Run Python file in right split ───────────────────────────────────────────
+map('n', '<C-space>', function()
+  if vim.bo.filetype ~= 'python' then return end
+
+  local file = vim.fn.expand('%:p')
+  vim.cmd('write')
+
+  -- Check if there's already a terminal buffer in a right-side window
+  local current_win = vim.api.nvim_get_current_win()
+  local term_win = nil
+
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if win ~= current_win then
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].buftype == 'terminal' then
+        term_win = win
+        break
+      end
+    end
+  end
+
+  if term_win then
+    -- Send command to existing terminal
+    local buf = vim.api.nvim_win_get_buf(term_win)
+    local chan = vim.b[buf].terminal_job_id
+    if chan then
+      vim.fn.chansend(chan, 'python ' .. file .. '\n')
+      vim.api.nvim_set_current_win(term_win)
+    end
+  else
+    -- Open new vertical split on the right and run python
+    vim.cmd('botright vsplit | terminal python ' .. file)
+    -- Resize to ~40% width
+    local width = math.floor(vim.o.columns * 0.4)
+    vim.api.nvim_win_set_width(0, width)
+  end
+end, { desc = 'Python: run in right terminal split' })
