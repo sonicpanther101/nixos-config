@@ -23,7 +23,7 @@ luasnip.config.setup({
 
 cmp.setup({
   completion = {
-    autocomplete = true,
+    autocomplete = { require('cmp.types').cmp.TriggerEvent.TextChanged },
   },
   -- ── Snippet engine ─────────────────────────────────────────────────────
   snippet = {
@@ -43,7 +43,7 @@ cmp.setup({
     ['<C-f>']     = cmp.mapping.scroll_docs(4),
 
     -- Trigger completion manually (in case it doesn't auto-appear)
-    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-CR>'] = cmp.mapping.complete(),
 
     -- Cancel completion
     ['<C-e>']     = cmp.mapping.abort(),
