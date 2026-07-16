@@ -10,7 +10,7 @@ if not ok then
 end
 
 cmp_ai:setup({
-  max_lines = 60,
+  max_lines = 2,
   provider  = 'Ollama',
   provider_options = {
     model = 'qwen2.5-coder:14b',

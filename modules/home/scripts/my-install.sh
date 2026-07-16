@@ -128,7 +128,7 @@ start_sudo_keepalive() {
 stop_sudo_keepalive() {
     if [[ -n "$sudo_refresh_pid" ]]; then
         kill "$sudo_refresh_pid" &> /dev/null || true
-        wait "$sudo_refresh_pid" 2> /dev/null
+        wait "$sudo_refresh_pid" 2> /dev/null || true
         sudo_refresh_pid=""
     fi
 }

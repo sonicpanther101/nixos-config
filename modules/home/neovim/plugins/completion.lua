@@ -23,7 +23,7 @@ luasnip.config.setup({
 
 cmp.setup({
   completion = {
-    autocomplete = false,
+    autocomplete = true,
   },
   -- ── Snippet engine ─────────────────────────────────────────────────────
   snippet = {

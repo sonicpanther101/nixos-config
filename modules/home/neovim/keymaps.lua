@@ -112,7 +112,6 @@ map('n', '<C-space>', function()
       local buf = vim.api.nvim_win_get_buf(win)
       if vim.bo[buf].buftype == 'terminal' then
         local chan = vim.b[buf].terminal_job_id
-        -- jobwait with timeout 0 returns -1 if job is still running
         if chan and vim.fn.jobwait({ chan }, 0)[1] == -1 then
           term_win = win
           term_chan = chan
@@ -126,8 +125,17 @@ map('n', '<C-space>', function()
     vim.fn.chansend(term_chan, 'python ' .. file .. '\n')
     vim.api.nvim_set_current_win(term_win)
   else
-    vim.cmd('botright vsplit | terminal python ' .. file)
+    -- Open a persistent zsh shell, not python directly
+    vim.cmd('botright vsplit | terminal zsh')
     local width = math.floor(vim.o.columns * 0.4)
     vim.api.nvim_win_set_width(0, width)
+    -- Wait a moment for the shell to start, then send the python command
+    local new_buf = vim.api.nvim_get_current_buf()
+    vim.defer_fn(function()
+      local chan = vim.b[new_buf].terminal_job_id
+      if chan then
+        vim.fn.chansend(chan, 'python ' .. file .. '\n')
+      end
+    end, 150)
   end
 end, { desc = 'Python: run in right terminal split' })
