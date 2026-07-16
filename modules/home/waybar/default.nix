@@ -143,8 +143,8 @@
           format-muted = "0% 󰝟";
           on-click = "pamixer -t";
           format-icons = ["󰕿" "󰖀" "󰕾"];
-          on-scroll-up = "pamixer -d 2";
-          on-scroll-down = "pamixer -i 2";
+          on-scroll-up   = if isLaptop then "pamixer -d 2" else "pamixer -i 2";
+          on-scroll-down = if isLaptop then "pamixer -i 2" else "pamixer -d 2";
           on-click-middle = "crosspipe";
           on-click-right = "pwvucontrol";
         };
