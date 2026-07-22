@@ -129,6 +129,7 @@
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
     anki-bin                                              # Flashcards app
     moonlight-qt                                          # Remote desktop interface to go with the sunshine service
+    beeper                                                # Unified messaging app
 
   ]) ++ (if isHighPower then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
