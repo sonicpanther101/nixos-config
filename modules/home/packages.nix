@@ -103,6 +103,7 @@
     pwvucontrol                                           # Audio device volume editor
     sox                                                   # Tone generator
     lidarr                                                # Music release tracker
+    spotiflac                                             # Flac music downloader
 
                                                           # Clipboard tools
     wl-clipboard                                          # Clipboard utils for wayland (wl-copy, wl-paste)
