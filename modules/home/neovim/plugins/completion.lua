@@ -76,7 +76,6 @@ cmp.setup({
 
   -- ── Sources (priority order) ────────────────────────────────────────────
   sources = cmp.config.sources({
-    { name = 'cmp_ai', priority = 1100 },  -- AI completions first
     { name = 'nvim_lsp',   priority = 1000 },  -- then LSP
     { name = 'luasnip',    priority  = 750  },  -- then snippets
     { name = 'path',       priority  = 500  },  -- then file paths
@@ -113,6 +112,13 @@ cmp.setup({
   enabled = function()
     local context = require('cmp.config.context')
     if vim.api.nvim_get_mode().mode == 'c' then return true end
+
+    local buftype = vim.api.nvim_get_option_value('buftype', { buf = 0 })
+    local filetype = vim.api.nvim_get_option_value('filetype', { buf = 0 })
+    if buftype == 'prompt' or filetype == 'oil' then
+      return false
+    end
+
     return not context.in_treesitter_capture('comment')
        and not context.in_syntax_group('Comment')
   end,

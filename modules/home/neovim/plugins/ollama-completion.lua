@@ -24,3 +24,7 @@ cmp_ai:setup({
   notify = false,
   ignored_file_types = { 'help', 'TelescopePrompt' },
 })
+
+vim.keymap.set('i', '<C-x><C-a>', function()
+  require('cmp').complete({ config = { sources = { { name = 'cmp_ai' } } } })
+end, { desc = 'AI: trigger completion manually' })
