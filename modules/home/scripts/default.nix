@@ -16,6 +16,7 @@ in {
     "my-nixdump"
     "my-screenrecording"
     "my-budgeting"
+    "my-backup"
     "my-mpris-waybar"
     "maxfetch"
     "my-syncthing-usb"

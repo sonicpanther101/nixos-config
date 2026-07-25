@@ -8,7 +8,7 @@
         position = "top";
         height = 30;
 
-        modules-left = [ "custom/menu" "hyprland/workspaces" ];
+        modules-left = [ "custom/menu" "hyprland/workspaces" "custom/backup" ];
         modules-center = [ "custom/pomodoro" "custom/clock" ];
         modules-right = [
           "custom/mpris"
@@ -169,6 +169,12 @@
           tooltip = false;
         }; 
         
+        "custom/backup" = {
+          exec = "my-backup";
+          interval = 60;
+          tooltip = false;
+        };
+
         "custom/clock" = {
           exec = "my-date-formatter";
           interval = 30;

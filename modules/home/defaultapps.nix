@@ -11,12 +11,15 @@ let
   video-editor = "handbrake.desktop";
   torrent = "org.qbittorrent.qBittorrent.desktop";
   archive-manager = "org.gnome.FileRoller.desktop";
+  notebook = "com.github.xournalpp.xournalpp.desktop";
 in {
   xdg = {
     mimeApps = {
       enable = true;
       defaultApplications = {
         "inode/directory" = file-manager;
+
+        "application/x-xopp" = notebook;
 
         "x-scheme-handler/http" = browser;
         "x-scheme-handler/https" = browser;
