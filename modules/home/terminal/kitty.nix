@@ -32,7 +32,8 @@
       "alt+4" = "goto_tab 4";
 
       ## Word deletion
-      "ctrl+backspace" = "send_text all \\x17";  # Ctrl+W (delete word backward)
+      "ctrl+backspace" = "send_text all \\x17";  # Ctrl+W (delete word before)
+      "ctrl+delete"    = "send_text all \\x1b[3;5~"; # delete word after
 
       ## Unbind
       "ctrl+shift+left" = "no_op";
