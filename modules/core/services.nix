@@ -188,6 +188,18 @@
     "d /var/lib/radicale/collections 0750 radicale radicale -"
   ];
 
+  systemd.services."hide-me-amsterdam-1" = {
+    description = "hide.me VPN";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "/opt/hide.me/hide.me@amsterdam-1";
+      Restart = "on-failure";
+    };
+  };
+
   boot.kernelModules = lib.mkIf config.my.isHighPower [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 
