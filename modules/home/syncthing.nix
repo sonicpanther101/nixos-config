@@ -5,13 +5,6 @@
     guiAddress = "127.0.0.1:8384"; 
     settings = {
 
-      # options = {
-      #   listenAddresses = [ "tcp://0.0.0.0:8443" ]; # Needs sudo/cap_net_bind_service if using < 1024
-      #   relaysEnabled = false;
-      #   globalAnnounceEnabled = false;
-      #   localAnnounceEnabled = true;
-      # };
-
       devices = {
         "Phone" = { id = "U3WDNWK-4BIUXM4-OS5SUHL-EZEFTWT-22NIYE6-QEZ6YS5-5WNR7QW-DYRUKAH"; };
         "laptop" = { id = "K4TFO23-BFIJIKI-YCZVGVJ-HLHAEY7-6QJ2WHP-3QN6WJ3-DX74NUX-JNIVLAP"; };

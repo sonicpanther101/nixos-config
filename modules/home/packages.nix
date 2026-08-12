@@ -75,7 +75,6 @@
     file-roller                                           # Graphical extractor
                                                           # Desktop integration & trays
     networkmanagerapplet                                  # Tray GUI for NetworkManager
-    nextdns                                               # For toggling DoH on/off
     libnotify                                             # Notification daemon (duplicate, but needed for install script)
     wvkbd                                                 # Onscreen touch keyboard
                                                           # Misc

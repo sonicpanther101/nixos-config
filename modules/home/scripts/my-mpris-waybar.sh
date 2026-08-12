@@ -60,7 +60,7 @@ while true; do
     GLYPH=" "
   fi
 
-  TEXT="$ICON $OUTPUT $GLYPH"
+  TEXT=" $ICON $OUTPUT $GLYPH"
 
   # Escape for JSON and limit length
   TEXT=$(printf '%s' "$TEXT" | sed 's/"/\\"/g' | cut -c1-65)

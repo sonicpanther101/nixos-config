@@ -3,11 +3,10 @@
     hostName = host;
     networkmanager = {
       enable = true;
-      dns = "none"; # Prevent NetworkManager from overriding DNS
     };
     # Wake on lan
     interfaces.enp6s0.wakeOnLan.enable = config.my.isHighPower;
-    # port 8384 is the default port to allow syncthing GUI access from the network.
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
     firewall = {
       enable = true;
       # Calendar server
@@ -15,8 +14,6 @@
       # Wake on lan
       allowedUDPPorts = lib.mkIf config.my.isHighPower [ 9 ];
     };
-    # Point to local NextDNS proxy
-    nameservers = [ "127.0.0.1" "::1" ];
   };
 
   environment.etc."systemd/system-sleep/reload-rtw88.sh" = {
