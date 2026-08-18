@@ -173,13 +173,13 @@
           exec = "my-backup";
           interval = 60;
           tooltip = false;
+          return-type = "json";
         };
 
         "custom/clock" = {
           exec = "my-date-formatter";
           interval = 30;
           tooltip = false;
-          return-type = "json";
         };
         
         network = {
