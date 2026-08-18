@@ -179,6 +179,7 @@
           exec = "my-date-formatter";
           interval = 30;
           tooltip = false;
+          return-type = "json";
         };
         
         network = {
