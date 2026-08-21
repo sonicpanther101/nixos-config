@@ -1,22 +1,74 @@
 #!/usr/bin/env bash
 
-while true; do
-  STATUS=$(playerctl status 2>/dev/null)
+# Pick the best player to report on:
+# - Prefer one that is currently "Playing"
+# - Otherwise fall back to the first player in the list (e.g. Paused)
+# - Otherwise empty (no players running)
+get_active_player() {
+  local players
+  players=$(playerctl -l 2>/dev/null)
+  [ -z "$players" ] && return
 
-  if [ -z "$STATUS" ]; then
+  local fallback=""
+  while IFS= read -r p; do
+    [ -z "$p" ] && continue
+    [ -z "$fallback" ] && fallback="$p"
+    local st
+    st=$(playerctl -p "$p" status 2>/dev/null)
+    if [ "$st" = "Playing" ]; then
+      echo "$p"
+      return
+    fi
+  done <<< "$players"
+
+  echo "$fallback"
+}
+
+CURRENT_PLAYER=""
+
+while true; do
+  # Re-check for an active player each tick, switching if needed
+  ACTIVE=$(get_active_player)
+
+  if [ -z "$ACTIVE" ]; then
+    CURRENT_PLAYER=""
     sleep 1
     continue
   fi
 
-  TITLE=$(playerctl metadata title 2>/dev/null | cut -c1-35)
-  ARTIST=$(playerctl metadata artist 2>/dev/null | cut -c1-20)
-  ALBUM=$(playerctl metadata album 2>/dev/null | cut -c1-20)
-  POS=$(playerctl position 2>/dev/null)
-  LEN=$(playerctl metadata mpris:length 2>/dev/null) # microseconds
+  # If our current player has stopped playing but another one is now
+  # playing, switch to it. Otherwise keep tracking the current one as
+  # long as it still exists in the player list.
+  if [ -z "$CURRENT_PLAYER" ]; then
+    CURRENT_PLAYER="$ACTIVE"
+  else
+    CURRENT_STATUS=$(playerctl -p "$CURRENT_PLAYER" status 2>/dev/null)
+    if [ -z "$CURRENT_STATUS" ]; then
+      # current player disappeared
+      CURRENT_PLAYER="$ACTIVE"
+    elif [ "$CURRENT_STATUS" != "Playing" ] && [ "$ACTIVE" != "$CURRENT_PLAYER" ]; then
+      # something else started playing while ours is paused/stopped
+      CURRENT_PLAYER="$ACTIVE"
+    fi
+  fi
+
+  PLAYER="$CURRENT_PLAYER"
+
+  STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
+  if [ -z "$STATUS" ]; then
+    CURRENT_PLAYER=""
+    sleep 1
+    continue
+  fi
+
+  TITLE=$(playerctl -p "$PLAYER" metadata title 2>/dev/null | cut -c1-35)
+  ARTIST=$(playerctl -p "$PLAYER" metadata artist 2>/dev/null | cut -c1-20)
+  ALBUM=$(playerctl -p "$PLAYER" metadata album 2>/dev/null | cut -c1-20)
+  POS=$(playerctl -p "$PLAYER" position 2>/dev/null)
+  LEN=$(playerctl -p "$PLAYER" metadata mpris:length 2>/dev/null) # microseconds
 
   # Convert length to seconds
   LEN_S=$(echo "scale=2; $LEN / 1000000" | bc 2>/dev/null)
-
   if [ -n "$POS" ] && [ -n "$LEN_S" ] && [ "$LEN_S" != "0" ]; then
     PCT=$(echo "100 * $POS / $LEN_S" | bc -l)
   fi
@@ -29,10 +81,8 @@ while true; do
 
   # Build metadata list without duplicates
   parts=()
-
   for field in "$TITLE" "$ARTIST" "$ALBUM"; do
     [[ -z "$field" ]] && continue
-
     duplicate=false
     for existing in "${parts[@]}"; do
       if [[ "$field" == "$existing" ]]; then
@@ -40,7 +90,6 @@ while true; do
         break
       fi
     done
-
     ! $duplicate && parts+=("$field")
   done
 
@@ -51,7 +100,6 @@ while true; do
   done
 
   GLYPHS=(" " ⠁ ⠉ ⠋ ⠛ ⠟ ⠿ ⡿ ⣿)
-
   if [ -n "$POS" ] && [ -n "$LEN_S" ] && [ "$LEN_S" != "0" ]; then
     IDX=$(echo "$PCT / 11.11" | bc)
     (( IDX > 8 )) && IDX=8
@@ -61,10 +109,8 @@ while true; do
   fi
 
   TEXT=" $ICON $OUTPUT $GLYPH"
-
   # Escape for JSON and limit length
   TEXT=$(printf '%s' "$TEXT" | sed 's/"/\\"/g' | cut -c1-65)
-
   echo "$TEXT"
   sleep 1
 done
