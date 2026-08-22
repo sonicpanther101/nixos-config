@@ -115,8 +115,12 @@ while true; do
   fi
 
   TEXT=" $ICON $OUTPUT $GLYPH"
-  # Escape for JSON and limit length
-  TEXT=$(printf '%s' "$TEXT" | sed 's/"/\\"/g' | cut -c1-65)
+  # Limit length BEFORE escaping, so we never cut mid-entity
+  TEXT=$(printf '%s' "$TEXT" | cut -c1-65)
+  # Escape for Pango markup (waybar renders module text as markup)
+  TEXT=$(printf '%s' "$TEXT" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+  # Escape for JSON
+  TEXT=$(printf '%s' "$TEXT" | sed 's/"/\\"/g')
   echo "$TEXT"
   sleep 1
 done
