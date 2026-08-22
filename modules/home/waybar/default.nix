@@ -65,11 +65,11 @@
         };
 
         "image#album-art" = {
-          exec = "playerctl metadata mpris:artUrl | sed 's|^file://||'";
+          exec = "my-player-art";
           interval = 10;
-          on-click = "playerctl play-pause";
-          on-scroll-up = "playerctl next";
-          on-scroll-down = "playerctl previous";
+          on-click = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' play-pause";
+          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
+          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
           size = 24;
           tooltip = false;
         };
@@ -91,23 +91,23 @@
           exec = "my-mpris-waybar";
           restart-interval = 1;
           tooltip = false;
-          on-click = "playerctl play-pause";
-          on-scroll-up = "playerctl next";
-          on-scroll-down = "playerctl previous";
+          on-click = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' play-pause";
+          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
+          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
         };
 
         mpris = {
           format = "{player_icon} {dynamic}";
           format-paused = "{status_icon} {dynamic}";
           player-icons = {
-            default = "⏸";
+            default = " ⏸";
           };
           status-icons = {
-            paused = "▶";
+            paused = " ▶";
           };
           tooltip = false;
-          on-scroll-up = "playerctl next";
-          on-scroll-down = "playerctl previous";
+          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
+          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
           max-length = 45;
         };
 

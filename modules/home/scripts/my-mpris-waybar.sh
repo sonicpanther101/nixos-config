@@ -25,6 +25,7 @@ get_active_player() {
 }
 
 CURRENT_PLAYER=""
+STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player"
 
 while true; do
   # Re-check for an active player each tick, switching if needed
@@ -57,9 +58,14 @@ while true; do
   STATUS=$(playerctl -p "$PLAYER" status 2>/dev/null)
   if [ -z "$STATUS" ]; then
     CURRENT_PLAYER=""
+    rm -f "$STATE_FILE"
     sleep 1
     continue
   fi
+
+  # Publish the currently-tracked player so other waybar modules
+  # (e.g. the album-art image module) can stay in sync with it.
+  printf '%s\n' "$PLAYER" > "$STATE_FILE"
 
   TITLE=$(playerctl -p "$PLAYER" metadata title 2>/dev/null | cut -c1-35)
   ARTIST=$(playerctl -p "$PLAYER" metadata artist 2>/dev/null | cut -c1-20)
