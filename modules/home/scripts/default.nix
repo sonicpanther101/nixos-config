@@ -18,6 +18,7 @@ in {
     "my-budgeting"
     "my-backup"
     "my-mpris-waybar"
+    "my-player-art"
     "maxfetch"
     "my-syncthing-usb"
     "my-date-formatter"
