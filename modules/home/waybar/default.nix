@@ -67,9 +67,9 @@
         "image#album-art" = {
           exec = "my-player-art";
           interval = 10;
-          on-click = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' play-pause";
-          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
-          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
+          on-click = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause";
+          on-scroll-up = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next";
+          on-scroll-down = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous";
           size = 24;
           tooltip = false;
         };
@@ -91,9 +91,9 @@
           exec = "my-mpris-waybar";
           restart-interval = 1;
           tooltip = false;
-          on-click = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' play-pause";
-          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
-          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
+          on-click = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause";
+          on-scroll-up = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next";
+          on-scroll-down = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous";
         };
 
         mpris = {
@@ -106,8 +106,9 @@
             paused = " ▶";
           };
           tooltip = false;
-          on-scroll-up = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' next";
-          on-scroll-down = "playerctl -p '$(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)' previous";
+          on-click = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause";
+          on-scroll-up = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next";
+          on-scroll-down = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous";
           max-length = 45;
         };
 
