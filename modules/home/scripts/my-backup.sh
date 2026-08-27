@@ -1,5 +1,3 @@
-#!/bin/bash
-#
 # Waybar custom module: backs up "Uni Notes" from a Ventoy USB when it's
 # plugged in, and always prints a single-line JSON status waybar can read,
 # whether or not the USB is present this run.
