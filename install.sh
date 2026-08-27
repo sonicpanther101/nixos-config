@@ -340,8 +340,7 @@ fi
 echo -e "${INFO}Starting system build... this may take a while."
 cd nixos-config
 git add .
-export NIX_CONFIG="experimental-features = nix-command flakes"
-nh os switch ~/nixos-config/ -H ${host}
+NIX_CONFIG="experimental-features = nix-command flakes" nh os switch ~/nixos-config/ -H ${host}
 
 echo -e "${INFO}System build finished successfully"
 

@@ -140,6 +140,7 @@
     (pkgs-stable.callPackage ../../packages/openrgb.nix { })
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
+    (pkgs-stable.callPackage ../../packages/bambu-studio.nix { inherit pkgs-stable; })
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     poweralertd                                           # UPower-powered power alerter
