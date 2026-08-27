@@ -26,19 +26,21 @@
       "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
       "sunshine"
-      "beeper"
 
       # Opening programs by default (not needed, just nice)
       # Main Monitor
       "hyprctl dispatch focusmonitor DP-1"
-      "hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Profile 1\"'"
-      "cd ~/nixos-config && hyprctl dispatch exec '[workspace 1 silent] nvim'"
+      "hyprctl dispatch exec '[workspace 1 silent] kitty sh -ic \"cd ~/nixos-config && git pull && nvim\"'"
+      "hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Default\"'"
+      "hyprctl dispatch exec '[workspace 3 silent] vivaldi --profile-directory=\"Profile 1\"'"
+      "hyprctl dispatch exec '[workspace 4 silent] thunderbird'"
 
       # Secondary Monitor
       "hyprctl dispatch focusmonitor HDMI-A-1"
       "hyprctl dispatch exec '[workspace 11 silent] vivaldi --profile-directory=\"Default\"'"
-      "hyprctl dispatch exec '[workspace 13 silent] beefweb_mpris'"
       "hyprctl dispatch exec '[workspace 12 silent] kitty'"
+      "hyprctl dispatch exec '[workspace 13 silent] beefweb_mpris'"
+      "hyprctl dispatch exec '[workspace 14 silent] beeper'"
 
       # Change focus back to main
       "hyprctl dispatch workspace 1"
