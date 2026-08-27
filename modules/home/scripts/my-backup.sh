@@ -115,4 +115,4 @@ LAST_OK_TIME="$DISPLAY_TIME"
 LAST_ERROR=""
 save_state
 
-emit "$DISPLAY_TIME" "Backed up (verified with $SEVENZ_BIN): $DISPLAY_TIME -> $NEW_BACKUP" "ok"
+emit "Last backed up $DISPLAY_TIME" "Backed up (verified with $SEVENZ_BIN): $DISPLAY_TIME -> $NEW_BACKUP" "ok"
