@@ -10,7 +10,7 @@
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
 
       # Set startup apps
-      "pidof hyprlock || hyprlock"
+      "systemctl --user start hyprlock.service"
       "hyprsunset"
       "sleep 1 && waybar"
       "nm-applet"
@@ -30,7 +30,7 @@
       # Opening programs by default (not needed, just nice)
       # Main Monitor
       "hyprctl dispatch focusmonitor DP-1"
-      "hyprctl dispatch exec '[workspace 1 silent] kitty sh -ic \"cd ~/nixos-config && git pull && nvim\"'"
+      "hyprctl dispatch exec '[workspace 1 silent] kitty --hold sh -ic \"cd ~/nixos-config && git pull && nvim\"'"
       "hyprctl dispatch exec '[workspace 2 silent] vivaldi --profile-directory=\"Default\"'"
       "hyprctl dispatch exec '[workspace 3 silent] vivaldi --profile-directory=\"Profile 1\"'"
       "hyprctl dispatch exec '[workspace 4 silent] thunderbird'"

@@ -10,7 +10,7 @@ pkill hypridle && systemctl suspend      # Put to sleep
 
 hyprctl dispatch dpms on                 # Turn display on first
 sleep 0.5                                # Give compositor a moment
-pidof hyprlock || hyprlock &             # Start hyprlock in background
+systemctl --user start hyprlock.service  # Start hyprlock in background
 sleep 0.3
 hyprctl dispatch focuswindow class:hyprlock  # Force focus
 

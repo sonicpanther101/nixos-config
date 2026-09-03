@@ -7,6 +7,8 @@
     vsce                                                  # VS Code Extension Manager
     prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
+    (bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
+    (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
 
   ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
                                                           # Fonts
@@ -28,7 +30,6 @@
     heroic                                                # Epic/GOG games
     lutris                                                # Multi-launcher
     prismlauncher                                         # Minecraft launcher
-    (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     shtris                                                # Terminal tetris
     dwarf-fortress-packages.dwarf-fortress_0_47_05        # Dwarf fortress advanced simulation game
 
@@ -140,7 +141,6 @@
     (pkgs-stable.callPackage ../../packages/openrgb.nix { })
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
-    (pkgs-stable.callPackage ../../packages/bambu-studio.nix { inherit pkgs-stable; })
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     poweralertd                                           # UPower-powered power alerter

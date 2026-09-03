@@ -13,7 +13,7 @@
       ] ++ lib.optionals (host != "desktop") [
         {
           timeout = 600;
-          on-timeout = "pidof hyprlock || hyprlock";
+          on-timeout = "systemctl --user start hyprlock.service";
         }
         {
           timeout = 1800;

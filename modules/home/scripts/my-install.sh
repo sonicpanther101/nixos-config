@@ -2,11 +2,10 @@
 
 Help()
 {
-   # Display Help
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|l|h]"
    echo "options:"
-   echo "n     Don't check for changes" # Only needed when you want rebuild for changes that relied on an external file
+   echo "n     Don't check for changes"
    echo "a     Restart ags"
    echo "c     Fix corrupted db"
    echo "s     Skip install, just commit and push"
@@ -14,6 +13,7 @@ Help()
    echo "g     Don't git commit"
    echo "t     Show error trace"
    echo "p     Launch shtris during the build"
+   echo "l     Limit CPU/memory used for the rebuild"
    echo "h     Print this Help"
 }
 
@@ -26,17 +26,18 @@ skip_git=false
 host=$(hostname)
 show_trace=false
 no_game=true
+limit_resources=false
 
-while getopts "anhtcsgpm:" option; do
+while getopts "anhtcsgplm:" option; do
     case $option in
-        h) # display Help
+        h)
             Help
             exit;;
-        n) 
+        n)
             no_check=true;;
-        a) 
+        a)
             ags=true;;
-        c) 
+        c)
             corrupted_db=true;;
         s)
             skip_install=true;;
@@ -46,9 +47,11 @@ while getopts "anhtcsgpm:" option; do
             show_trace=true;;
         p)
             no_game=false;;
+        l)
+            limit_resources=true;;
         m)
             message="$OPTARG";;
-        \?) # Invalid option
+        \?)
             echo "Error: Invalid option"
             exit;;
     esac
@@ -145,8 +148,39 @@ install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
     local nh_cmd="nh os switch -H ${host} ./"
-    [[ $show_trace == true ]] && nh_cmd+=" -- --show-trace"
+    local extra_args=()
+    local cpu_weight=""
+    local mem_max=""
+
+    [[ $show_trace == true ]] && extra_args+=(--show-trace)
+
+    if [[ $limit_resources == true ]]; then
+        case ${host} in
+            desktop)
+                cpu_weight=20
+                mem_max=16G
+                extra_args+=(--max-jobs 4 --cores 4)
+                ;;
+            laptop)
+                cpu_weight=20
+                mem_max=6G
+                extra_args+=(--max-jobs 2 --cores 2)
+                ;;
+            *)
+                echo "${RED}No resource limits configured for host '${host}', running unrestricted.${NORMAL}"
+                ;;
+        esac
+    fi
+
     [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
+
+    if (( ${#extra_args[@]} > 0 )); then
+        nh_cmd+=" -- ${extra_args[*]}"
+    fi
+
+    if [[ -n "$cpu_weight" ]]; then
+        nh_cmd="systemd-run --user --scope -p CPUWeight=${cpu_weight} -p MemoryMax=${mem_max} -- ${nh_cmd}"
+    fi
 
     # Prompt for the sudo password NOW, while the main terminal still has
     # focus, so shtris never grabs focus before you've had a chance to type it.
@@ -154,7 +188,6 @@ install() {
     start_shtris
 
     if ! eval "$nh_cmd"; then
-        # Only show HM journal if HM service specifically failed, not nix build errors
         if systemctl is-failed --quiet home-manager-${username}.service 2>/dev/null; then
             echo -e "\n${RED}Home Manager failed — showing last 20 log lines${NORMAL}\n"
             journalctl -xe --unit home-manager-${username}.service -n 20 --no-pager || true
@@ -162,7 +195,7 @@ install() {
         exit 1
     fi
 
-    stop_shtris          # close it as soon as the build's done, don't wait for git commit/push
+    stop_shtris
     stop_sudo_keepalive
 }
 

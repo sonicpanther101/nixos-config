@@ -71,4 +71,22 @@
       }];
     };
   };
+
+  # Supervise hyprlock so a crash auto-restarts it instead of leaving
+  # the screen unlocked/hung.
+  systemd.user.services.hyprlock = {
+    Unit = {
+      Description = "Hyprlock screen locker";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs-stable.hyprlock}/bin/hyprlock";
+      Restart = "on-failure";
+      RestartSec = 1;
+      StartLimitIntervalSec = 60;
+      StartLimitBurst = 5;
+    };
+  };
 }

@@ -133,7 +133,7 @@
       "SUPER ALT, R, exec, my-refresh"
 
       # shutdown options
-      "SUPER, Escape, exec, pidof hyprlock || hyprlock"
+      "SUPER, Escape, exec, systemctl --user start hyprlock.service"
       "SUPER SHIFT, Escape, exec, my-sleep"
       "SUPER SHIFT CTRL, Escape, exec, hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"
       "SUPER SHIFT CTRL ALT, Escape, exec, hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"

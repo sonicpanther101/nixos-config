@@ -14,14 +14,13 @@
 
     greetd = {
       enable = true;
+      package = pkgs-unstable.greetd;
 
       settings = {
         default_session = {
           user = username;
 
-          command = ''
-            start-hyprland
-          '';
+          command = "start-hyprland";
         };
       };
     };
@@ -136,7 +135,7 @@
 
     ollama = {
       enable = true;
-      package = pkgs-unstable.ollama-cuda;
+      package = pkgs-stable.ollama-cuda;
       loadModels = [ "mistral" "qwen2.5-coder:14b" "qwen3:14b-q4_K_M" ];
       environmentVariables = {
         OLLAMA_NO_CLOUD = "1";

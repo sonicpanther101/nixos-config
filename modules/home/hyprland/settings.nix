@@ -44,6 +44,7 @@
       };
 
       misc = {
+        allow_session_lock_restore = true;
         disable_autoreload = true;
         disable_hyprland_logo = true;
         always_follow_on_dnd = true;

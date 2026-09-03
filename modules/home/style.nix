@@ -16,7 +16,4 @@
       swaync.enable = false;
     };
   };
-
-  # Silence warning
-  gtk.gtk4.theme = null;
 }
