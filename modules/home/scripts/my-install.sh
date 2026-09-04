@@ -3,7 +3,7 @@
 Help()
 {
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|l|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|l|b|h]"
    echo "options:"
    echo "n     Don't check for changes"
    echo "a     Restart ags"
@@ -14,6 +14,7 @@ Help()
    echo "t     Show error trace"
    echo "p     Launch shtris during the build"
    echo "l     Limit CPU/memory used for the rebuild"
+   echo "b     Use 'nh os boot' instead of 'switch' (stage for next reboot, don't activate now)"
    echo "h     Print this Help"
 }
 
@@ -27,8 +28,9 @@ host=$(hostname)
 show_trace=false
 no_game=true
 limit_resources=false
+boot_mode=false
 
-while getopts "anhtcsgplm:" option; do
+while getopts "anhtcsgplbm:" option; do
     case $option in
         h)
             Help
@@ -49,6 +51,8 @@ while getopts "anhtcsgplm:" option; do
             no_game=false;;
         l)
             limit_resources=true;;
+        b)
+            boot_mode=true;;
         m)
             message="$OPTARG";;
         \?)
@@ -147,7 +151,10 @@ trap 'stop_shtris; stop_sudo_keepalive; exit 130' INT TERM
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
-    local nh_cmd="nh os switch -H ${host} ./"
+    local nh_action="switch"
+    [[ $boot_mode == true ]] && nh_action="boot"
+
+    local nh_cmd="nh os ${nh_action} -H ${host} ./"
     local extra_args=()
     local cpu_weight=""
     local mem_max=""
@@ -172,7 +179,11 @@ install() {
         esac
     fi
 
-    [[ $corrupted_db == true ]] && nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
+    if [[ $corrupted_db == true ]]; then
+        # Repair always needs to activate now, so this ignores -b.
+        [[ $boot_mode == true ]] && echo "${RED}Note: -c (repair) always activates now, ignoring -b.${NORMAL}"
+        nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
+    fi
 
     if (( ${#extra_args[@]} > 0 )); then
         nh_cmd+=" -- ${extra_args[*]}"
@@ -197,6 +208,10 @@ install() {
 
     stop_shtris
     stop_sudo_keepalive
+
+    if [[ $boot_mode == true ]] && [[ $corrupted_db == false ]]; then
+        echo -e "\n${GREEN}Staged for next boot${NORMAL} — reboot to activate this generation.\n"
+    fi
 }
 
 pushd "/home/${username}/nixos-config"  > /dev/null
@@ -260,7 +275,11 @@ if [[ $skip_install == false ]]; then
     install
     echo
 
-    current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
+    if [[ $boot_mode == true ]] && [[ $corrupted_db == false ]]; then
+        current="Generation staged (nh os boot), pending reboot"
+    else
+        current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
+    fi
 else
     echo
     echo "Skipping install..."
@@ -297,3 +316,4 @@ fi
 popd > /dev/null
 
 notify-send -t 2000 -e "NixOS Rebuilt OK" --icon=check-filled
+
