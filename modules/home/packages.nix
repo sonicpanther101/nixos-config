@@ -44,6 +44,7 @@
     wlrctl                                                # WLroots cl utils for fixing stylus on laptop
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
+    progress                                              # Tool that shows the progress of coreutils programs
                                                           # File managers, icons & visual disk tools
     nemo-with-extensions                                  # File browser
     nemo-preview                                          # File previewer for Nemo
