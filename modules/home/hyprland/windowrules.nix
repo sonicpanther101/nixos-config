@@ -25,12 +25,14 @@ let
     { match = "Open file"; size = [950 600]; type = "title"; }
     { match = "Open Files"; size = [950 600]; type = "title"; }
     { match = "Save File"; size = [950 600]; type = "title"; }
+    { match = "Extract"; size = [850 200]; type = "title"; }
     { match = "Active connection found"; type = "title"; }
     { match = "Edit Item"; type = "title"; }
     { match = "Calendar Reminders"; type = "title"; }
     { match = "OpenRGB"; type = "title"; }
     { match = ".*Physics Simulation.*"; type = "title"; }
     { match = "Pipewire Volume Control"; type = "title"; }
+    { match = ".*Properties.*"; type = "title"; }
   ];
 
   floatRules =

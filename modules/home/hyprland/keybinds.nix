@@ -143,10 +143,10 @@
       ",XF86AudioRaiseVolume,exec, pamixer -i 2"
       ",XF86AudioLowerVolume,exec, pamixer -d 2"
       ",XF86AudioMute,exec, pamixer -t"
-      ",XF86AudioPlay,exec, playerctl play-pause"
-      ",XF86AudioNext,exec, playerctl next"
-      ",XF86AudioPrev,exec, playerctl previous"
-      ",XF86AudioStop, exec, playerctl stop"
+      ",XF86AudioPlay,exec, playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause"
+      ",XF86AudioNext,exec, playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next"
+      ",XF86AudioPrev,exec, playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous"
+      ",XF86AudioStop, exec, playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) stop"
     ];
 
     # mouse binding

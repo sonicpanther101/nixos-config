@@ -4,7 +4,7 @@ if [[ $host == "desktop" ]]; then
     openrgb --mode direct --color 000000 # Turn all RGB off, without opening openrgb
 fi                                      
 
-playerctl pause                          # Pause all media
+playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) pause   # Pause all media
 
 pkill hypridle && systemctl suspend      # Put to sleep
 
