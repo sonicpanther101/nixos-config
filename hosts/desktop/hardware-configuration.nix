@@ -36,23 +36,7 @@
   # └─nvme1n1p2 ext4   1.0              ee4293e2-b7a8-4c89-af0f-a5cab5ee435d  804.9G     7% /nix/store
 
   fileSystems."/home/adam/driveBig" = { 
-    device = "/dev/disk/by-uuid/FE7E8B9A7E8B4A7B";
-    fsType = "ntfs-3g";
-    options = [ 
-      "rw" 
-      "uid=1000"  # Your user ID (usually 1000 for first user)
-      "gid=100"   # users group
-      "dmask=0022" 
-      "fmask=0022"
-      "big_writes"
-      "windows_names"
-      "nofail"
-      "x-systemd.device-timeout=1"
-    ];
-  };
-
-  fileSystems."/home/adam/driveArch" = { 
-    device = "/dev/disk/by-uuid/e55fcd40-2a96-4ddd-80b4-a0f77e63bb55";
+    device = "/dev/disk/by-uuid/42112cfc-5421-47fd-ac88-73eb35cf7ad1";
     fsType = "ext4"; # Change to your filesystem type
     options = [ "nofail" "x-systemd.device-timeout=1" ]; # To no throw a tantrum and to not wait 1.5min before throwing it
   };
