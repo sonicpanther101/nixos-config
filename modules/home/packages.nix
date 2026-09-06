@@ -129,6 +129,7 @@
     python314                                             # Latest release of python
     gcc                                                   # C / C++ compiler
     nixd                                                  # Feature-rich Nix language server interoperating with C++ nix
+    qmk                                                   # Program to help users work with QMK Firmware
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
     anki-bin                                              # Flashcards app
     moonlight-qt                                          # Remote desktop interface to go with the sunshine service

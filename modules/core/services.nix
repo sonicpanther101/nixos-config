@@ -124,7 +124,10 @@
     '';
 
     # OpenRGB
-    udev.packages = [ pkgs-unstable.openrgb ];
+    udev.packages = [
+      pkgs-unstable.openrgb
+      pkgs-stable.qmk-udev-rules
+    ];
 
     sunshine = {
       enable = true;

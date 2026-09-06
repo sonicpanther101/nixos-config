@@ -7,6 +7,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "plugdev"
     ] ++ lib.optionals (host == "laptop") [
       "surface-control"
     ] ++ lib.optionals config.my.isHighPower [
