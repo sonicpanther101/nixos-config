@@ -1,6 +1,19 @@
-{ pkgs-stable, username, ... } : {
+{ pkgs-stable, username, lib, ... } : {
 
-  stylix = {
+  options.services = {
+    kmscon.config = lib.mkOption {
+      type = lib.types.anything;
+      default = { };
+      description = "Unused compatibility stub for Stylix's regreet target.";
+    };
+    displayManager.regreet = lib.mkOption {
+      type = lib.types.anything;
+      default = { };
+      description = "Unused compatibility stub for Stylix's regreet target.";
+    };
+  };
+
+  config.stylix = {
     enable = true;
 
     # Required
@@ -13,6 +26,8 @@
     
     targets = {
       grub.enable = false;
+      regreet.enable = false;
+      kmscon.enable = false;
     };
 
     polarity = "dark";
@@ -58,9 +73,10 @@
     };
   };
 
-  home-manager.users.${username} = {
+  config.home-manager.users.${username} = {
     stylix.targets = {
       vscode.enable = false;
+      vscodium.enable = false;
       # hyprland.enable = false;
       qt.enable = false;
       hyprlock.enable = false;

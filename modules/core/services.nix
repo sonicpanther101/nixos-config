@@ -12,6 +12,12 @@
       HandlePowerKeyLongPress = "poweroff";
     };
 
+    # Auto login for hyprland startup
+    displayManager.autoLogin = {
+      enable = true;
+      user = "${username}";
+    };
+  
     greetd = {
       enable = true;
       package = pkgs-unstable.greetd;
@@ -60,12 +66,6 @@
       };
     };
 
-    # Auto login for hyprland startup
-    displayManager.autoLogin = {
-      enable = true;
-      user = "${username}";
-    };
-  
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
   } // (lib.optionalAttrs config.my.isLaptop {
@@ -150,6 +150,7 @@
 
     open-webui = {
       enable = true;
+      package = pkgs-stable.open-webui;
       port = 8080;
       host = "127.0.0.1";
       environment = {
@@ -174,6 +175,18 @@
       };
     };
   });
+
+  systemd.user.services.sunshine = {
+    # Wait for the graphical session target
+    wantedBy = [ "graphical-session.target" ];
+    after = [ "graphical-session.target" ];
+    
+    serviceConfig = {
+      # Gives the display server a brief moment to initialize outputs
+      ExecStartPre = "${pkgs-stable.coreutils}/bin/sleep 3";
+      Restart = "on-failure";
+    };
+  };
   
   systemd.tmpfiles.rules = [
     "d /var/lib/radicale 0750 radicale radicale -"
@@ -184,14 +197,18 @@
   users.groups.i2c.members = [ username ];
 
   # Terminal command correction, alternative to thefuck, written in Rust
-  programs.pay-respects = {
-    enable = true;
-    package = pkgs-stable.pay-respects;
-    aiIntegration = lib.mkIf config.my.isHighPower {
-      locale = "en-nz";
-      model = "mistral:latest";
-      url = "http://127.0.0.1:11434/v1/chat/completions";
+  programs = {
+    pay-respects = {
+      enable = true;
+      package = pkgs-stable.pay-respects;
+      aiIntegration = lib.mkIf config.my.isHighPower {
+        locale = "en-nz";
+        model = "mistral:latest";
+        url = "http://127.0.0.1:11434/v1/chat/completions";
+      };
+      alias = "f";
     };
-    alias = "f";
+
+    zsh.enable = true;
   };
 }

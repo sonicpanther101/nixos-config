@@ -12,7 +12,6 @@
         lib.optionals config.my.hasNvidia [
           libva-vdpau-driver
           libvdpau-va-gl
-          nvidia-vaapi-driver
         ]
       ) ++ (with pkgs-unstable; lib.optionals (host == "laptop") [
         intel-media-driver # LIBVA_DRIVER_NAME=iHD

@@ -18,17 +18,19 @@ Usage: my-nixdump [options] [keywords...]
 Options:
   -a        Match ALL keywords (AND) [default]
   -o        Match ANY keyword (OR)
+  -z        Zip the whole config
   -h        Show this help
 
 Examples:
   my-nixdump nvidia intel
   my-nixdump -o nvidia intel
   my-nixdump -a audio pipewire
+  my-nixdump -z
 EOF
 }
 
 # Parse flags
-while getopts ":hoa" opt; do
+while getopts ":hoaz" opt; do
   case "$opt" in
     h)
       show_help
@@ -39,6 +41,9 @@ while getopts ":hoa" opt; do
       ;;
     a)
       mode="and"
+      ;;
+    z)
+      mode="zip"
       ;;
     \?)
       echo "Unknown option: -$OPTARG"
@@ -69,20 +74,26 @@ matches_file() {
   fi
 }
 
-find . \
-  \( -name "*.nix" -o -name "*.sh" -o -name "*.yaml" -o -name "*.md" \) \
-  -not -path "*/.git/*" \
-  | sort \
-  | while read -r f; do
-      if matches_file "$f"; then
-        echo "========================================="
-        echo "FILE: $f"
-        echo "========================================="
-        cat "$f"
-        echo
-      fi
-    done > "$output"
+if [[ "$mode" == "zip" ]]; then
+  rm ~/nixos-config.zip
+  7z a ~/nixos-config.zip ~/nixos-config
+  echo "Zipped to ~/nixos-config.zip"
+else
+  find . \
+    \( -name "*.nix" -o -name "*.sh" -o -name "*.yaml" -o -name "*.md" \) \
+    -not -path "*/.git/*" \
+    | sort \
+    | while read -r f; do
+        if matches_file "$f"; then
+          echo "========================================="
+          echo "FILE: $f"
+          echo "========================================="
+          cat "$f"
+          echo
+        fi
+      done > "$output"
 
-echo "Written to $output"
-wc -l "$output"
-cp "$output" ~/nixos-config-dump.txt
+  echo "Written to $output"
+  wc -l "$output"
+  cp "$output" ~/nixos-config-dump.txt
+fi

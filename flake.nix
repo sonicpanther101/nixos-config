@@ -38,10 +38,7 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
+    hyprland.url = "github:hyprwm/Hyprland"; 
 
     split-monitor-workspaces = {
       url = "github:zjeffer/split-monitor-workspaces";
@@ -100,7 +97,7 @@
     };
   in {
     nixosConfigurations = {
-      desktop = nixpkgs-unstable.lib.nixosSystem {
+      desktop = nixpkgs-stable.lib.nixosSystem {
         inherit system;
         modules = [
           ./hosts/desktop
@@ -115,7 +112,7 @@
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
-      laptop = nixpkgs-unstable.lib.nixosSystem {
+      laptop = nixpkgs-stable.lib.nixosSystem {
         inherit system;
         modules = [
           ./hosts/laptop
@@ -131,7 +128,7 @@
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
-      laptop-2 = nixpkgs-unstable.lib.nixosSystem {
+      laptop-2 = nixpkgs-stable.lib.nixosSystem {
       	inherit system;
         modules = [
           ./hosts/laptop-2

@@ -66,5 +66,6 @@ in {
   programs.fzf = {                                                          # Fuzzy Finder search files, history, and commands with partial/misspelled matches
     enable = true;                                                         
     enableZshIntegration = true;                                           
+    enableNushellIntegration = false;                                      # nushell isn't used here; default fzf in pkgs-stable is < 0.73.0
   };                                                                
 }

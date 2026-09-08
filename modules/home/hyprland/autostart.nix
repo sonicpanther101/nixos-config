@@ -25,7 +25,6 @@
     ] ++ lib.optionals isHighPower [
       "my-rwall -n nixos.png"
       "openrgb --startminimized -b 0 -m direct"
-      "sunshine"
 
       # Opening programs by default (not needed, just nice)
       # Main Monitor

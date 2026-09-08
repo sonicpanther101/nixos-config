@@ -250,7 +250,7 @@ sed -i "s/${CURRENT_USERNAME}/${username}/g" flake.nix
 
 if [ newHost ]; then
     sed -i -z "s|\(.*\)      };|\1      };\
-        \n      ${HOST} = nixpkgs-unstable.lib.nixosSystem {\
+        \n      ${HOST} = nixpkgs-stable.lib.nixosSystem {\
         \n              inherit system;\
         \n        modules = [\
         \n          ./hosts/${HOST}\

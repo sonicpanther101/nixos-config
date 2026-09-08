@@ -139,7 +139,7 @@
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
-    (pkgs-stable.callPackage ../../packages/openrgb.nix { })
+    openrgb                                               # Open source RGB lighting control
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
   ]) ++ (with pkgs-unstable; [
