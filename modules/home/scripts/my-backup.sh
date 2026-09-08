@@ -111,7 +111,7 @@ mv "$TMP_BACKUP" "$NEW_BACKUP"
 # Retention: drop daily backups older than 2 weeks.
 find "$BACKUP_ROOT" -maxdepth 1 -type d -name "Uni-Notes-*" -mtime +14 -exec rm -rf {} +
 
-LAST_OK_TIME="$DISPLAY_TIME"
+LAST_OK_TIME="Last backed up $DISPLAY_TIME"
 LAST_ERROR=""
 save_state
 
