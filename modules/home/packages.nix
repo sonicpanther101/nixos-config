@@ -7,7 +7,6 @@
     vsce                                                  # VS Code Extension Manager
     prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
-    (bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
 
   ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
@@ -143,6 +142,8 @@
     (pkgs-stable.callPackage ../../packages/openrgb.nix { })
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
+  ]) ++ (with pkgs-unstable; [
+    (bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     poweralertd                                           # UPower-powered power alerter
