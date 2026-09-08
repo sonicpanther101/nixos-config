@@ -173,6 +173,7 @@
         "custom/backup" = {
           exec = "my-backup";
           interval = 60;
+          on-click = "my-backup";
           tooltip = false;
           return-type = "json";
         };
