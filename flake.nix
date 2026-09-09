@@ -15,17 +15,6 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    elephant = {
-      url = "github:abenz1267/elephant";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-    walker = {
-      url = "github:abenz1267/walker";
-      # url = "github:zspher/walker/dev";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-      inputs.elephant.follows = "elephant";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";

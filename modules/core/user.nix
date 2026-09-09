@@ -35,7 +35,6 @@
       imports = [ 
         ./../home
         inputs.catppuccin.homeModules.catppuccin
-        inputs.walker.homeManagerModules.default
         inputs.chaotic.homeManagerModules.default
       ];
 

@@ -1,9 +1,11 @@
-{ pkgs-stable, pkgs-unstable, ... }: {
-
-  programs.walker = {
+{ pkgs-stable, pkgs-unstable, ... }:
+{
+  services.elephant.enable = true;
+  services.walker = {
     enable = true;
-    runAsService = true;
-    config = {
+    enableElephantIntegration = true;
+    systemd.enable = true;
+    settings = {
       theme = "catppuccin";
       force_keyboard_focus = true;
       placeholders = {

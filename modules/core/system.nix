@@ -20,8 +20,6 @@
         "https://nur.cachix.org"
         "https://hyprland.cachix.org"
         "https://catppuccin.cachix.org"
-        "https://walker.cachix.org"
-        "https://walker-git.cachix.org"
       ];
 
       trusted-public-keys = [

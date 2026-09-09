@@ -15,8 +15,6 @@
       "sleep 1 && waybar"
       "nm-applet"
       "blueman-applet"
-      "elephant"
-      "walker --gapplication-service"
       "wl-clip-persist --clipboard regular"
       "wl-paste --type text --watch cliphist store"
       "wl-paste --type image --watch cliphist store"
