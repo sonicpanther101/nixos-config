@@ -1,4 +1,4 @@
-{ config, pkgs-stable, lib, ... }:{
+{ config, pkgs-stable, pkgs-unstable, lib, ... }:{
 
   boot = {
     loader = {
@@ -30,6 +30,8 @@
 
     # Getting sleep to work
     kernelParams = [ "acpi_enforce_resources=lax" ] ++ lib.optionals config.my.hasNvidia [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ];
+
+    kernelPackages = lib.mkIf config.my.hasNvidia pkgs-unstable.linuxPackages;
 
   } // lib.optionalAttrs config.my.isHighPower {
 
