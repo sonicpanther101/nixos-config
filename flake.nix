@@ -38,15 +38,15 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland"; 
+    hyprland.url = "github:hyprwm/Hyprland/v0.55.4"; 
 
     split-monitor-workspaces = {
-      url = "github:zjeffer/split-monitor-workspaces";
+      url = "github:zjeffer/split-monitor-workspaces/v0.55.4";
       inputs.hyprland.follows = "hyprland";
     };
 
     hyprgrass = {
-      url = "github:horriblename/hyprgrass";
+      url = "github:horriblename/hyprgrass/d094a3e62f6ecaeb41515982d3e13edefaf8a4e7";
       inputs.hyprland.follows = "hyprland";
     };
     
