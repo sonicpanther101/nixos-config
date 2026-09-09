@@ -1,7 +1,6 @@
 { inputs, pkgs-unstable, pkgs-stable, isHighPower, ... } : {
 
   home.packages = [                                       # From inputs
-    inputs.hyprshutdown.packages.${pkgs-stable.stdenv.hostPlatform.system}.default # For smooth shutdown of apps  # wait for nixos release
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
     vsce                                                  # VS Code Extension Manager
@@ -39,6 +38,7 @@
     hyprpolkitagent                                       # Required for GUI applications to be able to sudo
     hyprpicker                                            # Colour picker
     hyprmon                                               # TUI monitor configuration tool for Hyprland with visual layout and drag-and-drop
+    hyprshutdown                                          # A graceful shutdown utility for Hyprland
     wev                                                   # Wayland input watcher
     wlrctl                                                # WLroots cl utils for fixing stylus on laptop
     grim                                                  # Grab images from a Wayland compositor

@@ -39,8 +39,6 @@
       inputs.hyprland.follows = "hyprland";
     };
     
-    hyprshutdown.url = "github:hyprwm/hyprshutdown";
-
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     
     nix-index-database.url = "github:nix-community/nix-index-database";
