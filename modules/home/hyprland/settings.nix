@@ -1,19 +1,22 @@
-{ host, lib, isLaptop, ... } : {
+{ host, lib, isLaptop, ... } : 
+let
+  # Monitor descriptions extracted directly from hyprctl
+  dp1Desc = "desc:ASUSTek COMPUTER INC VG27AQ1A S9LMQS099860";
+  hdmi1Desc = "desc:AOC 27B30H 1AQQ7HA015555";
+in
+{
   wayland.windowManager.hyprland = {
-    
     settings = {
 
       device = lib.optionals (host == "laptop-2") [{
         name = "wacom-hid-4915-pen";
-        output = "eDP-1";  # verify with hyprctl monitors
+        output = "eDP-1";
       }];
 
       binds = { scroll_event_delay = 0; };
 
       input = {
-        # Keyboard: Add a layout and uncomment kb_options for Win+Space switching shortcut
         kb_layout = "us";
-        # kb_options = grp:win_space_toggle;
         numlock_by_default = false;
         repeat_delay = 250;
         repeat_rate = 50;
@@ -26,7 +29,6 @@
         };
 
         follow_mouse = 1;
-        # follow_mouse = 2; # For bambu lab submenus
         accel_profile = "flat";
         sensitivity = 0.6;
       };
@@ -108,42 +110,20 @@
           "windows, 1, 2, md3_decel, popin 60%"
           "border, 1, 10, default"
           "fade, 1, 2.5, md3_decel"
-          # "workspaces, 1, 3.5, md3_decel, slide"
           "workspaces, 1, 3, fluent_decel, slide"
-          # "workspaces, 1, 7, fluent_decel, slidefade 15%"
-          # "specialWorkspace, 1, 3, md3_decel, slidefadevert 15%"
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
       };
 
-      # workspace = if (host != host) then [
-      workspace = lib.mkIf (host == "desktop") [
-        "1,monitor:HDMI-A-1"
-        "2,monitor:HDMI-A-1"
-        "3,monitor:HDMI-A-1"
-        "4,monitor:HDMI-A-1"
-        "5,monitor:HDMI-A-1"
-        "6,monitor:HDMI-A-1"
-        "7,monitor:HDMI-A-1"
-        "8,monitor:HDMI-A-1"
-        "9,monitor:HDMI-A-1"
-        "10,monitor:HDMI-A-1"
-
-        "11,monitor:DP-1"
-        "12,monitor:DP-1"
-        "13,monitor:DP-1"
-        "14,monitor:DP-1"
-        "15,monitor:DP-1"
-        "16,monitor:DP-1"
-        "17,monitor:DP-1"
-        "18,monitor:DP-1"
-        "19,monitor:DP-1"
-        "20,monitor:DP-1"
-      ];
+      # Safely generate workspace-to-monitor bindings only for desktop
+      workspace = lib.optionals (host == "desktop") (
+        (map (i: "${toString i},monitor:${dp1Desc}") (lib.range 1 10)) ++
+        (map (i: "${toString i},monitor:${hdmi1Desc}") (lib.range 11 20))
+      );
 
       monitor = if host == "desktop" then [
-        "DP-1,2560x1440@170,0x0,1.3333"
-        "HDMI-A-1,1920x1080@100,1921x0,1"
+        "${dp1Desc},2560x1440@170,0x0,1.3333"
+        "${hdmi1Desc},1920x1080@100,1921x0,1"
       ] else if isLaptop then
         [",preferred,auto,2"]
       else [",preferred,auto,1"];
