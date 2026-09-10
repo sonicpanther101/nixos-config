@@ -25,6 +25,7 @@ let
     { match = "Open file"; size = [950 600]; type = "title"; }
     { match = "Open Files"; size = [950 600]; type = "title"; }
     { match = "Save File"; size = [950 600]; type = "title"; }
+    { match = ".* Reminders"; size = [600 200]; type = "title"; }
     { match = "Extract"; size = [850 200]; type = "title"; }
     { match = "Active connection found"; type = "title"; }
     { match = "Edit Item"; type = "title"; }
