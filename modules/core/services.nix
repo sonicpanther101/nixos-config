@@ -66,6 +66,16 @@
       };
     };
 
+    # NextDNS service with DoH
+    nextdns = {
+      enable = true;
+      arguments = [
+        "-config" "79b668"           # Your NextDNS config ID
+        "-cache-size" "10MB"         # Optional: local cache
+        # "-use-hosts" "true"          # Optional: use /etc/hosts
+      ];
+    };
+
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
   } // (lib.optionalAttrs config.my.isLaptop {
