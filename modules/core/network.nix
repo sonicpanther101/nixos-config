@@ -25,8 +25,14 @@
       #!/bin/sh
       case "$1" in
         pre)
+          logger -t disable-acpi-wakeup "running, args: $*"
           for dev in PTXH XHC0; do
-            grep -q "^$dev.*enabled" /proc/acpi/wakeup && echo "$dev" > /proc/acpi/wakeup
+            if grep -q "^$dev[[:space:]].*enabled" /proc/acpi/wakeup; then
+              echo "$dev" > /proc/acpi/wakeup
+              logger -t disable-acpi-wakeup "toggled $dev off"
+            else
+              logger -t disable-acpi-wakeup "$dev already disabled or not found"
+            fi
           done
           ;;
       esac
