@@ -1,4 +1,4 @@
-{ host, lib, config, ... }: {
+{ host, lib, config, pkgs-stable, ... }: {
   networking = {
     hostName = host;
     networkmanager = {
@@ -19,19 +19,19 @@
     };
   };
 
-  environment.etc."systemd/system-sleep/disable-acpi-wakeup.sh" = {
+  environment.etc."systemd/system-sleep/disable-acpi-wakeup.sh" = lib.mkIf config.my.isHighPower {
     mode = "0755";
     text = ''
       #!/bin/sh
       case "$1" in
         pre)
-          logger -t disable-acpi-wakeup "running, args: $*"
+          ${pkgs-stable.util-linux}/bin/logger -t disable-acpi-wakeup "running, args: $*"
           for dev in PTXH XHC0; do
-            if grep -q "^$dev[[:space:]].*enabled" /proc/acpi/wakeup; then
+            if ${pkgs-stable.gnugrep}/bin/grep -q "^$dev[[:space:]].*enabled" /proc/acpi/wakeup; then
               echo "$dev" > /proc/acpi/wakeup
-              logger -t disable-acpi-wakeup "toggled $dev off"
+              ${pkgs-stable.util-linux}/bin/logger -t disable-acpi-wakeup "toggled $dev off"
             else
-              logger -t disable-acpi-wakeup "$dev already disabled or not found"
+              ${pkgs-stable.util-linux}/bin/logger -t disable-acpi-wakeup "$dev already disabled or not found"
             fi
           done
           ;;
