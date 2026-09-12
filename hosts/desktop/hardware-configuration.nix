@@ -41,6 +41,12 @@
     options = [ "nofail" "x-systemd.device-timeout=1" ]; # To no throw a tantrum and to not wait 1.5min before throwing it
   };
 
+  fileSystems."/home/adam/driveBackup" = { 
+    device = "/dev/disk/by-uuid/3d51b845-7b17-4fba-b61a-6d938fb3d896";
+    fsType = "ext4"; # Change to your filesystem type
+    options = [ "nofail" "x-systemd.device-timeout=1" ]; # To no throw a tantrum and to not wait 1.5min before throwing it
+  };
+
   # mount -o gid=users,fmask=113,dmask=002 /dev/sdb1 ~/driveUSB for usb drives (change sdb1 to whatever it shows up as with lsblk)
 
   swapDevices = [{

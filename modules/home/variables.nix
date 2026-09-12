@@ -29,6 +29,7 @@
     ANKI_WAYLAND = "1";
     _JAVA_AWT_WM_NONEREPARENTING = "1";
     DIRENV_LOG_FORMAT = "";
+    GSK_RENDERER = "cairo"; # For walker
 
     # Cursors
     HYPRCURSOR_THEME = "catppuccin-mocha-dark-cursors";
