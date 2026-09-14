@@ -1,6 +1,6 @@
 { pkgs-stable, host, ... }:
 let
-  # 1. Define base widget sizes (calibrated for your primary 1440p @ 1.3333x display)
+  # 1. Define base widget sizes (calibrated for primary 1440p @ 1.3333x display)
   baseConfig = {
     input = { width = 200; height = 50; posY = -80; outline = 4; };
     time  = { fontSize = 65; posY = -320; };
@@ -9,72 +9,62 @@ let
     gh    = { fontSize = 14; posX = -600; };
   };
 
-  # 2. Helper function to scale numeric properties based on monitor scale (relative to 1.3333x)
-  # scale = 1.0 on DP-1 (reference monitor)
-  # scale = 0.75 on HDMI-A-1 (1080p unscaled)
-  mkWidgets = monitorName: scale: [
-    # --- INPUT FIELD ---
-    {
-      monitor = monitorName;
-      size = "${toString (builtins.floor (baseConfig.input.width * scale))}, ${toString (builtins.floor (baseConfig.input.height * scale))}";
-      position = "0, ${toString (builtins.floor (baseConfig.input.posY * scale))}";
-      dots_center = true;
-      fade_on_empty = false;
-      font_color = "rgb(205, 214, 244)";
-      inner_color = "rgb(30, 30, 46)";
-      outer_color = "rgb(137, 180, 250)";
-      outline_thickness = builtins.floor (baseConfig.input.outline * scale);
-      placeholder_text = "Password...";
-      shadow_passes = 2;
-    }
+  # 2. Modular helper functions per widget type
+  mkInput = monitorName: scale: {
+    monitor = monitorName;
+    size = "${toString (builtins.floor (baseConfig.input.width * scale))}, ${toString (builtins.floor (baseConfig.input.height * scale))}";
+    position = "0, ${toString (builtins.floor (baseConfig.input.posY * scale))}";
+    dots_center = true;
+    fade_on_empty = false;
+    font_color = "rgb(205, 214, 244)";
+    inner_color = "rgb(30, 30, 46)";
+    outer_color = "rgb(137, 180, 250)";
+    outline_thickness = builtins.floor (baseConfig.input.outline * scale);
+    placeholder_text = "Password...";
+    shadow_passes = 2;
+  };
 
-    # --- TIME ---
-    {
-      monitor = monitorName;
-      text = "cmd[update:1000] date +'%l:%M %p'";
-      font_size = builtins.floor (baseConfig.time.fontSize * scale);
-      font_family = "$font";
-      position = "0, ${toString (builtins.floor (baseConfig.time.posY * scale))}";
-      halign = "center";
-      valign = "top";
-    }
+  mkTime = monitorName: scale: {
+    monitor = monitorName;
+    text = "cmd[update:1000] date +'%l:%M %p'";
+    font_size = builtins.floor (baseConfig.time.fontSize * scale);
+    font_family = "$font";
+    position = "0, ${toString (builtins.floor (baseConfig.time.posY * scale))}";
+    halign = "center";
+    valign = "top";
+  };
 
-    # --- DATE ---
-    {
-      monitor = monitorName;
-      text = "cmd[update:60000] date +'%A, %e %B %Y' | sed 's|  | |'";
-      font_size = builtins.floor (baseConfig.date.fontSize * scale);
-      font_family = "$font";
-      position = "0, ${toString (builtins.floor (baseConfig.date.posY * scale))}";
-      halign = "center";
-      valign = "top";
-    }
+  mkDate = monitorName: scale: {
+    monitor = monitorName;
+    text = "cmd[update:60000] date +'%A, %e %B %Y' | sed 's|  | |'";
+    font_size = builtins.floor (baseConfig.date.fontSize * scale);
+    font_family = "$font";
+    position = "0, ${toString (builtins.floor (baseConfig.date.posY * scale))}";
+    halign = "center";
+    valign = "top";
+  };
 
-    # --- WEATHER ---
-    {
-      monitor = monitorName;
-      text = "cmd[update:600000] my-weather";
-      font_size = builtins.floor (baseConfig.wx.fontSize * scale);
-      font_family = "JetBrainsMono Nerd Font";
-      position = "${toString (builtins.floor (baseConfig.wx.posX * scale))}, 0";
-      halign = "center";
-      valign = "center";
-    }
+  mkWeather = monitorName: scale: {
+    monitor = monitorName;
+    text = "cmd[update:600000] my-weather";
+    font_size = builtins.floor (baseConfig.wx.fontSize * scale);
+    font_family = "JetBrainsMono Nerd Font";
+    position = "${toString (builtins.floor (baseConfig.wx.posX * scale))}, 0";
+    halign = "center";
+    valign = "center";
+  };
 
-    # --- GITHUB CONTRIBUTIONS ---
-    {
-      monitor = monitorName;
-      text = "cmd[update:3600000] my-github-contributions";
-      font_size = builtins.floor (baseConfig.gh.fontSize * scale);
-      font_family = "JetBrainsMono Nerd Font";
-      position = "${toString (builtins.floor (baseConfig.gh.posX * scale))}, 0";
-      halign = "center";
-      valign = "center";
-    }
-  ];
+  mkGithub = monitorName: scale: {
+    monitor = monitorName;
+    text = "cmd[update:3600000] my-github-contributions";
+    font_size = builtins.floor (baseConfig.gh.fontSize * scale);
+    font_family = "JetBrainsMono Nerd Font";
+    position = "${toString (builtins.floor (baseConfig.gh.posX * scale))}, 0";
+    halign = "center";
+    valign = "center";
+  };
 
   # 3. Define monitor mappings
-  # Scale factor is relative to DP-1: 1.0 = base scale, 0.75 = 1080p unscaled
   desktopMonitors = [
     { name = "DP-1";     scale = 1.0; }
     { name = "HDMI-A-1"; scale = 0.75; }
@@ -86,8 +76,11 @@ let
 
   activeMonitors = if (host == "desktop") then desktopMonitors else laptopMonitors;
 
-  # 4. Generate configurations dynamically
-  allWidgets = builtins.concatLists (map (m: mkWidgets m.name m.scale) activeMonitors);
+  # 4. Generate widget groups explicitly ordered by execution priority across all monitors
+  inputFields   = map (m: mkInput m.name m.scale) activeMonitors;
+  clockLabels   = builtins.concatLists (map (m: [ (mkTime m.name m.scale) (mkDate m.name m.scale) ]) activeMonitors);
+  weatherLabels = map (m: mkWeather m.name m.scale) activeMonitors;
+  githubLabels  = map (m: mkGithub m.name m.scale) activeMonitors;
 
 in {
   programs.hyprlock = {
@@ -106,9 +99,9 @@ in {
         blur_size = 8;
       }) activeMonitors;
 
-      # Partition the generated list into input-field and label settings for Hyprlock
-      input-field = builtins.filter (w: builtins.hasAttr "outline_thickness" w) allWidgets;
-      label       = builtins.filter (w: !builtins.hasAttr "outline_thickness" w) allWidgets;
+      # Hyprlock evaluates input-fields first, followed by labels in array order across displays
+      input-field = inputFields;
+      label       = clockLabels ++ weatherLabels ++ githubLabels;
     };
   };
 
