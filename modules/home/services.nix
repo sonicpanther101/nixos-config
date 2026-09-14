@@ -1,4 +1,18 @@
-{ ... } : {
+{ pkgs-stable, ... } : {
+
+  systemd.user.services.driveusb-symlink = {
+    Unit = {
+      Description = "Keep ~/driveUSB symlinked to the current USB drive";
+      After = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs-stable.bash}/bin/bash my-driveusb-symlink";
+      Environment = "PATH=${pkgs-stable.inotify-tools}/bin:${pkgs-stable.coreutils}/bin:${pkgs-stable.findutils}/bin";
+      Restart = "on-failure";
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+  };
+
   services = {
 
     # Auto-mounts USB drives on plug-in (e.g. the Ventoy drive used by

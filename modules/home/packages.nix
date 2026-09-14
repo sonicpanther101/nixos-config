@@ -70,6 +70,7 @@
     texliveMedium                                         # LaTeX packages
     typst                                                 # New markup-based typesetting system that is powerful and easy to learn
     efibootmgr                                            # Linux user-space application to modify the Intel Extensible Firmware Interface (EFI) Boot Manager
+    inotify-tools                                         # Watches /run/media for my-driveusb-symlink
                                                           # Archives / compression
     p7zip                                                 # Unzip utility
     unrar                                                 # For unzipping multi-part RARs

@@ -26,5 +26,6 @@ in {
     "my-weather"
     "my-github-contributions"
     "my-toggle-keyboard"
+    "my-driveusb-symlink"
   ];
 }
