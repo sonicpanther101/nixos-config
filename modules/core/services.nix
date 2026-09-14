@@ -46,6 +46,9 @@
     # For nemo trash
     gvfs.enable = true;
 
+    # Enables mounting removable drives (needed for udiskie automount below)
+    udisks2.enable = true;
+
     # For build machine setup not needed permanently on weak machines
     openssh = {
       enable = true;
