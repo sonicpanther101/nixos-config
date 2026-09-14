@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Maintains one symlink per USB drive currently mounted under
+# Maintains one symlink per external USB drive currently mounted under
 # /run/media/$USER (via udisks2/udiskie): ~/driveUSB for the first,
 # ~/driveUSB2, ~/driveUSB3, etc. for any others plugged in at the same
 # time. Each symlink is removed the moment its drive is unmounted, so
@@ -9,6 +9,12 @@
 # A drive keeps its assigned slot for as long as it stays mounted, even if
 # an earlier-numbered drive is unplugged first; freed slots are reused by
 # the next drive that shows up, rather than renumbering everything.
+#
+# Internal drives are ignored. Rather than parsing a specific
+# hardware-configuration.nix (which one depends on which host this runs
+# on), this reads /etc/fstab — the materialized result of every host's
+# fileSystems.* entries — and skips any mounted directory whose
+# filesystem UUID already appears there.
 #
 set -uo pipefail
 
@@ -24,9 +30,27 @@ link_name() {
     fi
 }
 
+is_internal_drive() {
+    local dir="$1" uuid
+    uuid=$(findmnt -no UUID --target "$dir" 2>/dev/null)
+    [ -n "$uuid" ] && [ -n "${KNOWN_FSTAB_UUIDS[$uuid]:-}" ]
+}
+
 update_links() {
+    # Rebuild the known-internal-UUID set fresh each run in case /etc/fstab
+    # changes (e.g. after a rebuild), rather than only reading it at
+    # startup.
+    declare -gA KNOWN_FSTAB_UUIDS=()
+    local u
+    while IFS= read -r u; do
+        KNOWN_FSTAB_UUIDS["$u"]=1
+    done < <(grep -oE '(^|[[:space:]])UUID=[0-9A-Za-z-]+' /etc/fstab 2>/dev/null \
+        | sed -E 's/^[[:space:]]*UUID=//')
+
     local mounted=()
+    local d
     while IFS= read -r -d '' d; do
+        is_internal_drive "$d" && continue
         mounted+=("$d")
     done < <(find "$WATCH_DIR" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
 
