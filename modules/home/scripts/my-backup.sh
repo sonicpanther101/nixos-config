@@ -12,6 +12,7 @@ STATE_FILE="$HOME/.cache/uni-notes-backup-state"
 TODAY=$(date '+%Y-%m-%d')
 TIMESTAMP=$(date '+%Y-%m-%d_%H')          # resolution: to the hour
 DISPLAY_TIME=$(date '+%a %d %b, %l:%M %p' | sed 's/  / /')
+NOW_EPOCH=$(date '+%s')
 NEW_BACKUP="$BACKUP_ROOT/Uni-Notes-$TIMESTAMP"
 TMP_BACKUP="/tmp/uni-notes-backup-$$"
 
@@ -19,6 +20,7 @@ mkdir -p "$(dirname "$STATE_FILE")"
 
 # --- state helpers -----------------------------------------------------
 LAST_OK_TIME=""
+LAST_OK_EPOCH=0
 LAST_ERROR=""
 
 load_state() {
@@ -26,7 +28,7 @@ load_state() {
 }
 
 save_state() {
-    printf 'LAST_OK_TIME=%q\nLAST_ERROR=%q\n' "$LAST_OK_TIME" "$LAST_ERROR" > "$STATE_FILE"
+    printf 'LAST_OK_TIME=%q\nLAST_OK_EPOCH=%q\nLAST_ERROR=%q\n' "$LAST_OK_TIME" "$LAST_OK_EPOCH" "$LAST_ERROR" > "$STATE_FILE"
 }
 
 json_escape() {
@@ -43,16 +45,20 @@ emit() {
         "$(json_escape "$1")" "$(json_escape "$2")" "$3"
 }
 
+is_recent() {
+    [ -n "$LAST_OK_EPOCH" ] && [ "$LAST_OK_EPOCH" -ge $((NOW_EPOCH - 7200)) ]
+}
+
 load_state
 
 # --- no USB present: just report last known state ----------------------
 if ! lsblk | grep -q Ventoy 2>/dev/null; then
     if [ -n "$LAST_ERROR" ]; then
         emit "⚠ backup error" "Last good backup: ${LAST_OK_TIME:-never}. Error: $LAST_ERROR" "error"
-    elif [ -n "$LAST_OK_TIME" ]; then
+    elif is_recent; then
         emit "$LAST_OK_TIME" "Last successful backup: $LAST_OK_TIME" "ok"
     else
-        emit "no backup yet" "USB not connected, no backup on record" "idle"
+        emit "" "No backup in the last 2 hours" "idle"
     fi
     exit 0
 fi
@@ -112,6 +118,7 @@ mv "$TMP_BACKUP" "$NEW_BACKUP"
 find "$BACKUP_ROOT" -maxdepth 1 -type d -name "Uni-Notes-*" -mtime +14 -exec rm -rf {} +
 
 LAST_OK_TIME="Last backed up $DISPLAY_TIME"
+LAST_OK_EPOCH="$NOW_EPOCH"
 LAST_ERROR=""
 save_state
 
