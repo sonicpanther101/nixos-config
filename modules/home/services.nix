@@ -6,7 +6,7 @@
       After = [ "graphical-session.target" ];
     };
     Service = {
-      ExecStart = "my-driveusb-symlink";
+      ExecStart = "${pkgs-stable.bash}/bin/bash ${./scripts/my-driveusb-symlink.sh}";
       Environment = "PATH=${pkgs-stable.inotify-tools}/bin:${pkgs-stable.coreutils}/bin:${pkgs-stable.findutils}/bin";
       Restart = "on-failure";
     };
