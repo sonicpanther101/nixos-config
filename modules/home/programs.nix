@@ -127,6 +127,13 @@ in {
               output = 65536;
             };
           };
+          "qwen2.5-coder:7b" = {
+            name = "Qwen2.5-Coder 7B";
+            limit = {
+              context = 262144;
+              output = 65536;
+            };
+          };
         };
       };
     };
