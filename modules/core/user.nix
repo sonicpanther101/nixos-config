@@ -19,8 +19,17 @@
   };
 
   imports = [ inputs.home-manager.nixosModules.home-manager ];
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = [];
+  programs.nix-ld = {
+    enable = true;
+    libraries = (with pkgs-stable; [
+      stdenv.cc.cc.lib   # libstdc++.so.6 — fixes the tokenizers error
+      zlib
+      openssl
+      curl
+      libxml2
+      glib
+    ]);
+  };
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
