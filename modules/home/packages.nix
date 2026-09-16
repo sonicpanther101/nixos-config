@@ -122,6 +122,7 @@
     cmatrix                                               # Matrix simulator
     cbonsai                                               # Bonsai generator
     vim-full                                              # Basic TUI code editor with tutorial
+    opencode                                              # AI coding agent built for the terminal
     catppuccinifier-gui                                   # Turns images into catppuccin only colours
     palettum                                              # CLI tool that lets you recolor images, GIFs and videos
     toipe                                                 # Typing test in the terminal

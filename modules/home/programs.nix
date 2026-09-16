@@ -104,4 +104,17 @@ in {
     fixed="JetBrainsMono Nerd Font,12"
     general="DejaVu Sans,12"
   '';
+
+  home.file.".config/opencode/opencode.json".text = builtins.toJSON {
+    "$schema" = "https://opencode.ai/config.json";
+    provider = {
+      "@ai-sdk/openai-compatible" = {
+        name = "ollama";
+        options.baseURL = "http://localhost:11434/v1";
+        models = {
+          "qwen2.5-coder:32b" = { name = "qwen2.5-coder:32b"; };
+        };
+      };
+    };
+  };
 }
