@@ -134,13 +134,34 @@ cmp.setup({
 })
 
 -- ── Completion for command mode (/search and :commands) ──────────────────────
+-- TIP: the default cmdline preset only binds <C-n>/<C-p> to cycle, leaving
+-- arrow keys free for command history. This adds <Down>/<Up> as an extra way
+-- to cycle the completion menu (matching insert mode), but only while the
+-- menu is visible — otherwise they still fall back to normal cmdline history.
+local cmdline_mapping = cmp.mapping.preset.cmdline({
+  ['<Down>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    else
+      fallback()
+    end
+  end, { 'c' }),
+  ['<Up>'] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    else
+      fallback()
+    end
+  end, { 'c' }),
+})
+
 cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
+  mapping = cmdline_mapping,
   sources = { { name = 'buffer' } },
 })
 
 cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
+  mapping = cmdline_mapping,
   sources = cmp.config.sources(
     { { name = 'path' } },
     { { name = 'cmdline', option = { ignore_cmds = { 'Man', '!' } } } }
