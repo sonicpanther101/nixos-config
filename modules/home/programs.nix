@@ -110,6 +110,7 @@ in {
     model = "ollama/qwen3-coder:30b";
     small_model = "ollama/qwen3-coder:30b";
     lsp = true;
+
     provider = {
       "ollama" = {
         npm = "@ai-sdk/openai-compatible";
@@ -122,12 +123,28 @@ in {
           "qwen3-coder:30b" = {
             name = "Qwen3-Coder 30B";
             limit = {
-              context = 262144;   # 256K tokens
-              output = 65536;     # 64K max output
+              context = 262144;
+              output = 65536;
             };
           };
         };
       };
     };
+
+    mcp = {
+      exa = {
+        type = "remote";
+        url = "https://mcp.exa.ai/mcp";
+        enabled = true;
+      };
+    };
+
+    plugin = [
+      "opencode-direnv"
+      "OpenCodeRAG"
+      "opencode-throughput"
+      "opencode-simple-notify"
+      "@bluelovers/opencode-arise"
+    ];
   }; 
 }
