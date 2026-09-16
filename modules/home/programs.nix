@@ -107,14 +107,26 @@ in {
 
   home.file.".config/opencode/opencode.json".text = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";
+    model = "ollama/qwen3-coder:30b";
+    small_model = "ollama/qwen3-coder:30b";
     provider = {
-      "@ai-sdk/openai-compatible" = {
-        name = "ollama";
-        options.baseURL = "http://localhost:11434/v1";
+      "ollama" = {
+        npm = "@ai-sdk/openai-compatible";
+        name = "Ollama (local)";
+        options = {
+          baseURL = "http://localhost:11434/v1";
+          apiKey = "ollama";
+        };
         models = {
-          "qwen2.5-coder:32b" = { name = "qwen2.5-coder:32b"; };
+          "qwen3-coder:30b" = {
+            name = "Qwen3-Coder 30B";
+            limit = {
+              context = 262144;   # 256K tokens
+              output = 65536;     # 64K max output
+            };
+          };
         };
       };
     };
-  };
+  }; 
 }
