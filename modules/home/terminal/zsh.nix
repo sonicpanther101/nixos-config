@@ -17,15 +17,6 @@ in {
     initContent = lib.mkBefore ''                                          
       DISABLE_MAGIC_FUNCTIONS=true
       eval "$(pay-respects zsh)"
-
-      # uvx-installed tools (e.g. OpenHands) use a Nix-store Python with its
-      # own glibc interpreter, which bypasses nix-ld's NIX_LD_LIBRARY_PATH
-      # entirely. Scope a plain LD_LIBRARY_PATH to just this function instead
-      # of exporting it session-wide, to avoid shadowing other Nix binaries'
-      # own rpaths.
-      openhands() {
-        LD_LIBRARY_PATH="/run/current-system/sw/share/nix-ld/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" command uvx openhands "$@"
-      }
     '';  
 
     shellAliases = {                                                       

@@ -109,6 +109,7 @@ in {
     "$schema" = "https://opencode.ai/config.json";
     model = "ollama/qwen3-coder:30b";
     small_model = "ollama/qwen3-coder:30b";
+    lsp = true;
     provider = {
       "ollama" = {
         npm = "@ai-sdk/openai-compatible";

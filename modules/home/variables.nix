@@ -30,6 +30,7 @@
     _JAVA_AWT_WM_NONEREPARENTING = "1";
     DIRENV_LOG_FORMAT = "";
     GSK_RENDERER = "cairo"; # For walker
+    OPENCODE_EXPERIMENTAL_LSP_TOOL = true;
 
     # Cursors
     HYPRCURSOR_THEME = "catppuccin-mocha-dark-cursors";
