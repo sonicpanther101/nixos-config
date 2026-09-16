@@ -18,11 +18,15 @@
     shell = pkgs-stable.zsh;
   };
 
+  # Needed for `openhands serve` (and anything else Docker-based).
+  # Gated on isHighPower to match the "docker" group above.
+  virtualisation.docker.enable = config.my.isHighPower;
+
   imports = [ inputs.home-manager.nixosModules.home-manager ];
   programs.nix-ld = {
     enable = true;
     libraries = (with pkgs-stable; [
-      stdenv.cc.cc.lib   # libstdc++.so.6 — fixes the tokenizers error
+      stdenv.cc.cc.lib
       zlib
       openssl
       curl

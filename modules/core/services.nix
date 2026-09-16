@@ -153,6 +153,11 @@
       enable = true;
       package = pkgs-stable.ollama-cuda;
       loadModels = [ "mistral" "qwen2.5-coder:14b" "qwen3:14b-q4_K_M" ];
+      # 0.0.0.0 so Docker containers (e.g. `openhands serve`) can reach it via
+      # host.docker.internal — 127.0.0.1 (the default) is unreachable from
+      # inside a container. Only actually reachable from the docker0 bridge —
+      # see the scoped firewall rule in network.nix — not the LAN.
+      host = "0.0.0.0";
       environmentVariables = {
         OLLAMA_NO_CLOUD = "1";
         OLLAMA_KEEP_ALIVE = "1h";
