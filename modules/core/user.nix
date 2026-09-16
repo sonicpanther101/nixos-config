@@ -23,17 +23,6 @@
   virtualisation.docker.enable = config.my.isHighPower;
 
   imports = [ inputs.home-manager.nixosModules.home-manager ];
-  programs.nix-ld = {
-    enable = true;
-    libraries = (with pkgs-stable; [
-      stdenv.cc.cc.lib
-      zlib
-      openssl
-      curl
-      libxml2
-      glib
-    ]);
-  };
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
