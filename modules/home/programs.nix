@@ -108,7 +108,7 @@ in {
   home.file.".config/opencode/opencode.json".text = builtins.toJSON {
     "$schema" = "https://opencode.ai/config.json";
     model = "ollama/qwen3-coder:30b";
-    small_model = "ollama/qwen3-coder:30b";
+    small_model = "ollama/qwen2.5-coder:7b";
     lsp = true;
 
     provider = {
@@ -137,11 +137,11 @@ in {
         };
       };
     };
-
+    
     mcp = {
-      exa = {
+      context7 = {
         type = "remote";
-        url = "https://mcp.exa.ai/mcp";
+        url = "https://mcp.context7.ai/mcp";
         enabled = true;
       };
     };
