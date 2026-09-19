@@ -163,15 +163,15 @@
   wayland.windowManager.hyprland.extraConfig = ''
     submap = monitor
 
-    bind = , D, exec, hyprctl dispatch dpms toggle $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
-    bind = , D, submap, reset
+    bind = SUPER, D, exec, hyprctl dispatch dpms toggle $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
+    bind = SUPER, D, submap, reset
 
-    bind = , I, exec, my-invert-monitor
-    bind = , I, submap, reset
+    bind = SUPER, I, exec, my-invert-monitor
+    bind = SUPER, I, submap, reset
 
     # any other key (or Escape) just leaves the submap without doing anything
     bind = , escape, submap, reset
-    bind = , M, submap, reset
+    bind = SUPER, M, submap, reset
 
     submap = reset
   '';
