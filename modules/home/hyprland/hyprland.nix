@@ -54,6 +54,8 @@
           hyprgrass-bind = , edge:r:l, exec, xournalpp
           # swipe up from bottom edge -> browser
           hyprgrass-bind = , edge:d:u, exec, vivaldi --profile-directory="Default" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne
+          # swipe right from bottom edge -> work browser
+          hyprgrass-bind = , edge:d:r, exec, vivaldi --profile-directory="Profile 1"
           # swipe down from left edge -> volume down
           hyprgrass-bind = , edge:l:d, exec, pamixer -d 4
           # swipe up from left edge -> volume up
