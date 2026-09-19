@@ -26,6 +26,7 @@ in {
     "my-weather"
     "my-github-contributions"
     "my-toggle-keyboard"
+    "my-invert-monitor"
     "my-driveusb-symlink"
   ];
 }

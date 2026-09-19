@@ -39,6 +39,7 @@
     hyprpicker                                            # Colour picker
     hyprmon                                               # TUI monitor configuration tool for Hyprland with visual layout and drag-and-drop
     hyprshutdown                                          # A graceful shutdown utility for Hyprland
+    (pkgs-stable.callPackage ../../packages/wl-monitor-invert.nix { })  # Per-monitor colour invert (wlr-gamma-control), since xcalib doesn't work on Wayland
     wev                                                   # Wayland input watcher
     wlrctl                                                # WLroots cl utils for fixing stylus on laptop
     grim                                                  # Grab images from a Wayland compositor

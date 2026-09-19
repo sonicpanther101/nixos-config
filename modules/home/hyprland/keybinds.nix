@@ -30,7 +30,7 @@
       "SUPER ALT, K, exec, my-toggle-keyboard"
       "SUPER ALT, P, exec, beefweb_mpris"
       "SUPER, C ,exec, hyprpicker -a"
-      "SUPER, M, exec, hyprctl dispatch dpms toggle $(hyprctl monitors -j | jq -r '.[] | select(.focused == false) | .name')" # For movies
+      "SUPER, M, submap, monitor" # Enter the "monitor" submap: D = toggle dpms (movies), I = toggle colour invert (darkness)
 
       # Vscodium
       "SUPER, V, exec, codium"
@@ -156,4 +156,23 @@
       "SUPER, mouse:273, resizewindow"
     ];
   };
+
+  # SUPER+M enters this submap (see the `bind` list above); D and I each
+  # perform their action then immediately exit back to the normal keymap,
+  # so the overall gesture feels like a single SUPER+M+D / SUPER+M+I chord.
+  wayland.windowManager.hyprland.extraConfig = ''
+    submap = monitor
+
+    bind = , D, exec, hyprctl dispatch dpms toggle $(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .name')
+    bind = , D, submap, reset
+
+    bind = , I, exec, my-invert-monitor
+    bind = , I, submap, reset
+
+    # any other key (or Escape) just leaves the submap without doing anything
+    bind = , escape, submap, reset
+    bind = , M, submap, reset
+
+    submap = reset
+  '';
 }
