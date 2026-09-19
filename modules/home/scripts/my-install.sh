@@ -3,7 +3,7 @@
 Help()
 {
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|p|l|b|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|u|p|l|b|h]"
    echo "options:"
    echo "n     Don't check for changes"
    echo "a     Restart ags"
@@ -12,6 +12,7 @@ Help()
    echo "m     Git Commit Message"
    echo "g     Don't git commit"
    echo "t     Show error trace"
+   echo "u     Git pull to update"
    echo "p     Launch shtris during the build"
    echo "l     Limit CPU/memory used for the rebuild"
    echo "b     Use 'nh os boot' instead of 'switch' (stage for next reboot, don't activate now)"
@@ -30,7 +31,7 @@ no_game=true
 limit_resources=false
 boot_mode=false
 
-while getopts "anhtcsgplbm:" option; do
+while getopts "anhtcsgpulbm:" option; do
     case $option in
         h)
             Help
@@ -47,6 +48,8 @@ while getopts "anhtcsgplbm:" option; do
             skip_git=true;;
         t)
             show_trace=true;;
+        u)
+            cd ~/nixos-config && git pull;;
         p)
             no_game=false;;
         l)
