@@ -36,7 +36,7 @@
           # continuous edge-drag workspace switching, separate from workspace_swipe_fingers.
           # Disabled (set to a non l/r/u/d value) because every edge below is already
           # used for a discrete quick-launch gesture and would otherwise collide with it.
-          workspace_swipe_edge = u
+          workspace_swipe_edge = none
 
           # in milliseconds
           long_press_delay = 400
@@ -52,6 +52,7 @@
           # --- Edge swipes: quick-launch, using default apps/audio manager ---
           # swipe left from right edge -> xournalpp
           hyprgrass-bind = , edge:r:l, exec, xournalpp
+          hyprgrass-bind = , edge:r:d, exec, sleep 2 && wlrctl pointer move 1 1 || true
           # swipe up from bottom edge -> browser
           hyprgrass-bind = , edge:d:u, exec, vivaldi --profile-directory="Default" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne
           # swipe right from bottom edge -> work browser
@@ -60,6 +61,10 @@
           hyprgrass-bind = , edge:l:d, exec, pamixer -d 4
           # swipe up from left edge -> volume up
           hyprgrass-bind = , edge:l:u, exec, pamixer -i 4
+          # swipe from the top edge -> power options
+          hyprgrass-bind = , edge:u:l, exec, systemctl --user start hyprlock.service
+          hyprgrass-bind = , edge:u:d, exec, my-sleep
+          hyprgrass-bind = , edge:u:r, exec, hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'
 
           # --- 4-finger swipes: workspaces + window state (from the cheatsheet) ---
           # workspace nav uses split-cycleworkspaces instead of the plain "workspace" dispatcher
