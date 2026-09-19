@@ -107,7 +107,7 @@ while true; do
     HOST=$(whiptail --radiolist "Choose a host:" 11 48 4 \
         "new" "New configuration" ON \
         "desktop" "Desktop configuration" OFF \
-        "laptop" "Laptop configuration" OFF \
+        "laptop-1" "Laptop configuration" OFF \
         "laptop-2" "Laptop-2 configuration" OFF \
         --title "Host" 3>&1 1>&2 2>&3)
 

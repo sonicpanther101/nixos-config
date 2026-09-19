@@ -1,4 +1,4 @@
-{ pkgs-stable, pkgs-unstable, ... }:
+{ pkgs-stable, inputs, host, ... }:
 {
   services.elephant.enable = true;
   services.walker = {
@@ -8,6 +8,7 @@
     settings = {
       theme = "catppuccin";
       force_keyboard_focus = true;
+      disable_click_to_close = (host == "laptop-2");
       placeholders = {
         "default" = {
           input = "Search...";
@@ -51,7 +52,7 @@
         sleep 0.15
 
         # Get focused window class via hyprctl
-        focused=$(${pkgs-unstable.hyprland}/bin/hyprctl activewindow -j \
+        focused=$(${inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.hyprland}/bin/hyprctl activewindow -j \
           | ${pkgs-stable.jq}/bin/jq -r '.class // ""' 2>/dev/null)
 
         # Terminal detection - use Ctrl+Shift+V, else Ctrl+V

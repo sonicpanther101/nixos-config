@@ -111,7 +111,7 @@
           inputs.nixos-hardware.nixosModules.microsoft-surface-pro-intel
         ];
         specialArgs = {
-          host = "laptop";
+          host = "laptop-1";
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };

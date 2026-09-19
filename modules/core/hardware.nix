@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, pkgs-stable, config, lib, ... } : {
+{ host, pkgs-unstable, config, lib, ... } : {
 
   hardware = lib.mkMerge [{
     # Common settings
@@ -13,7 +13,7 @@
           libva-vdpau-driver
           libvdpau-va-gl
         ]
-      ) ++ (with pkgs-unstable; lib.optionals (host == "laptop") [
+      ) ++ (with pkgs-unstable; lib.optionals (host == "laptop-1") [
         intel-media-driver # LIBVA_DRIVER_NAME=iHD
         libvdpau-va-gl
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
@@ -74,7 +74,7 @@
 
     # XBox controller
     xpadneo.enable = true;
-  }) (if (host == "laptop") then {
+  }) (if (host == "laptop-1") then {
     microsoft-surface.kernelVersion = "stable";
   } else {})];
 
@@ -85,7 +85,7 @@
       WLR_NO_HARDWARE_CURSORS = "1";
       # Hint electron apps to use wayland
       NIXOS_OZONE_WL = "1";
-    } // lib.optionalAttrs (host == "laptop") {
+    } // lib.optionalAttrs (host == "laptop-1") {
       # Intel-specific environment variables
       LIBVA_DRIVER_NAME = "iHD"; # or "i965" if iHD doesn't work
     };

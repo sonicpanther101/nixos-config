@@ -8,7 +8,7 @@
       "networkmanager"
       "wheel"
       "plugdev"
-    ] ++ lib.optionals (host == "laptop") [
+    ] ++ lib.optionals (host == "laptop-1") [
       "surface-control"
     ] ++ lib.optionals config.my.isHighPower [
       "input"

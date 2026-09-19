@@ -24,18 +24,19 @@
         }
     '' + (if isLaptop then ''
         touch_gestures {
-          # The default sensitivity is probably too low on tablet screens,
-          # I recommend turning it up to 4.0
-          sensitivity = 1.0
+          # Tablet screens generally need more sensitivity than the 1.0 default.
+          sensitivity = 3.0
 
-          # must be >= 3
-          workspace_swipe_fingers = 3
+          # must be >= 3. Deliberately set high (out of the way of the 3/4-finger
+          # discrete gestures below) since workspace switching is handled by the
+          # swipe:4:l/r binds -> split-cycleworkspaces instead of this drag-to-follow
+          # continuous swipe.
+          workspace_swipe_fingers = 5
 
-          # switching workspaces by swiping from an edge, this is separate from workspace_swipe_fingers
-          # and can be used at the same time
-          # possible values: l, r, u, or d
-          # to disable it set it to anything else
-          workspace_swipe_edge = d
+          # continuous edge-drag workspace switching, separate from workspace_swipe_fingers.
+          # Disabled (set to a non l/r/u/d value) because every edge below is already
+          # used for a discrete quick-launch gesture and would otherwise collide with it.
+          workspace_swipe_edge = u
 
           # in milliseconds
           long_press_delay = 400
@@ -48,27 +49,38 @@
           # in pixels, the distance from the edge that is considered an edge
           edge_margin = 10
 
-          # swipe left from right edge
-          hyprgrass-bind = , edge:r:l, workspace, +1
+          # --- Edge swipes: quick-launch, using default apps/audio manager ---
+          # swipe left from right edge -> xournalpp
+          hyprgrass-bind = , edge:r:l, exec, xournalpp
+          # swipe up from bottom edge -> browser
+          hyprgrass-bind = , edge:d:u, exec, vivaldi --profile-directory="Default" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne
+          # swipe down from left edge -> volume down
+          hyprgrass-bind = , edge:l:d, exec, pamixer -d 4
+          # swipe up from left edge -> volume up
+          hyprgrass-bind = , edge:l:u, exec, pamixer -i 4
 
-          # swipe up from bottom edge
-          hyprgrass-bind = , edge:d:u, exec, firefox
+          # --- 4-finger swipes: workspaces + window state (from the cheatsheet) ---
+          # workspace nav uses split-cycleworkspaces instead of the plain "workspace" dispatcher
+          hyprgrass-bind = , swipe:4:l, split-cycleworkspaces, +1
+          hyprgrass-bind = , swipe:4:r, split-cycleworkspaces, -1
+          hyprgrass-bind = , swipe:4:d, fullscreen, 0
+          hyprgrass-bind = , swipe:4:u, togglefloating
 
-          # swipe down from left edge
-          hyprgrass-bind = , edge:l:d, exec, pactl set-sink-volume @DEFAULT_SINK@ -4%
+          # --- 3-finger swipes: focus + layout (from the cheatsheet) ---
+          hyprgrass-bind = , swipe:3:l, movefocus, l
+          hyprgrass-bind = , swipe:3:r, movefocus, r
+          hyprgrass-bind = , swipe:3:d, layoutmsg, togglesplit
+          hyprgrass-bind = , swipe:3:u, layoutmsg, swapsplit
 
-          # swipe down with 4 fingers
-          hyprgrass-bind = , swipe:4:d, killactive
+          # tap with 3 fingers -> terminal
+          hyprgrass-bind = , tap:3, exec, kitty
 
-          # swipe diagonally left and down with 3 fingers
-          # l (or r) must come before d and u
-          hyprgrass-bind = , swipe:3:ld, exec, foot
+          # pinch in with 3 fingers -> file manager
+          hyprgrass-bind = , pinch:3:i, exec, nemo
 
-          # tap with 3 fingers
-          hyprgrass-bind = , tap:3, exec, foot
-
-          # pinch in with 3 fingers
-          hyprgrass-bind = , pinch:3:i, exec, foot
+          # 5-finger tap/pinch -> close window (from the cheatsheet)
+          hyprgrass-bind = , tap:5, killactive
+          hyprgrass-bind = , pinch:5:i, killactive
 
           # longpress can trigger mouse binds:
           hyprgrass-bindm = , longpress:2, movewindow
