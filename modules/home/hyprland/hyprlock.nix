@@ -1,5 +1,8 @@
 { pkgs-stable, lib, host, hasPinLogin ? false, pinLoginCode ? "", pinLoginLength ? 4, ... }:
 let
+  myTouchClickPkg = pkgs-stable.writeScriptBin "my-hyprlock-touch-click"
+    (builtins.readFile ../scripts/my-hyprlock-touch-click.sh);
+
   # 1. Define base widget sizes (calibrated for primary 1440p @ 1.3333x display)
   # Added pinpadScale to scale the entire PIN pad geometry by 1.25x
   pinpadScale = 1.25;
@@ -187,7 +190,7 @@ in {
     };
     Service = {
       Type = "simple";
-      ExecStart = "my-hyprlock-touch-click";
+      ExecStart = "${myTouchClickPkg}/bin/my-hyprlock-touch-click";
       Restart = "on-failure";
       RestartSec = 1;
     };
