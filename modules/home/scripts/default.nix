@@ -29,5 +29,6 @@ in {
     "my-invert-monitor"
     "my-driveusb-symlink"
     "my-hyprlock-pin"
+    "my-hyprlock-touch-click"
   ];
 }

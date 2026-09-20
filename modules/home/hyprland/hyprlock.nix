@@ -133,19 +133,7 @@ let
   pinButtons   = if hasPinLogin then builtins.concatLists (map (m: map (mkPinButton m.name m.scale) pinLayout) activeMonitors) else [];
   pinLabels    = if hasPinLogin then map (m: mkPinIndicator m.name m.scale) activeMonitors else [];
 
-  # hyprlock never implements the Wayland touch protocol, so taps on the pin
-  # buttons don't register as clicks. This little daemon watches the raw
-  # touchscreen and turns a plain single-finger tap into a real cursor
-  # move + click via hyprctl/wlrctl. Only built/run when hasPinLogin is on,
-  # and only for as long as hyprlock itself is running (see systemd units
-  # below).
-  touchClickScript = pkgs-stable.writers.writePython3Bin "my-hyprlock-touch-click" {
-    libraries = [ pkgs-stable.python3Packages.evdev ];
-  } (builtins.readFile ./hyprlock-touch-click.py);
-
 in {
-  home.packages = lib.optionals hasPinLogin [ pkgs-stable.wlrctl ];
-
   programs.hyprlock = {
     enable = true;
     package = pkgs-stable.hyprlock;
@@ -201,7 +189,7 @@ in {
     };
     Service = {
       Type = "simple";
-      ExecStart = "${touchClickScript}/bin/my-hyprlock-touch-click";
+      ExecStart = "my-hyprlock-touch-click";
       Restart = "on-failure";
       RestartSec = 1;
     };
