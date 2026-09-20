@@ -39,12 +39,16 @@ case "${1:-}" in
     if [ "${#buf}" -ge "$PIN_LENGTH" ]; then
       expected="$(printf '%s' "${PIN_LOGIN_CODE:-}" | base64 -d 2>/dev/null || true)"
       : > "$BUFFER_FILE"
+      echo $expected
+      echo $buf
 
       if [ -n "$expected" ] && [ "$buf" = "$expected" ]; then
         echo "Unlocking..." > "$STATUS_FILE"
-        pkill hyprlock || true
+        echo "Unlocking..."
+        pkill -USR1 hyprlock || true
       else
         echo "Incorrect PIN" > "$STATUS_FILE"
+        echo "Incorrect PIN"
         ( sleep 1
           : > "$STATUS_FILE"
         ) & disown
