@@ -8,6 +8,6 @@
   my.isHighPower = false;
   my.isDualBoot  = true;
   my.hasPinLogin = true;
-  my.pinLoginCode = "MTU5MA==";
+  my.pinLoginCode = builtins.readFile /home/adam/.passwd;
   my.pinLoginLength = 4;
 }
