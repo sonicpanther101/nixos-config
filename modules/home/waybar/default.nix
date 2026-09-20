@@ -16,7 +16,7 @@
         ] ++ lib.optionals isHighPower [
           "cava"
         ] ++ [
-          "wireplumber"
+          "pulseaudio"
           "tray"
           "backlight"
           "custom/keyboard"

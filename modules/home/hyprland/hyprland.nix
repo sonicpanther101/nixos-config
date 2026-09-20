@@ -52,6 +52,7 @@
           # --- Edge swipes: quick-launch, using default apps/audio manager ---
           # swipe left from right edge -> xournalpp
           hyprgrass-bind = , edge:r:l, exec, xournalpp
+          hyprgrass-bind = , edge:r:u, exec, my-toggle-keyboard
           hyprgrass-bind = , edge:r:d, exec, sleep 2 && wlrctl pointer move 1 1 || true
           # swipe up from bottom edge -> browser
           hyprgrass-bind = , edge:d:u, exec, vivaldi --profile-directory="Default" --allowlisted-extension-id=clngdbkpkpeebahjckkjfobafhncgmne
