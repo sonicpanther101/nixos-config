@@ -139,7 +139,7 @@
           };
         };
 
-        wireplumber = {
+        pulseaudio = {
           format = "{volume}% {icon}";
           format-muted = "0% 󰝟";
           on-click = "pamixer -t";
