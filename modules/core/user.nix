@@ -14,6 +14,8 @@
       "input"
       "video"
       "docker"
+    ] ++ lib.optionals config.my.hasPinLogin [
+      "input"
     ];
     shell = pkgs-stable.zsh;
   };
