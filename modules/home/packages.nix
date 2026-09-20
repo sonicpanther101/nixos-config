@@ -43,6 +43,7 @@
     (pkgs-stable.callPackage ../../packages/wl-monitor-invert.nix { })  # Per-monitor colour invert (wlr-gamma-control), since xcalib doesn't work on Wayland
     wev                                                   # Wayland input watcher
     wlrctl                                                # WLroots cl utils for fixing stylus on laptop
+    socat                                                 # Utility for bidirectional data transfer between two independent data channels
     grim                                                  # Grab images from a Wayland compositor
     slurp                                                 # Select a region in a Wayland compositor
     progress                                              # Tool that shows the progress of coreutils programs
