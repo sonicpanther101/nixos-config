@@ -28,5 +28,6 @@ in {
     "my-toggle-keyboard"
     "my-invert-monitor"
     "my-driveusb-symlink"
+    "my-hyprlock-pin"
   ];
 }

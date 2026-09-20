@@ -32,6 +32,8 @@
       hasNvidia  = config.my.hasNvidia;
       isHighPower = config.my.isHighPower;
       isDualBoot = config.my.isDualBoot;
+      hasPinLogin = config.my.hasPinLogin;
+      pinLoginLength = config.my.pinLoginLength;
     };
     users.${username} = {
       imports = [ 

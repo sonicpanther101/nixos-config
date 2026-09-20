@@ -5,6 +5,26 @@
     hasNvidia   = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has an Nvidia GPU."; };
     isHighPower = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has high CPU/GPU resources."; };
     isDualBoot  = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has other operating systems."; };
+
+    hasPinLogin = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether the hyprlock screen shows a numeric PIN keypad instead of a normal password field. Falls back to the real password if the PIN is wrong or unset.";
+    };
+    pinLoginCode = lib.mkOption {
+      type = lib.types.str;
+      default = "";
+      description = ''
+        Base64-encoded PIN accepted by the lock screen's keypad when hasPinLogin is true.
+        This is obfuscation, not encryption -- anyone with read access to this config (or
+        the built system) can trivially decode it. Generate with: printf '%s' "1234" | base64
+      '';
+    };
+    pinLoginLength = lib.mkOption {
+      type = lib.types.int;
+      default = 4;
+      description = "Number of digits in pinLoginCode. Must match exactly, or the keypad will submit too early/late.";
+    };
   };
 
   config = {

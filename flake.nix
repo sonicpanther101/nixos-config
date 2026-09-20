@@ -99,10 +99,10 @@
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
-      laptop = nixpkgs-stable.lib.nixosSystem {
+      laptop-1 = nixpkgs-stable.lib.nixosSystem {
         inherit system;
         modules = [
-          ./hosts/laptop
+          ./hosts/laptop-1
           inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
