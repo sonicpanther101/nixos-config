@@ -32,8 +32,12 @@ def find_touchscreen():
             dev = InputDevice(path)
         except OSError:
             continue
-        abs_codes = [code for code, _ in dev.capabilities().get(ecodes.EV_ABS, [])]
-        if ecodes.ABS_MT_POSITION_X in abs_codes and "touchpad" not in dev.name.lower():
+        caps = dev.capabilities().get(ecodes.EV_ABS, [])
+        abs_codes = [code for code, _ in caps]
+        if (
+            ecodes.ABS_MT_POSITION_X in abs_codes
+            and "touchpad" not in dev.name.lower()
+        ):
             return dev
     return None
 
@@ -81,10 +85,16 @@ def main():
                 if tracking and have_start:
                     duration = time.time() - start_time
                     moved = max(abs(last_x - start_x), abs(last_y - start_y))
-                    if duration <= TAP_MAX_DURATION and moved <= TAP_MAX_MOVEMENT:
+                    if (
+                        duration <= TAP_MAX_DURATION
+                        and moved <= TAP_MAX_MOVEMENT
+                    ):
                         norm_x = (last_x - x_min) / (x_max - x_min)
                         norm_y = (last_y - y_min) / (y_max - y_min)
-                        click_at(round(norm_x * screen_w), round(norm_y * screen_h))
+                        click_at(
+                            round(norm_x * screen_w),
+                            round(norm_y * screen_h),
+                        )
                 tracking = False
                 have_start = False
             else:
