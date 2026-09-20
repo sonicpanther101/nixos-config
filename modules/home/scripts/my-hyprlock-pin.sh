@@ -2,32 +2,29 @@
 # Handler for hyprlock's numeric PIN keypad (see modules/home/hyprland/hyprlock.nix).
 #
 # Each on-screen digit button calls:
-#   PIN_LOGIN_LENGTH=<n> my-hyprlock-pin press <digit>
+#   PIN_LOGIN_CODE=<base64> PIN_LOGIN_LENGTH=<n> my-hyprlock-pin press <digit>
 # The dot-indicator label polls:
 #   my-hyprlock-pin status
 #
-# Important: this script never sees or checks the real PIN. It just "types"
-# each tapped digit into hyprlock's normal (hidden) password prompt via a
-# virtual keyboard, and hits Enter once the expected number of digits has
-# been entered. The actual PIN comparison happens inside PAM
-# (modules/core/security.nix), so a wrong PIN just fails like a wrong
-# password normally would -- hyprlock's own $FAIL / $ATTEMPTS labels pick
-# that up automatically.
+# No PAM, no keyboard injection: this script just accumulates the digits
+# itself, and once it has as many as PIN_LOGIN_LENGTH, compares the buffer
+# to the base64-decoded PIN. On a match it pkills hyprlock, which is enough
+# to dismiss the lock screen on Hyprland. On a miss it clears the buffer and
+# shows "Incorrect PIN" for a moment.
 #
-# Only the digit count is tracked here, for the dot indicator. The digit
-# itself briefly appears in this process's argv (and so in things like
-# `ps`) while it's being sent -- fine for a low-stakes PIN, but worth
-# knowing if you're reusing this for anything you actually care about.
+# This is intentionally not hardened: the PIN passes through this process's
+# argv (visible briefly in `ps`) and sits base64-encoded in your Nix config.
+# Fine for a low-stakes PIN, not a real secret.
 
 set -euo pipefail
 
 STATE_DIR="${XDG_RUNTIME_DIR:-/tmp}/hyprlock-pin"
-COUNT_FILE="$STATE_DIR/count"
+BUFFER_FILE="$STATE_DIR/buffer"
 STATUS_FILE="$STATE_DIR/status"
 PIN_LENGTH="${PIN_LOGIN_LENGTH:-4}"
 
 mkdir -p -m 700 "$STATE_DIR"
-[ -f "$COUNT_FILE" ] || echo 0 > "$COUNT_FILE"
+[ -f "$BUFFER_FILE" ] || : > "$BUFFER_FILE"
 [ -f "$STATUS_FILE" ] || : > "$STATUS_FILE"
 
 case "${1:-}" in
@@ -35,30 +32,30 @@ case "${1:-}" in
     digit="${2:-}"
     [[ "$digit" =~ ^[0-9]$ ]] || exit 0
 
-    wtype -- "$digit"
+    printf '%s' "$digit" >> "$BUFFER_FILE"
+    buf="$(cat "$BUFFER_FILE")"
+    printf '%*s' "${#buf}" '' | tr ' ' '*' > "$STATUS_FILE"
 
-    count=$(( $(cat "$COUNT_FILE") + 1 ))
-    echo "$count" > "$COUNT_FILE"
-    printf '%*s' "$count" '' | tr ' ' '*' > "$STATUS_FILE"
+    if [ "${#buf}" -ge "$PIN_LENGTH" ]; then
+      expected="$(printf '%s' "${PIN_LOGIN_CODE:-}" | base64 -d 2>/dev/null || true)"
+      : > "$BUFFER_FILE"
 
-    if [ "$count" -ge "$PIN_LENGTH" ]; then
-      echo 0 > "$COUNT_FILE"
-      wtype -P Return -p Return
-      # Clear the dots shortly after submitting so a wrong attempt doesn't
-      # leave a full row of dots sitting on screen; $FAIL/$ATTEMPTS (added
-      # as their own label) take over from here.
-      ( sleep 1.2
-        if pgrep -x hyprlock > /dev/null 2>&1; then
+      if [ -n "$expected" ] && [ "$buf" = "$expected" ]; then
+        echo "Unlocking..." > "$STATUS_FILE"
+        pkill hyprlock || true
+      else
+        echo "Incorrect PIN" > "$STATUS_FILE"
+        ( sleep 1
           : > "$STATUS_FILE"
-        fi
-      ) & disown
+        ) & disown
+      fi
     fi
     ;;
   status)
     cat "$STATUS_FILE" 2>/dev/null || true
     ;;
   reset)
-    echo 0 > "$COUNT_FILE"
+    : > "$BUFFER_FILE"
     : > "$STATUS_FILE"
     ;;
   *)

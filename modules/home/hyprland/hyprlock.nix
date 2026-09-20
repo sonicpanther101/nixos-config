@@ -1,4 +1,4 @@
-{ pkgs-stable, lib, host, hasPinLogin ? false, pinLoginLength ? 4, ... }:
+{ pkgs-stable, host, hasPinLogin ? false, pinLoginCode ? "", pinLoginLength ? 4, ... }:
 let
   # 1. Define base widget sizes (calibrated for primary 1440p @ 1.3333x display)
   baseConfig = {
@@ -66,8 +66,8 @@ let
   };
 
   # 2b. PIN-login keypad: 10 round number images (standard 3x4 phone layout,
-  # 0 centered on the bottom row) that each fire my-hyprlock-pin, plus a dot
-  # indicator and a native $FAIL/$ATTEMPTS label for feedback.
+  # 0 centered on the bottom row) that each fire my-hyprlock-pin, plus a
+  # dot-progress / status label driven entirely by that script.
   pinButtonImage = digit:
     pkgs-stable.runCommand "hyprlock-pin-btn-${digit}.png" {
       nativeBuildInputs = [ pkgs-stable.imagemagick pkgs-stable.dejavu_fonts ];
@@ -81,10 +81,10 @@ let
     '';
 
   pinLayout = [
-    { d = "1"; c = 0; r = 3; } { d = "2"; c = 1; r = 3; } { d = "3"; c = 2; r = 3; }
-    { d = "4"; c = 0; r = 2; } { d = "5"; c = 1; r = 2; } { d = "6"; c = 2; r = 2; }
-    { d = "7"; c = 0; r = 1; } { d = "8"; c = 1; r = 1; } { d = "9"; c = 2; r = 1; }
-                                { d = "0"; c = 1; r = 0; }
+    { d = "1"; c = 0; r = 0; } { d = "2"; c = 1; r = 0; } { d = "3"; c = 2; r = 0; }
+    { d = "4"; c = 0; r = 1; } { d = "5"; c = 1; r = 1; } { d = "6"; c = 2; r = 1; }
+    { d = "7"; c = 0; r = 2; } { d = "8"; c = 1; r = 2; } { d = "9"; c = 2; r = 2; }
+                               { d = "0"; c = 1; r = 3; }
   ];
 
   mkPinButton = monitorName: scale: entry: {
@@ -92,11 +92,13 @@ let
     path = "${pinButtonImage entry.d}";
     size = builtins.floor (baseConfig.pin.buttonSize * scale);
     rounding = -1;
-    position = "${toString (builtins.floor ((entry.c - 1) * baseConfig.pin.spacing * scale))}, ${toString (builtins.floor ((baseConfig.pin.baseY + entry.r * baseConfig.pin.spacing) * scale))}";
+    # hyprlock's Y axis runs opposite normal screen coords (confirmed by testing on
+    # this setup), so the vertical offset is negated here relative to how X is handled.
+    position = "${toString (builtins.floor ((entry.c - 1) * baseConfig.pin.spacing * scale))}, ${toString (builtins.floor (-1 * (baseConfig.pin.baseY + entry.r * baseConfig.pin.spacing) * scale))}";
     halign = "center";
     valign = "center";
     reload_time = -1;
-    onclick = "PIN_LOGIN_LENGTH=${toString pinLoginLength} my-hyprlock-pin press ${entry.d}";
+    onclick = "PIN_LOGIN_CODE=${pinLoginCode} PIN_LOGIN_LENGTH=${toString pinLoginLength} my-hyprlock-pin press ${entry.d}";
   };
 
   mkPinIndicator = monitorName: scale: {
@@ -104,21 +106,10 @@ let
     text = "cmd[update:150] my-hyprlock-pin status";
     font_size = builtins.floor (28 * scale);
     font_family = "$font";
-    position = "0, ${toString (builtins.floor (baseConfig.pin.indicatorPosY * scale))}";
+    position = "0, ${toString (builtins.floor (-1 * baseConfig.pin.indicatorPosY * scale))}";
     halign = "center";
     valign = "center";
     font_color = "rgb(205, 214, 244)";
-  };
-
-  mkPinFail = monitorName: scale: {
-    monitor = monitorName;
-    text = "$FAIL";
-    font_size = builtins.floor (15 * scale);
-    font_family = "$font";
-    position = "0, ${toString (builtins.floor ((baseConfig.pin.indicatorPosY + 34) * scale))}";
-    halign = "center";
-    valign = "center";
-    font_color = "rgb(243, 139, 168)";
   };
 
   # 3. Define monitor mappings
@@ -140,11 +131,9 @@ let
   githubLabels  = map (m: mkGithub m.name m.scale) activeMonitors;
 
   pinButtons   = if hasPinLogin then builtins.concatLists (map (m: map (mkPinButton m.name m.scale) pinLayout) activeMonitors) else [];
-  pinLabels    = if hasPinLogin then builtins.concatLists (map (m: [ (mkPinIndicator m.name m.scale) (mkPinFail m.name m.scale) ]) activeMonitors) else [];
+  pinLabels    = if hasPinLogin then map (m: mkPinIndicator m.name m.scale) activeMonitors else [];
 
 in {
-  home.packages = lib.optionals hasPinLogin [ pkgs-stable.wtype ];
-
   programs.hyprlock = {
     enable = true;
     package = pkgs-stable.hyprlock;
@@ -162,10 +151,10 @@ in {
       }) activeMonitors;
 
       # Hyprlock evaluates input-fields first, followed by labels in array order across displays.
-      # When hasPinLogin is on, the normal input-field is dropped entirely (hyprlock still
-      # accepts blind-typed/injected input and runs PAM even with no input-field widget) and
-      # replaced by the 10-button image keypad plus its own dot-indicator/fail labels.
-      input-field = inputFields;
+      # When hasPinLogin is on, there's no input-field or PAM involved at all: the 10 numbered
+      # image buttons each call my-hyprlock-pin, which tracks presses itself and pkills hyprlock
+      # on a correct PIN. The label below just shows dot/status feedback for that script.
+      input-field = if hasPinLogin then [ ] else inputFields;
       image       = pinButtons;
       label       = clockLabels ++ weatherLabels ++ githubLabels ++ pinLabels;
     };

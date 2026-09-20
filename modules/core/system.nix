@@ -9,7 +9,13 @@
     hasPinLogin = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Whether the hyprlock screen shows a numeric PIN keypad instead of a normal password field. Falls back to the real password if the PIN is wrong or unset.";
+      description = ''
+        Whether the hyprlock screen shows a numeric keypad instead of a password field.
+        The keypad's presses are tracked entirely by the my-hyprlock-pin script (no PAM
+        involved); a correct PIN just pkills hyprlock to dismiss it. There is no password
+        fallback in this mode -- keep a TTY/SSH escape hatch handy in case the keypad
+        misbehaves.
+      '';
     };
     pinLoginCode = lib.mkOption {
       type = lib.types.str;
