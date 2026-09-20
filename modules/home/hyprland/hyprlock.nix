@@ -1,13 +1,21 @@
 { pkgs-stable, lib, host, hasPinLogin ? false, pinLoginCode ? "", pinLoginLength ? 4, ... }:
 let
   # 1. Define base widget sizes (calibrated for primary 1440p @ 1.3333x display)
+  # Added pinpadScale to scale the entire PIN pad geometry by 1.25x
+  pinpadScale = 1.25;
+
   baseConfig = {
     input = { width = 200; height = 50; posY = -80; outline = 4; };
     time  = { fontSize = 65; posY = -320; };
     date  = { fontSize = 22; posY = -250; };
     wx    = { fontSize = 16; posX = 600;  };
     gh    = { fontSize = 14; posX = -600; };
-    pin   = { buttonSize = 100; spacing = 115; baseY = -40; indicatorPosY = -190; };
+    pin   = { 
+      buttonSize = 100 * pinpadScale; 
+      spacing = 115 * pinpadScale; 
+      baseY = -40 * pinpadScale; 
+      indicatorPosY = -190 * pinpadScale; 
+    };
   };
 
   # 2. Modular helper functions per widget type
@@ -65,18 +73,17 @@ let
     valign = "center";
   };
 
-  # 2b. PIN-login keypad: 10 round number images (standard 3x4 phone layout,
-  # 0 centered on the bottom row) that each fire my-hyprlock-pin, plus a
-  # dot-progress / status label driven entirely by that script.
+  # 2b. High-resolution PIN-login keypad images
+  # Canvas resolution doubled from 130x130 to 260x260 for high DPI crispness
   pinButtonImage = digit:
     pkgs-stable.runCommand "hyprlock-pin-btn-${digit}.png" {
       nativeBuildInputs = [ pkgs-stable.imagemagick pkgs-stable.dejavu_fonts ];
     } ''
-      magick -size 130x130 xc:none \
-        -fill "#1e1e2e" -draw "circle 65,65 65,5" \
-        -fill none -stroke "#89b4fa" -strokewidth 4 -draw "circle 65,65 65,5" \
+      magick -size 260x260 xc:none \
+        -fill "#1e1e2e" -draw "circle 130,130 130,10" \
+        -fill none -stroke "#89b4fa" -strokewidth 8 -draw "circle 130,130 130,10" \
         -fill "#cdd6f4" -font "${pkgs-stable.dejavu_fonts}/share/fonts/truetype/DejaVuSans-Bold.ttf" \
-        -pointsize 48 -gravity center -annotate +0+0 "${digit}" \
+        -pointsize 96 -gravity center -annotate +0+0 "${digit}" \
         "$out"
     '';
 
@@ -92,8 +99,6 @@ let
     path = "${pinButtonImage entry.d}";
     size = builtins.floor (baseConfig.pin.buttonSize * scale);
     rounding = -1;
-    # hyprlock's Y axis runs opposite normal screen coords (confirmed by testing on
-    # this setup), so the vertical offset is negated here relative to how X is handled.
     position = "${toString (builtins.floor ((entry.c - 1) * baseConfig.pin.spacing * scale))}, ${toString (builtins.floor (-1 * (baseConfig.pin.baseY + entry.r * baseConfig.pin.spacing) * scale))}";
     halign = "center";
     valign = "center";
@@ -104,7 +109,7 @@ let
   mkPinIndicator = monitorName: scale: {
     monitor = monitorName;
     text = "cmd[update:150] my-hyprlock-pin status";
-    font_size = builtins.floor (28 * scale);
+    font_size = builtins.floor (28 * pinpadScale * scale);
     font_family = "$font";
     position = "0, ${toString (builtins.floor (-1 * baseConfig.pin.indicatorPosY * scale))}";
     halign = "center";
@@ -119,12 +124,12 @@ let
   ];
 
   laptopMonitors = [
-    { name = "";         scale = 1.0; } # Catch-all for laptop display (eDP-1)
+    { name = "";         scale = 1.0; }
   ];
 
   activeMonitors = if (host == "desktop") then desktopMonitors else laptopMonitors;
 
-  # 4. Generate widget groups explicitly ordered by execution priority across all monitors
+  # 4. Generate widget groups
   inputFields   = map (m: mkInput m.name m.scale) activeMonitors;
   clockLabels   = builtins.concatLists (map (m: [ (mkTime m.name m.scale) (mkDate m.name m.scale) ]) activeMonitors);
   weatherLabels = map (m: mkWeather m.name m.scale) activeMonitors;
@@ -138,7 +143,6 @@ in {
     enable = true;
     package = pkgs-stable.hyprlock;
     settings = {
-
       general = {
         hide_cursor = false;
       };
@@ -150,10 +154,6 @@ in {
         blur_size = 8;
       }) activeMonitors;
 
-      # Hyprlock evaluates input-fields first, followed by labels in array order across displays.
-      # When hasPinLogin is on, there's no input-field or PAM involved at all: the 10 numbered
-      # image buttons each call my-hyprlock-pin, which tracks presses itself and pkills hyprlock
-      # on a correct PIN. The label below just shows dot/status feedback for that script.
       input-field = if hasPinLogin then [ ] else inputFields;
       image       = pinButtons;
       label       = clockLabels ++ weatherLabels ++ githubLabels ++ pinLabels;
@@ -165,10 +165,6 @@ in {
       Description = "Hyprlock screen locker";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
-    } // lib.optionalAttrs hasPinLogin {
-      # Bring the touch-click helper up alongside hyprlock. It's tied back
-      # to this unit (BindsTo/PartOf below) so it also goes down with it.
-      Wants = [ "my-hyprlock-touch-click.service" ];
     };
     Service = {
       Type = "simple";
@@ -182,10 +178,12 @@ in {
 
   systemd.user.services.my-hyprlock-touch-click = lib.mkIf hasPinLogin {
     Unit = {
-      Description = "Turn touchscreen taps into clicks while hyprlock is active";
-      PartOf = [ "hyprlock.service" ];
-      BindsTo = [ "hyprlock.service" ];
-      After = [ "hyprlock.service" ];
+      Description = "Turn touchscreen taps into clicks background service";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
     Service = {
       Type = "simple";

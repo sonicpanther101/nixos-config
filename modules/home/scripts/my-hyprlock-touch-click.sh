@@ -1,4 +1,5 @@
 while true; do
-  wlrctl pointer move 1 1 || true
   sleep 1
+  wlrctl pointer move 1 1 || true
+  wlrctl pointer move -1 -1 || true
 done
