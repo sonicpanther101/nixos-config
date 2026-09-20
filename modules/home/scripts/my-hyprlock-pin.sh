@@ -48,6 +48,7 @@ case "${1:-}" in
         echo "Unlocking..." > "$STATUS_FILE"
         echo "Unlocking..."
         pkill -USR1 hyprlock || true
+        my-hyprlock-pin reset
       else
         echo "Incorrect PIN" > "$STATUS_FILE"
         echo "Incorrect PIN"
