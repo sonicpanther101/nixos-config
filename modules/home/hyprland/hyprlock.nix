@@ -1,7 +1,10 @@
 { pkgs-stable, lib, host, hasPinLogin ? false, pinLoginCode ? "", pinLoginLength ? 4, ... }:
 let
-  myTouchClickPkg = pkgs-stable.writeScriptBin "my-hyprlock-touch-click"
-    (builtins.readFile ../scripts/my-hyprlock-touch-click.sh);
+  myTouchClickPkg = pkgs-stable.writeShellApplication {
+    name = "my-hyprlock-touch-click";
+    runtimeInputs = [ pkgs-stable.wlrctl pkgs-stable.libinput pkgs-stable.gawk pkgs-stable.gnused ];
+    text = builtins.readFile ../scripts/my-hyprlock-touch-click.sh;
+  };
 
   # 1. Define base widget sizes (calibrated for primary 1440p @ 1.3333x display)
   # Added pinpadScale to scale the entire PIN pad geometry by 1.25x
@@ -142,6 +145,9 @@ let
   pinLabels    = if hasPinLogin then map (m: mkPinIndicator m.name m.scale) activeMonitors else [];
 
 in {
+
+  home.packages = [ myTouchClickPkg ];
+
   programs.hyprlock = {
     enable = true;
     package = pkgs-stable.hyprlock;

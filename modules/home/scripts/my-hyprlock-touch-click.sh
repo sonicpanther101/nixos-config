@@ -1,19 +1,18 @@
-#!/usr/bin/env bash
 set -euo pipefail
-
-sock="${XDG_RUNTIME_DIR}/hypr/${HYPRLAND_INSTANCE_SIGNATURE}/.socket2.sock"
 
 jiggle() {
   wlrctl pointer move 1 1 || true
   wlrctl pointer move -1 -1 || true
 }
 
-# Jiggle once on startup so an already-open menu still gets registered.
-jiggle
+# Find the touchscreen device libinput knows about.
+touch_dev="$(libinput list-devices \
+  | awk '/^Device:/{name=$0} /Capabilities:.*touch/{print name; exit}' \
+  | sed 's/^Device:[[:space:]]*//')"
 
-socat -U - "UNIX-CONNECT:${sock}" | while IFS= read -r line; do
+libinput debug-events | while IFS= read -r line; do
   case "$line" in
-    activewindow*|activewindowv2*|openwindow*|closewindow*|openlayer*|closelayer*)
+    *"$touch_dev"*TOUCH_DOWN*)
       jiggle
       ;;
   esac
