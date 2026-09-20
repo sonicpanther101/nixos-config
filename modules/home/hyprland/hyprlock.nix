@@ -81,10 +81,10 @@ let
     '';
 
   pinLayout = [
-    { d = "1"; c = 0; r = 0; } { d = "2"; c = 1; r = 0; } { d = "3"; c = 2; r = 0; }
-    { d = "4"; c = 0; r = 1; } { d = "5"; c = 1; r = 1; } { d = "6"; c = 2; r = 1; }
-    { d = "7"; c = 0; r = 2; } { d = "8"; c = 1; r = 2; } { d = "9"; c = 2; r = 2; }
-                                { d = "0"; c = 1; r = 3; }
+    { d = "1"; c = 0; r = 3; } { d = "2"; c = 1; r = 3; } { d = "3"; c = 2; r = 3; }
+    { d = "4"; c = 0; r = 2; } { d = "5"; c = 1; r = 2; } { d = "6"; c = 2; r = 2; }
+    { d = "7"; c = 0; r = 1; } { d = "8"; c = 1; r = 1; } { d = "9"; c = 2; r = 1; }
+                                { d = "0"; c = 1; r = 0; }
   ];
 
   mkPinButton = monitorName: scale: entry: {
@@ -165,7 +165,7 @@ in {
       # When hasPinLogin is on, the normal input-field is dropped entirely (hyprlock still
       # accepts blind-typed/injected input and runs PAM even with no input-field widget) and
       # replaced by the 10-button image keypad plus its own dot-indicator/fail labels.
-      input-field = if hasPinLogin then [ ] else inputFields;
+      input-field = inputFields;
       image       = pinButtons;
       label       = clockLabels ++ weatherLabels ++ githubLabels ++ pinLabels;
     };
