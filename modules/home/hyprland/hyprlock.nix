@@ -2,7 +2,7 @@
 let
   myTouchClickPkg = pkgs-stable.writeShellApplication {
     name = "my-hyprlock-touch-click";
-    runtimeInputs = [ pkgs-stable.wlrctl pkgs-stable.libinput pkgs-stable.gawk pkgs-stable.gnused ];
+    runtimeInputs = [ pkgs-stable.wlrctl pkgs-stable.libinput pkgs-stable.socat pkgs-stable.gawk pkgs-stable.gnused ];
     text = builtins.readFile ../scripts/my-hyprlock-touch-click.sh;
   };
 
