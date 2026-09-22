@@ -22,6 +22,7 @@ STATE_DIR="${XDG_RUNTIME_DIR:-/tmp}/hyprlock-pin"
 BUFFER_FILE="$STATE_DIR/buffer"
 STATUS_FILE="$STATE_DIR/status"
 PIN_LENGTH="${PIN_LOGIN_LENGTH:-4}"
+PIN_LOGIN_CODE="${cat ~/.passwd}"
 
 mkdir -p -m 700 "$STATE_DIR"
 [ -f "$BUFFER_FILE" ] || : > "$BUFFER_FILE"

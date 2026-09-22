@@ -17,15 +17,6 @@
         misbehaves.
       '';
     };
-    pinLoginCode = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      description = ''
-        Base64-encoded PIN accepted by the lock screen's keypad when hasPinLogin is true.
-        This is obfuscation, not encryption -- anyone with read access to this config (or
-        the built system) can trivially decode it. Generate with: printf '%s' "1234" | base64
-      '';
-    };
     pinLoginLength = lib.mkOption {
       type = lib.types.int;
       default = 4;

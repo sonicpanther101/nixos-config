@@ -1,4 +1,4 @@
-{ pkgs-stable, lib, host, hasPinLogin ? false, pinLoginCode ? "", pinLoginLength ? 4, ... }:
+{ pkgs-stable, lib, host, hasPinLogin ? false, pinLoginLength ? 4, ... }:
 let
   myTouchClickPkg = pkgs-stable.writeShellApplication {
     name = "my-hyprlock-touch-click";
@@ -109,7 +109,7 @@ let
     halign = "center";
     valign = "center";
     reload_time = -1;
-    onclick = "PIN_LOGIN_CODE=${pinLoginCode} PIN_LOGIN_LENGTH=${toString pinLoginLength} my-hyprlock-pin press ${entry.d}";
+    onclick = "PIN_LOGIN_LENGTH=${toString pinLoginLength} my-hyprlock-pin press ${entry.d}";
   };
 
   mkPinIndicator = monitorName: scale: {

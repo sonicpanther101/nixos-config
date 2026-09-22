@@ -35,7 +35,6 @@
       isHighPower = config.my.isHighPower;
       isDualBoot = config.my.isDualBoot;
       hasPinLogin = config.my.hasPinLogin;
-      pinLoginCode = config.my.pinLoginCode;
       pinLoginLength = config.my.pinLoginLength;
     };
     users.${username} = {
