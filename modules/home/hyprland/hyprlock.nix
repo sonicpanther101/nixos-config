@@ -165,7 +165,7 @@ in {
 
       input-field = if hasPinLogin then [ ] else inputFields;
       image       = pinButtons;
-      label       = clockLabels ++ weatherLabels ++ githubLabels ++ pinLabels;
+      label       = clockLabels ++ pinLabels ++ weatherLabels ++ githubLabels;
     };
   };
 

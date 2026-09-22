@@ -55,6 +55,7 @@
     onefetch                                              # Git repository summary on your terminal
     eza                                                   # Replacement for ls
     jq                                                    # CL JSON interpreter
+    exiftool                                              # Tool to read, write and edit EXIF meta information
     usbutils                                              # Lists connected USB devices
     bitwise                                               # CLI tool for bit / hex manipulation
     file                                                  # Show file information
