@@ -81,7 +81,7 @@
           hyprgrass-bind = , swipe:3:u, layoutmsg, swapsplit
 
           # tap with 3 fingers -> terminal
-          hyprgrass-bind = , tap:3, exec, kitty
+          hyprgrass-bind = , tap:3, exec, [[ "$(hyprctl activewindow -j | jq -r '.title')" != *"Xournal++"* ]] && kitty
 
           # pinch in with 3 fingers -> file manager
           hyprgrass-bind = , pinch:3:i, exec, nemo
