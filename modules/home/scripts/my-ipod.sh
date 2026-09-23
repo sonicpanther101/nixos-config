@@ -1,3 +1,19 @@
+Update()
+{
+  cd /run/media/adam/ADAM_S\ IPOD
+  python3 ./3build_db.py
+  sync
+}
+
+while getopts "u" option; do
+    case $option in
+        u)
+            Update
+            exit;;
+        \?)
+            echo "Error: Invalid option"
+            exit;;
+
 # 1. Convert FLAC to MP3
 cd ~/driveBig/IPod
 for f in *.flac; do ffmpeg -i "$f" -codec:a libmp3lame -qscale:a 2 "${f%.flac}.mp3"; done
@@ -10,6 +26,4 @@ rm /run/media/adam/ADAM_S\ IPOD/iPod_Control/Music/F00/*
 cp *.mp3 /run/media/adam/ADAM_S\ IPOD/iPod_Control/Music/F00 
 
 # 3. Update iPod database
-cd /run/media/adam/ADAM_S\ IPOD
-python3 ./3build_db.py
-sync
+Update
