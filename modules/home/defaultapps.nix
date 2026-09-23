@@ -2,7 +2,7 @@
 
 let
   browser = "vivaldi-stable.desktop";
-  editor = "codium.desktop";
+  editor = "nvim-kitty.desktop";
   file-manager = "nemo.desktop";
   image-viewer = "imv.desktop";
   image-editor = "pinta.desktop";
@@ -14,9 +14,31 @@ let
   notebook = "com.github.xournalpp.xournalpp.desktop";
 in {
   xdg = {
+    desktopEntries = {
+      nvim-kitty = {
+        name = "Neovim (Kitty)";
+        genericName = "Text Editor";
+        exec = "kitty -e nvim %F";
+        terminal = false;
+        type = "Application";
+        mimeType = [
+          "text/plain"
+          "text/markdown"
+          "text/x-shellscript"
+          "application/x-shellscript"
+        ];
+        categories = [ "Utility" "TextEditor" ];
+      };
+    };
+
     mimeApps = {
       enable = true;
       defaultApplications = {
+        "text/plain" = editor;
+        "text/markdown" = editor;
+        "text/x-shellscript" = editor;
+        "application/x-shellscript" = editor;
+
         "inode/directory" = file-manager;
 
         "application/x-xopp" = notebook;
@@ -36,7 +58,6 @@ in {
         "x-scheme-handler/magnet" = torrent;
         "application/x-bittorrent" = torrent;
         "application/pdf" = browser;
-        "application/x-shellscript" = editor;
 
         "image/jpeg" = image-viewer;
         "image/bmp" = image-viewer;
