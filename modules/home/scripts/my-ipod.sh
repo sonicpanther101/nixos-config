@@ -1,6 +1,7 @@
 # 1. Convert FLAC to MP3
 cd ~/driveBig/IPod
 for f in *.flac; do ffmpeg -i "$f" -codec:a libmp3lame -qscale:a 2 "${f%.flac}.mp3"; done
+rm *.flac
 
 # 2. Rename MP3 files according to ID3 metadata
 exiftool '-filename=${AlbumArtist} - (${Year}) ${Album} - ${Track} ${Title}.%e' *.mp3
