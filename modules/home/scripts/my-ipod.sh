@@ -13,6 +13,8 @@ while getopts "u" option; do
         \?)
             echo "Error: Invalid option"
             exit;;
+    esac
+done
 
 # 1. Convert FLAC to MP3
 cd ~/driveBig/IPod
