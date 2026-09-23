@@ -29,7 +29,7 @@
     supportedFilesystems = [ "ntfs" ];
 
     # Getting sleep to work
-    kernelParams = [ "acpi_enforce_resources=lax" ] ++ lib.optionals config.my.hasNvidia [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" ];
+    kernelParams = [ "acpi_enforce_resources=lax" ] ++ lib.optionals config.my.hasNvidia [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" "usbcore.autosuspend=1" "amd_iommu=on" ];
 
     kernelPackages = lib.mkIf config.my.hasNvidia pkgs-unstable.linuxPackages;
 
