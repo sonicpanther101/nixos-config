@@ -14,6 +14,7 @@
       "input"
       "video"
       "docker"
+      "libvirtd"
     ] ++ lib.optionals config.my.hasPinLogin [
       "input"
     ];
@@ -22,7 +23,16 @@
 
   # Needed for `openhands serve` (and anything else Docker-based).
   # Gated on isHighPower to match the "docker" group above.
-  virtualisation.docker.enable = config.my.isHighPower;
+  virtualisation = {
+    docker.enable = config.my.isHighPower;
+    libvirtd = {
+      enable = config.my.isHighPower;
+      qemu = {
+        package = pkgs-stable.qemu_kvm;
+        runAsRoot = true;
+      };
+    };
+  };
 
   imports = [ inputs.home-manager.nixosModules.home-manager ];
   home-manager = {
