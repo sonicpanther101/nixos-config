@@ -79,7 +79,7 @@
             if [ -f /tmp/pomodoro-waybar ] &&
               [ $(( $(date +%s) - $(stat -c %Y /tmp/pomodoro-waybar) )) -lt 3 ]
             then
-              tail -f /tmp/pomodoro-waybar
+              timeout 2 tail -f /tmp/pomodoro-waybar
             fi
           '';
           restart-interval = 1;
@@ -89,7 +89,6 @@
 
         "custom/mpris" = {
           exec = "my-mpris-waybar";
-          restart-interval = 1;
           tooltip = false;
           on-click = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause";
           on-scroll-up = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next";

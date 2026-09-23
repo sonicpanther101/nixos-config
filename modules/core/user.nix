@@ -21,16 +21,11 @@
     shell = pkgs-stable.zsh;
   };
 
-  # Needed for `openhands serve` (and anything else Docker-based).
-  # Gated on isHighPower to match the "docker" group above.
-  virtualisation = {
-    docker.enable = config.my.isHighPower;
-    libvirtd = {
-      enable = config.my.isHighPower;
-      qemu = {
-        package = pkgs-stable.qemu_kvm;
-        runAsRoot = true;
-      };
+  virtualisation.libvirtd = {
+    enable = config.my.isHighPower;
+    qemu = {
+      package = pkgs-stable.qemu_kvm;
+      runAsRoot = true;
     };
   };
 
