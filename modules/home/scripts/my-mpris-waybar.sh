@@ -26,8 +26,17 @@ get_active_player() {
 
 CURRENT_PLAYER=""
 STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player"
+PARENT_PID=$PPID
 
 while true; do
+  # If waybar dies/crashes without killing us (it doesn't always get the
+  # chance to), we get reparented to init instead of exiting. Detect that
+  # and bail out rather than looping/forking forever in the background.
+  if ! kill -0 "$PARENT_PID" 2>/dev/null; then
+    rm -f "$STATE_FILE"
+    exit 0
+  fi
+
   # Re-check for an active player each tick, switching if needed
   ACTIVE=$(get_active_player)
 
