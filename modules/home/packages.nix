@@ -60,6 +60,7 @@
     bitwise                                               # CLI tool for bit / hex manipulation
     file                                                  # Show file information
     wine                                                  # Windows emulator
+    virt-manager                                          # Desktop user interface for managing virtual machines
     tesseract                                             # OCR engine
     gtrash                                                # rm replacement, put deleted files in system trash
     nix-prefetch-git                                      # Prefetches github things for nix
