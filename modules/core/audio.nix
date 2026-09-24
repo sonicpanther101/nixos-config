@@ -17,10 +17,9 @@
     };
   };
 
-  system.activationScripts.pipewireSanity = ''
-    rm -f /home/*/.config/systemd/user/pipewire.service || true
-    rm -f /home/*/.config/systemd/user/wireplumber.service || true
-  '';
+  systemd.user.services.pipewire.wantedBy = [ "graphical-session.target" ];
+  systemd.user.services.pipewire-pulse.wantedBy = [ "graphical-session.target" ];
+  systemd.user.services.wireplumber.wantedBy = [ "graphical-session.target" ]; 
 
   # Foobar2000
   systemd.user.services.foobar-mpris = {
