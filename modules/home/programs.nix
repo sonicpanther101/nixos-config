@@ -52,7 +52,7 @@ in {
           sleep_timer = 1;
         };
         input = {
-          method = "pipewire";
+          method = "pulse";
         };
         smoothing = {
           noise_reduction = 0.75;

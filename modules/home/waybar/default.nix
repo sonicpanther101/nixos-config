@@ -4,7 +4,7 @@
     package = pkgs-stable.waybar;
     systemd = {
       enable = true;
-      target = "graphical-session.target";
+      targets = [ "graphical-session.target" ];
     };
     settings = {
       mainBar = {
@@ -154,7 +154,8 @@
         };
 
         cava = {
-          method = "pipewire";
+          method = "pulse";
+          input-delay = 4;
           bars = 8;
           framerate = 60;
           stereo = false;

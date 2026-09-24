@@ -1,16 +1,22 @@
 { pkgs-stable, ... } : {
 
-  systemd.user.services.driveusb-symlink = {
-    Unit = {
-      Description = "Keep ~/driveUSB symlinked to the current USB drive";
-      After = [ "graphical-session.target" ];
+  systemd.user.services = {
+    driveusb-symlink = {
+      Unit = {
+        Description = "Keep ~/driveUSB symlinked to the current USB drive";
+        After = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs-stable.bash}/bin/bash ${./scripts/my-driveusb-symlink.sh}";
+        Environment = "PATH=${pkgs-stable.inotify-tools}/bin:${pkgs-stable.coreutils}/bin:${pkgs-stable.findutils}/bin";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
     };
-    Service = {
-      ExecStart = "${pkgs-stable.bash}/bin/bash ${./scripts/my-driveusb-symlink.sh}";
-      Environment = "PATH=${pkgs-stable.inotify-tools}/bin:${pkgs-stable.coreutils}/bin:${pkgs-stable.findutils}/bin";
-      Restart = "on-failure";
+    waybar.Unit = {
+      After = [ "pipewire.service" "pipewire-pulse.service" "wireplumber.service" ];
+      Wants = [ "pipewire.service" "pipewire-pulse.service" "wireplumber.service" ];
     };
-    Install.WantedBy = [ "graphical-session.target" ];
   };
 
   services = {
