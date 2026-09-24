@@ -35,6 +35,7 @@ limit_resources=false
 boot_mode=false
 home_only=false
 force_full=false
+hm_generation=""
 
 while getopts "anhtcsgpulbHfm:" option; do
     case $option in
@@ -283,7 +284,16 @@ install_home() {
         exit 1
     fi
 
-    echo -e "${GREEN}Home-manager activated${NORMAL} (system generation untouched)."
+    # Grab the generation number that was just activated, so the commit
+    # message has something concrete to debug against later (matches what
+    # the full-rebuild path does with `nixos-rebuild list-generations`).
+    hm_generation=$(nix-env -p "/home/${username}/.local/state/nix/profiles/home-manager" --list-generations 2>/dev/null | tail -1 | awk '{print $1}')
+
+    if [[ -n "$hm_generation" ]]; then
+        echo -e "${GREEN}Home-manager activated${NORMAL} (system generation untouched) — generation ${hm_generation}."
+    else
+        echo -e "${GREEN}Home-manager activated${NORMAL} (system generation untouched)."
+    fi
 }
 # ---------------------------------------------------------------------------
 
@@ -379,7 +389,11 @@ if [[ $skip_install == false ]]; then
     if [[ $boot_mode == true ]] && [[ $corrupted_db == false ]]; then
         current="Generation staged (nh os boot), pending reboot"
     elif [[ $home_only == true ]]; then
-        current="Home-manager only"
+        if [[ -n "$hm_generation" ]]; then
+            current="Home-manager generation ${hm_generation}"
+        else
+            current="Home-manager only"
+        fi
     else
         current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
     fi
