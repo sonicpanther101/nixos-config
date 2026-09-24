@@ -3,7 +3,7 @@
 Help()
 {
    echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|u|p|l|b|h]"
+   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|u|p|l|b|H|f|h]"
    echo "options:"
    echo "n     Don't check for changes"
    echo "a     Restart ags"
@@ -16,6 +16,9 @@ Help()
    echo "p     Launch shtris during the build"
    echo "l     Limit CPU/memory used for the rebuild"
    echo "b     Use 'nh os boot' instead of 'switch' (stage for next reboot, don't activate now)"
+   echo "H     Home-manager only: build+activate just the home-manager part, skip the full system rebuild"
+   echo "      (this is also applied automatically when the staged changes are all under modules/home/)"
+   echo "f     Force a full system rebuild, even if the staged changes are all under modules/home/"
    echo "h     Print this Help"
 }
 
@@ -30,8 +33,10 @@ show_trace=false
 no_game=true
 limit_resources=false
 boot_mode=false
+home_only=false
+force_full=false
 
-while getopts "anhtcsgpulbm:" option; do
+while getopts "anhtcsgpulbHfm:" option; do
     case $option in
         h)
             Help
@@ -56,6 +61,10 @@ while getopts "anhtcsgpulbm:" option; do
             limit_resources=true;;
         b)
             boot_mode=true;;
+        H)
+            home_only=true;;
+        f)
+            force_full=true;;
         m)
             message="$OPTARG";;
         \?)
@@ -217,6 +226,67 @@ install() {
     fi
 }
 
+# --- home-manager-only rebuild ---------------------------------------------
+# This config wires home-manager in as a NixOS module (see modules/core/user.nix),
+# not as a standalone `homeConfigurations` flake output, so there's no
+# `nh home switch` for it here. The equivalent trick for a module-based setup
+# is to build just the user's home.activationPackage attribute out of the
+# normal nixosConfiguration and run its activation script directly, which
+# skips the (much slower) full system rebuild entirely.
+home_manager_capable() {
+    nix eval --quiet ".#nixosConfigurations.${host}.config.home-manager.users.${username}.home.activationPackage.drvPath" &> /dev/null
+}
+
+install_home() {
+    echo -e "\n${RED}START HOME-MANAGER-ONLY INSTALL PHASE${NORMAL}\n"
+
+    if ! home_manager_capable; then
+        echo -e "${RED}Can't resolve a home-manager activationPackage for host '${host}' / user '${username}'.${NORMAL}"
+        echo "Falling back to a full system rebuild."
+        home_only=false
+        install
+        return
+    fi
+
+    local hm_attr=".#nixosConfigurations.${host}.config.home-manager.users.${username}.home.activationPackage"
+    local out_link
+    out_link="$(mktemp -u /tmp/my-install-hm-XXXXXX)"
+
+    # Prefer `nom build` over plain `nix build` when it's available: it's the
+    # same tree-style build progress view "nh" already gives you for full
+    # system rebuilds (nh uses it internally), there's just no `nh home`
+    # entry point for a module-based home-manager setup like this one.
+    local build_cmd=(nix build "$hm_attr" -o "$out_link")
+    command -v nom &> /dev/null && build_cmd=(nom build "$hm_attr" -o "$out_link")
+    [[ $show_trace == true ]] && build_cmd+=(--show-trace)
+
+    if ! "${build_cmd[@]}"; then
+        rm -f "$out_link"
+        echo -e "${RED}Home-manager build failed.${NORMAL}"
+        exit 1
+    fi
+
+    local hm_path
+    hm_path="$(readlink -f "$out_link")"
+    rm -f "$out_link"
+
+    # Best-effort: show what's changing, similar to what nh prints after a
+    # switch. Silently skipped if nvd/the profile path aren't there — this is
+    # a nice-to-have, not something the rebuild should depend on.
+    command -v nvd &> /dev/null && nvd diff /home/${username}/.local/state/nix/profiles/home-manager "$hm_path" 2> /dev/null
+
+    echo -e "${BLUE}Activating home-manager generation...${NORMAL}"
+    if ! "${hm_path}/activate"; then
+        if systemctl is-failed --quiet home-manager-${username}.service 2>/dev/null; then
+            print_hm_logs
+        fi
+        exit 1
+    fi
+
+    echo -e "${GREEN}Home-manager activated${NORMAL} (system generation untouched)."
+}
+# ---------------------------------------------------------------------------
+
 pushd "/home/${username}/nixos-config"  > /dev/null
 
 # 1. Check network FIRST (fail fast)
@@ -273,13 +343,43 @@ fi
 
 changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
 
+# 5b. Auto-detect a home-manager-only change set (unless overridden with -H/-f)
+if [[ $home_only == false ]] && [[ $force_full == false ]] && [[ -n "$changes" ]]; then
+    only_home=true
+    changed_files=("${(f)$(git diff --cached --name-only)}")
+    for f in "${changed_files[@]}"; do
+        case "$f" in
+            modules/home/*) ;;
+            *) only_home=false;;
+        esac
+        [[ $only_home == false ]] && break
+    done
+    if [[ $only_home == true ]]; then
+        echo "Only modules/home/ changed — switching to a home-manager-only rebuild."
+        home_only=true
+    fi
+fi
+
+# -b/-c don't make sense for a home-manager-only rebuild, so fall back to a
+# full one if either was requested alongside it.
+if [[ $home_only == true ]] && [[ $boot_mode == true || $corrupted_db == true ]]; then
+    echo "-b/-c require a full system rebuild — ignoring -H."
+    home_only=false
+fi
+
 # 6. Build the system
 if [[ $skip_install == false ]]; then
-    install
+    if [[ $home_only == true ]]; then
+        install_home
+    else
+        install
+    fi
     echo
 
     if [[ $boot_mode == true ]] && [[ $corrupted_db == false ]]; then
         current="Generation staged (nh os boot), pending reboot"
+    elif [[ $home_only == true ]]; then
+        current="Home-manager only"
     else
         current=$(nixos-rebuild list-generations 2>/dev/null | grep True | awk '{print "Generation", $1}') || current="Generation unknown"
     fi
@@ -319,4 +419,3 @@ fi
 popd > /dev/null
 
 notify-send -t 2000 -e "NixOS Rebuilt OK" --icon=check-filled
-

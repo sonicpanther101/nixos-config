@@ -9,7 +9,10 @@ let
       sizeRule =
         if size != null then [ "match:${type} ${match}, size ${toString (builtins.elemAt size 0)} ${toString (builtins.elemAt size 1)}" ]
         else [];
-    in base ++ sizeRule ++ extra;
+      # `extra` is a list of bare rule values (e.g. "workspace r+0"); turn
+      # each into a full "match:type match, value" line like the others.
+      extraRules = map (v: "match:${type} ${match}, ${v}") extra;
+    in base ++ sizeRule ++ extraRules;
 
   floatByClass = [
     { match = "Matplotlib"; size = [950 600]; type = "class"; }
@@ -18,22 +21,34 @@ let
     { match = "mpv"; size = [1200 725]; type = "class"; }
   ];
 
+  # "workspace r+0" pins a newly-opened window to whatever workspace is
+  # currently active on the monitor it opens on ("relative +0" = no move).
+  # These are all transient system dialogs/popups spawned by a background
+  # process (e.g. the xdg-desktop-portal file picker triggered by "add
+  # file"), so they can appear on whatever workspace that background
+  # process happens to "live" on -- including ones outside the range your
+  # keybinds normally reach -- instead of wherever you're actually looking.
+  # This rule makes them always land in front of you automatically, so you
+  # shouldn't need the manual SUPER ALT G "grab rogue windows" rescue for
+  # these specific dialogs any more.
+  autoWorkspaceRule = [ "workspace r+0" ];
+
   floatByTitle = [
     { match = "float_kitty"; size = [950 600]; type = "title"; }
-    { match = "Open Folder"; size = [950 600]; type = "title"; }
-    { match = "Open File"; size = [950 600]; type = "title"; }
-    { match = "Open file"; size = [950 600]; type = "title"; }
-    { match = "Open Files"; size = [950 600]; type = "title"; }
-    { match = "Save File"; size = [950 600]; type = "title"; }
-    { match = ".* Reminders"; size = [600 200]; type = "title"; }
-    { match = "Extract"; size = [850 200]; type = "title"; }
-    { match = "Active connection found"; type = "title"; }
-    { match = "Edit Item"; type = "title"; }
-    { match = "Calendar Reminders"; type = "title"; }
+    { match = "Open Folder"; size = [950 600]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Open File"; size = [950 600]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Open file"; size = [950 600]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Open Files"; size = [950 600]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Save File"; size = [950 600]; type = "title"; extra = autoWorkspaceRule; }
+    { match = ".* Reminders"; size = [600 200]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Extract"; size = [850 200]; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Active connection found"; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Edit Item"; type = "title"; extra = autoWorkspaceRule; }
+    { match = "Calendar Reminders"; type = "title"; extra = autoWorkspaceRule; }
     { match = "OpenRGB"; type = "title"; }
     { match = ".*Physics Simulation.*"; type = "title"; }
-    { match = "Pipewire Volume Control"; type = "title"; }
-    { match = ".*Properties.*"; type = "title"; }
+    { match = "Pipewire Volume Control"; type = "title"; extra = autoWorkspaceRule; }
+    { match = ".*Properties.*"; type = "title"; extra = autoWorkspaceRule; }
   ];
 
   floatRules =
@@ -82,3 +97,4 @@ in {
     ];
  };
 }
+

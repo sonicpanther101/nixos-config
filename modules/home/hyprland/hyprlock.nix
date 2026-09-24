@@ -165,6 +165,14 @@ in {
 
       input-field = if hasPinLogin then [ ] else inputFields;
       image       = pinButtons;
+      # Order matters here: clockLabels (cheap, instant `date` calls) for
+      # *every* monitor is listed before weatherLabels/githubLabels (slower,
+      # network-backed) for any monitor, so a slow weather/GitHub fetch on
+      # one monitor can never end up queued ahead of another monitor's
+      # clock. The actual multi-second stall this used to cause is fixed at
+      # the source in my-weather.sh (it now serves a cache instantly and
+      # refreshes in the background), but this ordering is kept as a cheap
+      # extra safeguard.
       label       = clockLabels ++ pinLabels ++ weatherLabels ++ githubLabels;
     };
   };

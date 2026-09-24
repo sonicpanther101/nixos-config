@@ -51,6 +51,7 @@
     nemo-preview                                          # File previewer for Nemo
     qdirstat                                              # Visual file-system viewer like WizTree
                                                           # System monitoring & quick utilities
+    superfile                                             # Pretty, modern TUI file manager (spf) - multi-panel, image previews, plugin support
     fastfetch                                             # Actively maintained, feature-rich and performance oriented, neofetch like system information tool
     onefetch                                              # Git repository summary on your terminal
     eza                                                   # Replacement for ls
@@ -67,6 +68,8 @@
     nix-index                                             # For pay-respects to find packages
     nix-search-cli                                        # For pay-respects to find packages
     ripgrep                                               # Grep replacement
+    nix-output-monitor                                    # The tree-style build progress view "nh" uses; also used directly by my-install -H for home-manager-only rebuilds
+    nvd                                                   # Diffs Nix generations (package add/remove/version changes); also what "nh" uses to show its post-rebuild summary
     gh                                                    # GitHub CLI tool
     bc                                                    # GNU software calculator
     wtype                                                 # Fake keyboard input (for pasting from clipboard manager)
