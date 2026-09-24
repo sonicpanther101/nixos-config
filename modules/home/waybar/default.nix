@@ -1,7 +1,11 @@
-{ isHighPower, isLaptop, lib, pkgs-unstable, ... } : {
+{ isHighPower, isLaptop, lib, pkgs-stable, ... } : {
   programs.waybar = {
     enable = true;
-    package = pkgs-unstable.waybar;
+    package = pkgs-stable.waybar;
+    systemd = {
+      enable = true;
+      target = "graphical-session.target";
+    };
     settings = {
       mainBar = {
         layer = "bottom";
@@ -16,7 +20,7 @@
         ] ++ lib.optionals isHighPower [
           "cava"
         ] ++ [
-          "pulseaudio"
+          "wireplumber"
           "tray"
           "backlight"
           "custom/keyboard"
@@ -138,7 +142,7 @@
           };
         };
 
-        pulseaudio = {
+        wireplumber = {
           format = "{volume}% {icon}";
           format-muted = "0% 󰝟";
           on-click = "pamixer -t";

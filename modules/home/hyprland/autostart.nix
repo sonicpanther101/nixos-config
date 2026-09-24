@@ -12,7 +12,6 @@
       # Set startup apps
       "systemctl --user start hyprlock.service"
       "hyprsunset"
-      "sleep 1 && waybar"
       "nm-applet"
       "blueman-applet"
       "wl-clip-persist --clipboard regular"

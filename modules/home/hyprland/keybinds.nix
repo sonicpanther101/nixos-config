@@ -26,7 +26,7 @@
       "SUPER, W, exec, walker -m menus:wallpapers"
       "SUPER, F1, exec, walker -m menus:keybinds"
       "SUPER, F2, exec, walker -m menus:aliases"
-      "SUPER ALT, W, exec, sh -c 'pkill waybar; waybar'"
+      "SUPER ALT, W, exec, systemctl --user restart waybar.service"
       "SUPER ALT, K, exec, my-toggle-keyboard"
       "SUPER ALT, P, exec, beefweb_mpris"
       "SUPER, C ,exec, hyprpicker -a"
