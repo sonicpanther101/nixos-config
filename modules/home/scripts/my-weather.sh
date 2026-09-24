@@ -3,13 +3,17 @@
 # network round-trips (ipinfo.io + open-meteo) every time it's called.
 #
 # Why: hyprlock has one of these widgets per monitor, both calling
-# `cmd[update:600000] my-weather` on their own, so a live fetch could take
+# `cmd[update:...] my-weather` on their own, so a live fetch could take
 # 2+ seconds *and* run twice in parallel. That was blocking hyprlock's
 # first render on whichever monitor drew its weather label last, which is
 # what made the other monitor's clock feel like it was waiting on the
 # weather. Serving a cached value first (falling back to a synchronous
 # fetch only on the very first-ever run, when there's no cache yet) fixes
-# that while keeping the data fresh.
+# that while keeping the data fresh. Weather only meaningfully changes
+# every few hours, so the cache is only actually refreshed every
+# $DATA_TTL_MIN minutes (see below) - hyprlock also only calls this every
+# 4 hours, this is just a second line of defence if something else calls
+# it more often.
 
 CACHE_DIR="$HOME/.cache/my-weather"
 DATA_CACHE="$CACHE_DIR/data.txt"
@@ -64,12 +68,24 @@ refresh() {
     ' | column -t -s $'\t' > "$DATA_CACHE.tmp" && mv "$DATA_CACHE.tmp" "$DATA_CACHE"
 }
 
+# Data is only meaningfully different every few hours, so don't bother
+# refreshing (i.e. hitting the network) if the cache is younger than this,
+# even if something calls this script more often than hyprlock does.
+DATA_TTL_MIN=240   # 4 hours
+
+is_stale() {
+    [ ! -s "$DATA_CACHE" ] || [ -n "$(find "$DATA_CACHE" -mmin +$DATA_TTL_MIN 2>/dev/null)" ]
+}
+
 if [ -s "$DATA_CACHE" ]; then
     # We have something to show already: print it instantly, then top up
     # the cache in the background (deduped with flock, since both monitors'
-    # widgets can call this at almost the same moment) for next time.
+    # widgets can call this at almost the same moment) if it's due for a
+    # refresh - otherwise there's nothing to do.
     cat "$DATA_CACHE"
-    ( flock -n 9 || exit 0; refresh ) 9> "$LOCK_FILE" &
+    if is_stale; then
+        ( flock -n 9 || exit 0; refresh ) 9> "$LOCK_FILE" &
+    fi
 else
     # No cache yet (fresh install / cleared cache) - nothing to show, so do
     # the one-off blocking fetch. Every call after this one is instant.

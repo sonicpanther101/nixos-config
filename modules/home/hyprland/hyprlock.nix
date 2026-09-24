@@ -61,7 +61,7 @@ let
 
   mkWeather = monitorName: scale: {
     monitor = monitorName;
-    text = "cmd[update:600000] my-weather";
+    text = "cmd[update:14400000] my-weather";
     font_size = builtins.floor (baseConfig.wx.fontSize * scale);
     font_family = "JetBrainsMono Nerd Font";
     position = "${toString (builtins.floor (baseConfig.wx.posX * scale))}, 0";
@@ -71,7 +71,7 @@ let
 
   mkGithub = monitorName: scale: {
     monitor = monitorName;
-    text = "cmd[update:3600000] my-github-contributions";
+    text = "cmd[update:86400000] my-github-contributions";
     font_size = builtins.floor (baseConfig.gh.fontSize * scale);
     font_family = "JetBrainsMono Nerd Font";
     position = "${toString (builtins.floor (baseConfig.gh.posX * scale))}, 0";
