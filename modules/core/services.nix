@@ -71,7 +71,7 @@
 
     # NextDNS service with DoH
     nextdns = {
-      enable = true;
+      enable = false;# true;
       arguments = [
         "-config" "79b668"           # Your NextDNS config ID
         "-cache-size" "10MB"         # Optional: local cache

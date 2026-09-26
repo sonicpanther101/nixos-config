@@ -3,13 +3,13 @@
     hostName = host;
     networkmanager = {
       enable = true;
-      dns = "none"; # Let NextDNS control the DNS instead
+      # dns = "none"; # Let NextDNS control the DNS instead
     };
     # Wake on lan
     interfaces.enp6s0.wakeOnLan.enable = config.my.isHighPower;
     # Point to local NextDNS proxy
-    nameservers = [ "127.0.0.1" "::1" ];
-    # nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    # nameservers = [ "127.0.0.1" "::1" ];
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
     firewall = {
       enable = true;
       # Calendar server
