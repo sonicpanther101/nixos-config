@@ -27,7 +27,12 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland/91f29f23bb691462f8aa6171b964069aebc37910"; 
+    hyprland.url = "github:hyprwm/Hyprland/91f29f23bb691462f8aa6171b964069aebc37910"; # pinned for dependancy fix (go back to versions when possible)
+
+    waybar-git = {
+      url = "github:Alexays/Waybar/16843896794a9c595139318420f81f40e84f8c78";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     split-monitor-workspaces = {
       url = "github:zjeffer/split-monitor-workspaces/v0.56.2";
@@ -61,15 +66,6 @@
           "qtwebengine-5.15.19"
         ];
       };
-      overlays = [
-        (final: prev: {
-          pkgsi686Linux = prev.pkgsi686Linux.extend (final32: prev32: {
-            openldap = prev32.openldap.overrideAttrs (old: {
-              doCheck = false;
-            });
-          });
-        })
-      ];
     };
     pkgs-stable = import nixpkgs-stable {
       inherit system;

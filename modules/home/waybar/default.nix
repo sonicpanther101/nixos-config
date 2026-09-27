@@ -1,7 +1,7 @@
-{ isHighPower, isLaptop, lib, pkgs-stable, ... } : {
+{ isHighPower, isLaptop, lib, inputs, pkgs-stable, ... } : {
   programs.waybar = {
     enable = true;
-    package = pkgs-stable.waybar;
+    package = inputs.waybar-git.packages.${pkgs-stable.system}.default;
     systemd = {
       enable = true;
       targets = [ "graphical-session.target" ];
