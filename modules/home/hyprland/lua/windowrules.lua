@@ -1,6 +1,11 @@
 -- Window rules migrated from modules/home/hyprland/windowrules.nix
 -- Symlinked to ~/.config/hypr/windowrules.lua at activation
 -- Changes trigger hyprctl reload only (no Nix rebuild needed)
+--
+-- NOTE: hl.window_rule's `size`/`move` effects take a "WxH" / "X Y" STRING
+-- (e.g. "950x600", "0 0"), not a Lua table - a table silently fails to error
+-- at parse time but wouldn't do what's intended, so both helpers below build
+-- the string form. See docs: https://alejandrominaya.github.io/hyprland-lua-docs/
 
 -- Helper: create float + center rules for a match
 local function mkFloatRule(match, type, size)
@@ -12,7 +17,7 @@ local function mkFloatRule(match, type, size)
   if size then
     hl.window_rule({
       match = { [type] = match },
-      size = { size[1], size[2] },
+      size = size[1] .. "x" .. size[2],
     })
   end
 end
@@ -57,15 +62,15 @@ local function mkRule(opts)
 end
 
 -- Opacity rules
-mkRule({ match = { class = "codium" }, opacity = 0.9 })
-mkRule({ match = { class = "foobar2000.exe" }, opacity = 0.9 })
-mkRule({ match = { class = "vivaldi-stable" }, opacity = 0.9 })
-mkRule({ match = { title = ".*Last.fm" }, opacity = 1 })
-mkRule({ match = { title = ".*Movie" }, opacity = 1 })
-mkRule({ match = { class = "nemo" }, opacity = 0.75 })
+mkRule({ match = { class = "codium" }, opacity = "0.9" })
+mkRule({ match = { class = "foobar2000.exe" }, opacity = "0.9" })
+mkRule({ match = { class = "vivaldi-stable" }, opacity = "0.9" })
+mkRule({ match = { title = ".*Last.fm" }, opacity = "1" })
+mkRule({ match = { title = ".*Movie" }, opacity = "1" })
+mkRule({ match = { class = "nemo" }, opacity = "0.75" })
 
 -- SableUI rules
-mkRule({ match = { title = ".*SableUI.*" }, pin = true, border_size = 0, no_anim = true, no_shadow = true, no_blur = true, no_initial_focus = true, move = { 0, 0 } })
+mkRule({ match = { title = ".*SableUI.*" }, pin = true, border_size = 0, no_anim = true, no_shadow = true, no_blur = true, no_initial_focus = true, move = "0 0" })
 
 -- Idle inhibit rules
 mkRule({ match = { class = "mpv" }, idle_inhibit = "focus" })
@@ -78,6 +83,10 @@ mkRule({ match = { title = ".*homework.*" }, idle_inhibit = "focus" })
 mkRule({ match = { title = "cava" }, idle_inhibit = "focus" })
 
 -- Layer rules
-hl.layer_rule({ namespace = "wvkbd", level = 2, above_lock = true })
-hl.layer_rule({ namespace = "waybar", level = 2, above_lock = true })
-hl.layer_rule({ namespace = "sunshine", level = 2, above_lock = true })
+-- `namespace` is a match criterion (goes inside match={}), and there is no
+-- `level` field - the old hyprlang "level" concept is `above_lock` (int 0-2)
+-- here. These three were meant to render above the lock screen, so above_lock
+-- = 2 (the max) replaces the old `level = 2, above_lock = true` pairing.
+hl.layer_rule({ match = { namespace = "wvkbd" }, above_lock = 2 })
+hl.layer_rule({ match = { namespace = "waybar" }, above_lock = 2 })
+hl.layer_rule({ match = { namespace = "sunshine" }, above_lock = 2 })
