@@ -98,7 +98,19 @@ in
       done
 
       mkdir -p "$HOME/.config/hypr/plugins"
-      ln -sfn "${smwSrc}" "$HOME/.config/hypr/plugins/split-monitor-workspaces"
+      # If a real directory already sits here (e.g. from manually following
+      # the plugin's own README, which says to `git clone` it into this exact
+      # path), `ln -sfn` will NOT replace it - it'll silently drop the symlink
+      # *inside* it instead (same behavior as `cp` into a directory), leaving
+      # require("plugins.split-monitor-workspaces") unable to find init.lua.
+      # `-n` only protects against dereferencing an existing *symlink*, not a
+      # real directory. Remove any non-symlink first so the ln below actually
+      # replaces the path.
+      smw_link="$HOME/.config/hypr/plugins/split-monitor-workspaces"
+      if [ -e "$smw_link" ] && [ ! -L "$smw_link" ]; then
+        rm -rf "$smw_link"
+      fi
+      ln -sfn "${smwSrc}" "$smw_link"
     '';
 
     # Session variables for conditional startup
