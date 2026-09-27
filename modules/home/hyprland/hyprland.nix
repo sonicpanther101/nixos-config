@@ -96,22 +96,16 @@ in
     portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
   };
 
-  # Symlink Lua config files from nixos-config repo (true symlinks, no rebuild needed)
+  # Symlink Lua config files directly from the local git repo (no nix store copying)
   home.activation.symlink-hyprland-lua = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    src_dir="${builtins.path { name = "nixos-config-hyprland-lua"; path = ./lua; }}"
+    repo_lua_dir="$HOME/nixos-config/modules/home/hyprland/lua"
+
     for f in keybinds autostart windowrules hyprgrass-gestures; do
-      ln -sf "$src_dir/$f.lua" "$HOME/.config/hypr/$f.lua"
+      ln -sf "$repo_lua_dir/$f.lua" "$HOME/.config/hypr/$f.lua"
     done
 
     mkdir -p "$HOME/.config/hypr/plugins"
-    # If a real directory already sits here (e.g. from manually following
-    # the plugin's own README, which says to `git clone` it into this exact
-    # path), `ln -sfn` will NOT replace it - it'll silently drop the symlink
-    # *inside* it instead (same behavior as `cp` into a directory), leaving
-    # require("plugins.split-monitor-workspaces") unable to find init.lua.
-    # `-n` only protects against dereferencing an existing *symlink*, not a
-    # real directory. Remove any non-symlink first so the ln below actually
-    # replaces the path.
+
     smw_link="$HOME/.config/hypr/plugins/split-monitor-workspaces"
     if [ -e "$smw_link" ] && [ ! -L "$smw_link" ]; then
       rm -rf "$smw_link"

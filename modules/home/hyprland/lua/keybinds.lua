@@ -107,12 +107,10 @@ hl.bind("SUPER+ALT+down", hl.dsp.window.move({ x = 0, y = 80, relative = true })
 
 -- Workspace switching (split-monitor-workspaces Lua API)
 for i = 1, 10 do
-  -- "10" maps to key "0" on the keyboard
-  local key = (i == 10) and "0" or tostring(i)
-
-  -- Pass integer i directly to smw functions
-  hl.bind("SUPER+" .. key, smw.workspace(i))
-  hl.bind("SUPER+SHIFT+" .. key, smw.move_to_workspace_silent(i))
+  local n = tostring(i)
+  local key = (i == 10) and "0" or n
+  hl.bind("SUPER+" .. key, smw.workspace(n))
+  hl.bind("SUPER+SHIFT+" .. key, smw.move_to_workspace_silent(n))
 end
 
 -- Workspace scroll
