@@ -41,6 +41,16 @@
             workspace_swipe_cancel_ratio = 0.15,
           },
         })
+      ''
+      # These files are symlinked (not copied) by the activation script below,
+      # so they must be require()'d here or Hyprland never loads them.
+      + ''
+        require("keybinds")
+        require("autostart")
+        require("windowrules")
+      ''
+      + lib.optionalString isLaptop ''
+        require("hyprgrass-gestures")
       '';
 
     # Set the flake package
