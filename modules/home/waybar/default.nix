@@ -59,8 +59,8 @@
           };
           active-only = true;
           all-outputs = false;
-          on-scroll-up   = "hyprctl dispatch split-cycleworkspaces +1";
-          on-scroll-down = "hyprctl dispatch split-cycleworkspaces -1";
+          on-scroll-up   = "hyprctl dispatch 'require(\"plugins.split-monitor-workspaces\").cycle_workspaces(\"next\")'";
+          on-scroll-down = "hyprctl dispatch 'require(\"plugins.split-monitor-workspaces\").cycle_workspaces(\"prev\")'";
         };
 
         "custom/keyboard" = {

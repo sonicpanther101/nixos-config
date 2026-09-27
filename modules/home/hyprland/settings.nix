@@ -1,8 +1,13 @@
 { host, lib, isLaptop, ... } :
 let
-  # Monitor descriptions extracted directly from hyprctl
-  dp1Desc = "desc:ASUSTek COMPUTER INC VG27AQ1A S9LMQS099860";
-  hdmi1Desc = "desc:AOC 27B30H 1AQQ7HA015555";
+  # Port names - kept as plain names (not desc: strings) so they match the
+  # port-based identifiers used by smw's monitor_priority in hyprland.nix.
+  # Mixing desc: and port-name identifiers across the config for the same
+  # physical monitor can make smw's own monitor-identity checks (which
+  # compare against plain port names) fail to recognize a workspace as
+  # belonging to the monitor Hyprland actually bound it to.
+  dp1Desc = "DP-1";
+  hdmi1Desc = "HDMI-A-1";
 
   # -------------------------------------------------------------------
   # Hyprland 0.55+ moved to a Lua config. home-manager's `settings`
