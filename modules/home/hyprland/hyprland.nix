@@ -32,10 +32,6 @@ in
     ];
 
     extraConfig =
-      # Needed for require("plugins.split-monitor-workspaces") to find the
-      # symlinked source below; Hyprland's require() doesn't look inside
-      # subdirectories for an init.lua by default (only exact `name.lua`
-      # files), so this mirrors the plugin's own README instructions.
       ''
         do
           local hypr_dir = os.getenv("HOME") .. "/.config/hypr"
@@ -43,13 +39,17 @@ in
         end
 
         local smw = require("plugins.split-monitor-workspaces")
-        smw.setup({
-          -- 10 workspaces per monitor (this is also the plugin's own default).
-          workspace_count = 10,
-          -- Determines which monitor gets the lowest workspace IDs; must be
-          -- a list, not the old hyprlang-style comma-separated string.
-          monitor_priority = { "DP-1", "HDMI-A-1", "eDP-1", "Virtual-1" },
-        })
+
+        -- Function to initialize smw configuration
+        local function init_smw()
+          smw.setup({
+            workspace_count = 10,
+            monitor_priority = { "HDMI-A-1", "DP-1", "eDP-1", "Virtual-1" },
+          })
+        end
+
+        -- Run initial setup
+        init_smw()
       ''
       + lib.optionalString isLaptop ''
         hl.plugin.load(${lib.generators.toLua { } (pluginSo hyprgrassPkg)})
@@ -73,12 +73,19 @@ in
           },
         })
       ''
-      # These files are symlinked (not copied) by the activation script below,
-      # so they must be require()'d here or Hyprland never loads them.
+      + lib.optionalString isHighPower "IS_HIGH_POWER = true\n"
+      + lib.optionalString isLaptop "IS_LAPTOP = true\n"
       + ''
+        -- Load keybinds and other config files
         require("keybinds")
         require("autostart")
         require("windowrules")
+
+        -- Re-run setup after all modules/monitors are loaded to ensure offsets bind correctly
+        smw.setup({
+          workspace_count = 10,
+          monitor_priority = { "HDMI-A-1", "DP-1", "eDP-1", "Virtual-1" },
+        })
       ''
       + lib.optionalString isLaptop ''
         require("hyprgrass-gestures")
@@ -89,34 +96,26 @@ in
     portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
   };
 
-  home = {
-    # Symlink Lua config files from nixos-config repo (true symlinks, no rebuild needed)
-    activation.symlink-hyprland-lua = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      src_dir="${builtins.path { name = "nixos-config-hyprland-lua"; path = ./lua; }}"
-      for f in keybinds autostart windowrules hyprgrass-gestures; do
-        ln -sf "$src_dir/$f.lua" "$HOME/.config/hypr/$f.lua"
-      done
+  # Symlink Lua config files from nixos-config repo (true symlinks, no rebuild needed)
+  home.activation.symlink-hyprland-lua = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    src_dir="${builtins.path { name = "nixos-config-hyprland-lua"; path = ./lua; }}"
+    for f in keybinds autostart windowrules hyprgrass-gestures; do
+      ln -sf "$src_dir/$f.lua" "$HOME/.config/hypr/$f.lua"
+    done
 
-      mkdir -p "$HOME/.config/hypr/plugins"
-      # If a real directory already sits here (e.g. from manually following
-      # the plugin's own README, which says to `git clone` it into this exact
-      # path), `ln -sfn` will NOT replace it - it'll silently drop the symlink
-      # *inside* it instead (same behavior as `cp` into a directory), leaving
-      # require("plugins.split-monitor-workspaces") unable to find init.lua.
-      # `-n` only protects against dereferencing an existing *symlink*, not a
-      # real directory. Remove any non-symlink first so the ln below actually
-      # replaces the path.
-      smw_link="$HOME/.config/hypr/plugins/split-monitor-workspaces"
-      if [ -e "$smw_link" ] && [ ! -L "$smw_link" ]; then
-        rm -rf "$smw_link"
-      fi
-      ln -sfn "${smwSrc}" "$smw_link"
-    '';
-
-    # Session variables for conditional startup
-    sessionVariables = {
-      IS_LAPTOP = lib.mkIf isLaptop "1";
-      IS_HIGH_POWER = lib.mkIf isHighPower "1";
-    };
-  };
+    mkdir -p "$HOME/.config/hypr/plugins"
+    # If a real directory already sits here (e.g. from manually following
+    # the plugin's own README, which says to `git clone` it into this exact
+    # path), `ln -sfn` will NOT replace it - it'll silently drop the symlink
+    # *inside* it instead (same behavior as `cp` into a directory), leaving
+    # require("plugins.split-monitor-workspaces") unable to find init.lua.
+    # `-n` only protects against dereferencing an existing *symlink*, not a
+    # real directory. Remove any non-symlink first so the ln below actually
+    # replaces the path.
+    smw_link="$HOME/.config/hypr/plugins/split-monitor-workspaces"
+    if [ -e "$smw_link" ] && [ ! -L "$smw_link" ]; then
+      rm -rf "$smw_link"
+    fi
+    ln -sfn "${smwSrc}" "$smw_link"
+  '';
 }

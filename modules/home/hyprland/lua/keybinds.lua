@@ -105,21 +105,21 @@ hl.bind("SUPER+ALT+right", hl.dsp.window.move({ x = 80, y = 0, relative = true }
 hl.bind("SUPER+ALT+up", hl.dsp.window.move({ x = 0, y = -80, relative = true }))
 hl.bind("SUPER+ALT+down", hl.dsp.window.move({ x = 0, y = 80, relative = true }))
 
--- Workspace switching (split-monitor-workspaces Lua API - see its README)
+-- Workspace switching (split-monitor-workspaces Lua API)
 for i = 1, 10 do
-  local n = tostring(i)
-  -- "10" isn't a keysym; workspace 10 conventionally binds to the 0 key.
-  -- The workspace *number* passed to smw stays "10" - only the key label changes.
-  local key = (i == 10) and "0" or n
-  hl.bind("SUPER+" .. key, smw.workspace(n))
-  hl.bind("SUPER+SHIFT+" .. key, smw.move_to_workspace_silent(n))
+  -- "10" maps to key "0" on the keyboard
+  local key = (i == 10) and "0" or tostring(i)
+
+  -- Pass integer i directly to smw functions
+  hl.bind("SUPER+" .. key, smw.workspace(i))
+  hl.bind("SUPER+SHIFT+" .. key, smw.move_to_workspace_silent(i))
 end
 
 -- Workspace scroll
-hl.bind("SUPER+mouse_up", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces +1"))
-hl.bind("SUPER+mouse_down", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces -1"))
-hl.bind("SUPER+Tab", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces +1"))
-hl.bind("SUPER+SHIFT+Tab", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces -1"))
+hl.bind("SUPER+mouse_up", smw.cycle_workspaces("prev"))
+hl.bind("SUPER+mouse_down", smw.cycle_workspaces("next"))
+hl.bind("SUPER+Tab", smw.cycle_workspaces("next"))
+hl.bind("SUPER+SHIFT+Tab", smw.cycle_workspaces("prev"))
 
 -- Locked binds (work on lockscreen)
 -- hl.bind takes ONE combined "mods+key" string, not separate (mods, key)

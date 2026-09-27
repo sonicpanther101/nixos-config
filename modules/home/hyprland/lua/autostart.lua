@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
 end)
 
 -- High-power startup commands (desktop + high-power laptop)
-if os.getenv("IS_HIGH_POWER") == "1" then
+if IS_HIGH_POWER then
   hl.on("hyprland.start", function()
     hl.exec_cmd("my-rwall -n nixos.png")
     hl.exec_cmd("openrgb --startminimized -b 0 -m direct")
@@ -48,7 +48,7 @@ if os.getenv("IS_HIGH_POWER") == "1" then
 end
 
 -- Laptop-only startup commands
-if os.getenv("IS_LAPTOP") == "1" then
+if IS_LAPTOP then
   hl.on("hyprland.start", function()
     hl.exec_cmd("poweralertd")
   end)
