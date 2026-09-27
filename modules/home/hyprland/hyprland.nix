@@ -2,19 +2,22 @@
 let
   system = pkgs-stable.stdenv.hostPlatform.system;
 
-  smwPkg = inputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces;
+  # hyprgrass is a real compiled (.so) Hyprland plugin - it needs
+  # `hl.plugin.load()` (see below).
   hyprgrassPkg = inputs.hyprgrass.packages.${system}.default;
-
-  # home-manager's `plugins` option only loads plugins *after* the config has
-  # already been parsed once (it schedules `hyprctl plugin load ...` as an
-  # exec-once/"hyprland.start" hook). That's too late for a Lua config that
-  # does `require("plugins.split-monitor-workspaces")` synchronously while
-  # parsing - hence "module 'plugins.split-monitor-workspaces' not found".
-  # Hyprland 0.55+'s Lua API has a dedicated function for exactly this case:
-  # `hl.plugin.load(path)`, called directly in the config, synchronously,
-  # before anything that needs the plugin. Same .so naming convention
-  # home-manager itself uses (lib/lib<pname>.so).
   pluginSo = pkg: "${pkg}/lib/lib${pkg.pname}.so";
+
+  # split-monitor-workspaces is NOT a compiled plugin as of the Lua config
+  # migration (the .so target in its flake is only the old, deprecated
+  # pre-0.55 C++ plugin - see its docs/cpp-plugin.md). Since Hyprland 0.55 it
+  # ships as a plain Lua package meant to be required directly:
+  # https://github.com/zjeffer/split-monitor-workspaces#installation
+  # says to `git clone` it into `~/.config/hypr/plugins/split-monitor-workspaces`
+  # and `require("plugins.split-monitor-workspaces")`. We get the same result
+  # in Nix by symlinking the flake input's source there instead (done in the
+  # activation script below) - no `hl.plugin.load`/`hyprctl plugin load`
+  # involved at all, which is why that never worked.
+  smwSrc = inputs.split-monitor-workspaces;
 in
 {
   wayland.windowManager.hyprland = {
@@ -24,27 +27,32 @@ in
 
     configType = "lua";
 
-    plugins = [
-      smwPkg
-    ] ++ lib.optionals isLaptop [
+    plugins = lib.optionals isLaptop [
       hyprgrassPkg
     ];
 
     extraConfig =
+      # Needed for require("plugins.split-monitor-workspaces") to find the
+      # symlinked source below; Hyprland's require() doesn't look inside
+      # subdirectories for an init.lua by default (only exact `name.lua`
+      # files), so this mirrors the plugin's own README instructions.
       ''
-        hl.plugin.load(${lib.generators.toLua { } (pluginSo smwPkg)})
-      ''
-      + lib.optionalString isLaptop ''
-        hl.plugin.load(${lib.generators.toLua { } (pluginSo hyprgrassPkg)})
-      ''
-      + ''
+        do
+          local hypr_dir = os.getenv("HOME") .. "/.config/hypr"
+          package.path = package.path .. ";" .. hypr_dir .. "/?.lua;" .. hypr_dir .. "/?/init.lua"
+        end
+
         local smw = require("plugins.split-monitor-workspaces")
         smw.setup({
-          monitor_priority = "DP-1, HDMI-A-1, eDP-1, Virtual-1",
-          max_workspaces = { "DP-1 10", "HDMI-A-1 10", "eDP-1 10", "Virtual-1 10" },
+          -- 10 workspaces per monitor (this is also the plugin's own default).
+          workspace_count = 10,
+          -- Determines which monitor gets the lowest workspace IDs; must be
+          -- a list, not the old hyprlang-style comma-separated string.
+          monitor_priority = { "DP-1", "HDMI-A-1", "eDP-1", "Virtual-1" },
         })
       ''
       + lib.optionalString isLaptop ''
+        hl.plugin.load(${lib.generators.toLua { } (pluginSo hyprgrassPkg)})
         hl.config({
           plugin = {
             hyprgrass = {
@@ -88,6 +96,9 @@ in
       for f in keybinds autostart windowrules hyprgrass-gestures; do
         ln -sf "$src_dir/$f.lua" "$HOME/.config/hypr/$f.lua"
       done
+
+      mkdir -p "$HOME/.config/hypr/plugins"
+      ln -sfn "${smwSrc}" "$HOME/.config/hypr/plugins/split-monitor-workspaces"
     '';
 
     # Session variables for conditional startup
