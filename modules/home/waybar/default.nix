@@ -58,6 +58,7 @@
             "eDP-1" = [ 21 22 23 24 25 ];
           };
           active-only = true;
+          all-outputs = false;
           on-scroll-up   = "hyprctl dispatch split-cycleworkspaces +1";
           on-scroll-down = "hyprctl dispatch split-cycleworkspaces -1";
         };
