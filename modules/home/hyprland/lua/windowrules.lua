@@ -17,7 +17,10 @@ local function mkFloatRule(match, type, size)
   if size then
     hl.window_rule({
       match = { [type] = match },
-      size = size[1] .. "x" .. size[2],
+      -- Space-separated "WIDTH HEIGHT", not "WIDTHxHEIGHT" - the live
+      -- parser error ("vec2 requires two expressions separated by
+      -- whitespace") is the source of truth here, not the third-party docs.
+      size = size[1] .. " " .. size[2],
     })
   end
 end

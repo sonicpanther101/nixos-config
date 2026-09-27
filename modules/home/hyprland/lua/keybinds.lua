@@ -108,8 +108,11 @@ hl.bind("SUPER+ALT+down", hl.dsp.window.move({ x = 0, y = 80, relative = true })
 -- Workspace switching (split-monitor-workspaces Lua API - see its README)
 for i = 1, 10 do
   local n = tostring(i)
-  hl.bind("SUPER+" .. n, smw.workspace(n))
-  hl.bind("SUPER+SHIFT+" .. n, smw.move_to_workspace_silent(n))
+  -- "10" isn't a keysym; workspace 10 conventionally binds to the 0 key.
+  -- The workspace *number* passed to smw stays "10" - only the key label changes.
+  local key = (i == 10) and "0" or n
+  hl.bind("SUPER+" .. key, smw.workspace(n))
+  hl.bind("SUPER+SHIFT+" .. key, smw.move_to_workspace_silent(n))
 end
 
 -- Workspace scroll
@@ -119,16 +122,18 @@ hl.bind("SUPER+Tab", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces +1"
 hl.bind("SUPER+SHIFT+Tab", hl.dsp.exec_cmd("hyprctl dispatch split-cycleworkspaces -1"))
 
 -- Locked binds (work on lockscreen)
-hl.bind("", "XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true })
-hl.bind("", "XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true })
-hl.bind("SUPER", "XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 100%+"), { locked = true })
-hl.bind("SUPER", "XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 100%-"), { locked = true })
+-- hl.bind takes ONE combined "mods+key" string, not separate (mods, key)
+-- args like the old bindl/bindm did - empty mods means just the bare key.
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true })
+hl.bind("SUPER+XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 100%+"), { locked = true })
+hl.bind("SUPER+XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 100%-"), { locked = true })
 
 -- Desktop brightness (uses DDCutil)
-hl.bind("", "code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 + 10"), { locked = true })
-hl.bind("", "code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 - 10"), { locked = true })
-hl.bind("SUPER", "code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 100"), { locked = true })
-hl.bind("SUPER", "code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 0"), { locked = true })
+hl.bind("code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 + 10"), { locked = true })
+hl.bind("code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 - 10"), { locked = true })
+hl.bind("SUPER+code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 100"), { locked = true })
+hl.bind("SUPER+code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 0"), { locked = true })
 
 -- Misc locked
 hl.bind("SUPER+ALT+R", hl.dsp.exec_cmd("my-refresh"), { locked = true })
@@ -138,8 +143,8 @@ hl.bind("SUPER+Escape", hl.dsp.exec_cmd("systemctl --user start hyprlock.service
 hl.bind("SUPER+SHIFT+Escape", hl.dsp.exec_cmd("my-sleep"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+ALT+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"), { locked = true })
-hl.bind("", "switch:Lid Switch", hl.dsp.exec_cmd("my-sleep"), { locked = true })
+hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("my-sleep"), { locked = true })
 
 -- Mouse bindings (window drag/resize via mouse button + modifier)
-hl.bind("SUPER", "mouse:272", hl.dsp.window.drag())
-hl.bind("SUPER", "mouse:273", hl.dsp.window.resize())
+hl.bind("SUPER+mouse:272", hl.dsp.window.drag())
+hl.bind("SUPER+mouse:273", hl.dsp.window.resize())
