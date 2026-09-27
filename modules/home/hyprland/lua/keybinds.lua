@@ -114,8 +114,8 @@ for i = 1, 10 do
 end
 
 -- Workspace scroll
-hl.bind("SUPER+mouse_up", smw.cycle_workspaces("prev"))
-hl.bind("SUPER+mouse_down", smw.cycle_workspaces("next"))
+hl.bind("SUPER+mouse_up", smw.cycle_workspaces("next"))
+hl.bind("SUPER+mouse_down", smw.cycle_workspaces("prev"))
 hl.bind("SUPER+Tab", smw.cycle_workspaces("next"))
 hl.bind("SUPER+SHIFT+Tab", smw.cycle_workspaces("prev"))
 
