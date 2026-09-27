@@ -30,17 +30,32 @@ if IS_HIGH_POWER then
     hl.exec_cmd("openrgb --startminimized -b 0 -m direct")
 
     -- Desktop default workspace setup
+    --
+    -- NOTE: previously these wrapped the command as
+    -- hl.exec_cmd('hyprctl dispatch exec "...\"...\"..."'), which reused the
+    -- same " character for both the outer hyprctl-arg quoting and the inner
+    -- sh -ic quoting. Once the inner \" closed early, the trailing
+    -- "&& git pull && nvim" fell OUTSIDE any quoting and was interpreted by
+    -- the shell as separate && commands instead of staying inside kitty's
+    -- sh -ic string - so kitty launched with a broken arg and git
+    -- pull/nvim silently ran detached instead of inside the terminal.
+    -- hl.exec_cmd() is already the exec dispatcher (it supports the
+    -- "[workspace N silent]" rule prefix directly - see the Dispatchers
+    -- wiki page), so there's no need to shell out through
+    -- "hyprctl dispatch exec" at all. Using Lua's [[ ]] long-bracket
+    -- strings means the embedded " characters need no escaping, so there's
+    -- no quote-nesting to get wrong.
     hl.exec_cmd("hyprctl dispatch focusmonitor DP-1")
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 1 silent] kitty --hold sh -ic \"cd ~/nixos-config && git pull && nvim\""')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 2 silent] vivaldi --profile-directory=\"Default\""')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 3 silent] vivaldi --profile-directory=\"Profile 1\""')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 4 silent] thunderbird"')
+    hl.exec_cmd([[[workspace 1 silent] kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"]])
+    hl.exec_cmd([[[workspace 2 silent] vivaldi --profile-directory="Default"]])
+    hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
+    hl.exec_cmd([[[workspace 4 silent] thunderbird]])
 
     hl.exec_cmd("hyprctl dispatch focusmonitor HDMI-A-1")
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 11 silent] vivaldi --profile-directory=\"Default\""')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 12 silent] kitty"')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 13 silent] beefweb_mpris"')
-    hl.exec_cmd('hyprctl dispatch exec "[workspace 14 silent] beeper"')
+    hl.exec_cmd([[[workspace 11 silent] vivaldi --profile-directory="Default"]])
+    hl.exec_cmd([[[workspace 12 silent] kitty]])
+    hl.exec_cmd([[[workspace 13 silent] beefweb_mpris]])
+    hl.exec_cmd([[[workspace 14 silent] beeper]])
 
     hl.exec_cmd("hyprctl dispatch workspace 1")
     hl.exec_cmd("hyprctl dispatch focusmonitor DP-1")

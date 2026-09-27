@@ -84,7 +84,7 @@ in
         -- Re-run setup after all modules/monitors are loaded to ensure offsets bind correctly
         smw.setup({
           workspace_count = 10,
-          monitor_priority = { "HDMI-A-1", "DP-1", "eDP-1", "Virtual-1" },
+          monitor_priority = { "DP-1", "HDMI-A-1", "eDP-1", "Virtual-1" },
         })
       ''
       + lib.optionalString isLaptop ''
