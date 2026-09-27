@@ -1,5 +1,22 @@
-{ inputs, pkgs-stable, isLaptop, isHighPower, lib, ... } : {
+{ inputs, pkgs-stable, isLaptop, isHighPower, lib, ... } :
+let
+  system = pkgs-stable.stdenv.hostPlatform.system;
 
+  smwPkg = inputs.split-monitor-workspaces.packages.${system}.split-monitor-workspaces;
+  hyprgrassPkg = inputs.hyprgrass.packages.${system}.default;
+
+  # home-manager's `plugins` option only loads plugins *after* the config has
+  # already been parsed once (it schedules `hyprctl plugin load ...` as an
+  # exec-once/"hyprland.start" hook). That's too late for a Lua config that
+  # does `require("plugins.split-monitor-workspaces")` synchronously while
+  # parsing - hence "module 'plugins.split-monitor-workspaces' not found".
+  # Hyprland 0.55+'s Lua API has a dedicated function for exactly this case:
+  # `hl.plugin.load(path)`, called directly in the config, synchronously,
+  # before anything that needs the plugin. Same .so naming convention
+  # home-manager itself uses (lib/lib<pname>.so).
+  pluginSo = pkg: "${pkg}/lib/lib${pkg.pname}.so";
+in
+{
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -8,13 +25,19 @@
     configType = "lua";
 
     plugins = [
-      inputs.split-monitor-workspaces.packages.${pkgs-stable.stdenv.hostPlatform.system}.split-monitor-workspaces
+      smwPkg
     ] ++ lib.optionals isLaptop [
-      inputs.hyprgrass.packages.${pkgs-stable.stdenv.hostPlatform.system}.default
+      hyprgrassPkg
     ];
 
     extraConfig =
       ''
+        hl.plugin.load(${lib.generators.toLua { } (pluginSo smwPkg)})
+      ''
+      + lib.optionalString isLaptop ''
+        hl.plugin.load(${lib.generators.toLua { } (pluginSo hyprgrassPkg)})
+      ''
+      + ''
         local smw = require("plugins.split-monitor-workspaces")
         smw.setup({
           monitor_priority = "DP-1, HDMI-A-1, eDP-1, Virtual-1",
@@ -54,8 +77,8 @@
       '';
 
     # Set the flake package
-    package = inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${pkgs-stable.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    package = inputs.hyprland.packages.${system}.hyprland;
+    portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
   };
 
   home = {
