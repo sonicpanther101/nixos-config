@@ -51,12 +51,6 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     grub2-themes.url = "github:vinceliuice/grub2-themes";
-
-    # Declarative NixOS microVMs (the sandbox for OpenCode)
-    microvm = {
-      url = "github:microvm-nix/microvm.nix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
@@ -90,7 +84,6 @@
         inherit system;
         modules = [
           ./hosts/desktop
-          inputs.microvm.nixosModules.host
           inputs.grub2-themes.nixosModules.default
           inputs.stylix.nixosModules.stylix
           inputs.nix-index-database.nixosModules.default
@@ -101,15 +94,6 @@
           host = "desktop";
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
-      };
-      # The OpenCode sandbox VM. The attribute name must match microvm.vms.<name>.
-      agent = nixpkgs-stable.lib.nixosSystem {
-        inherit system;
-        modules = [
-          inputs.microvm.nixosModules.microvm
-          ./modules/core/agent-vm/guest.nix
-        ];
-        specialArgs = { inherit inputs; };
       };
       laptop-1 = nixpkgs-stable.lib.nixosSystem {
         inherit system;

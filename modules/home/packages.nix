@@ -8,6 +8,7 @@
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     lmstudio-bionic                                       # Bionic is an easy to use desktop app for experimenting with local and open-source LLMs
+    goose-desktop                                         # Open-source, extensible AI agent
 
   ]) ++ (with pkgs-stable; [                              # Stable packages (less frequently updated)
                                                           # Fonts
