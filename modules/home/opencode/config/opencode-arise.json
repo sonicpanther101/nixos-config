@@ -1,0 +1,14 @@
+{
+  "show_banner": true,
+  "agents": {
+    "monarch":          { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "beru":             { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "igris":            { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "bellion":          { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "tusk":             { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "tank":             { "model": "llamacpp/qwen3.6-35b-a3b" },
+    "shadow-sovereign": { "model": "llamacpp/qwen3.6-35b-a3b" }
+  },
+  "output_shaping": { "max_chars": 12000, "preserve_errors": true },
+  "compaction": { "threshold_percent": 75, "preserve_todos": true }
+}

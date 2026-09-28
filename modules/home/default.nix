@@ -7,6 +7,7 @@
     ./neovim
     ./terminal
     ./scripts
+    ./opencode
     ./style.nix
     ./services.nix
     ./git.nix

@@ -105,53 +105,5 @@ in {
     general="DejaVu Sans,12"
   '';
 
-  home.file.".config/opencode/opencode.json".text = builtins.toJSON {
-    "$schema" = "https://opencode.ai/config.json";
-    model = "ollama/qwen3-coder:30b";
-    small_model = "ollama/qwen2.5-coder:7b";
-    lsp = true;
-
-    provider = {
-      "ollama" = {
-        npm = "@ai-sdk/openai-compatible";
-        name = "Ollama (local)";
-        options = {
-          baseURL = "http://localhost:11434/v1";
-          apiKey = "ollama";
-        };
-        models = {
-          "qwen3-coder:30b" = {
-            name = "Qwen3-Coder 30B";
-            limit = {
-              context = 262144;
-              output = 65536;
-            };
-          };
-          "qwen2.5-coder:7b" = {
-            name = "Qwen2.5-Coder 7B";
-            limit = {
-              context = 262144;
-              output = 65536;
-            };
-          };
-        };
-      };
-    };
-    
-    mcp = {
-      context7 = {
-        type = "remote";
-        url = "https://mcp.context7.ai/mcp";
-        enabled = true;
-      };
-    };
-
-    plugin = [
-      "opencode-direnv"
-      "OpenCodeRAG"
-      "opencode-throughput"
-      "opencode-simple-notify"
-      "@bluelovers/opencode-arise"
-    ];
-  }; 
+  # opencode.json now lives in modules/home/opencode/config and is deployed into the agent VM.
 }
