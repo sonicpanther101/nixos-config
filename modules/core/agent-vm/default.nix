@@ -106,6 +106,8 @@ in {
   systemd.services.llama-server = {
     description = "llama.cpp server for the agent VM";
     after = [ "network.target" ];
+    startLimitIntervalSec = 120;
+    startLimitBurst = 3;
     # deliberately no wantedBy: it holds ~11 GB VRAM and ~12 GB RAM while running
     environment = {
       LLAMA_CACHE = "/var/lib/llama-cpp";
@@ -126,10 +128,10 @@ in {
         "-c 262144"                       # native context. See README for why not 1M.
         "-np 1"                           # one slot = full context; raise to 2 for parallel shadows
         "-ngl 99"
-        "--n-cpu-moe 32"                  # routed experts of 32/40 layers live in RAM; TUNE (README)
+        "--n-cpu-moe 36"     # was 32: fewer expert layers on GPU, frees ~2 GB
         "-fa on"
         "--cache-type-k q8_0 --cache-type-v q8_0"
-        "-b 2048 -ub 1024 -t 8"
+        "-b 2048 -ub 512"    # was -ub 1024: roughly halves the compute buffer
         "--jinja"
         "--reasoning-format deepseek"     # reasoning arrives as reasoning_content, streamed live
         "--no-mmproj-offload"             # keep the vision projector out of the 12 GB

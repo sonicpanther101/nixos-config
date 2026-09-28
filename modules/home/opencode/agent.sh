@@ -21,7 +21,14 @@ case "${1:-help}" in
     systemctl stop ollama 2>/dev/null || true
     systemctl start llama-server microvm@agent
     echo -n "waiting for llama-server (first start downloads/loads the model, be patient) "
-    until curl -fs http://127.0.0.1:8081/health >/dev/null 2>&1; do echo -n .; sleep 3; done; echo " ok"
+    until curl -fs http://127.0.0.1:8081/health >/dev/null 2>&1; do
+      if ! systemctl is-active --quiet llama-server; then
+        echo; echo "llama-server is not running:" >&2
+        journalctl -u llama-server -n 30 --no-pager >&2
+        exit 1
+      fi
+      echo -n .; sleep 3
+    done
     echo -n "waiting for VM "
     until vm true 2>/dev/null; do echo -n .; sleep 2; done; echo " ok"
     echo "OpenCode: $(url | sed 's/:[^:@]*@/:***@/')   →   run: agent web"

@@ -151,7 +151,7 @@
     ollama = {
       enable = true;
       package = pkgs-stable.ollama-cuda;
-      loadModels = [ "mistral" "qwen2.5-coder:14b" "qwen3:14b-q4_K_M" ];
+      loadModels = [ "qwen3.6:35b-a3b-mtp-q4_K_M" ];
       # 0.0.0.0 so Docker containers (e.g. `openhands serve`) can reach it via
       # host.docker.internal — 127.0.0.1 (the default) is unreachable from
       # inside a container. Only actually reachable from the docker0 bridge —
@@ -162,7 +162,7 @@
         OLLAMA_KEEP_ALIVE = "1h";
         OLLAMA_NUM_PARALLEL = "1";
         OLLAMA_MAX_LOADED_MODELS = "1";
-        OLLAMA_CONTEXT_LENGTH = "32768";
+        OLLAMA_CONTEXT_LENGTH = "262144";
       };
     };
 
