@@ -162,7 +162,8 @@
         OLLAMA_KEEP_ALIVE = "1h";
         OLLAMA_NUM_PARALLEL = "1";
         OLLAMA_MAX_LOADED_MODELS = "1";
-        OLLAMA_CONTEXT_LENGTH = "32768";
+        OLLAMA_CONTEXT_LENGTH = "262144";
+        OLLAMA_MAX_OUTPUT_TOKENS = "32768";
       };
     };
 
