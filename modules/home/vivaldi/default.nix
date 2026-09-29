@@ -1,4 +1,4 @@
-{ lib, pkgs-unstable, ... } :
+{ lib, pkgs-stable, ... } :
 let
   friendlyWebPanels = [
     {
@@ -204,7 +204,7 @@ ENDOFPREFS
 
   programs.chromium = {
     enable = true;
-    package = pkgs-unstable.vivaldi.override {
+    package = pkgs-stable.vivaldi.override {
       proprietaryCodecs = true;
       enableWidevine = true;
     };
