@@ -90,6 +90,16 @@ my-vm -r     # same, but wipe the VM disk first
 
 Defined in `modules/core/vm.nix` via `virtualisation.vmVariant`, so it never affects the real system. Login is autologin; sudo password is `vm`.
 
+#### Let goose fix something in the VM
+
+```bash
+my-vm -t "Bluetooth headset doesn't reconnect after suspend, fix it"   # or -f goal.md
+my-vm -t "..." -H          # headless, just stream the log
+my-vm -t "..." -k -m qwen2.5-coder:14b -n 300
+```
+
+Goose runs *inside* the VM on a throw-away copy of the config (no `.git`), rebuilds with `vm-rebuild` until it can prove the goal is met, writes `~/REPORT.md`, and the VM powers off. Results land in `~/.local/state/nixos-vm/runs/<timestamp>/` (`report.md`, `changes.diff`, `goose.log`). Nothing is applied to the real repo or system: review, then `git apply` the diff yourself. Needs the host's ollama running.
+
 ### Keybinds
 
 Use `SUPER + F1` to view and search keybinds.
