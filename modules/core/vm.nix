@@ -43,6 +43,11 @@
     networking.hostName = lib.mkVMOverride "${host}-vm";
     networking.interfaces = lib.mkVMOverride { }; # enp6s0 / wake-on-lan doesn't exist here
 
+    # The VM direct-boots its kernel and never shows GRUB, so drop the GRUB theme
+    # (its gfxmodeBios clashes with qemu-vm's own) and skip fetching its splash image.
+    boot.loader.grub2-theme.enable = lib.mkVMOverride false;
+    boot.loader.grub.gfxmodeBios = lib.mkVMOverride "1024x768";
+
     # by-uuid resume device + swapfile offset + nvidia params from the host don't exist here.
     boot.resumeDevice = lib.mkVMOverride "";
     boot.kernelParams = lib.mkVMOverride [ ];
