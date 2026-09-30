@@ -1,8 +1,8 @@
-{pkgs-stable, ...}: let
+{pkgs-stable, lib, isHighPower, ...}: let
 in {
   home.packages = map (name: 
     pkgs-stable.writeScriptBin name (builtins.readFile ./${name}.sh)
-  ) [
+  ) ([
     "my-install"
     "my-shutdown"
     "my-sleep"
@@ -30,5 +30,7 @@ in {
     "my-driveusb-symlink"
     "my-hyprlock-pin"
     "my-ipod"
-  ];
+  ] ++ lib.optionals isHighPower [
+    "my-vm"
+  ]);
 }

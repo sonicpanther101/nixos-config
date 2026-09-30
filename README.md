@@ -81,6 +81,15 @@ nh os switch ~/nixos-config/ -H <host>
 sudo nixos-rebuild switch --flake ./nixos-config#<host>
 ```
 
+### Testing in a VM (high-power hosts only)
+
+```bash
+my-vm        # build + boot a QEMU VM of this host's exact config
+my-vm -r     # same, but wipe the VM disk first
+```
+
+Defined in `modules/core/vm.nix` via `virtualisation.vmVariant`, so it never affects the real system. Login is autologin; sudo password is `vm`.
+
 ### Keybinds
 
 Use `SUPER + F1` to view and search keybinds.
