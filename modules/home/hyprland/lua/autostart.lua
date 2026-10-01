@@ -31,34 +31,29 @@ if IS_HIGH_POWER then
 
     -- Desktop default workspace setup
     --
-    -- NOTE: previously these wrapped the command as
-    -- hl.exec_cmd('hyprctl dispatch exec "...\"...\"..."'), which reused the
-    -- same " character for both the outer hyprctl-arg quoting and the inner
-    -- sh -ic quoting. Once the inner \" closed early, the trailing
-    -- "&& git pull && nvim" fell OUTSIDE any quoting and was interpreted by
-    -- the shell as separate && commands instead of staying inside kitty's
-    -- sh -ic string - so kitty launched with a broken arg and git
-    -- pull/nvim silently ran detached instead of inside the terminal.
-    -- hl.exec_cmd() is already the exec dispatcher (it supports the
-    -- "[workspace N silent]" rule prefix directly - see the Dispatchers
-    -- wiki page), so there's no need to shell out through
-    -- "hyprctl dispatch exec" at all. Using Lua's [[ ]] long-bracket
-    -- strings means the embedded " characters need no escaping, so there's
-    -- no quote-nesting to get wrong.
-    hl.exec_cmd("hyprctl dispatch focusmonitor DP-1")
-    hl.exec_cmd([[[workspace 1 silent] kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"]])
-    hl.exec_cmd([[[workspace 2 silent] vivaldi --profile-directory="Default"]])
-    hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
-    hl.exec_cmd([[[workspace 4 silent] thunderbird]])
+    -- Two Lua-era changes from the hyprlang version:
+    --  * `hyprctl dispatch focusmonitor/workspace ...` no longer exists:
+    --    hyprctl dispatch now takes a Lua expression. Inside the config we just
+    --    call hl.dispatch(hl.dsp.focus(...)) directly.
+    --  * The "[workspace 1 silent] cmd" prefix is hyprlang exec syntax. In Lua
+    --    the rules go in a table: hl.exec_cmd(cmd, { workspace = "1 silent" }).
+    --    (They're matched to the spawned window by PID, so if an app forks and
+    --    the real window lands on the wrong workspace, add a hl.window_rule for
+    --    it instead.)
+    hl.dispatch(hl.dsp.focus({ monitor = "DP-1" }))
+    hl.exec_cmd('kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"', { workspace = "1 silent" })
+    hl.exec_cmd('vivaldi --profile-directory="Default"', { workspace = "2 silent" })
+    hl.exec_cmd('vivaldi --profile-directory="Profile 1"', { workspace = "3 silent" })
+    hl.exec_cmd("thunderbird", { workspace = "4 silent" })
 
-    hl.exec_cmd("hyprctl dispatch focusmonitor HDMI-A-1")
-    hl.exec_cmd([[[workspace 11 silent] vivaldi --profile-directory="Default"]])
-    hl.exec_cmd([[[workspace 12 silent] kitty]])
-    hl.exec_cmd([[[workspace 13 silent] beefweb_mpris]])
-    hl.exec_cmd([[[workspace 14 silent] beeper]])
+    hl.dispatch(hl.dsp.focus({ monitor = "HDMI-A-1" }))
+    hl.exec_cmd('vivaldi --profile-directory="Default"', { workspace = "11 silent" })
+    hl.exec_cmd("kitty", { workspace = "12 silent" })
+    hl.exec_cmd("beefweb_mpris", { workspace = "13 silent" })
+    hl.exec_cmd("beeper", { workspace = "14 silent" })
 
-    hl.exec_cmd("hyprctl dispatch workspace 1")
-    hl.exec_cmd("hyprctl dispatch focusmonitor DP-1")
+    hl.dispatch(hl.dsp.focus({ workspace = 1 }))
+    hl.dispatch(hl.dsp.focus({ monitor = "DP-1" }))
   end)
 end
 
