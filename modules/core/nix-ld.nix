@@ -9,17 +9,14 @@
 # whole class of error from tools like `uvx openhands`, `pip install`, etc.
 # ─────────────────────────────────────────────────────────────────────────────
 { pkgs-stable, ... }: {
-  
+  programs.nix-ld.enable = true;
 
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs-stable; [
-      stdenv.cc.cc.lib   # libstdc++.so.6 — fixes the tokenizers error
-      zlib
-      openssl
-      curl
-      libxml2
-      glib
-    ];
-  };
+  programs.nix-ld.libraries = with pkgs-stable; [
+    stdenv.cc.cc.lib   # libstdc++.so.6 — fixes the tokenizers error
+    zlib
+    openssl
+    curl
+    libxml2
+    glib
+  ];
 }
