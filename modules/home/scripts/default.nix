@@ -27,7 +27,6 @@ in {
     "my-github-contributions"
     "my-toggle-keyboard"
     "my-invert-monitor"
-    "my-rotate-screen"
     "my-driveusb-symlink"
     "my-hyprlock-pin"
     "my-ipod"

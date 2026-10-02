@@ -46,27 +46,9 @@ hl.bind("SUPER+ALT+K", hl.dsp.exec_cmd("my-toggle-keyboard"))
 hl.bind("SUPER+ALT+P", hl.dsp.exec_cmd("beefweb_mpris"))
 hl.bind("SUPER+C", hl.dsp.exec_cmd("hyprpicker -a"))
 
--- Submap entry. Dispatchers only *describe* an action, so this must be handed
--- straight to hl.bind (a function body that merely builds one does nothing).
-hl.bind("SUPER+M", hl.dsp.submap("monitor"))
-
--- "monitor" submap: D = toggle dpms on the focused monitor (movies),
--- I = toggle colour invert (darkness). Each performs its action then drops back
--- to the normal keymap, so it feels like a SUPER+M, SUPER+D chord.
-hl.define_submap("monitor", function()
-  hl.bind("SUPER+D", function()
-    local mon = hl.get_active_monitor()
-    hl.dispatch(hl.dsp.dpms({ action = "toggle", monitor = mon and mon.name or nil }))
-    hl.dispatch(hl.dsp.submap("reset"))
-  end)
-
-  hl.bind("SUPER+I", function()
-    hl.dispatch(hl.dsp.exec_cmd("my-invert-monitor"))
-    hl.dispatch(hl.dsp.submap("reset"))
-  end)
-
-  hl.bind("escape", hl.dsp.submap("reset"))
-  hl.bind("SUPER+M", hl.dsp.submap("reset"))
+-- Submap entry
+hl.bind("SUPER+M", function()
+  hl.dsp.submap("monitor")
 end)
 
 -- Vscodium
@@ -91,25 +73,19 @@ hl.bind("SUPER+Q", hl.dsp.window.close())
 hl.bind("SUPER+F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind("SUPER+Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER+J", hl.dsp.layout("togglesplit"))
-hl.bind("SUPER+ALT+G", smw.grab_rogue_windows())
+hl.bind("SUPER+ALT+G", hl.dsp.layout("split-grabroguewindows"))
 
 -- Cycle
--- Two actions on one key go in ONE bind (a second hl.bind on the same key
--- doesn't reliably stack - see the "Multiple binds to one key" wiki section).
-hl.bind("ALT+Tab", function()
-  hl.dispatch(hl.dsp.window.cycle_next({ next = true }))
-  hl.dispatch(hl.dsp.window.bring_to_top())
-end)
-hl.bind("ALT+SHIFT+Tab", function()
-  hl.dispatch(hl.dsp.window.cycle_next({ next = false }))
-  hl.dispatch(hl.dsp.window.bring_to_top())
-end)
+hl.bind("ALT+Tab", hl.dsp.window.cycle_next({ next = true }))
+hl.bind("ALT+Tab", hl.dsp.window.bring_to_top())
+hl.bind("ALT+SHIFT+Tab", hl.dsp.window.cycle_next({ next = false }))
+hl.bind("ALT+SHIFT+Tab", hl.dsp.window.bring_to_top())
 
--- Move the active window to the previous/next monitor and follow it. The old
--- split-changemonitor dispatcher is gone with the C++ plugin; smw's own docs
--- use the native monitor move for this.
-hl.bind("SUPER+SHIFT+comma", hl.dsp.window.move({ monitor = "-1", follow = true }))
-hl.bind("SUPER+SHIFT+period", hl.dsp.window.move({ monitor = "+1", follow = true }))
+-- Monitor movement (split-monitor-workspaces registers these as hyprctl
+-- custom dispatchers, invoked the same way its README invokes them for
+-- waybar's on-scroll actions - not standalone shell commands).
+hl.bind("SUPER+SHIFT+comma", hl.dsp.exec_cmd("hyprctl dispatch split-changemonitor prev"))
+hl.bind("SUPER+SHIFT+period", hl.dsp.exec_cmd("hyprctl dispatch split-changemonitor next"))
 
 -- Move windows
 hl.bind("SUPER+SHIFT+left", hl.dsp.window.move({ direction = "left" }))
@@ -117,13 +93,11 @@ hl.bind("SUPER+SHIFT+right", hl.dsp.window.move({ direction = "right" }))
 hl.bind("SUPER+SHIFT+up", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER+SHIFT+down", hl.dsp.window.move({ direction = "down" }))
 
--- Resize windows. resize({x, y}) is ABSOLUTE unless relative = true, so without
--- it -80 is a negative target size -> "invalid size". (The old resizeactive
--- dispatcher was always relative.)
-hl.bind("SUPER+CTRL+left", hl.dsp.window.resize({ x = -80, y = 0, relative = true }))
-hl.bind("SUPER+CTRL+right", hl.dsp.window.resize({ x = 80, y = 0, relative = true }))
-hl.bind("SUPER+CTRL+up", hl.dsp.window.resize({ x = 0, y = -80, relative = true }))
-hl.bind("SUPER+CTRL+down", hl.dsp.window.resize({ x = 0, y = 80, relative = true }))
+-- Resize windows
+hl.bind("SUPER+CTRL+left", hl.dsp.window.resize({ x = -80, y = 0 }))
+hl.bind("SUPER+CTRL+right", hl.dsp.window.resize({ x = 80, y = 0 }))
+hl.bind("SUPER+CTRL+up", hl.dsp.window.resize({ x = 0, y = -80 }))
+hl.bind("SUPER+CTRL+down", hl.dsp.window.resize({ x = 0, y = 80 }))
 
 -- Move floating (relative nudge, same as the old "moveactive" dispatcher)
 hl.bind("SUPER+ALT+left", hl.dsp.window.move({ x = -80, y = 0, relative = true }))
@@ -159,16 +133,6 @@ hl.bind("code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | j
 hl.bind("SUPER+code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 100"), { locked = true })
 hl.bind("SUPER+code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 0"), { locked = true })
 
--- Media and volume controls (these were dropped in the Lua migration)
-local player = "playerctl -p $(cat ${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player)"
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer -i 2"), { locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("pamixer -d 2"), { locked = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("pamixer -t"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd(player .. " play-pause"), { locked = true })
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd(player .. " next"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd(player .. " previous"), { locked = true })
-hl.bind("XF86AudioStop", hl.dsp.exec_cmd(player .. " stop"), { locked = true })
-
 -- Misc locked
 hl.bind("SUPER+ALT+R", hl.dsp.exec_cmd("my-refresh"), { locked = true })
 
@@ -180,8 +144,5 @@ hl.bind("SUPER+SHIFT+CTRL+ALT+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Restart
 hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("my-sleep"), { locked = true })
 
 -- Mouse bindings (window drag/resize via mouse button + modifier)
-hl.bind("SUPER+mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind("SUPER+mouse:273", hl.dsp.window.resize(), { mouse = true })
-
--- Touchpad: 3-finger horizontal swipe switches workspace (was `gesture = 3, horizontal, workspace`)
-hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+hl.bind("SUPER+mouse:272", hl.dsp.window.drag())
+hl.bind("SUPER+mouse:273", hl.dsp.window.resize())

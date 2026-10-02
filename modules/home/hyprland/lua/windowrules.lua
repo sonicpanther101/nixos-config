@@ -65,18 +65,11 @@ local function mkRule(opts)
 end
 
 -- Opacity rules
--- NOTE: title/class regexes must match the WHOLE string, so use ".*Foo.*" to
--- mean "contains Foo" (".*Foo" only matches titles that END in Foo).
--- Opacity is a multiplier unless you add "override", which makes it exact.
--- Later rules win, so the exceptions below stay under the generic app rules.
 mkRule({ match = { class = "codium" }, opacity = "0.9" })
 mkRule({ match = { class = "foobar2000.exe" }, opacity = "0.9" })
 mkRule({ match = { class = "vivaldi-stable" }, opacity = "0.9" })
-
--- Exceptions: exactly opaque in all three states (active / inactive / fullscreen)
-mkRule({ match = { title = ".*Last\\.fm.*" }, opacity = "1 override 1 override 1 override" })
-mkRule({ match = { title = ".*Movie.*" }, opacity = "1 override 1 override 1 override" })
-
+mkRule({ match = { title = ".*Last.fm" }, opacity = "1" })
+mkRule({ match = { title = ".*Movie" }, opacity = "1" })
 mkRule({ match = { class = "nemo" }, opacity = "0.75" })
 
 -- SableUI rules

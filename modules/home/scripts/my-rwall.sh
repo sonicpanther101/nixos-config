@@ -66,7 +66,7 @@ set_browser_opacity() {
     echo "opacity: ${opacity}"
 
     hyprctl -j clients | jq -r '.[] | select(.class == "vivaldi-stable") | .address' | while read -r addr; do
-        hyprctl dispatch "hl.dsp.window.set_prop({ window = \"address:${addr}\", prop = \"opacity\", value = \"${opacity}\" })" >/dev/null 2>&1
+        hyprctl dispatch setprop "address:${addr}" opacity $opacity >/dev/null 2>&1
     done   
 }
 

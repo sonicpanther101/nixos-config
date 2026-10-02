@@ -131,14 +131,14 @@
             keybinds = "walker -m menus:keybinds";
             aliases = "walker -m menus:aliases";
 
-            upright = "my-rotate-screen upright";
-            left = "my-rotate-screen left";
-            upside = "my-rotate-screen upside";
-            right = "my-rotate-screen right";
+            upright = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,0\"";
+            left = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,1\"";
+            upside = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,2\"";
+            right = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,3\"";
 
-            cw = "my-rotate-screen cw";
-            ccw = "my-rotate-screen ccw";
-            flip = "my-rotate-screen flip";
+            cw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 1) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+            ccw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 3) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+            flip = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 2) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
           };
         };
 
