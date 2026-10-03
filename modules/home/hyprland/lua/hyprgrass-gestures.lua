@@ -2,23 +2,15 @@
 -- Symlinked to ~/.config/hypr/hyprgrass-gestures.lua at activation
 -- Changes trigger hyprctl reload only (no Nix rebuild needed)
 
+-- split-monitor-workspaces Lua API (already loaded + set up by hyprland.lua)
+local smw = require("plugins.split-monitor-workspaces")
+
 -- Plugin config
 hl.config({
   plugin = {
     hyprgrass = {
       -- Tablet screens generally need more sensitivity than the 1.0 default.
       sensitivity = 3.0,
-
-      -- Must be >= 3. Deliberately set high (out of the way of the 3/4-finger
-      -- discrete gestures below) since workspace switching is handled by the
-      -- swipe:4:l/r binds -> split-cycleworkspaces instead of this drag-to-follow
-      -- continuous swipe.
-      workspace_swipe_fingers = 5,
-
-      -- Continuous edge-drag workspace switching, separate from workspace_swipe_fingers.
-      -- Disabled (set to a non l/r/u/d value) because every edge below is already
-      -- used for a discrete quick-launch gesture and would otherwise collide with it.
-      workspace_swipe_edge = "none",
 
       -- In milliseconds
       long_press_delay = 400,
@@ -96,40 +88,46 @@ hl.plugin.hyprgrass.bind({
   action = hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"),
 })
 
+-- NOTE: hyprgrass.gesture() only accepts Hyprland's built-in 1:1 gesture actions
+-- (workspace/move/resize/special/close/fullscreen/float/emulate_touchpad or a Lua
+-- function) - not hyprlang dispatcher strings like "movefocus l". Discrete
+-- one-shot swipes are therefore registered with hyprgrass.bind + Lua dispatchers,
+-- the same way keybinds.lua does it.
+
 -- --- 4-finger swipes: workspaces + window state ---
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 4, direction = "left" },
-  action = "split-cycleworkspaces +1",
+  action = function() hl.dispatch(smw.cycle_workspaces("next")) end,
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 4, direction = "right" },
-  action = "split-cycleworkspaces -1",
+  action = function() hl.dispatch(smw.cycle_workspaces("prev")) end,
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 4, direction = "down" },
-  action = "fullscreen",
+  action = hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }),
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 4, direction = "up" },
-  action = "float",
+  action = hl.dsp.window.float({ action = "toggle" }),
 })
 
 -- --- 3-finger swipes: focus + layout ---
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 3, direction = "left" },
-  action = "movefocus l",
+  action = hl.dsp.focus({ direction = "left" }),
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 3, direction = "right" },
-  action = "movefocus r",
+  action = hl.dsp.focus({ direction = "right" }),
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 3, direction = "down" },
-  action = "layoutmsg togglesplit",
+  action = hl.dsp.layout("togglesplit"),
 })
-hl.plugin.hyprgrass.gesture({
+hl.plugin.hyprgrass.bind({
   pattern = { kind = "swipe", fingers = 3, direction = "up" },
-  action = "layoutmsg swapsplit",
+  action = hl.dsp.layout("swapsplit"),
 })
 
 -- tap with 3 fingers -> terminal (conditional on not Xournal++)
@@ -138,7 +136,7 @@ hl.plugin.hyprgrass.bind({
   action = function()
     local win = hl.get_active_window()
     if win and not string.match(win.title, "Xournal++") then
-      hl.dsp.exec_cmd("kitty")
+      hl.dispatch(hl.dsp.exec_cmd("kitty"))
     end
   end,
 })
@@ -152,11 +150,11 @@ hl.plugin.hyprgrass.bind({
 -- 5-finger tap/pinch -> close window
 hl.plugin.hyprgrass.bind({
   pattern = { kind = "tap", fingers = 5 },
-  action = hl.dsp.killactive(),
+  action = hl.dsp.window.close(),
 })
 hl.plugin.hyprgrass.bind({
   pattern = { kind = "pinch", fingers = 5, direction = "pinchin" },
-  action = hl.dsp.killactive(),
+  action = hl.dsp.window.close(),
 })
 
 -- longpress can trigger mouse binds
