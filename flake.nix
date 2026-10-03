@@ -40,7 +40,7 @@
     };
 
     hyprgrass = {
-      url = "github:horriblename/hyprgrass/d094a3e62f6ecaeb41515982d3e13edefaf8a4e7";
+      url = "github:horriblename/hyprgrass/5b1298daa9bb2835df6a0e33619f6ff3a7a05715"; # newest rev that still builds against the pinned Hyprland (older one used a removed API); bump together with hyprland
       inputs.hyprland.follows = "hyprland";
     };
     

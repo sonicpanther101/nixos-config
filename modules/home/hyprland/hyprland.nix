@@ -57,8 +57,6 @@ in
           plugin = {
             hyprgrass = {
               sensitivity = 3.0,
-              workspace_swipe_fingers = 5,
-              workspace_swipe_edge = "none",
               long_press_delay = 400,
               resize_on_border_long_press = true,
               edge_margin = 10,
