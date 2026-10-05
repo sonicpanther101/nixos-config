@@ -1,8 +1,9 @@
 # my-audio-menu: dynamic output-device menu for waybar's wireplumber module.
 #
 # Waybar loads a menu's XML once, when the module is created, so the device list
-# can't be live. Instead we regenerate the XML whenever the set of output devices
-# (or the default one) changes, then ask waybar to reload (SIGUSR2).
+# can't be live. Instead we regenerate the XML whenever an output device is added
+# or removed, then ask waybar to reload (SIGUSR2). Switching the default device
+# does NOT trigger a reload (the menu doesn't mark the current device for that reason).
 #
 #   my-audio-menu gen            write the menu XML + sink state (no reload)
 #   my-audio-menu watch          watch PipeWire; regenerate + reload waybar on change
@@ -15,16 +16,13 @@ dir="$HOME/.cache/waybar"
 xml="$dir/audio-menu.xml"
 state="$dir/audio-sinks.tsv"
 
-# id <TAB> description <TAB> 1 if default else 0, sorted by name so the order is stable
+# id <TAB> description, sorted by name so the order is stable
 list_sinks() {
   pw-dump 2>/dev/null | jq -r '
-    ([.[] | select(.type=="PipeWire:Interface:Metadata")
-          | .metadata[]? | select(.key=="default.audio.sink") | .value.name] | first // "") as $def
-    | .[]
+    .[]
     | select(.type=="PipeWire:Interface:Node" and .info.props["media.class"]=="Audio/Sink")
     | [ .id,
-        (.info.props["node.description"] // .info.props["node.nick"] // .info.props["node.name"]),
-        (if .info.props["node.name"] == $def then "1" else "0" end) ]
+        (.info.props["node.description"] // .info.props["node.nick"] // .info.props["node.name"]) ]
     | @tsv' | sort -f -t "$(printf '\t')" -k2,2
 }
 
@@ -47,11 +45,10 @@ build_xml() { # reads sink rows on stdin
   echo '<interface>'
   echo '<object class="GtkMenu" id="menu">'
   echo
-  local n=0 id desc def label
-  while IFS="$(printf '\t')" read -r id desc def; do
+  local n=0 id desc label
+  while IFS="$(printf '\t')" read -r id desc; do
     [ -n "$id" ] || continue
     label=$(printf '%s' "$desc" | xml_escape)
-    if [ "$def" = 1 ]; then label="● $label"; else label="   $label"; fi
     item "sink-$n" "$label"
     n=$((n + 1))
   done
@@ -92,7 +89,7 @@ case "${1:-}" in
   watch)
     gen && reload_waybar
     pactl subscribe \
-      | grep --line-buffered -E "'(new|remove)' on sink |'change' on server" \
+      | grep --line-buffered -E "'(new|remove)' on sink " \
       | while read -r _; do
           sleep 0.3
           gen && reload_waybar
