@@ -54,7 +54,9 @@ in {
         ] ++ [
           "wireplumber"
           "tray"
+        ] ++ lib.optionals isLaptop [
           "backlight"
+        ] ++ [
           "custom/keyboard"
           "idle_inhibitor"
         ] ++ lib.optionals isLaptop [
