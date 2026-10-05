@@ -1,4 +1,36 @@
-{ isHighPower, isLaptop, lib, inputs, pkgs-stable, ... } : {
+{ isHighPower, isLaptop, lib, inputs, pkgs-stable, config, ... } : let
+  # Dynamic output-device menu for the volume module (see audio-menu.sh).
+  audioMenu = pkgs-stable.writeShellScriptBin "my-audio-menu" ''
+    export PATH=${lib.makeBinPath (with pkgs-stable; [
+      coreutils gnused gnugrep jq pipewire wireplumber pulseaudio systemd
+    ])}:$PATH
+    ${builtins.readFile ./audio-menu.sh}
+  '';
+  audioMenuFile = "${config.home.homeDirectory}/.cache/waybar/audio-menu.xml";
+  maxAudioSinks = 12;
+in {
+  home.packages = [ audioMenu ];
+
+  systemd.user.services = {
+    # Make sure the menu XML exists before waybar reads it
+    waybar.Service.ExecStartPre = "-${audioMenu}/bin/my-audio-menu gen";
+
+    # Regenerate the menu + reload waybar when output devices come and go
+    waybar-audio-menu = {
+      Unit = {
+        Description = "Keep the waybar volume menu in sync with PipeWire outputs";
+        After = [ "pipewire.service" "pipewire-pulse.service" "wireplumber.service" "waybar.service" ];
+        Wants = [ "pipewire-pulse.service" ];
+      };
+      Service = {
+        ExecStart = "${audioMenu}/bin/my-audio-menu watch";
+        Restart = "always";
+        RestartSec = 2;
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
   programs.waybar = {
     enable = true;
     package = inputs.waybar-git.packages.${pkgs-stable.system}.default;
@@ -150,7 +182,12 @@
           on-scroll-up   = if isLaptop then "pamixer -d 2" else "pamixer -i 2";
           on-scroll-down = if isLaptop then "pamixer -i 2" else "pamixer -d 2";
           on-click-middle = "crosspipe";
-          on-click-right = "pwvucontrol";
+          menu = "on-click-right";
+          menu-file = audioMenuFile;
+          menu-actions = {
+            pwvucontrol = "pwvucontrol";
+          } // lib.genAttrs (map (n: "sink-${toString n}") (lib.range 0 (maxAudioSinks - 1)))
+            (id: "my-audio-menu set ${lib.removePrefix "sink-" id}");
         };
 
         cava = {
