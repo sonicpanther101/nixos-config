@@ -14,7 +14,7 @@ let
     input = { width = 200; height = 50; posY = -80; outline = 4; };
     time  = { fontSize = 65; posY = -320; };
     date  = { fontSize = 22; posY = -250; };
-    wx    = { fontSize = 16; posX = 600;  };
+    wx    = { fontSize = 10; posX = 700; posY = -100;  };
     gh    = { fontSize = 14; posX = -600; };
     pin   = { 
       buttonSize = 100 * pinpadScale; 
@@ -64,7 +64,7 @@ let
     text = "cmd[update:14400000] my-weather";
     font_size = builtins.floor (baseConfig.wx.fontSize * scale);
     font_family = "JetBrainsMono Nerd Font";
-    position = "${toString (builtins.floor (baseConfig.wx.posX * scale))}, 0";
+    position = "${toString (builtins.floor (baseConfig.wx.posX * scale))}, ${toString (builtins.floor (baseConfig.wx.posY * scale))}";
     halign = "center";
     valign = "center";
   };

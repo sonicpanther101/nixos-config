@@ -16,6 +16,7 @@ refresh() {
     # Default text format with ANSI colours stripped and the social link line removed.
     curl -s "wttr.in?lang=en" \
         | sed -E 's/\x1b\[[0-9;]*m//g' \
+        | sed 's/ ―/ -/g' \
         | grep -v 'Follow .* for wttr.in updates' \
         > "$DATA_CACHE.tmp" && mv "$DATA_CACHE.tmp" "$DATA_CACHE"
 }
