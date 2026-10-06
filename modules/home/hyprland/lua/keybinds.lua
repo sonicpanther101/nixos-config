@@ -84,8 +84,8 @@ hl.bind("ALT+SHIFT+Tab", hl.dsp.window.bring_to_top())
 -- Monitor movement (split-monitor-workspaces registers these as hyprctl
 -- custom dispatchers, invoked the same way its README invokes them for
 -- waybar's on-scroll actions - not standalone shell commands).
-hl.bind("SUPER+SHIFT+comma", smw.change_monitor("prev"))
-hl.bind("SUPER+SHIFT+period", smw.change_monitor("next"))
+hl.bind("SUPER+SHIFT+comma", function() smw.change_monitor("prev") end)
+hl.bind("SUPER+SHIFT+period", function() smw.change_monitor("next") end)
 
 -- Move windows
 hl.bind("SUPER+SHIFT+left", hl.dsp.window.move({ direction = "left" }))
