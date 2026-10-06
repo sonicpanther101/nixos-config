@@ -73,7 +73,7 @@ hl.bind("SUPER+Q", hl.dsp.window.close())
 hl.bind("SUPER+F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind("SUPER+Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind("SUPER+J", hl.dsp.layout("togglesplit"))
-hl.bind("SUPER+ALT+G", hl.dsp.layout("split-grabroguewindows"))
+hl.bind("SUPER+ALT+G", smw.grab_rogue_windows())
 
 -- Cycle
 hl.bind("ALT+Tab", hl.dsp.window.cycle_next({ next = true }))
@@ -84,8 +84,8 @@ hl.bind("ALT+SHIFT+Tab", hl.dsp.window.bring_to_top())
 -- Monitor movement (split-monitor-workspaces registers these as hyprctl
 -- custom dispatchers, invoked the same way its README invokes them for
 -- waybar's on-scroll actions - not standalone shell commands).
-hl.bind("SUPER+SHIFT+comma", hl.dsp.exec_cmd("hyprctl dispatch split-changemonitor prev"))
-hl.bind("SUPER+SHIFT+period", hl.dsp.exec_cmd("hyprctl dispatch split-changemonitor next"))
+hl.bind("SUPER+SHIFT+comma", smw.change_monitor("prev"))
+hl.bind("SUPER+SHIFT+period", smw.change_monitor("next"))
 
 -- Move windows
 hl.bind("SUPER+SHIFT+left", hl.dsp.window.move({ direction = "left" }))

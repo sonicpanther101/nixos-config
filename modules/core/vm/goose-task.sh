@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# Run goose autonomously against a sandbox copy of the config, then hand back
-# a diff + report through the shared dir. Started by goose-task.service on boot
+# Run goose autonomously against a sandbox copy of the config (at ~/nixos-config,
+# where the rest of the setup expects it), then hand back a diff + report
+# through the shared dir. Started by goose-task.service on boot
 # (when the host passed a task), or run by hand inside the VM.
 set -uo pipefail
 export PATH=/run/wrappers/bin:/run/current-system/sw/bin:$PATH
 
 share=/tmp/shared            # host: ~/.local/state/nixos-vm/share
-sandbox="$HOME/sandbox-config"
+sandbox="$HOME/nixos-config"
 out="$share/out"
 mkdir -p "$out"
 exec > >(tee -a "$out/goose.log") 2>&1
@@ -39,11 +40,24 @@ cd "$sandbox"
 git add -A
 git diff --cached --binary HEAD > "$out/changes.diff"
 git diff --cached --stat HEAD    > "$out/changes.stat"
-if [ -f "$HOME/REPORT.md" ]; then
-    cp "$HOME/REPORT.md" "$out/report.md"
-else
-    echo "STATUS: FAILED (agent never wrote ~/REPORT.md — see goose.log)" > "$out/report.md"
+
+# Human-readable change list: per file, separate Removed / Added blocks with no
+# +/- markers (the nixos-config-change-report format). Rendered by us from the
+# real files, not written by the agent, so it can't drift from what changed.
+if ! vm-changes > "$out/changes.md"; then
+    echo "(could not render the change list — apply changes.diff instead)" > "$out/changes.md"
 fi
+
+# report.md = the agent's report + the rendered changes.
+{
+    if [ -f "$HOME/REPORT.md" ]; then
+        cat "$HOME/REPORT.md"
+    else
+        echo "STATUS: FAILED (agent never wrote ~/REPORT.md — see goose.log)"
+    fi
+    printf '\n## Changes to make to the real config\n\n'
+    cat "$out/changes.md"
+} > "$out/report.md"
 echo "== goose-task: results written to $out"
 
 # Power off when run by systemd, unless the host asked to keep the VM open.

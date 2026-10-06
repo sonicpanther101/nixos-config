@@ -98,7 +98,7 @@ my-vm -t "..." -H          # headless, just stream the log
 my-vm -t "..." -k -m qwen2.5-coder:14b -n 300
 ```
 
-Goose runs *inside* the VM on a throw-away copy of the config (no `.git`), rebuilds with `vm-rebuild` until it can prove the goal is met, writes `~/REPORT.md`, and the VM powers off. Results land in `~/.local/state/nixos-vm/runs/<timestamp>/` (`report.md`, `changes.diff`, `goose.log`). Nothing is applied to the real repo or system: review, then `git apply` the diff yourself. Needs the host's ollama running.
+Goose runs *inside* the VM on a throw-away copy of the config (no `.git` from the real repo) at `~/nixos-config` in the VM, rebuilds with `vm-rebuild` until it can prove the goal is met, writes `~/REPORT.md`, and the VM powers off. Results land in `~/.local/state/nixos-vm/runs/<timestamp>/` (`report.md`, `changes.md`, `changes.diff`, `goose.log`). `report.md` is goose's report followed by the changes, one section per file with separate Removed / Added blocks (no `+`/`-` markers), and `changes.md` is just that change list. Nothing is applied to the real repo or system: review, then `git apply` the diff yourself. Needs the host's ollama running.
 
 ### Keybinds
 

@@ -26,6 +26,11 @@
     ("export TASK_INSTRUCTIONS=${./goose-instructions.md}\n"
       + builtins.readFile ./goose-task.sh);
 
+  # Renders the sandbox's changes as Removed/Added Markdown (no +/- markers).
+  vmChanges = pkgs-stable.writeShellScriptBin "vm-changes"
+    ("export CHANGES_PY=${./changes.py}\n"
+      + builtins.readFile ./vm-changes.sh);
+
 in {
 
   virtualisation.vmVariant = lib.mkIf config.my.isHighPower {
@@ -84,13 +89,17 @@ in {
     # `my-vm -t "<goal>"` shares a *snapshot* of the config (no .git) plus the
     # task into the VM at /tmp/shared (qemu-vm's built-in `shared` dir, pointed
     # at $SHARED_DIR by my-vm). On boot, goose-task.service copies it to
-    # ~/sandbox-config, lets goose CLI iterate with `vm-rebuild` until the goal
-    # is met, and writes changes.diff + report.md back to /tmp/shared/out.
+    # ~/nixos-config (where the rest of the setup expects the config to live),
+    # lets goose CLI iterate with `vm-rebuild` until the goal is met, and writes
+    # changes.diff, changes.md (Removed/Added format) + report.md back to
+    # /tmp/shared/out.
     # The real repo and the host system are never written to.
     environment.systemPackages = [
       pkgs-unstable.goose-cli
       pkgs-stable.git
+      pkgs-stable.python3 # runs changes.py (via vm-changes)
       vmRebuild
+      vmChanges
       gooseTask
     ];
 
@@ -105,7 +114,7 @@ in {
     };
 
     systemd.services.goose-task = {
-      description = "Autonomous goose run against a sandbox copy of the config";
+      description = "Autonomous goose run against a sandbox copy of the config (~/nixos-config)";
       wantedBy = [ "multi-user.target" ];
       wants = [ "network-online.target" ];
       after = [ "network-online.target" ];

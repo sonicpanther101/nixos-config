@@ -132,7 +132,7 @@ if [[ -n "$tail_pid" ]]; then
     echo
     [[ -s "$dest/changes.stat" ]] && cat "$dest/changes.stat"
     echo
-    echo "Saved in: $dest   (report.md, changes.diff, goose.log)"
+    echo "Saved in: $dest   (report.md, changes.md, changes.diff, goose.log)"
     if [[ -s "$dest/changes.diff" ]]; then
         echo "Review the diff, then to apply it to your real config:"
         echo "  cd ~/nixos-config && git apply --check $dest/changes.diff && git apply $dest/changes.diff"

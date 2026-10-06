@@ -6,7 +6,7 @@
 set -uo pipefail
 export PATH=/run/wrappers/bin:/run/current-system/sw/bin:$PATH
 
-sandbox="${SANDBOX:-$HOME/sandbox-config}"
+sandbox="${SANDBOX:-$HOME/nixos-config}"
 host=$(hostname); host=${host%-vm}
 log=$(mktemp)
 
@@ -32,7 +32,7 @@ if ! sudo "$out/bin/switch-to-configuration" test > "$log" 2>&1; then
 fi
 tail -n 20 "$log"
 
-echo ">> OK: VM is now running your current sandbox-config."
+echo ">> OK: VM is now running your current ~/nixos-config."
 failed=$(systemctl --failed --no-legend --plain 2>/dev/null)
 if [ -n "$failed" ]; then
     echo ">> note: failed units right now (some may be unrelated VM noise):"

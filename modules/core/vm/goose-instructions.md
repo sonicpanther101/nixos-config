@@ -6,15 +6,16 @@ job is to achieve the GOAL at the bottom of this file by changing that flake,
 proving the change works in this VM, and then handing back a report.
 
 ## Where things are
-- The flake is a git repo at `~/sandbox-config` (a throw-away copy with a single
-  `baseline` commit). Edit files ONLY there. It has no remote; never add one.
+- The flake is a git repo at `~/nixos-config` (the usual location of the config;
+  here it is a throw-away copy with a single `baseline` commit). Edit files ONLY
+  there. It has no remote; never add one.
 - This VM is booted from that same config (with the VM-only overrides in
   `modules/core/vm.nix`). You have passwordless `sudo`, internet access and the
   `goose`, `git` and `nix` CLIs.
 
 ## How to rebuild
 - Use ONLY `vm-rebuild` (run from anywhere). It stages your changes, builds this
-  VM's system from `~/sandbox-config` and activates it live. It prints the tail
+  VM's system from `~/nixos-config` and activates it live. It prints the tail
   of the build log on failure. Read the error, fix the config, run it again.
 - Do NOT run `nixos-rebuild`, `nh`, `my-install`, `my-update`, `install.sh` or
   any other `my-*` script, and do NOT `git push`/`git pull`/`git fetch` or touch
@@ -23,7 +24,7 @@ proving the change works in this VM, and then handing back a report.
   `flake.lock` as it is unless the goal is literally about updating an input.
 
 ## What counts as a fix
-- Only the git diff of `~/sandbox-config` is handed back to the user. A fix
+- Only the git diff of `~/nixos-config` is handed back to the user. A fix
   that only exists as imperative state in the VM (a file you edited in `/etc`,
   `nix-env -i`, `systemctl enable` by hand, `sudo` tweaks, a home-directory
   dotfile) is **not a fix**. Express the fix declaratively in the flake.
@@ -49,15 +50,21 @@ proving the change works in this VM, and then handing back a report.
   stop. Do nothing after writing it.
 
 ## `~/REPORT.md` format
+Do NOT paste diffs, snippets or per-file change lists into the report. After you
+finish, the exact changes are rendered automatically from the real files (one
+section per file, separate "Removed" / "Added" blocks, a full updated file when
+there are many small edits) and appended under "Changes to make to the real
+config". Run `vm-changes` at any time to preview that list; if it shows something
+you did not intend, fix it before you finish.
+
 ```
 STATUS: SUCCESS | PARTIAL | FAILED
 
 ## Summary
 One or two sentences: what was wrong / what was needed, and the outcome.
 
-## Changes to make to the real config
-For every changed file: path, what to change, and *why* (short). Include the
-important snippets. The user will apply them by hand on the real machine.
+## Why these changes
+Short, per file (by path): why that change was needed, and any non-obvious choice.
 
 ## How I verified
 The exact commands run in the VM and what they showed.
