@@ -8,6 +8,24 @@
   '';
   audioMenuFile = "${config.home.homeDirectory}/.cache/waybar/audio-menu.xml";
   maxAudioSinks = 12;
+
+  rotateMonitor = pkgs-stable.writeShellScript "rotate-monitor" ''
+    # usage: rotate-monitor <0|1|2|3|cw|ccw|flip>
+    read -r mon cur scale x y < <(
+      hyprctl -j monitors | ${pkgs-stable.jq}/bin/jq -r \
+        '.[] | select(.focused) | "\(.name) \(.transform) \((.scale*100|round)/100) \(.x) \(.y)"'
+    )
+
+    case "$1" in
+      cw)   t=$(( (cur + 1) % 4 )) ;;
+      ccw)  t=$(( (cur + 3) % 4 )) ;;
+      flip) t=$(( (cur + 2) % 4 )) ;;
+      *)    t="$1" ;;
+    esac
+
+    pos="$x"x"$y"
+    hyprctl eval "hl.monitor({ output = '$mon', mode = 'preferred', position = '$pos', scale = $scale, transform = $t })"
+  '';
 in {
   home.packages = [ audioMenu ];
 
@@ -150,7 +168,7 @@ in {
         };
 
         "custom/menu" = {
-          format = "";
+          format = "";
           tooltip = "Power & Screen Rotation";
           menu = "on-click";
           menu-file = "${./menu.xml}";
@@ -160,19 +178,19 @@ in {
             sleep-1 = "my-sleep";
             poweroff = "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'";
             reboot = "hyprshutdown -t 'Restarting...' --post-cmd 'reboot'";
-            
+
             wallpaper = "walker -m menus:wallpapers";
             keybinds = "walker -m menus:keybinds";
             aliases = "walker -m menus:aliases";
 
-            upright = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,0\"";
-            left = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,1\"";
-            upside = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,2\"";
-            right = "hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,3\"";
+            upright = "${rotateMonitor} 0";
+            left = "${rotateMonitor} 1";
+            upside = "${rotateMonitor} 2";
+            right = "${rotateMonitor} 3";
 
-            cw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 1) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
-            ccw = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 3) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
-            flip = "bash -c 'current=$(hyprctl monitors | grep -A2 \"eDP-1\" | grep transform | awk \"{print \\$2}\"); next=$(( (current + 2) % 4 )); hyprctl keyword monitor \"eDP-1,preferred,auto,1.9,transform,$next\"'";
+            cw = "${rotateMonitor} cw";
+            ccw = "${rotateMonitor} ccw";
+            flip = "${rotateMonitor} flip";
           };
         };
 

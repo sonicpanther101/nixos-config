@@ -6,9 +6,9 @@
       listener = [
         {
           timeout = 60;
-          on-timeout = lib.mkIf (host != "laptop-2") "hyprctl dispatch dpms off";
+          on-timeout = lib.mkIf (host != "laptop-2") "hyprctl dispatch \"hl.dsp.dpms({ action = \"off\" })\"";
 
-          on-resume = lib.mkIf (host != "laptop-2") "hyprctl dispatch dpms on";
+          on-resume = lib.mkIf (host != "laptop-2") "hyprctl dispatch \"hl.dsp.dpms({ action = \"on\" })\"";
         }
       ] ++ lib.optionals (host != "desktop") [
         {

@@ -160,7 +160,7 @@ function GetEntries()
             table.insert(results, {
                 Text = a.name,
                 Subtext = cat .. "  →  " .. a.cmd,
-                Value = a.name,
+                Value = a.cmd,
 
                 Actions = {
                     copyAlias = "wl-copy '%VALUE%'",

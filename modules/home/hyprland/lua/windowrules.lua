@@ -68,8 +68,8 @@ end
 mkRule({ match = { class = "codium" }, opacity = "0.9" })
 mkRule({ match = { class = "foobar2000.exe" }, opacity = "0.9" })
 mkRule({ match = { class = "vivaldi-stable" }, opacity = "0.9" })
-mkRule({ match = { title = ".*Last.fm" }, opacity = "1" })
-mkRule({ match = { title = ".*Movie" }, opacity = "1" })
+mkRule({ match = { title = ".*Last.fm.*" }, opacity = "1" })
+mkRule({ match = { title = ".*Movie.*" }, opacity = "1" })
 mkRule({ match = { class = "nemo" }, opacity = "0.75" })
 
 -- SableUI rules

@@ -135,7 +135,7 @@ hl.plugin.hyprgrass.bind({
   pattern = { kind = "tap", fingers = 3 },
   action = function()
     local win = hl.get_active_window()
-    if win and not string.match(win.title, "Xournal++") then
+    if not (win and win.class == "com.github.xournalpp.xournalpp") then
       hl.dispatch(hl.dsp.exec_cmd("kitty"))
     end
   end,

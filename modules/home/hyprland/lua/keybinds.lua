@@ -28,7 +28,7 @@ hl.bind("SUPER+SHIFT+B", hl.dsp.exec_cmd('vivaldi --profile-directory="Profile 1
 
 -- File browser
 hl.bind("SUPER+E", hl.dsp.exec_cmd("nemo"))
-hl.bind("ALT+E", hl.dsp.exec_cmd("nemo --name=float_nemo"))
+hl.bind("ALT+E", hl.dsp.exec_cmd("nemo --name=float_nemo", { float = true }))
 
 -- Note taking
 hl.bind("SUPER+N", hl.dsp.exec_cmd("xournalpp"))
@@ -44,11 +44,32 @@ hl.bind("SUPER+F2", hl.dsp.exec_cmd("walker -m menus:aliases"))
 hl.bind("SUPER+ALT+W", hl.dsp.exec_cmd("systemctl --user restart waybar.service"))
 hl.bind("SUPER+ALT+K", hl.dsp.exec_cmd("my-toggle-keyboard"))
 hl.bind("SUPER+ALT+P", hl.dsp.exec_cmd("beefweb_mpris"))
+hl.bind("SUPER+ALT+H", hl.dsp.exec_cmd("hyprctl reload"))
 hl.bind("SUPER+C", hl.dsp.exec_cmd("hyprpicker -a"))
 
--- Submap entry
-hl.bind("SUPER+M", function()
-  hl.dsp.submap("monitor")
+-- Enter the "monitor" submap
+hl.bind("SUPER+M", hl.dsp.submap("monitor"))
+
+-- Define the "monitor" submap and its keybinds
+hl.define_submap("monitor", function()
+  -- Toggle DPMS on the focused monitor, then exit the submap
+  hl.bind("SUPER+D", function()
+    hl.dispatch(hl.dsp.exec_cmd([[sh -c '
+      mon=$(hyprctl monitors -j | jq -r ".[] | select(.focused) | .name")
+      hyprctl dispatch "hl.dsp.dpms({ action = \"toggle\", monitor = \"$mon\" })" 
+    ']]))
+    hl.dispatch(hl.dsp.submap("reset"))
+  end)
+
+  -- Invert monitor colours, then exit the submap
+  hl.bind("SUPER+I", function()
+    hl.dispatch(hl.dsp.exec_cmd("my-invert-monitor"))
+    hl.dispatch(hl.dsp.submap("reset"))
+  end)
+
+  -- Exit the submap without performing any action
+  hl.bind("escape", hl.dsp.submap("reset"))
+  hl.bind("SUPER+M", hl.dsp.submap("reset"))
 end)
 
 -- Vscodium
@@ -94,10 +115,10 @@ hl.bind("SUPER+SHIFT+up", hl.dsp.window.move({ direction = "up" }))
 hl.bind("SUPER+SHIFT+down", hl.dsp.window.move({ direction = "down" }))
 
 -- Resize windows
-hl.bind("SUPER+CTRL+left", hl.dsp.window.resize({ x = -80, y = 0 }))
-hl.bind("SUPER+CTRL+right", hl.dsp.window.resize({ x = 80, y = 0 }))
-hl.bind("SUPER+CTRL+up", hl.dsp.window.resize({ x = 0, y = -80 }))
-hl.bind("SUPER+CTRL+down", hl.dsp.window.resize({ x = 0, y = 80 }))
+hl.bind("SUPER+CTRL+left", hl.dsp.window.resize({ x = -80, y = 0, relative = true }))
+hl.bind("SUPER+CTRL+right", hl.dsp.window.resize({ x = 80, y = 0, relative = true }))
+hl.bind("SUPER+CTRL+up", hl.dsp.window.resize({ x = 0, y = -80, relative = true }))
+hl.bind("SUPER+CTRL+down", hl.dsp.window.resize({ x = 0, y = 80, relative = true }))
 
 -- Move floating (relative nudge, same as the old "moveactive" dispatcher)
 hl.bind("SUPER+ALT+left", hl.dsp.window.move({ x = -80, y = 0, relative = true }))
@@ -132,6 +153,15 @@ hl.bind("code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | j
 hl.bind("code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 - 10"), { locked = true })
 hl.bind("SUPER+code:233", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 100"), { locked = true })
 hl.bind("SUPER+code:232", hl.dsp.exec_cmd("ddcutil --display $(hyprctl monitors -j | jq '.[] | select(.focused == true) | .name' | grep -q DP && echo 2 || echo 1) setvcp 10 0"), { locked = true })
+
+-- Player Controls (locked and repeating)
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pamixer -i 2"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("pamixer -d 2"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("pamixer -t"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl -p $(cat ${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl -p $(cat ${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl -p $(cat ${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous"), { locked = true })
+hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl -p $(cat ${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) stop"), { locked = true })
 
 -- Misc locked
 hl.bind("SUPER+ALT+R", hl.dsp.exec_cmd("my-refresh"), { locked = true })
