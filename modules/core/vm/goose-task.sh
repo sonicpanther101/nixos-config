@@ -21,7 +21,7 @@ if [ -f "$share/task.env" ]; then set -a; . "$share/task.env"; set +a; fi
 echo "== goose-task: preparing sandbox at $sandbox"
 rm -rf "$sandbox" "$HOME/REPORT.md"
 mkdir -p "$sandbox"
-cp -r --no-preserve=mode,ownership "$share/config/." "$sandbox/"
+cp -r --no-preserve=ownership "$share/config/." "$sandbox/"
 cd "$sandbox"
 git init -q -b main
 git add -A
