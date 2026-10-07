@@ -18,6 +18,8 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("wl-clip-persist --clipboard regular")
   hl.exec_cmd("wl-paste --type text --watch cliphist store")
   hl.exec_cmd("wl-paste --type image --watch cliphist store")
+  hl.exec_cmd("systemctl --user restart waybar.service")
+  hl.exec_cmd("hyprctl reload")
 
   -- Git fetch
   hl.exec_cmd("cd ~/nixos-config && git fetch")
