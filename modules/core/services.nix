@@ -78,12 +78,9 @@
       ];
     };
 
-    # OpenRGB
     udev.packages = [
       pkgs-stable.qmk-udev-rules
-    ] ++ (if config.my.isHighPower then [
-      pkgs-unstable.openrgb
-    ] else []);
+    ];
 
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
@@ -127,20 +124,25 @@
     # CRITICAL FIXES:
     # 1. Use DRIVER=="usb" instead of DRIVERS=="usb" - matches only actual USB devices, not interfaces
     # 2. This prevents the ":1.0", ":1.1" interface errors you were seeing
-    udev.extraRules = ''
-      # Razer mouse (1532:00c5) - disable wake
-      ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="00c5", ATTR{power/wakeup}="disabled"
-      
-      # Keychron V6 keyboard (3434:0361) - disable wake
-      ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", ATTR{power/wakeup}="disabled"
-      
-      # Disable ALL USB device wake by default (more aggressive approach)
-      # Comment this out if it causes issues, but it may be needed
-      ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
-      
-      # Disable bluetooth wake (might be causing "early wake event")
-      ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
-    '';
+    udev = {
+      extraRules = ''
+        # Razer mouse (1532:00c5) - disable wake
+        ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="1532", ATTRS{idProduct}=="00c5", ATTR{power/wakeup}="disabled"
+        
+        # Keychron V6 keyboard (3434:0361) - disable wake
+        ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTRS{idVendor}=="3434", ATTRS{idProduct}=="0361", ATTR{power/wakeup}="disabled"
+        
+        # Disable ALL USB device wake by default (more aggressive approach)
+        # Comment this out if it causes issues, but it may be needed
+        ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="disabled"
+        
+        # Disable bluetooth wake (might be causing "early wake event")
+        ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
+      '';
+      packages = [
+        pkgs-unstable.openrgb
+      ];
+    };
 
     sunshine = {
       enable = true;
