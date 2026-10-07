@@ -50,7 +50,6 @@
         # TV tuners / DVB / SDR / FM radio (webcams and IPU3 cameras stay)
         # With the filter off, Kconfig forces all the *_SUPPORT bools below to y,
         # so it has to be on for them to be switchable.
-        MEDIA_SUPPORT_FILTER = lib.mkForce yes;
         MEDIA_DIGITAL_TV_SUPPORT = lib.mkForce no;
         MEDIA_ANALOG_TV_SUPPORT = lib.mkForce no;
         MEDIA_RADIO_SUPPORT = lib.mkForce no;
@@ -59,23 +58,6 @@
         # Datacentre / AMD-only stuff
         INFINIBAND = lib.mkForce no;
         KVM_AMD = lib.mkForce no;
-
-        # PCI/server Ethernet vendors (mellanox, qlogic, netronome, sfc, ...).
-        # USB ethernet adapters / docks are USB_NET_DRIVERS, so they stay.
-        ETHERNET = lib.mkForce no;
-
-        # Accelerators / exotic bus & server hardware
-        DRM_ACCEL = lib.mkForce no;   # habanalabs, qaic, amdxdna, ivpu
-        VDPA = lib.mkForce no;
-        RAPIDIO = lib.mkForce no;
-        LIBNVDIMM = lib.mkForce no;
-        DPLL = lib.mkForce no;
-        PARPORT = lib.mkForce no;
-        PCMCIA = lib.mkForce no;
-        SCSI_LOWLEVEL = lib.mkForce no; # RAID/HBA cards; USB storage and NVMe unaffected
-        HAMRADIO = lib.mkForce no;
-        CAN = lib.mkForce no;
-        NFC = lib.mkForce no;
       };
     }];
 
