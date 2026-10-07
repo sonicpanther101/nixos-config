@@ -14,7 +14,7 @@ let
     input = { width = 200; height = 50; posY = -80; outline = 4; };
     time  = { fontSize = 65; posY = -320; };
     date  = { fontSize = 22; posY = -250; };
-    wx    = { fontSize = 10; posX = 700; posY = -100;  };
+    wx    = { fontSize = 10; posX = 750; posY = -100;  };
     gh    = { fontSize = 14; posX = -600; };
     pin   = { 
       buttonSize = 100 * pinpadScale; 

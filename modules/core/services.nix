@@ -78,6 +78,13 @@
       ];
     };
 
+    # OpenRGB
+    udev.packages = [
+      pkgs-stable.qmk-udev-rules
+    ] ++ (if config.isHighPower then [
+      pkgs-unstable.openrgb
+    ] else []);
+
     # Add getty configuration for auto-login
     getty.autologinUser = "${username}";
   } // (lib.optionalAttrs config.my.isLaptop {
@@ -134,12 +141,6 @@
       # Disable bluetooth wake (might be causing "early wake event")
       ACTION=="add", SUBSYSTEM=="bluetooth", ATTR{power/wakeup}="disabled"
     '';
-
-    # OpenRGB
-    udev.packages = [
-      pkgs-unstable.openrgb
-      pkgs-stable.qmk-udev-rules
-    ];
 
     sunshine = {
       enable = true;
