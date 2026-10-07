@@ -53,7 +53,7 @@ if IS_HIGH_POWER then
     hl.exec_cmd([[[workspace 4 silent] thunderbird]])
 
     hl.exec_cmd([[[workspace 12 silent] kitty]])
-    hl.exec_cmd([[[workspace 13 silent] beefweb_mpris]])
+    hl.exec_cmd([[sh -c "systemctl --user import-environment; systemctl --user start foobar-mpris.service"]])
     hl.exec_cmd([[[workspace 14 silent] beeper]])
 
     hl.dsp.focus({ workspace = 1 })

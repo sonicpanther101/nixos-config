@@ -45,6 +45,7 @@ hl.bind("SUPER+ALT+W", hl.dsp.exec_cmd("systemctl --user restart waybar.service"
 hl.bind("SUPER+ALT+K", hl.dsp.exec_cmd("my-toggle-keyboard"))
 hl.bind("SUPER+ALT+P", hl.dsp.exec_cmd("beefweb_mpris"))
 hl.bind("SUPER+ALT+H", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind("SUPER+ALT+R", hl.dsp.exec_cmd("my-refresh"))
 hl.bind("SUPER+C", hl.dsp.exec_cmd("hyprpicker -a"))
 
 -- Enter the "monitor" submap

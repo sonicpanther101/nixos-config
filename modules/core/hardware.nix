@@ -14,9 +14,10 @@
           libvdpau-va-gl
         ]
       ) ++ (with pkgs-unstable; lib.optionals (host == "laptop-1") [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        # intel-media-driver (iHD) and intel-vaapi-driver (i965) are already added
+        # by nixos-hardware's microsoft-surface-pro-intel module (from stable).
+        # Adding them again from unstable makes buildEnv fail on a version clash.
         libvdpau-va-gl
-        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but sometimes more stable)
       ]);
       
       extraPackages32 = with pkgs-unstable.pkgsi686Linux; lib.optionals config.my.hasNvidia [

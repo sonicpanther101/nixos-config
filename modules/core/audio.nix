@@ -1,4 +1,4 @@
-{ pkgs-stable, username, ... } :  {
+{ pkgs-stable, inputs, username, ... } :  {
   services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
@@ -47,12 +47,29 @@
     deps = [ "users" ];
   }; 
 
-  # Foobar2000
+  # Foobar2000 + MPRIS bridge.
+  #
+  # beefweb_mpris launches foobar2000 itself (foobar2000-command in its
+  # config.yaml), waits for it, and exits cleanly when foobar2000 is closed
+  # (e.g. Super+Q). So this unit "is" foobar2000: closing the app stops the
+  # service, and `systemctl --user start foobar-mpris` (what the walker
+  # desktop entry runs) brings it back.
+  #
+  # Previously it was launched through Hyprland's exec_cmd, which wraps it in
+  # an unmanaged run-pNNN.scope. At shutdown that scope sat there for the full
+  # 90s default stop timeout before being killed, stalling the whole reboot.
   systemd.user.services.foobar-mpris = {
     description = "Foobar2000 MPRIS bridge";
+    # Started from Hyprland's autostart and from the walker entry, not
+    # wantedBy anything: it needs the Wayland/X env, and must not be
+    # respawned after the user deliberately closes it.
+    after = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
+    path = [ "/run/current-system/sw" "/etc/profiles/per-user/${username}" ];
     serviceConfig = {
-      ExecStart = "beefweb_mpris";
-      Restart = "on-failure";
+      ExecStart = "${pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; }}/bin/beefweb_mpris";
+      # Kill foobar2000/wine (same cgroup) quickly at logout/shutdown.
+      TimeoutStopSec = "10s";
     };
   };
 }

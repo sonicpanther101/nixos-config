@@ -124,7 +124,7 @@ in pkgs-stable.python3Packages.buildPythonApplication {
     (pkgs-stable.makeDesktopItem {
       name = "foobar2000-mpris";
       desktopName = "Foobar2000 (MPRIS)";
-      exec = "beefweb_mpris";
+      exec = "systemctl --user start foobar-mpris.service";
       icon = "foobar2000";
       comment = "Foobar2000 with Media Key Support";
       categories = [ "Audio" "Player" ];

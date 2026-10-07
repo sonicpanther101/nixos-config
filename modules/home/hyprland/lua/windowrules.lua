@@ -85,6 +85,8 @@ mkRule({ match = { title = ".*Lab Report.*" }, idle_inhibit = "focus" })
 mkRule({ match = { title = ".*homework.*" }, idle_inhibit = "focus" })
 mkRule({ match = { title = "cava" }, idle_inhibit = "focus" })
 
+mkRule({ match = { class = "foobar2000.exe" }, workspace = "13 silent" })
+
 -- Layer rules
 -- `namespace` is a match criterion (goes inside match={}), and there is no
 -- `level` field - the old hyprlang "level" concept is `above_lock` (int 0-2)
