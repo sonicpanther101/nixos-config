@@ -81,7 +81,7 @@
     # OpenRGB
     udev.packages = [
       pkgs-stable.qmk-udev-rules
-    ] ++ (if config.isHighPower then [
+    ] ++ (if config.my.isHighPower then [
       pkgs-unstable.openrgb
     ] else []);
 
