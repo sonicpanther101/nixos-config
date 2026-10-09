@@ -44,10 +44,10 @@ hl.plugin.hyprgrass.bind({
   action = hl.dsp.exec_cmd("my-toggle-keyboard"),
 })
 
--- swipe down from right edge -> move pointer
+-- swipe down from right edge -> calculator
 hl.plugin.hyprgrass.bind({
   pattern = { kind = "edge", origin = "right", direction = "down" },
-  action = hl.dsp.exec_cmd("sleep 2 && wlrctl pointer move 1 1 || true"),
+  action = hl.dsp.exec_cmd("qalculate-qt"),
 })
 
 -- swipe up from bottom edge -> browser
