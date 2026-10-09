@@ -7,16 +7,18 @@
 -- at parse time but wouldn't do what's intended, so both helpers below build
 -- the string form. See docs: https://alejandrominaya.github.io/hyprland-lua-docs/
 
--- Helper: create float + center rules for a match
-local function mkFloatRule(match, type, size)
+-- Helper: create float + center rules for a match.
+-- `match` is a full match table, e.g. { class = "foo" } or
+-- { class = "foo", title = "bar" }. Multiple keys are ANDed together.
+local function mkFloatRule(match, size)
   hl.window_rule({
-    match = { [type] = match },
+    match = match,
     float = true,
     center = true,
   })
   if size then
     hl.window_rule({
-      match = { [type] = match },
+      match = match,
       -- Space-separated "WIDTH HEIGHT", not "WIDTHxHEIGHT" - the live
       -- parser error ("vec2 requires two expressions separated by
       -- whitespace") is the source of truth here, not the third-party docs.
@@ -28,35 +30,34 @@ end
 -- Helper: create multiple float rules at once
 local function mkFloatRules(rules)
   for _, r in ipairs(rules) do
-    mkFloatRule(r.match, r.type, r.size)
+    mkFloatRule(r.match, r.size)
   end
 end
 
 -- Float by class
 mkFloatRules({
-  { match = "Matplotlib", type = "class", size = { 950, 600 } },
-  { match = "float_nemo", type = "class", size = { 950, 600 } },
-  { match = "imv", type = "class", size = { 1200, 725 } },
-  { match = "mpv", type = "class", size = { 1200, 725 } },
+  { match = { class = "Matplotlib" }, size = { 950, 600 } },
+  { match = { class = "float_nemo" }, size = { 950, 600 } },
+  { match = { class = "imv" }, size = { 1200, 725 } },
+  { match = { class = "mpv" }, size = { 1200, 725 } },
 })
 
--- Float by title
+-- Float by title (or class + title)
 mkFloatRules({
-  { match = "float_kitty", type = "title", size = { 950, 600 } },
-  { match = "Open Folder", type = "title", size = { 950, 600 } },
-  { match = "Open File", type = "title", size = { 950, 600 } },
-  { match = "Open file", type = "title", size = { 950, 600 } },
-  { match = "Open Files", type = "title", size = { 950, 600 } },
-  { match = "Save File", type = "title", size = { 950, 600 } },
-  { match = ".* Reminders", type = "title", size = { 600, 200 } },
-  { match = "Extract", type = "title", size = { 850, 200 } },
-  { match = "Active connection found", type = "title" },
-  { match = "Edit Item", type = "title" },
-  { match = "Calendar Reminders", type = "title" },
-  { match = "OpenRGB", type = "title" },
-  { match = ".*Physics Simulation.*", type = "title" },
-  { match = "Pipewire Volume Control", type = "title" },
-  { match = ".*Properties.*", type = "title" },
+  { match = { title = "float_kitty" }, size = { 950, 600 } },
+  { match = { title = "Open Folder" }, size = { 950, 600 } },
+  { match = { title = "Open File" }, size = { 950, 600 } },
+  { match = { title = "Open file" }, size = { 950, 600 } },
+  { match = { title = "Open Files" }, size = { 950, 600 } },
+  { match = { title = "Save File" }, size = { 950, 600 } },
+  { match = { class = "thunderbird", title = ".*Reminder.*" }, size = { 600, 200 } },
+  { match = { title = "Extract" }, size = { 850, 200 } },
+  { match = { title = "Active connection found" } },
+  { match = { title = "Edit Item" } },
+  { match = { title = "OpenRGB" } },
+  { match = { title = ".*Physics Simulation.*" } },
+  { match = { title = "Pipewire Volume Control" } },
+  { match = { title = ".*Properties.*" } },
 })
 
 -- Helper: create a rule with multiple properties
@@ -73,7 +74,7 @@ mkRule({ match = { title = ".*Movie.*" }, opacity = "1" })
 mkRule({ match = { class = "nemo" }, opacity = "0.75" })
 
 -- SableUI rules
-mkRule({ match = { title = ".*SableUI.*" }, pin = true, border_size = 0, no_anim = true, no_shadow = true, no_blur = true, no_initial_focus = true, move = "0 0" })
+mkRule({ match = { title = ".*SableUI.*" }, float = true, pin = true, border_size = 0, no_anim = true, no_shadow = true, no_blur = true, no_initial_focus = true, move = "0 0" })
 
 -- Idle inhibit rules
 mkRule({ match = { class = "mpv" }, idle_inhibit = "focus" })
