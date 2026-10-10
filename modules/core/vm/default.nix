@@ -74,7 +74,6 @@ in {
     # GPU / hardware-bound or heavy services that would just fail or eat RAM.
     # Delete a line to get that service back in the VM.
     services.ollama.enable = lib.mkVMOverride false;     # would try to pull ~30GB of models
-    services.open-webui.enable = lib.mkVMOverride false;
     services.sunshine.enable = lib.mkVMOverride false;
     virtualisation.libvirtd.enable = lib.mkVMOverride false; # no nested VMs
 

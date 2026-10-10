@@ -154,12 +154,7 @@
     ollama = {
       enable = true;
       package = pkgs-stable.ollama-cuda;
-      loadModels = [ "mistral" "qwen2.5-coder:14b" "qwen3:14b-q4_K_M" ];
-      # 0.0.0.0 so Docker containers (e.g. `openhands serve`) can reach it via
-      # host.docker.internal — 127.0.0.1 (the default) is unreachable from
-      # inside a container. Only actually reachable from the docker0 bridge —
-      # see the scoped firewall rule in network.nix — not the LAN.
-      host = "0.0.0.0";
+      loadModels = [ "mistral" ];
       environmentVariables = {
         OLLAMA_NO_CLOUD = "1";
         OLLAMA_KEEP_ALIVE = "1h";
@@ -167,33 +162,6 @@
         OLLAMA_MAX_LOADED_MODELS = "1";
         OLLAMA_CONTEXT_LENGTH = "262144";
         OLLAMA_MAX_OUTPUT_TOKENS = "32768";
-      };
-    };
-
-    open-webui = {
-      enable = true;
-      package = pkgs-stable.open-webui;
-      port = 8080;
-      host = "127.0.0.1";
-      environment = {
-        OLLAMA_BASE_URL = "http://127.0.0.1:11434";
-        # Enable RAG features
-        ENABLE_RAG_WEB_SEARCH = "true";
-        ENABLE_RAG_LOCAL_WEB_FETCH = "true";
-        # Chunk settings for better context
-        CHUNK_SIZE = "1500";
-        CHUNK_OVERLAP = "100";
-
-        OLLAMA_REQUEST_TIMEOUT = "600";
-
-        # Tools / functions
-        ENABLE_COMMUNITY_SHARING = "false";
-        ENABLE_TOOLS = "true";
-
-        # Disable telemetry
-        ANONYMIZED_TELEMETRY = "False";
-        DO_NOT_TRACK = "True";
-        SCARF_NO_ANALYTICS = "True";
       };
     };
   });

@@ -13,7 +13,6 @@
     ] ++ lib.optionals config.my.isHighPower [
       "input"
       "video"
-      "docker"
       "libvirtd"
     ] ++ lib.optionals config.my.hasPinLogin [
       "input"

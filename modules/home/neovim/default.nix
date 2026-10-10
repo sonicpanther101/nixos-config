@@ -53,7 +53,6 @@ in {
       vp.luasnip
       vp.cmp_luasnip
       vp.friendly-snippets
-      vp.cmp-ai
 
       vp.lualine-nvim
       vp.nvim-web-devicons
@@ -85,7 +84,6 @@ in {
       require('plugins.treesitter')
       require('plugins.lsp')
       require('plugins.completion')
-      require('plugins.ollama-completion')
       require('plugins.editing')
       require('plugins.oil')
       require('plugins.neogit')
@@ -102,7 +100,6 @@ in {
     "nvim/lua/plugins/treesitter.lua".source        = ./plugins/treesitter.lua;
     "nvim/lua/plugins/lsp.lua".source               = ./plugins/lsp.lua;
     "nvim/lua/plugins/completion.lua".source        = ./plugins/completion.lua;
-    "nvim/lua/plugins/ollama-completion.lua".source = ./plugins/ollama-completion.lua;
     "nvim/lua/plugins/editing.lua".source           = ./plugins/editing.lua;
     "nvim/lua/plugins/oil.lua".source               = ./plugins/oil.lua;
     "nvim/lua/plugins/neogit.lua".source            = ./plugins/neogit.lua;

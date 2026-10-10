@@ -6,7 +6,7 @@
 #
 # nix-ld patches the ELF interpreter for such unpatched binaries so they can
 # find Nix-provided libraries instead. This is the general fix for that
-# whole class of error from tools like `uvx openhands`, `pip install`, etc.
+# whole class of error from tools like `uvx`, `pip install`, etc.
 # ─────────────────────────────────────────────────────────────────────────────
 { pkgs-stable, ... }: {
   

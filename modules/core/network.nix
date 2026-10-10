@@ -16,14 +16,6 @@
       allowedTCPPorts = [ 5232 ];
       # Wake on lan
       allowedUDPPorts = lib.mkIf config.my.isHighPower [ 9 ];
-      # Trust Docker's bridge entirely rather than allow-listing ports one at
-      # a time. Needed because containers reaching host services (Ollama,
-      # and OpenHands' own sandbox containers reaching each other) go via
-      # host.docker.internal on ports Docker assigns randomly per-run — an
-      # allowedTCPPorts entry can't keep up with that. Docker's bridge
-      # already isolates containers from the real LAN, so this doesn't
-      # expose anything new externally.
-      trustedInterfaces = lib.mkIf config.my.isHighPower [ "docker0" ];
     };
   };
 

@@ -5,8 +5,7 @@
 --   buffer       → words already in open buffers
 --   path         → filesystem paths (useful for #include, import, etc.)
 --
--- TIP: this is where completions come from. Supermaven (next file) adds
--- an AI source on top. Together they cover most of what Copilot does in VSCode.
+-- TIP: this is where completions come from.
 -- ─────────────────────────────────────────────────────────────────────────────
 
 local cmp     = require('cmp')
@@ -97,7 +96,6 @@ cmp.setup({
     format = function(entry, vim_item)
       -- Show source name in the menu column
       local source_names = {
-        cmp_ai = '[AI]',
         nvim_lsp   = '[LSP]',
         luasnip    = '[Snip]',
         buffer     = '[Buf]',
@@ -129,7 +127,7 @@ cmp.setup({
   },
 
   experimental = {
-    ghost_text = false,  -- disable ghost text here; Supermaven has its own
+    ghost_text = false,
   },
 })
 
