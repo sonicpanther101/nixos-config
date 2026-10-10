@@ -2,21 +2,24 @@
 
 Help()
 {
-   echo
-   echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|u|p|l|b|h]"
-   echo "options:"
-   echo "n     Don't check for changes"
-   echo "a     Restart ags"
-   echo "c     Fix corrupted db"
-   echo "s     Skip install, just commit and push"
-   echo "m     Git Commit Message"
-   echo "g     Don't git commit"
-   echo "t     Show error trace"
-   echo "u     Git pull to update"
-   echo "p     Launch shtris during the build"
-   echo "l     Limit CPU/memory used for the rebuild"
-   echo "b     Use 'nh os boot' instead of 'switch' (stage for next reboot, don't activate now)"
-   echo "h     Print this Help"
+    echo
+    echo "Syntax: scriptTemplate -[n|a|c|s|m|g|t|u|p|l|b|r|U|i|h]"
+    echo "options:"
+    echo "n     Don't check for changes"
+    echo "a     Restart ags"
+    echo "c     Fix corrupted db"
+    echo "s     Skip install, just commit and push"
+    echo "m     Git Commit Message"
+    echo "g     Don't git commit"
+    echo "t     Show error trace"
+    echo "u     Git pull to update"
+    echo "p     Launch shtris during the build"
+    echo "l     Limit CPU/memory used for the rebuild"
+    echo "b     Use 'nh os boot' instead of 'switch' (stage for next reboot, don't activate now)"
+    echo "r     Build on a remote build host (nh --build-host <user>@<ip>), e.g. build laptop kernels on the PC"
+    echo "U     Build host user (implies -r). Prompted for if not given and no default for this host"
+    echo "i     Build host IP/hostname (implies -r). Prompted for if not given and no default for this host"
+    echo "h     Print this Help"
 }
 
 no_check=false
@@ -30,8 +33,26 @@ show_trace=false
 no_game=true
 limit_resources=false
 boot_mode=false
+remote_build=false
+build_user=""
+build_ip=""
 
-while getopts "anhtcsgpulbm:" option; do
+# Default build host (the PC) for each laptop. The local IP is stable on the
+# home network and isn't private. Hosts not listed here get prompted instead.
+default_build_user=""
+default_build_ip=""
+case ${host} in
+    laptop-1)
+        default_build_user="adam"
+        default_build_ip=""
+        ;;
+    laptop-2)
+        default_build_user="adam"
+        default_build_ip=""
+        ;;
+esac
+
+while getopts "anhtcsgpulbrU:i:m:" option; do
     case $option in
         h)
             Help
@@ -56,6 +77,14 @@ while getopts "anhtcsgpulbm:" option; do
             limit_resources=true;;
         b)
             boot_mode=true;;
+        r)
+            remote_build=true;;
+        U)
+            build_user="$OPTARG"
+            remote_build=true;;
+        i)
+            build_ip="$OPTARG"
+            remote_build=true;;
         m)
             message="$OPTARG";;
         \?)
@@ -151,6 +180,39 @@ trap 'stop_shtris; stop_sudo_keepalive' EXIT
 trap 'stop_shtris; stop_sudo_keepalive; exit 130' INT TERM
 # ---------------------------------------------------------------------------
 
+# --- remote build host --------------------------------------------------
+# Order of precedence: -U / -i flags, then this host's defaults, then prompt.
+resolve_build_host() {
+    [[ $remote_build == true ]] || return 0
+
+    [[ -z "$build_user" ]] && build_user="$default_build_user"
+    [[ -z "$build_ip" ]] && build_ip="$default_build_ip"
+
+    if [[ -z "$build_user" ]]; then
+        echo "Build host user:"
+        vared -p "" build_user
+    fi
+    if [[ -z "$build_ip" ]]; then
+        echo "Build host IP or hostname:"
+        vared -p "" build_ip
+    fi
+
+    if [[ -z "$build_user" ]] || [[ -z "$build_ip" ]]; then
+        echo "${RED}Build host user and IP are both required, exiting.${NORMAL}"
+        popd > /dev/null
+        exit 1
+    fi
+
+    # The values end up in an eval'd command, so keep them to safe characters.
+    if [[ ! "$build_user" =~ '^[A-Za-z_][A-Za-z0-9_-]*$' ]] || [[ ! "$build_ip" =~ '^[A-Za-z0-9.:-]+$' ]]; then
+        echo "${RED}Invalid build host '${build_user}@${build_ip}', exiting.${NORMAL}"
+        popd > /dev/null
+        exit 1
+    fi
+
+    echo "Building remotely on ${BLUE}${build_user}@${build_ip}${NORMAL}"
+}
+
 install() {
     echo -e "\n${RED}START INSTALL PHASE${NORMAL}\n"
 
@@ -187,6 +249,9 @@ install() {
         [[ $boot_mode == true ]] && echo "${RED}Note: -c (repair) always activates now, ignoring -b.${NORMAL}"
         nh_cmd="sudo nixos-rebuild switch --repair --flake .#${host}"
     fi
+
+    # Same flag works for both nh and nixos-rebuild, and must come before nh's "--".
+    [[ $remote_build == true ]] && nh_cmd+=" --build-host ${build_user}@${build_ip}"
 
     if (( ${#extra_args[@]} > 0 )); then
         nh_cmd+=" -- ${extra_args[*]}"
@@ -226,6 +291,11 @@ else
     echo "No network connection, exiting."
     popd > /dev/null
     exit 0
+fi
+
+# 1b. Work out the remote build host now (prompts if needed), before touching git
+if [[ $skip_install == false ]]; then
+    resolve_build_host
 fi
 
 # 2. Check git status
