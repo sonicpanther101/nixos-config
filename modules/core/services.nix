@@ -154,12 +154,12 @@
     ollama = {
       enable = true;
       package = pkgs-stable.ollama-cuda;
-      loadModels = [ "mistral" ];
+      loadModels = [ "qwen2.5-coder:7b" "qwen3.6:35b-a3b-mtp-q4_K_M" ]; 
       environmentVariables = {
         OLLAMA_NO_CLOUD = "1";
         OLLAMA_KEEP_ALIVE = "1h";
         OLLAMA_NUM_PARALLEL = "1";
-        OLLAMA_MAX_LOADED_MODELS = "1";
+        OLLAMA_MAX_LOADED_MODELS = "2";
         OLLAMA_CONTEXT_LENGTH = "262144";
         OLLAMA_MAX_OUTPUT_TOKENS = "32768";
       };
@@ -193,7 +193,7 @@
       package = pkgs-stable.pay-respects;
       aiIntegration = lib.mkIf config.my.isHighPower {
         locale = "en-nz";
-        model = "mistral:latest";
+        model = "qwen2.5-coder:7b";
         url = "http://127.0.0.1:11434/v1/chat/completions";
       };
       alias = "f";
