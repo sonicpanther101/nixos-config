@@ -141,6 +141,7 @@
       '';
       packages = [
         pkgs-unstable.openrgb
+        pkgs-stable.qmk-udev-rules
       ];
     };
 
