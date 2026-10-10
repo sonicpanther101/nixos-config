@@ -273,10 +273,26 @@ fi
 
 changes=$(git diff --cached --name-only | tr '\n' ' ')  # Use --cached to see staged changes
 
+# Did anything under the hyprland module change? (checked now, while the diff is still staged)
+hypr_changed=false
+if [[ -n $(git diff --cached --name-only -- modules/home/hyprland) ]]; then
+    hypr_changed=true
+fi
+
 # 6. Build the system
 if [[ $skip_install == false ]]; then
     install
     echo
+
+    # Hyprland config changed and the new generation is live: reload it.
+    # Skipped for boot mode (not activated yet) or if Hyprland isn't running.
+    if [[ $hypr_changed == true ]] && [[ $boot_mode == false || $corrupted_db == true ]]; then
+        if command -v hyprctl &> /dev/null && [[ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]]; then
+            echo "Hyprland config changed, reloading Hyprland..."
+            hyprctl reload || echo "${RED}hyprctl reload failed${NORMAL}"
+            echo
+        fi
+    fi
 
     if [[ $boot_mode == true ]] && [[ $corrupted_db == false ]]; then
         current="Generation staged (nh os boot), pending reboot"
