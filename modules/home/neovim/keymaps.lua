@@ -74,6 +74,12 @@ map('n',          '<leader>Y', '"+Y', { desc = 'Yank line to clipboard' })
 -- TIP: d normally yanks what it deletes. <leader>d deletes to /dev/null.
 map({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete without yank' })
 
+-- TIP: same idea for change. <leader>c deletes the text into /dev/null, then
+-- drops you into insert mode. Note <leader>ca/cf/ci (LSP) share this prefix,
+-- so in normal mode a bare <leader>c fires after 'timeoutlen' (300ms).
+map({ 'n', 'v' }, '<leader>c', '"_c', { desc = 'Change without yank' })
+map('n',          '<leader>C', '"_C', { desc = 'Change to end of line without yank' })
+
 -- ── Quick-edit config ────────────────────────────────────────────────────────
 map('n', '<leader>nn', '<cmd>e ~/nixos-config/modules/home/neovim/lua/<CR>',
   { desc = 'Neovim: open lua config dir' })
