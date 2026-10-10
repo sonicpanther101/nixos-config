@@ -168,7 +168,7 @@ in {
         };
 
         "custom/menu" = {
-          format = "\uf0c9";
+          format = "";
           tooltip = "Power & Screen Rotation";
           menu = "on-click";
           menu-file = "${./menu.xml}";
