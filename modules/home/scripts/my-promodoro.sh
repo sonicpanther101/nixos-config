@@ -2,16 +2,20 @@
 
 # Hide cursor for cleaner look
 tput civis
-trap "tput cnorm" EXIT
 
 STATUS_FILE="/tmp/pomodoro-waybar"
+PID=""
 
 cleanup() {
+    trap - EXIT INT TERM
+    [ -n "$PID" ] && kill "$PID" 2>/dev/null
     echo "" > "$STATUS_FILE"
     tput cnorm
 }
 
-trap cleanup EXIT INT TERM
+# Ctrl+C / kill must actually exit; EXIT then runs cleanup
+trap 'exit 130' INT TERM
+trap cleanup EXIT
 
 notify() {
   title="$1"
