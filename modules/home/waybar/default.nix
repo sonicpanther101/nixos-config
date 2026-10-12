@@ -135,10 +135,10 @@ in {
             if [ -f /tmp/pomodoro-waybar ] &&
               [ $(( $(date +%s) - $(stat -c %Y /tmp/pomodoro-waybar) )) -lt 3 ]
             then
-              timeout 2 tail -f /tmp/pomodoro-waybar
+              cat /tmp/pomodoro-waybar
             fi
           '';
-          restart-interval = 1;
+          interval = 1;
           return-type = "plain";
           tooltip = false;
         };
