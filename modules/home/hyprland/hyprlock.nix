@@ -120,7 +120,7 @@ let
     position = "0, ${toString (builtins.floor (-1 * baseConfig.pin.indicatorPosY * scale))}";
     halign = "center";
     valign = "center";
-    font_color = "rgb(205, 214, 244)";
+    color = "rgb(205, 214, 244)";
   };
 
   # 3. Define monitor mappings
