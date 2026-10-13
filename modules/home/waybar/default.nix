@@ -173,7 +173,7 @@ in {
           menu = "on-click";
           menu-file = "${./menu.xml}";
           menu-actions = {
-            lock = "systemctl --user start hyprlock.service";
+            lock = "systemctl --user restart hyprlock.service";
             sleep = "my-sleep";
             sleep-1 = "my-sleep";
             poweroff = "hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'";

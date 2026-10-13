@@ -77,7 +77,7 @@ hl.plugin.hyprgrass.bind({
 -- swipe from top edge -> power options
 hl.plugin.hyprgrass.bind({
   pattern = { kind = "edge", origin = "up", direction = "left" },
-  action = hl.dsp.exec_cmd("systemctl --user start hyprlock.service"),
+  action = hl.dsp.exec_cmd("systemctl --user restart hyprlock.service"),
 })
 hl.plugin.hyprgrass.bind({
   pattern = { kind = "edge", origin = "up", direction = "down" },

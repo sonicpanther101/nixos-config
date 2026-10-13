@@ -11,7 +11,7 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 
   -- Lock screen and utilities
-  hl.exec_cmd("systemctl --user start hyprlock.service")
+  hl.exec_cmd("systemctl --user restart hyprlock.service")
   hl.exec_cmd("hyprsunset")
   hl.exec_cmd("nm-applet")
   hl.exec_cmd("blueman-applet")

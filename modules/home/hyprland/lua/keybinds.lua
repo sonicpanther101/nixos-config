@@ -168,7 +168,7 @@ hl.bind("XF86AudioStop", hl.dsp.exec_cmd("playerctl -p $(cat ${XDG_RUNTIME_DIR:-
 hl.bind("SUPER+ALT+R", hl.dsp.exec_cmd("my-refresh"), { locked = true })
 
 -- Shutdown options
-hl.bind("SUPER+Escape", hl.dsp.exec_cmd("systemctl --user start hyprlock.service"), { locked = true })
+hl.bind("SUPER+Escape", hl.dsp.exec_cmd("systemctl --user restart hyprlock.service"), { locked = true })
 hl.bind("SUPER+SHIFT+Escape", hl.dsp.exec_cmd("my-sleep"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+ALT+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"), { locked = true })
