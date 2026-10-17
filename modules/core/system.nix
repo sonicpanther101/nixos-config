@@ -67,6 +67,9 @@
       allowUnfree = true;
     };
 
+    # Compressed swap in RAM so a big rebuild is not killed when memory runs out
+    zramSwap.enable = true;
+
     # Set your time zone.
     time.timeZone = "Pacific/Auckland";
 

@@ -193,13 +193,87 @@ save_answers() {
     done > "$ANSWERS_FILE"
 }
 
+# A fresh install has no swap until the first successful switch creates it, and
+# evaluating + building this config can need far more RAM than a small machine
+# has, so the kernel's OOM killer ends the build. Top RAM+swap up to ~32GB with a
+# temporary swapfile for the install (removed again when the install finishes).
+INSTALL_SWAP=/nixos-install.swap
+
+temp_swap_active() {
+    swapon --show=NAME --noheadings 2> /dev/null | grep -qx "$INSTALL_SWAP"
+}
+
+ensure_temp_swap() {
+    temp_swap_active && return 0
+
+    local ram_kb swap_kb total_gb want_gb free_gb rootFs
+    ram_kb=$(awk '/^MemTotal:/ {print $2}' /proc/meminfo)
+    swap_kb=$(awk '/^SwapTotal:/ {print $2}' /proc/meminfo)
+    total_gb=$(( (ram_kb + swap_kb) / 1024 / 1024 ))
+    if (( total_gb >= 32 )); then
+        return 0
+    fi
+
+    want_gb=$(( 32 - total_gb ))
+    if (( want_gb < 8 )); then
+        want_gb=8
+    fi
+
+    free_gb=$(df -BG --output=avail / | tail -n 1 | tr -dc '0-9')
+    if (( free_gb < want_gb + 10 )); then
+        echo -e "${WARN}Only ${free_gb}GB free, not enough for a ${want_gb}GB temporary swapfile. The build may run out of memory."
+        return 0
+    fi
+
+    echo -e "${INFO}Only $(( ram_kb / 1024 / 1024 ))GB RAM: adding a ${want_gb}GB temporary swapfile (${INSTALL_SWAP}) so the build is not killed for lack of memory"
+    if [ ! -f "$INSTALL_SWAP" ]; then
+        rootFs=$(findmnt -no FSTYPE / | head -n 1)
+        if [ "$rootFs" = "btrfs" ]; then
+            sudo btrfs filesystem mkswapfile --size "${want_gb}G" "$INSTALL_SWAP" || true
+        else
+            sudo fallocate -l "${want_gb}G" "$INSTALL_SWAP" \
+                && sudo chmod 600 "$INSTALL_SWAP" \
+                && sudo mkswap "$INSTALL_SWAP" > /dev/null || true
+        fi
+    fi
+    sudo swapon "$INSTALL_SWAP" || echo -e "${WARN}Could not enable the temporary swapfile, the build may run out of memory"
+}
+
+remove_temp_swap() {
+    if temp_swap_active; then
+        sudo swapoff "$INSTALL_SWAP" || true
+    fi
+    sudo rm -f "$INSTALL_SWAP"
+}
+
+# Fewer parallel jobs/cores on machines with little RAM (extra args for nix)
+build_limits() {
+    local ram_gb cores
+    ram_gb=$(( $(awk '/^MemTotal:/ {print $2}' /proc/meminfo) / 1024 / 1024 ))
+    if (( ram_gb >= 32 )); then
+        return 0
+    fi
+    cores=$(( ram_gb / 2 ))
+    if (( cores < 1 )); then
+        cores=1
+    fi
+    if (( cores > $(nproc) )); then
+        cores=$(nproc)
+    fi
+    echo "--max-jobs 1 --cores $cores"
+}
+
 # Runs the build, keeping a copy of the output (a bare TTY scrolls it away).
 # Returns nh's exit code, not tee's.
 run_nh() {
+    ensure_temp_swap
+    local limits
+    limits=$(build_limits)
+
     # Flakes only see files git knows about, so new files must be added first
     git add .
     echo "=== $(date) ===" >> "$BUILD_LOG"
-    NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}" 2>&1 | tee -a "$BUILD_LOG"
+    NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}" ${limits:+-- $limits} 2>&1 | tee -a "$BUILD_LOG"
     local rc=${PIPESTATUS[0]}
     return $rc
 }
@@ -210,6 +284,16 @@ build_failed() {
     echo -e "${INFO}Last lines of the log (all of it: less ${BUILD_LOG}):"
     tail -n 25 "$BUILD_LOG"
     echo
+
+    # "Target profile path does not exist" means nix never produced a result,
+    # which is what you get when the build process is killed for lack of memory
+    if grep -q "Target profile path does not exist" "$BUILD_LOG" \
+        || sudo -n journalctl -k -b --no-pager 2> /dev/null | grep -qi "out of memory\|oom-kill"; then
+        echo -e "${WARN}That looks like the build being killed for lack of memory, not a config error."
+        echo -e "${INFO}Check with: sudo journalctl -k -b | grep -i oom"
+        echo -e "${INFO}The next run adds a temporary swapfile and limits parallel jobs; if it still happens, close other programs or add RAM."
+        echo
+    fi
     echo -e "${INFO}Fix the problem in ${REPO_DIR} with an editor (e.g. nano ${REPO_DIR}/hosts/${HOST}/default.nix),"
     echo -e "${INFO}then run ${GREEN}./install.sh${RESET} again. It carries on from the failed build."
     exit 1
@@ -667,6 +751,7 @@ fi
 key=$(cut -d' ' -f1,2 ~/.ssh/id_ed25519.pub)
 echo -e "${INFO}Copy this key:\n${key}\nThen add the public key to GitHub: Account Settings → SSH and GPG keys → New SSH key"
 
+remove_temp_swap
 mark_done finished
 
 echo -e "${INFO}You can now reboot to apply the config"
