@@ -5,8 +5,10 @@
       enable = true;
       # dns = "none"; # Let NextDNS control the DNS instead
     };
-    # Wake on lan
-    interfaces.enp6s0.wakeOnLan.enable = config.my.isHighPower;
+    # Wake on lan (set my.wakeOnLanInterface in the host's default.nix)
+    interfaces = lib.optionalAttrs (config.my.wakeOnLanInterface != null) {
+      ${config.my.wakeOnLanInterface}.wakeOnLan.enable = true;
+    };
     # Point to local NextDNS proxy
     # nameservers = [ "127.0.0.1" "::1" ];
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
@@ -15,7 +17,7 @@
       # Calendar server
       allowedTCPPorts = [ 5232 ];
       # Wake on lan
-      allowedUDPPorts = lib.mkIf config.my.isHighPower [ 9 ];
+      allowedUDPPorts = lib.mkIf (config.my.wakeOnLanInterface != null) [ 9 ];
     };
   };
 

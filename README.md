@@ -67,6 +67,17 @@ cd nixos-config && chmod +x ./install.sh && ./install.sh
 reboot
 ```
 
+### Setting up a server
+
+Run `install.sh` as normal, choose **New configuration**, and answer:
+
+- Laptop: no
+- Nvidia: only if it has one
+- High power: yes (this is what gives it every package)
+- Server: yes (never auto-suspends, doesn't auto-launch browsers/mail/chat on login)
+
+Any host that isn't called `desktop` and isn't a laptop gets default monitor settings (`preferred, auto, scale 1`), so it works with whatever monitor is plugged in. The machine must boot in UEFI mode.
+
 ### Ways to rebuild in order of preference
 
 ```bash

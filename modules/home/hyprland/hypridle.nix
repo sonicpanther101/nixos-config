@@ -1,4 +1,4 @@
-{ host, lib, ... } : {
+{ host, lib, isServer, ... } : {
   services.hypridle = {
     enable = true;
 
@@ -15,6 +15,7 @@
           timeout = 600;
           on-timeout = "systemctl --user restart hyprlock.service";
         }
+      ] ++ lib.optionals (host != "desktop" && !isServer) [
         {
           timeout = 1800;
           on-timeout = "my-sleep";

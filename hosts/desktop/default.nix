@@ -7,4 +7,5 @@
   my.hasNvidia   = true;
   my.isHighPower = true;
   my.isDualBoot  = false;
+  my.wakeOnLanInterface = "enp6s0";
 }

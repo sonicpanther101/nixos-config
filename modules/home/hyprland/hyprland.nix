@@ -1,4 +1,4 @@
-{ inputs, pkgs-stable, isLaptop, isHighPower, lib, ... } :
+{ inputs, pkgs-stable, isLaptop, isHighPower, isServer, lib, ... } :
 let
   system = pkgs-stable.stdenv.hostPlatform.system;
 
@@ -73,6 +73,7 @@ in
       ''
       + lib.optionalString isHighPower "IS_HIGH_POWER = true\n"
       + lib.optionalString isLaptop "IS_LAPTOP = true\n"
+      + lib.optionalString isServer "IS_SERVER = true\n"
       + ''
         -- Load keybinds and other config files
         require("keybinds")

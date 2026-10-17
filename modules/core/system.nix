@@ -5,6 +5,14 @@
     hasNvidia   = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has an Nvidia GPU."; };
     isHighPower = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has high CPU/GPU resources."; };
     isDualBoot  = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine has other operating systems."; };
+    isServer    = lib.mkOption { type = lib.types.bool; default = false; description = "Whether this machine is an always-on server: it never auto-suspends and does not auto-launch desktop apps on login."; };
+
+    wakeOnLanInterface = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "enp6s0";
+      description = "Name of the wired interface to enable Wake-on-LAN on (see `ip link`). null disables Wake-on-LAN and its firewall port.";
+    };
 
     hasPinLogin = lib.mkOption {
       type = lib.types.bool;

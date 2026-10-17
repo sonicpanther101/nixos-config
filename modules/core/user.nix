@@ -39,6 +39,7 @@
       hasNvidia  = config.my.hasNvidia;
       isHighPower = config.my.isHighPower;
       isDualBoot = config.my.isDualBoot;
+      isServer   = config.my.isServer;
       hasPinLogin = config.my.hasPinLogin;
       pinLoginLength = config.my.pinLoginLength;
     };

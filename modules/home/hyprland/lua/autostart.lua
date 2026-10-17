@@ -47,16 +47,19 @@ if IS_HIGH_POWER then
     -- "hyprctl dispatch exec" at all. Using Lua's [[ ]] long-bracket
     -- strings means the embedded " characters need no escaping, so there's
     -- no quote-nesting to get wrong.
-    hl.exec_cmd([[[workspace 1 silent] kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"]])
-    hl.exec_cmd([[[workspace 2 silent] vivaldi --profile-directory="Default"]])
-    hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
-    hl.exec_cmd([[[workspace 4 silent] thunderbird]])
+    -- Servers skip the desktop app autostart (browsers, mail, chat, music)
+    if not IS_SERVER then
+      hl.exec_cmd([[[workspace 1 silent] kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"]])
+      hl.exec_cmd([[[workspace 2 silent] vivaldi --profile-directory="Default"]])
+      hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
+      hl.exec_cmd([[[workspace 4 silent] thunderbird]])
 
-    hl.exec_cmd([[[workspace 12 silent] kitty]])
-    hl.exec_cmd([[sh -c "systemctl --user import-environment; systemctl --user start foobar-mpris.service"]])
-    hl.exec_cmd([[[workspace 14 silent] beeper]])
+      hl.exec_cmd([[[workspace 12 silent] kitty]])
+      hl.exec_cmd([[sh -c "systemctl --user import-environment; systemctl --user start foobar-mpris.service"]])
+      hl.exec_cmd([[[workspace 14 silent] beeper]])
 
-    hl.dsp.focus({ workspace = 1 })
+      hl.dsp.focus({ workspace = 1 })
+    end
   end)
 end
 
