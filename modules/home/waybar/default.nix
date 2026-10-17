@@ -1,4 +1,4 @@
-{ isHighPower, isLaptop, lib, inputs, pkgs-stable, config, ... } : let
+{ isHighPower, isLaptop, isServer, lib, inputs, pkgs-stable, config, ... } : let
   # Dynamic output-device menu for the volume module (see audio-menu.sh).
   audioMenu = pkgs-stable.writeShellScriptBin "my-audio-menu" ''
     export PATH=${lib.makeBinPath (with pkgs-stable; [
@@ -104,7 +104,7 @@ in {
             urgent = "";
           };
           persistent-workspaces = {
-            "HDMI-A-1" = [ 11 12 13 14 15 ];
+            "HDMI-A-1" = if isServer then [ 1 2 3 4 5 ] else [ 11 12 13 14 15 ];
             "DP-1" = [ 1 2 3 4 5 ];
             "eDP-1" = [ 1 2 3 4 5 ];
           };
