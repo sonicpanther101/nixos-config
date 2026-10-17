@@ -35,6 +35,35 @@ if [[ $EUID -eq 0 ]]; then
     exit 1
 fi
 
+#-----------------------#
+#   Command line flags  #
+#-----------------------#
+
+ORIG_ARGS=("$@")
+RESET_STATE=false
+REDO_STEPS=()
+
+usage() {
+    echo "Usage: ./install.sh [--reset] [--redo STEP]..."
+    echo "  Run it again after a failed build and it carries on where it stopped,"
+    echo "  using the answers you already gave."
+    echo "  --reset      forget saved answers and progress and start over (edits already"
+    echo "               made to the repo are kept, undo those with git if needed)"
+    echo "  --redo STEP  repeat one finished step: config_edit, host_files, build, sleep, finished"
+    echo "               (host_files regenerates the host's files, overwriting hand edits to them)"
+}
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --reset) RESET_STATE=true; shift;;
+        --redo)
+            if [[ -z "$2" ]]; then usage; exit 1; fi
+            REDO_STEPS+=("$2"); shift 2;;
+        -h|--help) usage; exit 0;;
+        *) echo -e "${ERROR}Unknown option: $1"; usage; exit 1;;
+    esac
+done
+
 #------------------------------------------#
 #   Make sure we are running in the repo   #
 #------------------------------------------#
@@ -71,7 +100,7 @@ if (( ${#missing[@]} > 0 )); then
         exit 1
     fi
     echo -e "${INFO}Missing ${missing[*]}, downloading required packages"
-    INSTALL_SH_BOOTSTRAPPED=1 nix-shell -p newt efibootmgr nh git --run "$(printf '%q' "$(realpath "$0")")"
+    INSTALL_SH_BOOTSTRAPPED=1 nix-shell -p newt efibootmgr nh git --run "$(printf '%q ' "$(realpath "$0")" "${ORIG_ARGS[@]}")"
     exit $?
 fi
 
@@ -106,6 +135,87 @@ echo -E "$CYAN
 
        ${BLUE} ─── https://github.com/sonicpanther101/nixos-config ─── ${RESET}
 "
+
+#--------------------------------------#
+#   Saved answers and progress state   #
+#--------------------------------------#
+
+# Every answer and every finished step is saved outside the repo (so git add .
+# never picks it up). After a failed build, fix the config and run the script
+# again: it reuses the answers and skips the steps that already finished.
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/nixos-config-install"
+ANSWERS_FILE="$STATE_DIR/answers.env"
+BUILD_LOG="$STATE_DIR/build.log"
+STEPS=(config_edit host_files build sleep finished)
+
+if $RESET_STATE; then
+    rm -rf "$STATE_DIR"
+    echo -e "${INFO}Forgot saved answers and progress (edits already made to the repo are kept)"
+fi
+mkdir -p "$STATE_DIR"
+
+step_done() { [ -e "$STATE_DIR/done.$1" ]; }
+mark_done() { touch "$STATE_DIR/done.$1"; }
+
+for step in "${REDO_STEPS[@]}"; do
+    if [[ " ${STEPS[*]} " != *" $step "* ]]; then
+        echo -e "${ERROR}Unknown step '$step', the steps are: ${STEPS[*]}"
+        exit 1
+    fi
+    rm -f "$STATE_DIR/done.$step"
+done
+
+if step_done finished; then
+    echo -e "${OK}This install already finished. Use --reset to start over or --redo STEP to repeat a step."
+    exit 0
+fi
+
+print_summary() {
+    cat << ENDOFSUMMARY
+Username:    $username
+Host:        $HOST
+Git Name:    $gitname
+Git Email:   $gitemail
+GitHub user: $githubUser
+New host:    $isNewHost
+Laptop:      $isLaptop
+Nvidia:      $hasNvidia
+High Power:  $isHighPower
+Server:      $isServer
+Dual Boot:   $isDualBoot
+Wake-on-LAN: ${wolInterface:-off}
+ENDOFSUMMARY
+}
+
+save_answers() {
+    for var in username HOST isNewHost swapSize isLaptop hasNvidia isHighPower isServer isDualBoot dualBootId gitname gitemail githubUser wolInterface; do
+        printf '%s=%q\n' "$var" "${!var}"
+    done > "$ANSWERS_FILE"
+}
+
+# Runs the build, keeping a copy of the output (a bare TTY scrolls it away).
+# Returns nh's exit code, not tee's.
+run_nh() {
+    # Flakes only see files git knows about, so new files must be added first
+    git add .
+    echo "=== $(date) ===" >> "$BUILD_LOG"
+    NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}" 2>&1 | tee -a "$BUILD_LOG"
+    local rc=${PIPESTATUS[0]}
+    return $rc
+}
+
+build_failed() {
+    echo
+    echo -e "${ERROR}The build failed. Your answers and progress are saved, nothing needs re-entering."
+    echo -e "${INFO}Last lines of the log (all of it: less ${BUILD_LOG}):"
+    tail -n 25 "$BUILD_LOG"
+    echo
+    echo -e "${INFO}Fix the problem in ${REPO_DIR} with an editor (e.g. nano ${REPO_DIR}/hosts/${HOST}/default.nix),"
+    echo -e "${INFO}then run ${GREEN}./install.sh${RESET} again. It carries on from the failed build."
+    exit 1
+}
+
+ask_questions() {
 
 #------------------#
 #   Get username   #
@@ -330,20 +440,7 @@ fi
 #   Recap of user choices   #
 #---------------------------#
 
-SUMMARY="\
-Username:    $username
-Host:        $HOST
-Git Name:    $gitname
-Git Email:   $gitemail
-GitHub user: $githubUser
-New host:    $isNewHost
-Laptop:      $isLaptop
-Nvidia:      $hasNvidia
-High Power:  $isHighPower
-Server:      $isServer
-Dual Boot:   $isDualBoot
-Wake-on-LAN: ${wolInterface:-off}
-"
+SUMMARY=$(print_summary)
 
 whiptail --msgbox "$SUMMARY" 23 40 --title "Installation Summary"
 
@@ -355,14 +452,37 @@ if ! (whiptail --yesno "You are about to build the system for host '$HOST'. Proc
     exit 0
 fi
 
+save_answers
+}
+
+resumed=false
+if [ -f "$ANSWERS_FILE" ]; then
+    . "$ANSWERS_FILE"
+    resumed=true
+    echo -e "${INFO}Resuming an earlier run with the answers you already gave (./install.sh --reset to start over):"
+    print_summary
+    for step in "${STEPS[@]}"; do
+        if step_done "$step"; then
+            echo -e "${OK}${step}: done"
+        else
+            echo -e "${INFO}${step}: still to do"
+        fi
+    done
+    echo
+else
+    ask_questions
+fi
+
 #---------------------#
 #    Change names     #
 #---------------------#
 
+if ! step_done config_edit; then
+
 echo -e "${INFO}Changing username to ${GREEN}$username${RESET}"
 sed -i "s/${CURRENT_USERNAME}/${username}/g" flake.nix
 
-if $isNewHost; then
+if $isNewHost && ! grep -q "\./hosts/${HOST}\$" flake.nix; then
     echo -e "${INFO}Adding host ${GREEN}${HOST}${RESET} to flake.nix"
 
     hostBlock=$(mktemp)
@@ -403,6 +523,13 @@ echo -e "${INFO}Changing git account details"
 sed -i "s/\"sonicpanther101\"/\"${gitname}\"/g" modules/home/git.nix
 sed -i "s/\"sonicpanther101@gmail.com\"/\"${gitemail}\"/g" modules/home/git.nix
 
+mark_done config_edit
+fi
+
+hwConfig="hosts/${HOST}/hardware-configuration.nix"
+
+if ! step_done host_files; then
+
 #------------------------------#
 #   Prepare the environement   #
 #------------------------------#
@@ -425,7 +552,6 @@ fi
 
 ## Create the host if it is a new one
 mkdir -p "hosts/${HOST}"
-hwConfig="hosts/${HOST}/hardware-configuration.nix"
 
 if $isNewHost; then
     cat > "hosts/${HOST}/default.nix" << ENDOFNIX
@@ -460,14 +586,11 @@ else
 fi
 
 ## Create swap file for sleeping
-hasSwapfile=false
 if $isNewHost; then
     echo -e "${INFO}Setting up swap for new host ${MAGENTA}${HOST}${RESET}"
     sed -i -z "s|swapDevices = \[ \];|swapDevices = [{\n    device = \"/swapfile\";\n    size = ${swapSize} * 1024; # ${swapSize}GB\n  }];|" "$hwConfig"
 
-    if grep -q '"/swapfile"' "$hwConfig"; then
-        hasSwapfile=true
-    else
+    if ! grep -q '"/swapfile"' "$hwConfig"; then
         echo -e "${WARN}Could not add a swapfile to ${hwConfig} (it already has swap devices?), skipping sleep setup"
     fi
 fi
@@ -477,19 +600,29 @@ if $isDualBoot; then
     sed -i "s|dualBootId = \"[0-9A-Fa-f]*\";|dualBootId = \"${dualBootId}\";|" modules/home/terminal/zsh.nix
 fi
 
+mark_done host_files
+fi
+
+hasSwapfile=false
+if $isNewHost && grep -q '"/swapfile"' "$hwConfig"; then
+    hasSwapfile=true
+fi
+
 #------------------#
 #   Installation   #
 #------------------#
 
-echo -e "${INFO}Starting system build... this may take a while."
-# Flakes only see files git knows about, so the new host files must be added first
-git add .
-NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}"
-
-echo -e "${INFO}System build finished successfully"
+if ! step_done build; then
+    echo -e "${INFO}Starting system build... this may take a while."
+    if ! run_nh; then
+        build_failed
+    fi
+    mark_done build
+    echo -e "${INFO}System build finished successfully"
+fi
 
 # Servers never sleep, so they skip hibernate setup
-if $isNewHost && $hasSwapfile && ! $isServer; then
+if $isNewHost && $hasSwapfile && ! $isServer && ! step_done sleep; then
     echo -e "${INFO}Finishing setting up sleep"
     physicalOffset=$(sudo filefrag -v /swapfile | awk '$1 == "0:" { sub(/\.\..*/, "", $4); print $4; exit }')
     uuid=$(findmnt -no UUID -T /swapfile | head -n 1)
@@ -497,6 +630,7 @@ if $isNewHost && $hasSwapfile && ! $isServer; then
 
     if [ "$swapFs" != "ext4" ] || [ -z "$physicalOffset" ] || [ -z "$uuid" ]; then
         echo -e "${WARN}Could not work out the resume offset/device (swap filesystem: '${swapFs}'), skipping hibernate setup"
+        mark_done sleep
     else
         kernelParams="\"resume_offset=${physicalOffset}\""
 
@@ -511,11 +645,16 @@ if $isNewHost && $hasSwapfile && ! $isServer; then
 
   boot.resumeDevice = \"/dev/disk/by-uuid/${uuid}\";" \
                 perl -0777 -pi -e 's/\}\s*\z/$ENV{RESUME_BLOCK}\n}\n/' "$hwConfig"
+            if ! grep -q resume_offset "$hwConfig"; then
+                echo -e "${WARN}Could not add the resume settings to ${hwConfig} (it no longer ends with a closing brace?), add boot.resumeDevice and resume_offset=${physicalOffset} by hand"
+            fi
         fi
 
         echo -e "${INFO}Starting second system build to enable sleep... this one should be quicker."
-        git add .
-        NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}"
+        if ! run_nh; then
+            build_failed
+        fi
+        mark_done sleep
     fi
 fi
 
@@ -527,6 +666,8 @@ if [ ! -f ~/.ssh/id_ed25519 ]; then
 fi
 key=$(cut -d' ' -f1,2 ~/.ssh/id_ed25519.pub)
 echo -e "${INFO}Copy this key:\n${key}\nThen add the public key to GitHub: Account Settings → SSH and GPG keys → New SSH key"
+
+mark_done finished
 
 echo -e "${INFO}You can now reboot to apply the config"
 echo -e "${INFO}After you reboot, make sure to set up any specialised hardware by looking in the ./modules/core/hardware.nix and changing some of the host checking stakements throughout the config"

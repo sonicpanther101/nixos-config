@@ -78,6 +78,13 @@ Run `install.sh` as normal, choose **New configuration**, and answer:
 
 Any host that isn't called `desktop` and isn't a laptop gets default monitor settings (`preferred, auto, scale 1`), so it works with whatever monitor is plugged in. The machine must boot in UEFI mode.
 
+### If the first build fails
+
+Your answers and progress are saved in `~/.local/state/nixos-config-install/` (the build output too, in `build.log`). Fix the config with an editor (e.g. `nano`), then just run `./install.sh` again: it asks nothing, skips the steps that already finished and never overwrites your hand edits.
+
+- `./install.sh --reset` forgets the saved answers and progress (edits already made to the repo stay)
+- `./install.sh --redo STEP` repeats one step: `config_edit`, `host_files`, `build`, `sleep` or `finished` (`host_files` regenerates the host's files, overwriting hand edits to them)
+
 ### Ways to rebuild in order of preference
 
 ```bash
