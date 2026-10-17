@@ -88,7 +88,7 @@ cd "$REPO_DIR"
 # One nix-shell for everything, then the script re-runs itself inside it. The
 # guard variable stops an endless re-run if a tool is still missing afterwards.
 missing=()
-for tool in whiptail efibootmgr nh git; do
+for tool in whiptail efibootmgr nh git perl; do
     if ! command -v "$tool" &> /dev/null; then
         missing+=("$tool")
     fi
@@ -100,7 +100,7 @@ if (( ${#missing[@]} > 0 )); then
         exit 1
     fi
     echo -e "${INFO}Missing ${missing[*]}, downloading required packages"
-    INSTALL_SH_BOOTSTRAPPED=1 nix-shell -p newt efibootmgr nh git --run "$(printf '%q ' "$(realpath "$0")" "${ORIG_ARGS[@]}")"
+    INSTALL_SH_BOOTSTRAPPED=1 nix-shell -p newt efibootmgr nh git perl --run "$(printf '%q ' "$(realpath "$0")" "${ORIG_ARGS[@]}")"
     exit $?
 fi
 
@@ -163,6 +163,9 @@ for step in "${REDO_STEPS[@]}"; do
         exit 1
     fi
     rm -f "$STATE_DIR/done.$step"
+    # Everything after the redone step has to run again too, so the install
+    # is no longer "finished" (otherwise the script exits before doing anything)
+    rm -f "$STATE_DIR/done.finished"
 done
 
 if step_done finished; then
@@ -612,6 +615,78 @@ fi
 
 hwConfig="hosts/${HOST}/hardware-configuration.nix"
 
+# Puts a swapfile in the host's hardware config (NixOS creates the file itself
+# on the next switch). Succeeds if the config ends up with a /swapfile.
+add_swapfile_config() {
+    if ! grep -q '"/swapfile"' "$hwConfig"; then
+        SWAP_BLOCK="swapDevices = [{
+    device = \"/swapfile\";
+    size = ${swapSize} * 1024; # ${swapSize}GB
+  }];" perl -0777 -pi -e 's/swapDevices\s*=\s*\[\s*\]\s*;/$ENV{SWAP_BLOCK}/' "$hwConfig"
+    fi
+    grep -q '"/swapfile"' "$hwConfig"
+}
+
+# Adds the hibernate/resume settings to the hardware config and rebuilds. Safe
+# to run again: it replaces any resume settings an earlier run added. Returns
+# non-zero (without marking the step done) whenever something did not work.
+setup_sleep() {
+    echo -e "${INFO}Finishing setting up sleep"
+
+    if ! add_swapfile_config; then
+        echo -e "${ERROR}Could not add a swapfile to ${hwConfig}: there is no empty 'swapDevices = [ ];' to replace (does it already have other swap devices?)"
+        return 1
+    fi
+
+    # NixOS only creates the swapfile when it switches to a config that has it,
+    # so if it is not there yet (swap was never added, or the build was skipped) build once first
+    if ! sudo test -f /swapfile; then
+        echo -e "${INFO}/swapfile does not exist yet, building so NixOS creates it..."
+        if ! run_nh; then
+            build_failed
+        fi
+    fi
+
+    local physicalOffset uuid swapFs kernelParams
+    physicalOffset=$(sudo filefrag -v /swapfile | awk '$1 == "0:" { sub(/\.\..*/, "", $4); print $4; exit }')
+    uuid=$(findmnt -no UUID -T /swapfile | head -n 1)
+    swapFs=$(findmnt -no FSTYPE -T /swapfile | head -n 1)
+
+    if [ "$swapFs" != "ext4" ] || [ -z "$physicalOffset" ] || [ -z "$uuid" ]; then
+        echo -e "${ERROR}Could not work out the resume offset/device (swap filesystem: '${swapFs}', offset: '${physicalOffset}', uuid: '${uuid}'). Only ext4 swapfiles are supported"
+        return 1
+    fi
+
+    kernelParams="\"resume_offset=${physicalOffset}\""
+
+    # Only force deep sleep if the machine supports it (some only offer s2idle)
+    if grep -q deep /sys/power/mem_sleep; then
+        kernelParams="\"mem_sleep_default=deep\" ${kernelParams}"
+    fi
+
+    # Remove resume settings from an earlier run so a redo never keeps stale values
+    perl -0777 -pi -e 's/\n\n  boot\.kernelParams = \[[^\n]*resume_offset[^\n]*\];\n\n  boot\.resumeDevice = [^\n]*;//' "$hwConfig"
+    sed -i -e '/boot\.kernelParams.*resume_offset/d' -e '/^[[:space:]]*boot\.resumeDevice/d' "$hwConfig"
+
+    RESUME_BLOCK="
+  boot.kernelParams = [ ${kernelParams} ];
+
+  boot.resumeDevice = \"/dev/disk/by-uuid/${uuid}\";" \
+        perl -0777 -pi -e 's/\}\s*\z/$ENV{RESUME_BLOCK}\n}\n/' "$hwConfig"
+
+    if ! grep -q "resume_offset=${physicalOffset}" "$hwConfig" || ! grep -q 'boot.resumeDevice' "$hwConfig"; then
+        echo -e "${ERROR}Could not add the resume settings to ${hwConfig} (it no longer ends with a closing brace?). Add boot.resumeDevice = \"/dev/disk/by-uuid/${uuid}\" and resume_offset=${physicalOffset} by hand"
+        return 1
+    fi
+    echo -e "${OK}Added resume settings to ${hwConfig}"
+
+    echo -e "${INFO}Starting second system build to enable sleep... this one should be quicker."
+    if ! run_nh; then
+        build_failed
+    fi
+    mark_done sleep
+}
+
 if ! step_done host_files; then
 
 #------------------------------#
@@ -672,10 +747,8 @@ fi
 ## Create swap file for sleeping
 if $isNewHost; then
     echo -e "${INFO}Setting up swap for new host ${MAGENTA}${HOST}${RESET}"
-    sed -i -z "s|swapDevices = \[ \];|swapDevices = [{\n    device = \"/swapfile\";\n    size = ${swapSize} * 1024; # ${swapSize}GB\n  }];|" "$hwConfig"
-
-    if ! grep -q '"/swapfile"' "$hwConfig"; then
-        echo -e "${WARN}Could not add a swapfile to ${hwConfig} (it already has swap devices?), skipping sleep setup"
+    if ! add_swapfile_config; then
+        echo -e "${WARN}Could not add a swapfile to ${hwConfig} (it already has swap devices?). Sleep is set up at the end; if that fails, fix it and run ./install.sh --redo sleep"
     fi
 fi
 
@@ -685,11 +758,6 @@ if $isDualBoot; then
 fi
 
 mark_done host_files
-fi
-
-hasSwapfile=false
-if $isNewHost && grep -q '"/swapfile"' "$hwConfig"; then
-    hasSwapfile=true
 fi
 
 #------------------#
@@ -706,40 +774,13 @@ if ! step_done build; then
 fi
 
 # Servers never sleep, so they skip hibernate setup
-if $isNewHost && $hasSwapfile && ! $isServer && ! step_done sleep; then
-    echo -e "${INFO}Finishing setting up sleep"
-    physicalOffset=$(sudo filefrag -v /swapfile | awk '$1 == "0:" { sub(/\.\..*/, "", $4); print $4; exit }')
-    uuid=$(findmnt -no UUID -T /swapfile | head -n 1)
-    swapFs=$(findmnt -no FSTYPE -T /swapfile | head -n 1)
-
-    if [ "$swapFs" != "ext4" ] || [ -z "$physicalOffset" ] || [ -z "$uuid" ]; then
-        echo -e "${WARN}Could not work out the resume offset/device (swap filesystem: '${swapFs}'), skipping hibernate setup"
-        mark_done sleep
-    else
-        kernelParams="\"resume_offset=${physicalOffset}\""
-
-        # Only force deep sleep if the machine supports it (some only offer s2idle)
-        if grep -q deep /sys/power/mem_sleep; then
-            kernelParams="\"mem_sleep_default=deep\" ${kernelParams}"
-        fi
-
-        if ! grep -q resume_offset "$hwConfig"; then
-            RESUME_BLOCK="
-  boot.kernelParams = [ ${kernelParams} ];
-
-  boot.resumeDevice = \"/dev/disk/by-uuid/${uuid}\";" \
-                perl -0777 -pi -e 's/\}\s*\z/$ENV{RESUME_BLOCK}\n}\n/' "$hwConfig"
-            if ! grep -q resume_offset "$hwConfig"; then
-                echo -e "${WARN}Could not add the resume settings to ${hwConfig} (it no longer ends with a closing brace?), add boot.resumeDevice and resume_offset=${physicalOffset} by hand"
-            fi
-        fi
-
-        echo -e "${INFO}Starting second system build to enable sleep... this one should be quicker."
-        if ! run_nh; then
-            build_failed
-        fi
-        mark_done sleep
+sleepFailed=false
+if $isNewHost && ! $isServer; then
+    if ! step_done sleep && ! setup_sleep; then
+        sleepFailed=true
     fi
+elif [[ " ${REDO_STEPS[*]} " == *" sleep "* ]]; then
+    echo -e "${INFO}Sleep is only set up for new hosts that are not servers, so there is nothing to redo"
 fi
 
 echo -e "${INFO}Setting up my-install script"
@@ -754,5 +795,8 @@ echo -e "${INFO}Copy this key:\n${key}\nThen add the public key to GitHub: Accou
 remove_temp_swap
 mark_done finished
 
+if $sleepFailed; then
+    echo -e "${ERROR}Sleep is ${RED}NOT${RESET} set up (see the error above). Fix the problem, then run ${GREEN}./install.sh --redo sleep${RESET}"
+fi
 echo -e "${INFO}You can now reboot to apply the config"
 echo -e "${INFO}After you reboot, make sure to set up any specialised hardware by looking in the ./modules/core/hardware.nix and changing some of the host checking stakements throughout the config"

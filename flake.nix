@@ -126,6 +126,21 @@
           inherit self inputs username pkgs-stable pkgs-unstable;
         };
       };
+      server = nixpkgs-stable.lib.nixosSystem {
+        inherit system;
+        modules = [
+          ./hosts/server
+          inputs.grub2-themes.nixosModules.default
+          inputs.stylix.nixosModules.stylix
+          inputs.nix-index-database.nixosModules.default
+          inputs.nur.modules.nixos.default
+          inputs.chaotic.nixosModules.default
+        ];
+        specialArgs = {
+          host = "server";
+          inherit self inputs username pkgs-stable pkgs-unstable;
+        };
+      };
     };
   };
 }

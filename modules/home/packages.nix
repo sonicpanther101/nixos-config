@@ -1,4 +1,4 @@
-{ inputs, pkgs-unstable, pkgs-stable, isHighPower, ... } : {
+{ inputs, lib, pkgs-unstable, pkgs-stable, isHighPower, isServer, ... } : {
 
   home.packages = [                                       # From inputs
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
@@ -145,15 +145,15 @@
     beeper                                                # Unified messaging app
     xournalpp                                             # Note taking and pdf annotating app
 
-  ]) ++ (if isHighPower then (with pkgs-stable; [ # Host-specific additions
+  ]) ++ lib.optionals (!isServer && isHighPower) [        # Desktop-only apps, not installed on the server
+    (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
+    (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
+    (pkgs-unstable.bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
+  ] ++ (if isHighPower then (with pkgs-stable; [ # Host-specific additions
     ddcutil                                               # Desktop brighness controller
     freecad                                               # 3D Print designing software
     blender                                               # 3D modelling software
     openrgb                                               # Open source RGB lighting control
-    (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
-    (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
-  ]) ++ (with pkgs-unstable; [
-    (bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
   ]) else (with pkgs-stable; [
     brightnessctl                                         # Laptop brighness controller
     poweralertd                                           # UPower-powered power alerter

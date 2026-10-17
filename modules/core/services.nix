@@ -153,7 +153,7 @@
     };
 
     ollama = {
-      enable = true;
+      enable = !config.my.isServer;
       package = pkgs-stable.ollama-cuda;
       loadModels = [ "qwen2.5-coder:7b" "qwen3.6:35b-a3b-mtp-q4_K_M" ]; 
       environmentVariables = {
