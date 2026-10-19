@@ -68,9 +68,14 @@ hl.define_submap("monitor", function()
     hl.dispatch(hl.dsp.submap("reset"))
   end)
 
+  -- Mirror the current monitor on the other one
+  hl.bind("SUPER+M", function()
+    hl.dispatch(hl.dsp.exec_cmd("my-mirror-monitor"))
+    hl.dispatch(hl.dsp.submap("reset")) 
+  end)
+
   -- Exit the submap without performing any action
   hl.bind("escape", hl.dsp.submap("reset"))
-  hl.bind("SUPER+M", hl.dsp.submap("reset"))
 end)
 
 -- Vscodium
