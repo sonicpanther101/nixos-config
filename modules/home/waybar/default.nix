@@ -51,7 +51,7 @@ in {
 
   programs.waybar = {
     enable = true;
-    package = inputs.waybar-git.packages.${pkgs-stable.system}.default;
+    package = inputs.waybar-git.packages.${pkgs-stable.stdenv.hostPlatform.system}.default;
     systemd = {
       enable = true;
       targets = [ "graphical-session.target" ];
