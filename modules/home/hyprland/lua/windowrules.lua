@@ -88,6 +88,55 @@ mkRule({ match = { title = "cava" }, idle_inhibit = "focus" })
 
 mkRule({ match = { class = "foobar2000.exe" }, workspace = "13 silent" })
 
+-- Dynamic float rules: for windows whose title only changes AFTER they open.
+-- `float`/`size`/`center` window rules are "static": Hyprland evaluates them once,
+-- when the window maps. Vivaldi popups map with the generic title
+-- "Vivaldi - Vivaldi" and only get their real title ("Sign in - Google Accounts -
+-- Vivaldi") later, so a `title = ...` window_rule never floats them. Instead we
+-- listen for title changes and float the window ourselves.
+-- `class`/`title` are Lua patterns (not regex): escape `-` as `%-`, `.` as `%.`.
+-- `within` = only match if the title arrives this many seconds after the window
+-- opened, so an existing main window that merely navigates to a sign-in page
+-- doesn't get floated (no false positives). Windows opened before the config
+-- was (re)loaded have no recorded open time and are never matched.
+local dynamicFloatRules = {
+  { class = "^vivaldi%-stable$", title = "^Sign in %- Google Accounts", within = 10, size = { 600, 750 } },
+}
+-- address -> true, so each window is only floated once (re-tiling it by hand sticks)
+local dynamicFloated = {}
+-- address -> os.time() at open
+local dynamicOpenedAt = {}
+
+hl.on("window.open", function(w)
+  dynamicOpenedAt[w.address] = os.time()
+end)
+
+hl.on("window.title", function(w)
+  if dynamicFloated[w.address] then
+    return
+  end
+  local openedAt = dynamicOpenedAt[w.address]
+  if not openedAt then
+    return
+  end
+  for _, r in ipairs(dynamicFloatRules) do
+    if w.class:find(r.class) and w.title:find(r.title) and os.time() - openedAt <= r.within then
+      dynamicFloated[w.address] = true
+      hl.dispatch(hl.dsp.window.float({ action = "enable", window = w }))
+      if r.size then
+        hl.dispatch(hl.dsp.window.resize({ x = r.size[1], y = r.size[2], window = w }))
+      end
+      hl.dispatch(hl.dsp.window.center({ window = w }))
+      return
+    end
+  end
+end)
+
+hl.on("window.close", function(w)
+  dynamicFloated[w.address] = nil
+  dynamicOpenedAt[w.address] = nil
+end)
+
 -- Layer rules
 -- `namespace` is a match criterion (goes inside match={}), and there is no
 -- `level` field - the old hyprlang "level" concept is `above_lock` (int 0-2)
