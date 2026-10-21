@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs-unstable, pkgs-stable, isHighPower, isServer, ... } : {
+{ inputs, lib, pkgs-unstable, pkgs-stable, isHighPower, isServer, username, ... } : {
 
   home.packages = [                                       # From inputs
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
@@ -103,7 +103,6 @@
     obs-studio                                            # Free and open source software for video recording and live streaming
 
                                                           # Audio tools
-    (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
     cmus                                                  # Small, fast and powerful console music player for Linux
     cmusfm                                                # Last.fm and Libre.fm standalone scrobbler for the cmus music player
     playerctl                                             # To control media from cli
@@ -145,7 +144,9 @@
     beeper                                                # Unified messaging app
     xournalpp                                             # Note taking and pdf annotating app
 
-  ]) ++ lib.optionals (!isServer && isHighPower) [        # Desktop-only apps, not installed on the server
+  ]) ++ lib.optionals (!isServer) [                       # Not installed on the server
+    (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
+  ] ++ lib.optionals (!isServer && isHighPower) [        # Desktop-only apps, not installed on the server
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
     (pkgs-unstable.bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`

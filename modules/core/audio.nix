@@ -1,4 +1,4 @@
-{ pkgs-stable, inputs, username, ... } :  {
+{ config, lib, pkgs-stable, inputs, username, ... } :  {
   services.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
@@ -58,7 +58,7 @@
   # Previously it was launched through Hyprland's exec_cmd, which wraps it in
   # an unmanaged run-pNNN.scope. At shutdown that scope sat there for the full
   # 90s default stop timeout before being killed, stalling the whole reboot.
-  systemd.user.services.foobar-mpris = {
+  systemd.user.services.foobar-mpris = lib.mkIf (!config.my.isServer) {
     description = "Foobar2000 MPRIS bridge";
     # Started from Hyprland's autostart and from the walker entry, not
     # wantedBy anything: it needs the Wayland/X env, and must not be

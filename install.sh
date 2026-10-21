@@ -5,6 +5,8 @@
 #--------------------#
 
 CURRENT_USERNAME='adam'
+DEFAULT_GIT_NAME='sonicpanther101'
+DEFAULT_GIT_EMAIL='sonicpanther101@gmail.com'
 
 RESET=$(tput sgr0)
 WHITE=$(tput setaf 7)
@@ -483,7 +485,7 @@ fi
 #---------------------------#
 
 while true; do
-    gitname=$(whiptail --inputbox "Enter your git username/name:" 9 40 --title "Name" 3>&1 1>&2 2>&3)
+    gitname=$(whiptail --inputbox "Enter your git username/name:" 9 40 "${gitname:-$DEFAULT_GIT_NAME}" --title "Name" 3>&1 1>&2 2>&3)
 
     if [ $? != 0 ]; then
         exit 1
@@ -495,7 +497,7 @@ while true; do
 done
 
 while true; do
-    gitemail=$(whiptail --inputbox "Enter your git email:" 9 40 --title "Email" 3>&1 1>&2 2>&3)
+    gitemail=$(whiptail --inputbox "Enter your git email:" 9 40 "${gitemail:-$DEFAULT_GIT_EMAIL}" --title "Email" 3>&1 1>&2 2>&3)
 
     if [ $? != 0 ]; then
         exit 1
