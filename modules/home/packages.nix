@@ -4,7 +4,6 @@
   ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
 
     vsce                                                  # VS Code Extension Manager
-    prusa-slicer                                          # Slicing software
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
     (bottles.override { removeWarningPopup = true; })     # Windows emulater, Wine prefix manager
     lmstudio-bionic                                       # Bionic is an easy to use desktop app for experimenting with local and open-source LLMs

@@ -222,6 +222,7 @@ in {
           sleep_timer = 1;
           bar_delimiter = 0;
           format_silent = "";
+          hide_on_silence = true;
           format-icons = [
             "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"
           ];
