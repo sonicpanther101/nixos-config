@@ -12,6 +12,7 @@
     ./gaming.nix
     ./wayland.nix
     ./nix-ld.nix
+    ./server.nix
     ./vm
     
     # ─── Remote builds ───────────────────────────────────────────────────────

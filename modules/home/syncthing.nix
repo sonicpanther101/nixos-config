@@ -1,4 +1,4 @@
-{ username, host, config, ... } : {
+{ username, host, isServer, config, ... } : {
   services.syncthing = {
     enable = true;
     # Force Syncthing to listen on a port likely to be open
@@ -10,20 +10,21 @@
         "laptop-1" = { id = "K4TFO23-BFIJIKI-YCZVGVJ-HLHAEY7-6QJ2WHP-3QN6WJ3-DX74NUX-JNIVLAP"; };
         "laptop-2" = { id = "HHDHHNC-TBXSLRH-3ZMQ5WW-VVKJ42V-GVRJG76-VNSVHO3-INIDR5X-OWHGIAX"; };
         "desktop" = { id = "7LMWSE7-SIOJROW-CSVA53V-RM77RLA-GBU2T6H-GL6SYLW-UC32RBB-M3455QQ"; };
+        "server" = { id = "RHARASO-HG4S4CR-QQ5WHUZ-HEOTLBE-GIGFCOL-B52R2NK-6HY6VAF-C4PGRQO"; };
       };
       
       folders = let
         deviceNames = builtins.attrNames config.services.syncthing.settings.devices;
         sharedDevices = builtins.filter (d: d != host) deviceNames;
 
-        basePath = if host == "desktop" then
+        basePath = if host == "desktop" || isServer then
           "/home/${username}/driveBig"
         else
           "/home/${username}";
       in {
-        "Kobo" = {
+        "Books" = {
           id = "m7cg8-2a7jo";
-          path = "${basePath}/Kobo/";
+          path = "${basePath}/Books/";
           devices = sharedDevices;
         };
 

@@ -146,7 +146,7 @@
 
   ]) ++ lib.optionals (!isServer) [                       # Not installed on the server
     (pkgs-stable.callPackage ../../packages/foobar2000.nix { inherit pkgs-stable inputs username; })
-  ] ++ lib.optionals (!isServer && isHighPower) [        # Desktop-only apps, not installed on the server
+  ] ++ lib.optionals (!isServer && isHighPower) [         # Desktop-only apps, not installed on the server
     (pkgs-stable.callPackage ../../packages/tagscanner.nix { inherit pkgs-stable inputs; })
     (pkgs-stable.callPackage ../../packages/mp3tag.nix { inherit pkgs-stable inputs; })
     (pkgs-unstable.bambu-studio.override { withNvidiaGLWorkaround = true; })  # Bambu Studio, Nvidia GL workaround `LIBGL_ALWAYS_SOFTWARE=1 bambu-studio`
