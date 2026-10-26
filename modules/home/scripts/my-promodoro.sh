@@ -1,5 +1,50 @@
 #!/usr/bin/env bash
 
+# Defaults (minutes)
+FOCUS_MIN=25
+BREAK_MIN=5
+LONG_BREAK_MIN=15
+LONG_BREAK_EVERY=4
+
+usage() {
+  cat <<EOF
+Usage: ${0##*/} [options]
+
+Options:
+  -f, --focus MIN        Focus session length in minutes   (default: $FOCUS_MIN)
+  -b, --break MIN        Short break length in minutes     (default: $BREAK_MIN)
+  -l, --long-break MIN   Long break length in minutes      (default: $LONG_BREAK_MIN)
+  -n, --every N          Long break after every N focus sessions (default: $LONG_BREAK_EVERY)
+  -h, --help             Show this help
+EOF
+}
+
+die() {
+  echo "${0##*/}: $1" >&2
+  exit 1
+}
+
+# Require a positive integer
+need_posint() {
+  [[ "$2" =~ ^[1-9][0-9]*$ ]] || die "$1 expects a positive whole number, got '${2:-}'"
+}
+
+# Parse args before touching the terminal, so --help / errors leave it alone
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -f|--focus)       need_posint "$1" "${2:-}"; FOCUS_MIN=$2;       shift 2 ;;
+    -b|--break)       need_posint "$1" "${2:-}"; BREAK_MIN=$2;       shift 2 ;;
+    -l|--long-break)  need_posint "$1" "${2:-}"; LONG_BREAK_MIN=$2;  shift 2 ;;
+    -n|--every)       need_posint "$1" "${2:-}"; LONG_BREAK_EVERY=$2; shift 2 ;;
+    --focus=*)        need_posint "--focus" "${1#*=}";      FOCUS_MIN=${1#*=};        shift ;;
+    --break=*)        need_posint "--break" "${1#*=}";      BREAK_MIN=${1#*=};        shift ;;
+    --long-break=*)   need_posint "--long-break" "${1#*=}"; LONG_BREAK_MIN=${1#*=};   shift ;;
+    --every=*)        need_posint "--every" "${1#*=}";      LONG_BREAK_EVERY=${1#*=}; shift ;;
+    -h|--help)        usage; exit 0 ;;
+    *)                usage >&2; die "unknown option '$1'" ;;
+  esac
+done
+
 # Hide cursor for cleaner look
 tput civis
 
@@ -72,18 +117,18 @@ run_pomodoro() {
       0) colors="250,240,255,245"; label="❄️ Winter Focus" ;;
     esac
 
-    pomodoro 1500 "$label" 60 2 "$colors"
+    pomodoro $((FOCUS_MIN * 60)) "$label" 60 2 "$colors"
 
     notify "Pomodoro" "Focus finished ✔" focus
   
     # ☕ Break logic
-    if (( cycle % 4 == 0 )); then
-      break_time=900
-      break_label="☕ Long Break (15 min)"
+    if (( cycle % LONG_BREAK_EVERY == 0 )); then
+      break_time=$((LONG_BREAK_MIN * 60))
+      break_label="☕ Long Break ($LONG_BREAK_MIN min)"
       break_colors="22,94,34,136"
     else
-      break_time=300
-      break_label="☕ Break (5 min)"
+      break_time=$((BREAK_MIN * 60))
+      break_label="☕ Break ($BREAK_MIN min)"
       break_colors="22,94,34,136"
     fi
 
