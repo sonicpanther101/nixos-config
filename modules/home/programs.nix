@@ -107,7 +107,7 @@ in {
 
     ".config/opencode/opencode.json".text = builtins.toJSON {
       "$schema" = "https://opencode.ai/config.json";
-      model = "ollama/qwen3-coder:30b";
+      model = "qwen3.6:35b-a3b-mtp-q4_K_M";
       small_model = "ollama/qwen2.5-coder:7b";
       lsp = true;
 
@@ -120,8 +120,8 @@ in {
             apiKey = "ollama";
           };
           models = {
-            "qwen3-coder:30b" = {
-              name = "Qwen3-Coder 30B";
+            "qwen3.6:35b-a3b-mtp-q4_K_M" = {
+              name = "Qwen3.6 35B";
               limit = {
                 context = 262144;
                 output = 65536;
@@ -151,7 +151,6 @@ in {
         "OpenCodeRAG"
         "opencode-throughput"
         "opencode-simple-notify"
-        "@bluelovers/opencode-arise"
       ];
     };
   };
