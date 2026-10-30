@@ -42,6 +42,7 @@ while true; do
 
   if [ -z "$ACTIVE" ]; then
     CURRENT_PLAYER=""
+    rm -f "$STATE_FILE"
     sleep 1
     continue
   fi

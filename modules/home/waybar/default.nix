@@ -122,7 +122,7 @@ in {
 
         "image#album-art" = {
           exec = "my-player-art";
-          interval = 10;
+          interval = 5;
           on-click = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) play-pause";
           on-scroll-up = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) next";
           on-scroll-down = "playerctl -p $(cat \${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player) previous";
@@ -365,6 +365,7 @@ in {
     }
 
     #image.empty {
+        padding: 0px;
         margin: 0px;
     }
 

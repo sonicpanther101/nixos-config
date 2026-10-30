@@ -4,6 +4,10 @@ STATE_FILE="${XDG_RUNTIME_DIR:-/tmp}/waybar-current-player"
 PLAYER=$(cat "$STATE_FILE" 2>/dev/null)
 [ -z "$PLAYER" ] && exit 0
 
+# Only show art while audio is actually playing; printing nothing makes
+# waybar hide the image module (and its width) entirely.
+[ "$(playerctl -p "$PLAYER" status 2>/dev/null)" = "Playing" ] || exit 0
+
 # 1. Fast path: Return album/tab art immediately if available
 ART=$(playerctl -p "$PLAYER" metadata mpris:artUrl 2>/dev/null | sed 's|^file://||')
 if [ -n "$ART" ]; then
