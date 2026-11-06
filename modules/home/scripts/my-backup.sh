@@ -7,7 +7,7 @@
 set -uo pipefail  # no -e: we want to control exit/output paths ourselves
 
 USB_SOURCE="/run/media/adam/Ventoy/Uni/Notes"
-BACKUP_ROOT="$HOME/Desktop/Uni-Notes-Backups"
+BACKUP_ROOT="$HOME/driveBig/Uni Notes/"
 STATE_FILE="$HOME/.cache/uni-notes-backup-state"
 TODAY=$(date '+%Y-%m-%d')
 TIMESTAMP=$(date '+%Y-%m-%d_%H')          # resolution: to the hour
