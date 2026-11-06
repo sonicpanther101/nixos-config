@@ -51,8 +51,8 @@ if IS_HIGH_POWER then
     if not IS_SERVER then
       hl.exec_cmd([[[workspace 1 silent] kitty --hold sh -ic "cd ~/nixos-config && git pull && nvim"]])
       hl.exec_cmd([[[workspace 2 silent] vivaldi --profile-directory="Default"]])
-      hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
-      hl.exec_cmd([[[workspace 4 silent] thunderbird]])
+      -- hl.exec_cmd([[[workspace 3 silent] vivaldi --profile-directory="Profile 1"]])
+      hl.exec_cmd([[[workspace 3 silent] thunderbird]])
 
       hl.exec_cmd([[[workspace 12 silent] kitty]])
       hl.exec_cmd([[sh -c "systemctl --user import-environment; systemctl --user start foobar-mpris.service"]])

@@ -14,10 +14,10 @@
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
     firewall = {
       enable = true;
-      # Calendar server
-      allowedTCPPorts = [ 5232 ];
-      # Wake on lan
-      allowedUDPPorts = lib.mkIf (config.my.wakeOnLanInterface != null) [ 9 ];
+      # Calendar server + Syncthing sync (22000)
+      allowedTCPPorts = [ 5232 22000 ];
+      # Syncthing sync (22000, QUIC) + local discovery (21027), plus wake on lan
+      allowedUDPPorts = [ 22000 21027 ] ++ lib.optional (config.my.wakeOnLanInterface != null) 9;
     };
   };
 
