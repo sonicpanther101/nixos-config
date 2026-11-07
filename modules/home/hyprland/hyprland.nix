@@ -92,7 +92,17 @@ in
 
     # Set the flake package
     package = inputs.hyprland.packages.${system}.hyprland;
-    portalPackage = inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland;
+    
+    # Home Manager would do `portalPackage.override { hyprland = ...; }`, but
+    # xdph no longer takes a `hyprland` argument (since its hyprtoolkit picker
+    # rewrite), so that override throws. Register the portal ourselves below.
+    portalPackage = null;
+  };
+
+  xdg.portal = {
+    # Home Manager sets this to `portalPackage != null`, i.e. false now.
+    enable = lib.mkForce true;
+    extraPortals = [ inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland ];
   };
 
   # Symlink Lua config files directly from the local git repo (no nix store copying)

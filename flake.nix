@@ -27,7 +27,7 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland/91f29f23bb691462f8aa6171b964069aebc37910"; # pinned for dependancy fix (go back to versions when possible)
+    hyprland.url = "github:hyprwm/Hyprland/v0.57.1";
 
     waybar-git = {
       url = "github:Alexays/Waybar/16843896794a9c595139318420f81f40e84f8c78";
@@ -35,12 +35,12 @@
     };
 
     split-monitor-workspaces = {
-      url = "github:zjeffer/split-monitor-workspaces/v0.56.2";
+      url = "github:zjeffer/split-monitor-workspaces/v0.57.1";
       inputs.hyprland.follows = "hyprland";
     };
 
     hyprgrass = {
-      url = "github:horriblename/hyprgrass/5b1298daa9bb2835df6a0e33619f6ff3a7a05715"; # newest rev that still builds against the pinned Hyprland (older one used a removed API); bump together with hyprland
+      url = "github:horriblename/hyprgrass/hl-0.57.1";
       inputs.hyprland.follows = "hyprland";
     };
     
