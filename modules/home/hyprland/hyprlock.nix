@@ -182,14 +182,19 @@ in {
       Description = "Hyprlock screen locker";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
+      # systemd documents these under [Unit]; they used to sit in [Service],
+      # where the interval is ignored and the 10 s default window applied. A few
+      # quick crashes while outputs re-initialise after resume then left the
+      # unit permanently failed, and Hyprland stuck on its "lockscreen app
+      # died" screen. Retry for longer instead.
+      StartLimitIntervalSec = 120;
+      StartLimitBurst = 10;
     };
     Service = {
       Type = "simple";
       ExecStart = "${pkgs-stable.hyprlock}/bin/hyprlock";
       Restart = "on-failure";
-      RestartSec = 1;
-      StartLimitIntervalSec = 60;
-      StartLimitBurst = 5;
+      RestartSec = 2;
     };
   };
 

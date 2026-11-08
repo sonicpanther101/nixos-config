@@ -6,6 +6,8 @@ in {
     "my-install"
     "my-shutdown"
     "my-sleep"
+    "my-lock"
+    "my-dpms"
     "my-clean"
     "my-update"
     "my-icon-browser"

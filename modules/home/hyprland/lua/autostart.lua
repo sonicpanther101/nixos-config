@@ -12,7 +12,6 @@ hl.on("hyprland.start", function()
 
   -- Lock screen and utilities
   hl.exec_cmd("systemctl --user restart hyprlock.service")
-  hl.exec_cmd("hyprsunset")
   hl.exec_cmd("nm-applet")
   hl.exec_cmd("blueman-applet")
   hl.exec_cmd("wl-clip-persist --clipboard regular")

@@ -177,7 +177,9 @@ hl.bind("SUPER+Escape", hl.dsp.exec_cmd("systemctl --user restart hyprlock.servi
 hl.bind("SUPER+SHIFT+Escape", hl.dsp.exec_cmd("my-sleep"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Shutting down...' --post-cmd 'my-shutdown'"), { locked = true })
 hl.bind("SUPER+SHIFT+CTRL+ALT+Escape", hl.dsp.exec_cmd("hyprshutdown -t 'Restarting...' --post-cmd 'reboot'"), { locked = true })
-hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("my-sleep"), { locked = true })
+-- Lid close is handled by logind (suspend-then-hibernate, see core/services.nix);
+-- hypridle locks the session before it sleeps. Binding it here too meant two
+-- competing sleep requests per lid close.
 
 -- Mouse bindings (window drag/resize via mouse button + modifier)
 hl.bind("SUPER+mouse:272", hl.dsp.window.drag())
