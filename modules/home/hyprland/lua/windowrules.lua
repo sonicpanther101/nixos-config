@@ -37,7 +37,6 @@ end
 -- Float by class
 mkFloatRules({
   { match = { class = "Matplotlib" }, size = { 950, 600 } },
-  { match = { class = "float_nemo" }, size = { 950, 600 } },
   { match = { class = "imv" }, size = { 1200, 725 } },
   { match = { class = "mpv" }, size = { 1200, 725 } },
 })

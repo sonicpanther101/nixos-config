@@ -27,8 +27,47 @@ hl.bind("SUPER+B", hl.dsp.exec_cmd('vivaldi --profile-directory="Default" --allo
 hl.bind("SUPER+SHIFT+B", hl.dsp.exec_cmd('vivaldi --profile-directory="Profile 1"'))
 
 -- File browser
-hl.bind("SUPER+E", hl.dsp.exec_cmd("nemo"))
-hl.bind("ALT+E", hl.dsp.exec_cmd("nemo --name=float_nemo", { float = true }))
+-- Nemo is a single-instance GApplication: if it is already running, `nemo`
+-- just asks the running process to open a new window. That means anything
+-- decided at launch time (`--name=...` to change the class, exec-rule float
+-- flags tied to the spawned PID) only works when nemo happens to be closed,
+-- and when nemo was first started by the float bind, every later window
+-- inherits the float_nemo class and floats too. So instead the keybind
+-- records what it wants (a queued "intent"), and the next nemo window that
+-- opens gets that state applied explicitly, whichever process created it.
+--   SUPER+E -> tiled      ALT+E -> floating (950x600, centered)
+local NEMO_INTENT_TTL = 5 -- seconds before an unclaimed intent is discarded
+local NEMO_FLOAT_SIZE = { 950, 600 }
+local nemoIntents = {}
+
+local function launchNemo(state)
+  table.insert(nemoIntents, { state = state, at = os.time() })
+  hl.dispatch(hl.dsp.exec_cmd("nemo"))
+end
+
+hl.on("window.open", function(w)
+  if not w.class or w.class:lower() ~= "nemo" then
+    return
+  end
+  -- discard intents whose window never showed up
+  while nemoIntents[1] and os.time() - nemoIntents[1].at > NEMO_INTENT_TTL do
+    table.remove(nemoIntents, 1)
+  end
+  local intent = table.remove(nemoIntents, 1)
+  if not intent then
+    return -- not opened by one of our binds (dialogs, etc.): leave it alone
+  end
+  if intent.state == "float" then
+    hl.dispatch(hl.dsp.window.float({ action = "enable", window = w }))
+    hl.dispatch(hl.dsp.window.resize({ x = NEMO_FLOAT_SIZE[1], y = NEMO_FLOAT_SIZE[2], window = w }))
+    hl.dispatch(hl.dsp.window.center({ window = w }))
+  else
+    hl.dispatch(hl.dsp.window.float({ action = "disable", window = w }))
+  end
+end)
+
+hl.bind("SUPER+E", function() launchNemo("tile") end)
+hl.bind("ALT+E", function() launchNemo("float") end)
 
 -- Note taking
 hl.bind("SUPER+N", hl.dsp.exec_cmd("xournalpp"))
