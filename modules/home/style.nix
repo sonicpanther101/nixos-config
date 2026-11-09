@@ -15,6 +15,7 @@
     targets = {
       hyprland.enable = false;
       swaync.enable = false;
+      starship.enable = false;
     };
   };
 }
