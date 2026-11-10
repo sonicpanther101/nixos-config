@@ -33,6 +33,8 @@
   home-manager = {
     useUserPackages = true;
     useGlobalPkgs = true;
+    backupFileExtension = "backup";
+    overwriteBackup = true;
     extraSpecialArgs = { 
       inherit inputs username host pkgs-stable pkgs-unstable;
       isLaptop   = config.my.isLaptop;

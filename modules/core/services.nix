@@ -59,15 +59,6 @@
       openDefaultPorts = true; # Open ports in the firewall for Syncthing. (NOTE: this will not open syncthing gui port)
     };
 
-    # Server for calendar and tasks  
-    radicale = {
-      enable = true;
-      settings = {
-        server.hosts = [ "0.0.0.0:5232" ];
-        auth.type = "none"; # or htpasswd if you want security
-      };
-    };
-
     # NextDNS service with DoH
     nextdns = {
       enable = false;# true;
@@ -179,11 +170,6 @@
     };
   };
   
-  systemd.tmpfiles.rules = [
-    "d /var/lib/radicale 0750 radicale radicale -"
-    "d /var/lib/radicale/collections 0750 radicale radicale -"
-  ];
-
   boot.kernelModules = lib.mkIf config.my.isHighPower [ "i2c-dev" "i2c-piix4" ]; # "nouveau" ];
   users.groups.i2c.members = [ username ];
 

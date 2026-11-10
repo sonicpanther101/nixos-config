@@ -278,7 +278,7 @@ run_nh() {
     # Flakes only see files git knows about, so new files must be added first
     git add .
     echo "=== $(date) ===" >> "$BUILD_LOG"
-    NIX_CONFIG="experimental-features = nix-command flakes" nh os switch "$REPO_DIR" -H "${HOST}" ${limits:+-- $limits} 2>&1 | tee -a "$BUILD_LOG"
+    NIX_CONFIG="experimental-features = nix-command flakes" nh os boot "$REPO_DIR" -H "${HOST}" ${limits:+-- $limits} 2>&1 | tee -a "$BUILD_LOG"
     local rc=${PIPESTATUS[0]}
     return $rc
 }

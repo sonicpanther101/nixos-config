@@ -9,7 +9,7 @@ let
   dpmsExternalOutputs = true;
 
   # laptop-2 has never had screen-off (see git history); left that way.
-  hasDpms      = host != "laptop-2" && (isLaptop || dpmsExternalOutputs);
+  hasDpms      = host != "laptop-2" && !isServer && (isLaptop || dpmsExternalOutputs);
   hasIdleLock  = host != "desktop";
   hasIdleSleep = host != "desktop" && !isServer;
 

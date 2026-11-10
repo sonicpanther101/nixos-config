@@ -1,14 +1,30 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# SERVER SERVICES — Nextcloud, slskd (Soulseek) and Kiwix
+# SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, GitLab,
+# slskd (Soulseek) and Kiwix, plus remote access (Cloudflare Tunnel, Tailscale,
+# headless Sunshine)
 #
 # Only active when `my.isServer = true` (see hosts/server/default.nix), so it is
 # safe for every host to import it.
 #
 # Reachable on the local network at:
-#   Nextcloud  http://<lanIp>/        (port 80)
-#   slskd      http://<lanIp>:5030/
-#   Kiwix      http://<lanIp>:8080/
-#   (Radicale  http://<lanIp>:5232/   is configured in services.nix)
+#   Nextcloud    http://<lanIp>/        (port 80; use https://cloud.<domain> once the tunnel is up)
+#   Radicale     http://<lanIp>:5232/   (login required)
+#   slskd        http://<lanIp>:5030/
+#   Kiwix        http://<lanIp>:8080/
+#   qBittorrent  http://<lanIp>:8081/
+#   Prowlarr     http://<lanIp>:9696/
+#   Sonarr       http://<lanIp>:8989/
+#   Radarr       http://<lanIp>:7878/
+#   Lidarr       http://<lanIp>:8686/
+#   GitLab       https://gitlab.<domain> only (tunnel; off until STEP 9)
+#
+# From outside the house everything goes through the Cloudflare Tunnel, and the
+# remote desktop (Sunshine/Moonlight) goes through Tailscale. See the server
+# setup guide for the domain, tunnel and Sunshine steps.
+#
+# All the media folders live directly in /srv/data and share group `users`, so
+# the same files are visible to qBittorrent, the *arr apps, slskd, Nextcloud
+# and you:  Downloads/  TV/  Movies/  Music/  slskd/  kiwix/
 #
 # ONE-TIME SETUP — do this on the server BEFORE the first rebuild:
 #
@@ -40,15 +56,67 @@
 #     sudo nextcloud-occ app:enable files_external
 #     sudo nextcloud-occ files_external:create /Music local null::null -c datadir=/srv/data/Music
 #     sudo nextcloud-occ files_external:create /Soulseek local null::null -c datadir=/srv/data/slskd/downloads
+#     sudo nextcloud-occ files_external:create /Downloads local null::null -c datadir=/srv/data/Downloads
+#     sudo nextcloud-occ files_external:create /TV local null::null -c datadir=/srv/data/TV
+#     sudo nextcloud-occ files_external:create /Movies local null::null -c datadir=/srv/data/Movies
 #     Repeat for any other folder (e.g. /Kobo -> /srv/data/Kobo). Don't mount all of
 #     /srv/data: Nextcloud's own config/ and data/ folders live at its root.
+#     (Optional, so changes made by qBittorrent/Sonarr show up straight away:
+#      sudo nextcloud-occ files_external:list   then for each mount id:
+#      sudo nextcloud-occ files_external:option <id> filesystem_check_changes 1)
 #
-# LATER — domain + port forwarding (see the commented block at the bottom).
+#   STEP 6 — Radicale logins (an empty login file is created for you, so Radicale
+#     starts but refuses everyone until you add yourself):
+#     nix-shell -p apacheHttpd --run "htpasswd -B -c /tmp/radicale-users adam"
+#     sudo mv /tmp/radicale-users /var/lib/radicale/users
+#     sudo chown radicale:radicale /var/lib/radicale/users && sudo chmod 640 /var/lib/radicale/users
+#     (Use -B without -c to add another user later. If you are migrating the old
+#     desktop calendars, the user name must match the folder name inside
+#     /var/lib/radicale/collections/collection-root/.)
+#
+#   STEP 7 — Cloudflare Tunnel token (from the Cloudflare dashboard, see the guide):
+#     sudo tee /var/lib/server-secrets/cloudflared.env <<'EOF'
+#     TUNNEL_TOKEN=paste-the-long-token-here
+#     EOF
+#     sudo chmod 600 /var/lib/server-secrets/cloudflared.env
+#     sudo systemctl restart cloudflared
+#
+#   STEP 8 — Tailscale (remote desktop from other networks):
+#     sudo tailscale up
+#
+#   STEP 9 — GitLab (heavy: wants 4 GB+ RAM free). Three parts, in this order:
+#     9a. Back up Nextcloud's database while it still runs on PostgreSQL 16:
+#           sudo nextcloud-occ maintenance:mode --on
+#           sudo -u postgres pg_dump -Fc nextcloud > ~/nextcloud-db.dump
+#     9b. Create GitLab's secrets. Run as one block:
+#       sudo bash <<'EOF'
+#       install -d -m 700 -o root -g root /var/lib/gitlab-secrets
+#       cd /var/lib/gitlab-secrets
+#       for f in secret otp db db-password activerecord-primary activerecord-deterministic activerecord-salt; do
+#         openssl rand -hex 64 > $f
+#       done
+#       openssl genrsa 2048 > jws
+#       openssl rand -base64 18 > root-password
+#       chmod 600 *
+#       cat root-password
+#       EOF
+#     (The last line prints the first root login; change it in the GitLab UI.
+#      The rebuild hands the files to the gitlab user.)
+#     9c. Set enableGitlab = true below and rebuild. That also moves the database
+#         to PostgreSQL 17 (a fresh, empty cluster), so load Nextcloud's data back:
+#           sudo systemctl stop phpfpm-nextcloud
+#           sudo -u postgres pg_restore -d nextcloud --clean --if-exists -O --role=nextcloud ~/nextcloud-db.dump
+#           sudo systemctl restart nextcloud-setup phpfpm-nextcloud
+#           sudo nextcloud-occ maintenance:mode --off
+#         (Messages about Nextcloud failing during that one rebuild are expected.)
+#
+# The cloudflared unit is skipped until its token file exists, so the first
+# rebuild is safe without STEP 7.
 # ─────────────────────────────────────────────────────────────────────────────
 { lib, config, pkgs-stable, username, ... }:
 let
-  # This machine's LAN address (same one weak-machine.nix uses to reach the server).
-  lanIp = "10.194.64.27";
+  # This machine's LAN address
+  lanIp = "192.168.1.247";
 
   # Bulk storage. This is a bind mount of ~/driveBig (see below), so the
   # services can reach it without needing access to your home directory.
@@ -56,6 +124,38 @@ let
 
   # Root-only files holding passwords. Never put these in the nix store.
   secretsDir = "/var/lib/server-secrets";
+
+  # Your Cloudflare domain. Nextcloud gets cloud.<domain>; every other
+  # hostname (dav, sonarr, ...) is added in the Cloudflare dashboard.
+  domain = "adambeattie.dev";
+  cloudHost = "cloud.${domain}";
+
+  # GitLab is heavy and needs its secrets first (STEP 9): flip this to true
+  # once they exist.
+  enableGitlab = false;
+  gitlabHost = "gitlab.${domain}";
+  gitlabSecrets = "/var/lib/gitlab-secrets";
+  gitlabBackupDir = "${dataDir}/GitLab-backups";
+
+  # qBittorrent rewrites its own config, so instead of owning the whole file
+  # (which would wipe your web UI password) this only pins the few settings
+  # needed to sit safely behind the tunnel, before every start.
+  qbConf = "${config.services.qbittorrent.profileDir}/qBittorrent/config/qBittorrent.conf";
+  qbConfigure = pkgs-stable.writeShellScript "qbittorrent-configure" ''
+    set -eu
+    mkdir -p "$(dirname ${qbConf})"
+    set_pref() {
+      ${pkgs-stable.crudini}/bin/crudini --ini-options=nospace --set ${qbConf} Preferences "$1" "$2"
+    }
+    set_pref 'WebUI\HostHeaderValidation' false      # accept the public hostname
+    set_pref 'WebUI\LocalHostAuth' true              # cloudflared connects from localhost: never skip the login
+    set_pref 'WebUI\ReverseProxySupportEnabled' true # use the real visitor IP for login bans
+    set_pref 'WebUI\TrustedReverseProxiesList' 127.0.0.1
+  '';
+
+  # The video output the Hyprland/Sunshine session draws on. Check yours with:
+  #   for f in /sys/class/drm/*/status; do echo "$f: $(cat $f)"; done
+  headlessConnector = "HDMI-A-1";
 
   # Kiwix: every .zim in ${dataDir}/kiwix is added to this library file each
   # time the service starts (runs as ExecStartPre, see systemd.services below).
@@ -70,6 +170,7 @@ let
   '';
 in {
   config = lib.mkIf config.my.isServer {
+    users.groups.media = {};
 
     # ─── Storage ─────────────────────────────────────────────────────────────
     # /home/<user> is private (0700), so system services can't read
@@ -87,11 +188,23 @@ in {
     };
 
     systemd.tmpfiles.rules = [
-      "d ${dataDir}/Music            0775 ${username} users -"
+      "d ${dataDir}/Music            2775 ${username} users -"
+      "d ${dataDir}/Downloads        2775 ${username} users -"
+      "d ${dataDir}/TV               2775 ${username} users -"
+      "d ${dataDir}/Movies           2775 ${username} users -"
       "d ${dataDir}/kiwix            0755 ${username} users -"
       "d ${dataDir}/slskd            0755 slskd       users -"
       "d ${dataDir}/slskd/downloads  0775 slskd       users -"
       "d ${dataDir}/slskd/incomplete 0775 slskd       users -"
+      # Calendar server: the logins file must exist or Radicale refuses to start.
+      # `f` only creates it when missing, so your real logins are never touched.
+      "d /var/lib/radicale           0750 radicale radicale -"
+      "d /var/lib/radicale/collections 0750 radicale radicale -"
+      "f /var/lib/radicale/users     0640 radicale radicale -"
+    ] ++ lib.optionals enableGitlab [
+      # GitLab reads its secrets as the gitlab user: hand STEP 9's files over to it
+      "d ${gitlabSecrets}            0700 gitlab gitlab -"
+      "Z ${gitlabSecrets}            -    gitlab gitlab -"
     ];
 
     services = {
@@ -102,8 +215,8 @@ in {
         # which would pick the old nextcloud31 instead of 35.
         package = pkgs-stable.nextcloud34;
 
-        hostName = lanIp;   # also added to trusted_domains automatically
-        https = false;      # becomes true once there is a domain + TLS
+        hostName = cloudHost;   # also added to trusted_domains automatically
+        https = true;           # Cloudflare handles TLS, the tunnel delivers plain http to nginx
 
         configureRedis = true;
         maxUploadSize = "16G";
@@ -118,7 +231,9 @@ in {
         settings = {
           default_phone_region = "NZ";
           files_external_allow_create_new_local = true;  # lets the admin UI add local folders too
-          # trusted_domains = [ "cloud.example.com" ];   # add when you have a domain
+          overwriteprotocol = "https";                   # links must be https even though the tunnel speaks http
+          trusted_domains = [ lanIp ];                   # the domain is added automatically (hostName)
+          trusted_proxies = [ "127.0.0.1" "::1" ];       # cloudflared connects from this machine
         };
 
         datadir = "${dataDir}";
@@ -152,11 +267,119 @@ in {
         openFirewall = true;
         libraryPath = kiwixLibrary;
       };
+
+      # ─── Radicale (calendars + tasks) ────────────────────────────────────────
+      # Moved here from services.nix. Logins live in /var/lib/radicale/users (STEP 6).
+      radicale = {
+        enable = true;
+        settings = {
+          server.hosts = [ "0.0.0.0:5232" ];
+          auth = {
+            type = "htpasswd";
+            htpasswd_filename = "/var/lib/radicale/users";
+            htpasswd_encryption = "bcrypt";
+          };
+        };
+      };
+
+      # ─── *arr suite ──────────────────────────────────────────────────────────
+      # Prowlarr finds, Sonarr (TV) / Radarr (movies) / Lidarr (music) decide and
+      # qBittorrent downloads. Their web UIs are LAN-only here; the tunnel exposes
+      # them through the tunnel. Each asks you to create a login on first visit
+      # (Settings > General > Authentication): use long unique passwords.
+      # All run in group `users`, the same group as you, slskd and Nextcloud, so
+      # they all read and write the same folders in ${dataDir}.
+      prowlarr = {
+        enable = true;
+        openFirewall = true;    # 9696
+      };
+      sonarr = {
+        enable = true;
+        group = "media";
+        openFirewall = true;    # 8989
+      };
+      radarr = {
+        enable = true;
+        group = "users";
+        openFirewall = true;    # 7878
+      };
+      lidarr = {
+        enable = true;
+        group = "users";
+        openFirewall = true;    # 8686
+      };
+      qbittorrent = {
+        enable = true;
+        group = "users";
+        webuiPort = 8081;       # 8080 is Kiwix
+        torrentingPort = 6881;
+        openFirewall = true;
+        extraArgs = [ "--confirm-legal-notice" ];
+        # serverConfig is deliberately left empty: setting it makes the module
+        # overwrite qBittorrent.conf (and your web UI password) on every start.
+        # The few settings the tunnel needs are pinned by qbConfigure instead.
+      };
+
+      # ─── GitLab (off until STEP 9) ───────────────────────────────────────────
+      # Behind the tunnel at gitlab.<domain>; GitLab has its own login (turn off
+      # public sign-ups in its admin settings). Backed up nightly; mirror the
+      # important projects to GitHub with push mirrors in the GitLab UI.
+      gitlab = lib.mkIf enableGitlab {
+        enable = true;
+        host = gitlabHost;
+        port = 443;   # only used for the URLs GitLab prints; Cloudflare serves the https
+        https = true;
+        databasePasswordFile = "${gitlabSecrets}/db-password";
+        initialRootPasswordFile = "${gitlabSecrets}/root-password";
+        secrets = {
+          secretFile = "${gitlabSecrets}/secret";
+          otpFile = "${gitlabSecrets}/otp";
+          dbFile = "${gitlabSecrets}/db";
+          jwsFile = "${gitlabSecrets}/jws";
+          activeRecordPrimaryKeyFile = "${gitlabSecrets}/activerecord-primary";
+          activeRecordDeterministicKeyFile = "${gitlabSecrets}/activerecord-deterministic";
+          activeRecordSaltFile = "${gitlabSecrets}/activerecord-salt";
+        };
+        backup = {
+          startAt = "03:00";   # nightly: at most a day of work lost
+          path = gitlabBackupDir;
+          keepTime = 7 * 24;   # hours: keep a week of backups
+        };
+      };
+
+      # GitLab 19 needs PostgreSQL 17+, but with stateVersion 25.05 the shared
+      # database (Nextcloud's too) is still PostgreSQL 16. Switching is a one-time
+      # dump + restore, see STEP 9: do it BEFORE flipping enableGitlab.
+      postgresql.package = lib.mkIf enableGitlab pkgs-stable.postgresql_17;
+
+      # GitLab only speaks to a local socket; nginx hands it the tunnel's traffic.
+      nginx.virtualHosts.${gitlabHost} = lib.mkIf enableGitlab {
+        extraConfig = "client_max_body_size 1g;";   # big pushes
+        locations."/" = {
+          proxyPass = "http://unix:/run/gitlab/gitlab-workhorse.socket";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-Proto https;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          '';
+        };
+      };
+
+      # ─── Tailscale (private link for the remote desktop) ─────────────────────
+      tailscale = {
+        enable = true;
+        openFirewall = true;
+      };
     };
 
-    # Nextcloud (php-fpm runs as `nextcloud`) joins `users` so it can reach Music and
-    # the Soulseek downloads, which are group-writable for that group.
-    users.users.nextcloud.extraGroups = [ "users" ];
+    users.users = {
+      # Nextcloud (php-fpm runs as `nextcloud`) joins `users` so it can reach Music, the
+      # downloads and the TV/Movies folders, which are group-writable for that group.
+      nextcloud.extraGroups = [ "users" ];
+      # nginx must be able to open GitLab's socket
+      nginx.extraGroups = lib.mkIf enableGitlab [ "gitlab" ];
+    };
 
     # ─── Mount / file guards ─────────────────────────────────────────────────
     systemd.services = {
@@ -175,36 +398,57 @@ in {
           ExecStartPre = refreshKiwixLibrary;  # rebuild it from the folder
         };
       };
-    };
+      
+      # Cloudflare Tunnel: a "remotely managed" tunnel, so the hostname -> port
+      # mapping is edited in the Cloudflare dashboard, not here. Skipped quietly
+      # until the token file exists (STEP 7).
+      cloudflared = {
+        description = "Cloudflare Tunnel";
+        wantedBy = [ "multi-user.target" ];
+        wants = [ "network-online.target" ];
+        after = [ "network-online.target" ];
+        unitConfig.ConditionPathExists = "${secretsDir}/cloudflared.env";
+        serviceConfig = {
+          ExecStart = "${lib.getExe pkgs-stable.cloudflared} tunnel --no-autoupdate run";
+          EnvironmentFile = "${secretsDir}/cloudflared.env";   # holds TUNNEL_TOKEN=...
+          DynamicUser = true;
+          Restart = "on-failure";
+          RestartSec = "5s";
+        };
+      };
+      qbittorrent = {
+        unitConfig.RequiresMountsFor = dataDir;
+        serviceConfig = {
+          UMask = lib.mkForce "0002";
+          ExecStartPre = "-${qbConfigure}";   # leading "-": a failure here never blocks the start
+        };
+      };
+    } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
+      unitConfig.RequiresMountsFor = dataDir;
+      # The modules default to 0022; 0002 keeps imported files group-writable for `users`
+      serviceConfig.UMask = lib.mkForce "0002";
+    });
 
     # ─── Firewall ────────────────────────────────────────────────────────────
-    # Nextcloud (nginx) and the slskd web UI; Kiwix and the Soulseek port are
-    # opened by their own openFirewall options above. Syncthing's ports are added
-    # here too: services.syncthing.openDefaultPorts in services.nix has no effect
-    # because Syncthing runs through home-manager, not the NixOS module.
+    # Nextcloud (nginx), the slskd web UI and Radicale; Kiwix, the *arr apps,
+    # qBittorrent and the Soulseek port are opened by their own openFirewall
+    # options above. Syncthing's ports are added here too:
+    # services.syncthing.openDefaultPorts in services.nix has no effect because
+    # Syncthing runs through home-manager, not the NixOS module.
+    # Everything arriving over Tailscale is trusted (it only carries your own devices).
     networking.firewall = {
-      allowedTCPPorts = [ 80 5030 22000 ];
-      allowedUDPPorts = [ 22000 21027 ];
+      allowedTCPPorts = [ 80 5030 5232 22000 ];
+      allowedUDPPorts = [ 22000 21027 6881 ];   # 6881: torrent peers (the module only opens it for TCP)
+      trustedInterfaces = [ "tailscale0" ];
     };
 
-    # ─── Domain + port forwarding (later) ────────────────────────────────────
-    # 1. Point the domain's DNS at your public IP (or use a dynamic-DNS client).
-    # 2. Router: forward TCP 80 and 443 to ${lanIp}, and TCP 50300 for Soulseek
-    #    if you want incoming connections. Do NOT forward 5030 or 8080 (slskd
-    #    UI / Kiwix); Kiwix has no login at all.
-    # 3. Then change the Nextcloud block above to roughly:
-    #      hostName = "cloud.example.com";
-    #      https = true;
-    #      settings.overwriteprotocol = "https";
-    #      settings.trusted_domains = [ "${lanIp}" ];
-    #    and add:
-    #      services.nginx.virtualHosts."cloud.example.com" = {
-    #        forceSSL = true;
-    #        enableACME = true;
-    #      };
-    #      security.acme = { acceptTerms = true; defaults.email = "you@example.com"; };
-    #      networking.firewall.allowedTCPPorts = [ 443 ];
-    #    Note forceSSL redirects plain-http LAN visits to the domain too; reach
-    #    it from inside the house via the domain (needs hairpin NAT or local DNS).
+    # ─── Headless remote desktop ─────────────────────────────────────────────
+    # Sunshine itself is enabled for every high-power host in services.nix. With
+    # no monitor attached the GPU reports "nothing connected" and there is
+    # nothing to capture, so force the connector on at 1080p. A real monitor
+    # plugged in later still works (it just runs at 1080p60). A cheap HDMI
+    # "dummy plug" does the same job in hardware if this is not enough.
+    boot.kernelParams = [ "video=${headlessConnector}:1920x1080@60e" ];
+
   };
 }
