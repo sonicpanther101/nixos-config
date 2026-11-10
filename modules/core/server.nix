@@ -1,7 +1,7 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, GitLab,
-# slskd (Soulseek) and Kiwix, plus remote access (Cloudflare Tunnel, Tailscale,
-# headless Sunshine)
+# slskd (Soulseek), Kiwix and Jellyfin, disk health alerts (smartd -> phone push),
+# plus remote access (Cloudflare Tunnel, Tailscale, headless Sunshine)
 #
 # Only active when `my.isServer = true` (see hosts/server/default.nix), so it is
 # safe for every host to import it.
@@ -11,6 +11,7 @@
 #   Radicale     http://<lanIp>:5232/   (login required)
 #   slskd        http://<lanIp>:5030/
 #   Kiwix        http://<lanIp>:8080/
+#   Jellyfin     http://<lanIp>:8096/   (from outside: over Tailscale, see STEP 10)
 #   qBittorrent  http://<lanIp>:8081/
 #   Prowlarr     http://<lanIp>:9696/
 #   Sonarr       http://<lanIp>:8989/
@@ -110,6 +111,36 @@
 #           sudo nextcloud-occ maintenance:mode --off
 #         (Messages about Nextcloud failing during that one rebuild are expected.)
 #
+#   STEP 10 — Jellyfin (after the rebuild):
+#     Open http://<lanIp>:8096/, make the admin account, then add libraries:
+#       Movies -> /srv/data/Movies   TV Shows -> /srv/data/TV   Music -> /srv/data/Music
+#     Away from home, install Tailscale on the phone/TV/laptop and point the Jellyfin
+#     app at http://<server's tailscale name or 100.x address>:8096. Video goes over
+#     Tailscale, NOT the Cloudflare tunnel (Cloudflare restricts serving video on its CDN).
+#
+#   STEP 11 — Disk health alerts (smartd pushes to your phone through ntfy.sh):
+#     sudo tee /var/lib/server-secrets/ntfy.env <<EOF
+#     NTFY_TOPIC=server-disks-$(openssl rand -hex 12)
+#     EOF
+#     sudo chmod 600 /var/lib/server-secrets/ntfy.env
+#     sudo cat /var/lib/server-secrets/ntfy.env
+#     Install the ntfy app on your phone and subscribe to that exact topic name (the
+#     topic is the only secret, so don't share it). Then send yourself a test:
+#       sudo smartd-ntfy
+#     List what smartd is watching with:  sudo smartctl --scan   and   journalctl -u smartd
+#     (A drive in a USB enclosure may need `-d sat`: see the smartd note below.)
+#
+#   STEP 12 — Syncthing's web UI through the tunnel (Cloudflare dashboard, no rebuild):
+#     a. FIRST protect it: Zero Trust > Access > Applications > Add > Self-hosted for
+#        syncthing.<domain>, with a policy that allows only your email.
+#     b. Then publish it: Zero Trust > Networks > Tunnels > your tunnel > Published
+#        application routes > add syncthing.<domain> -> HTTP localhost:8384, and under
+#        Additional application settings > HTTP Settings set "HTTP Host Header" to
+#        localhost (Syncthing rejects Host headers it doesn't know).
+#     c. In Syncthing: Actions > Settings > GUI, set a GUI user and password as well.
+#     Only the web UI goes through the tunnel. Syncing itself (port 22000) can't: it
+#     already works over the LAN, Tailscale and Syncthing's own relays.
+#
 # The cloudflared unit is skipped until its token file exists, so the first
 # rebuild is safe without STEP 7.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -151,6 +182,29 @@ let
     set_pref 'WebUI\LocalHostAuth' true              # cloudflared connects from localhost: never skip the login
     set_pref 'WebUI\ReverseProxySupportEnabled' true # use the real visitor IP for login bans
     set_pref 'WebUI\TrustedReverseProxiesList' 127.0.0.1
+  '';
+
+  # smartd runs this as root when a drive reports a problem, with the details in
+  # SMARTD_* variables. It sends a phone push through ntfy.sh to the topic in
+  # ${secretsDir}/ntfy.env (STEP 11). It is also installed as `smartd-ntfy` so
+  # `sudo smartd-ntfy` sends a test message. It always exits 0.
+  smartdNotify = pkgs-stable.writeShellScriptBin "smartd-ntfy" ''
+    set -u
+    log() { ${pkgs-stable.util-linux}/bin/logger -t smartd-ntfy "$*"; }
+    [ -r ${secretsDir}/ntfy.env ] && . ${secretsDir}/ntfy.env
+    subject="''${SMARTD_SUBJECT:-Test message from smartd-ntfy}"
+    log "$subject"
+    if [ -z "''${NTFY_TOPIC:-}" ]; then
+      log "no NTFY_TOPIC in ${secretsDir}/ntfy.env: push skipped"
+      exit 0
+    fi
+    ${pkgs-stable.curl}/bin/curl -fsS --max-time 20 \
+      -H "Title: $subject" \
+      -H "Priority: urgent" \
+      -H "Tags: warning,floppy_disk" \
+      -d "''${SMARTD_FULLMESSAGE:-This is a test. If you can read it, disk alerts reach you.}" \
+      "https://ntfy.sh/$NTFY_TOPIC" >/dev/null || log "ntfy push failed"
+    exit 0
   '';
 
   # The video output the Hyprland/Sunshine session draws on. Check yours with:
@@ -267,6 +321,15 @@ in {
         libraryPath = kiwixLibrary;
       };
 
+      # ─── Jellyfin ────────────────────────────────────────────────────────────
+      # Libraries are added in its web UI (STEP 10). Remote viewing goes over
+      # Tailscale (trusted interface), not the Cloudflare tunnel.
+      jellyfin = {
+        enable = true;
+        openFirewall = true;    # 8096 (http), 8920 (https), 1900 + 7359 (LAN discovery)
+        group = "users";        # primary group, so it can read the media in ${dataDir}
+      };
+
       # ─── Radicale (calendars + tasks) ────────────────────────────────────────
       # Moved here from services.nix. Logins live in /var/lib/radicale/users (STEP 6).
       radicale = {
@@ -369,6 +432,27 @@ in {
         };
       };
 
+      # ─── Disk health (smartd) ────────────────────────────────────────────────
+      # Watches every drive it can find (autodetect). When one reports a problem
+      # smartd runs smartdNotify, which pushes to your phone (STEP 11), and
+      # repeats the alert daily until it is fixed. The module's own wall/mail
+      # notifiers are off so only one `-M exec` ends up in smartd.conf.
+      #   -a                 health, attributes, error log and self-test log
+      #   -o on              automatic offline data collection
+      #   -s (S/...|L/...)   short self-test daily 02:00, long self-test Sundays 04:00
+      #   -m <nomailer>      no email, just run the script
+      # A drive behind a USB enclosure may need `-d sat`: set autodetect = false and
+      # list it under `devices = [ { device = "/dev/sdX"; options = "-d sat"; } ];`
+      smartd = {
+        enable = true;
+        notifications = {
+          wall.enable = false;
+          mail.enable = false;
+          x11.enable = false;
+        };
+        defaults.monitored = "-a -o on -s (S/../.././02|L/../../7/04) -m <nomailer> -M exec ${lib.getExe smartdNotify}";
+      };
+
       # ─── Tailscale (private link for the remote desktop) ─────────────────────
       tailscale = {
         enable = true;
@@ -390,6 +474,7 @@ in {
         unitConfig.RequiresMountsFor = dataDir;
         serviceConfig.UMask = "0002";   # downloads come out group-writable for nextcloud
       };
+      jellyfin.unitConfig.RequiresMountsFor = dataDir;
       kiwix-serve = {
         unitConfig = {
           RequiresMountsFor = dataDir;
@@ -431,6 +516,9 @@ in {
       # The modules default to 0022; 0002 keeps imported files group-writable for `users`
       serviceConfig.UMask = lib.mkForce "0002";
     });
+
+    # smartctl for checking drives by hand, and the `smartd-ntfy` test command
+    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify ];
 
     # ─── Firewall ────────────────────────────────────────────────────────────
     # Nextcloud (nginx), the slskd web UI and Radicale; Kiwix, the *arr apps,
