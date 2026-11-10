@@ -170,7 +170,6 @@ let
   '';
 in {
   config = lib.mkIf config.my.isServer {
-    users.groups.media = {};
 
     # ─── Storage ─────────────────────────────────────────────────────────────
     # /home/<user> is private (0700), so system services can't read
@@ -295,7 +294,7 @@ in {
       };
       sonarr = {
         enable = true;
-        group = "media";
+        group = "users";
         openFirewall = true;    # 8989
       };
       radarr = {
@@ -318,6 +317,10 @@ in {
         # serverConfig is deliberately left empty: setting it makes the module
         # overwrite qBittorrent.conf (and your web UI password) on every start.
         # The few settings the tunnel needs are pinned by qbConfigure instead.
+      };
+      flaresolverr = {
+        enable = true;
+        # openFirewall = false;   # default; Prowlarr reaches it via localhost
       };
 
       # ─── GitLab (off until STEP 9) ───────────────────────────────────────────
