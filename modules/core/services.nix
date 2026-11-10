@@ -69,6 +69,11 @@
       ];
     };
 
+    tailscale = {
+      enable = true;
+      openFirewall = true;
+    };
+
     udev.packages = [
       pkgs-stable.qmk-udev-rules
     ];

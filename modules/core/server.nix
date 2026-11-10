@@ -452,12 +452,6 @@ in {
         };
         defaults.monitored = "-a -o on -s (S/../.././02|L/../../7/04) -m <nomailer> -M exec ${lib.getExe smartdNotify}";
       };
-
-      # ─── Tailscale (private link for the remote desktop) ─────────────────────
-      tailscale = {
-        enable = true;
-        openFirewall = true;
-      };
     };
 
     users.users = {
