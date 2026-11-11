@@ -67,7 +67,7 @@ end
 -- Opacity rules
 mkRule({ match = { class = "codium" }, opacity = "0.9" })
 mkRule({ match = { class = "foobar2000.exe" }, opacity = "0.9" })
-mkRule({ match = { class = "vivaldi-stable" }, opacity = "0.9" })
+-- mkRule({ match = { class = "vivaldi-stable" }, opacity = "0.9" })
 mkRule({ match = { title = ".*Last.fm.*" }, opacity = "1" })
 mkRule({ match = { title = ".*Movie.*" }, opacity = "1" })
 mkRule({ match = { title = ".*Watch.*" }, opacity = "1" })
