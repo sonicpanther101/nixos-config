@@ -95,8 +95,14 @@
 #     b. Cloudflare dashboard: Zero Trust > Networks > Tunnels > your tunnel > Published
 #        application routes > add git.<domain> -> HTTP localhost:3000.
 #     Clone over https with an access token (User settings > Applications). SSH is off.
-#     Nightly dumps go to /var/lib/forgejo/dump (a week kept): copy them off the machine
-#     or add push mirrors to GitHub in the Forgejo UI.
+#     Backups (nightly, 03:00): Forgejo dumps everything (repos, issues, users, settings)
+#     to /var/lib/forgejo/dump (a week kept), then the dump is copied to
+#     /srv/data/backups/forgejo on the big drive (30 days kept), and Syncthing sends that
+#     folder to the desktop. Check it with:
+#       systemctl list-timers forgejo-dump      sudo systemctl start forgejo-dump
+#       journalctl -u forgejo-dump -u forgejo-dump-copy      ls -l /srv/data/backups/forgejo
+#     Optional extra: add push mirrors to GitHub in the Forgejo UI (repo > Settings >
+#     Repository > Mirror settings), which also gives you an off-site copy of the git data.
 #
 #   STEP 10 — Jellyfin (after the rebuild):
 #     Open http://<lanIp>:8096/, make the admin account, then add libraries:
@@ -150,6 +156,19 @@ let
 
   # Forgejo is a light git forge, only reachable through the tunnel (STEP 9)
   gitHost = "git.${domain}";
+
+  # Second copy of the nightly Forgejo dump, on the big drive (a different disk from
+  # /var/lib/forgejo). Owned by you and closed to everyone else, because a dump holds
+  # Forgejo's secrets and password hashes. Syncthing sends this folder to the desktop.
+  forgejoBackupDir = "${dataDir}/backups/forgejo";
+  copyForgejoDump = pkgs-stable.writeShellScript "forgejo-dump-copy" ''
+    set -eu
+    # No --delete: this folder keeps more history than the 1 week Forgejo keeps itself
+    ${pkgs-stable.rsync}/bin/rsync -a --chown=${username}:users --chmod=F600 \
+      ${config.services.forgejo.dump.backupDir}/ ${forgejoBackupDir}/
+    # Keep 30 days
+    ${pkgs-stable.findutils}/bin/find ${forgejoBackupDir} -maxdepth 1 -type f -mtime +30 -delete
+  '';
 
   # qBittorrent rewrites its own config, so instead of owning the whole file
   # (which would wipe your web UI password) this only pins the few settings
@@ -233,6 +252,9 @@ in {
       "d ${dataDir}/slskd            0755 slskd       users -"
       "d ${dataDir}/slskd/downloads  0775 slskd       users -"
       "d ${dataDir}/slskd/incomplete 0775 slskd       users -"
+      # Backups: owner-only, since dumps contain secrets
+      "d ${dataDir}/backups          0700 ${username} users -"
+      "d ${forgejoBackupDir}         0700 ${username} users -"
       # Calendar server: the logins file must exist or Radicale refuses to start.
       # `f` only creates it when missing, so your real logins are never touched.
       "d /var/lib/radicale           0750 radicale radicale -"
@@ -489,6 +511,17 @@ in {
           ReadWritePaths = [ "${dataDir}/Books" ];
           UMask = lib.mkForce "0002";
           PrivateUsers = lib.mkForce false;
+        };
+      };
+      # Forgejo backup: the module's nightly dump stays on /var/lib/forgejo, so as soon
+      # as a dump succeeds, copy it to the big drive. A failed dump copies nothing.
+      forgejo-dump.onSuccess = [ "forgejo-dump-copy.service" ];
+      forgejo-dump-copy = {
+        description = "Copy the Forgejo dump to the big drive";
+        unitConfig.RequiresMountsFor = dataDir;
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = copyForgejoDump;
         };
       };
     } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
