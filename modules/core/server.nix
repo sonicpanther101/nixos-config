@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, Forgejo,
+# SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, Forgejo (+ GitHub mirrors),
 # slskd (Soulseek), Kiwix and Jellyfin, disk health alerts (smartd -> phone push),
 # plus remote access (Cloudflare Tunnel, Tailscale, headless Sunshine)
 #
@@ -101,8 +101,7 @@
 #     folder to the desktop. Check it with:
 #       systemctl list-timers forgejo-dump      sudo systemctl start forgejo-dump
 #       journalctl -u forgejo-dump -u forgejo-dump-copy      ls -l /srv/data/backups/forgejo
-#     Optional extra: add push mirrors to GitHub in the Forgejo UI (repo > Settings >
-#     Repository > Mirror settings), which also gives you an off-site copy of the git data.
+#     Off-site copy of the git data: STEP 13 pushes every repo to GitHub.
 #
 #   STEP 10 — Jellyfin (after the rebuild):
 #     Open http://<lanIp>:8096/, make the admin account, then add libraries:
@@ -134,10 +133,40 @@
 #     Only the web UI goes through the tunnel. Syncing itself (port 22000) can't: it
 #     already works over the LAN, Tailscale and Syncthing's own relays.
 #
+#   STEP 13 — Forgejo repos mirrored to GitHub (forgesync, an off-site copy of the git data):
+#     Forgesync creates a GitHub repo with the same name for each of your Forgejo repos
+#     and sets up a push mirror in Forgejo. Private repos stay private. It OVERWRITES any
+#     GitHub repo that already has the same name as one of yours, so check for clashes
+#     first. Forks and mirrors are skipped. Wikis and issues are not mirrored (the dumps
+#     in STEP 9 have those).
+#     a. Forgejo: User settings > Applications > new token with write:repository and
+#        read:user. This is SOURCE_TOKEN.
+#     b. GitHub: Settings > Developer settings > Personal access tokens > Fine-grained
+#        tokens. Make two, both with "All repositories" (the repos don't exist yet):
+#          TARGET_TOKEN: Administration read+write, Contents read-only, Metadata read-only
+#          MIRROR_TOKEN: Contents read+write, Metadata read-only
+#     c. Put them on the server:
+#          sudo tee /var/lib/server-secrets/forgesync.env <<'EOF'
+#          SOURCE_TOKEN=paste-forgejo-token
+#          TARGET_TOKEN=paste-github-token-1
+#          MIRROR_TOKEN=paste-github-token-2
+#          EOF
+#          sudo chmod 600 /var/lib/server-secrets/forgesync.env
+#     d. Dry run first (prints what it would do, changes nothing):
+#          sudo bash -c 'set -a; . /var/lib/server-secrets/forgesync.env; set +a; \
+#            nix run github:lukaswrz/forgesync -- --dry-run --include-private \
+#            http://127.0.0.1:3000/api/v1 github'
+#     e. Then run it for real, and again any time (it also runs daily on its own):
+#          sudo systemctl start forgesync-job-github
+#          journalctl -u forgesync-job-github -n 50
+#        Afterwards each repo in Forgejo has a push mirror (repo > Settings > Repository >
+#        Mirror settings) that pushes to GitHub on every commit and every 8 hours.
+#     The mirror token is stored inside Forgejo, so it is also in the STEP 9 dumps.
+#
 # The cloudflared unit is skipped until its token file exists, so the first
 # rebuild is safe without STEP 7.
 # ─────────────────────────────────────────────────────────────────────────────
-{ lib, config, pkgs-stable, username, ... }:
+{ lib, config, pkgs-stable, username, inputs, ... }:
 let
   # This machine's LAN address
   lanIp = "192.168.1.247";
@@ -225,6 +254,7 @@ let
     done
   '';
 in {
+  imports = [ inputs.forgesync.nixosModules.default ];
   config = lib.mkIf config.my.isServer {
 
     # ─── Storage ─────────────────────────────────────────────────────────────
@@ -431,6 +461,24 @@ in {
         };
       };
 
+      # ─── Forgesync (Forgejo -> GitHub push mirrors, STEP 13) ─────────────────
+      # Runs daily and creates any missing GitHub repos and push mirrors. Talks to
+      # Forgejo on localhost rather than through the tunnel. Forgejo itself then
+      # pushes to GitHub on every commit (on-commit) and at least every 8 hours.
+      forgesync = {
+        enable = true;
+        jobs.github = {
+          source = "http://127.0.0.1:3000/api/v1";
+          target = "github";
+          secretFile = "${secretsDir}/forgesync.env";   # SOURCE_TOKEN, TARGET_TOKEN, MIRROR_TOKEN
+          settings = {
+            include-private = true;    # a backup should cover private repos too (they stay private)
+            on-commit = true;
+            mirror-interval = "8h0m0s";
+          };
+        };
+      };
+
       # ─── Disk health (smartd) ────────────────────────────────────────────────
       # Watches every drive it can find (autodetect). When one reports a problem
       # smartd runs smartdNotify, which pushes to your phone (STEP 11), and
@@ -523,6 +571,13 @@ in {
           Type = "oneshot";
           ExecStart = copyForgejoDump;
         };
+      };
+      # Forgesync: wait for Forgejo and the network, and skip quietly until the token
+      # file exists (STEP 13), so the first rebuild is safe without it.
+      forgesync-job-github = {
+        after = [ "forgejo.service" "network-online.target" ];
+        wants = [ "network-online.target" ];
+        unitConfig.ConditionPathExists = "${secretsDir}/forgesync.env";
       };
     } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
       unitConfig.RequiresMountsFor = dataDir;

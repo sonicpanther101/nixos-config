@@ -51,6 +51,12 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     grub2-themes.url = "github:vinceliuice/grub2-themes";
+
+    # Mirrors Forgejo repos to GitHub (used by the server, see STEP 13 in modules/core/server.nix)
+    forgesync = {
+      url = "github:lukaswrz/forgesync";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = { self, nixpkgs-unstable, nixpkgs-stable, ... } @ inputs:
