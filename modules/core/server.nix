@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, GitLab,
+# SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, Forgejo,
 # slskd (Soulseek), Kiwix and Jellyfin, disk health alerts (smartd -> phone push),
 # plus remote access (Cloudflare Tunnel, Tailscale, headless Sunshine)
 #
@@ -18,7 +18,7 @@
 #   Radarr       http://<lanIp>:7878/
 #   Lidarr       http://<lanIp>:8686/
 #   Shelfmark    http://<lanIp>:8084/   (books + audiobooks, searches through Prowlarr)
-#   GitLab       https://gitlab.<domain> only (tunnel; off until STEP 9)
+#   Forgejo      https://git.<domain> only (tunnel, see STEP 9)
 #
 # From outside the house everything goes through the Cloudflare Tunnel, and the
 # remote desktop (Sunshine/Moonlight) goes through Tailscale. See the server
@@ -86,31 +86,17 @@
 #   STEP 8 — Tailscale (remote desktop from other networks):
 #     sudo tailscale up
 #
-#   STEP 9 — GitLab (heavy: wants 4 GB+ RAM free). Three parts, in this order:
-#     9a. Back up Nextcloud's database while it still runs on PostgreSQL 16:
-#           sudo nextcloud-occ maintenance:mode --on
-#           sudo -u postgres pg_dump -Fc nextcloud > ~/nextcloud-db.dump
-#     9b. Create GitLab's secrets. Run as one block:
-#       sudo bash <<'EOF'
-#       install -d -m 700 -o root -g root /var/lib/gitlab-secrets
-#       cd /var/lib/gitlab-secrets
-#       for f in secret otp db db-password activerecord-primary activerecord-deterministic activerecord-salt; do
-#         openssl rand -hex 64 > $f
-#       done
-#       openssl genrsa 2048 > jws
-#       openssl rand -base64 18 > root-password
-#       chmod 600 *
-#       cat root-password
-#       EOF
-#     (The last line prints the first root login; change it in the GitLab UI.
-#      The rebuild hands the files to the gitlab user.)
-#     9c. Set enableGitlab = true below and rebuild. That also moves the database
-#         to PostgreSQL 17 (a fresh, empty cluster), so load Nextcloud's data back:
-#           sudo systemctl stop phpfpm-nextcloud
-#           sudo -u postgres pg_restore -d nextcloud --clean --if-exists -O --role=nextcloud ~/nextcloud-db.dump
-#           sudo systemctl restart nextcloud-setup phpfpm-nextcloud
-#           sudo nextcloud-occ maintenance:mode --off
-#         (Messages about Nextcloud failing during that one rebuild are expected.)
+#   STEP 9 — Forgejo (light git forge, about 200 MB of RAM; web UI only through the tunnel):
+#     a. After the rebuild, create your admin account (registration is switched off):
+#          sudo -u forgejo forgejo admin user create --admin --username adam \
+#            --email you@example.com --random-password \
+#            --config /var/lib/forgejo/custom/conf/app.ini --work-path /var/lib/forgejo
+#        It prints the first password; change it in the web UI.
+#     b. Cloudflare dashboard: Zero Trust > Networks > Tunnels > your tunnel > Published
+#        application routes > add git.<domain> -> HTTP localhost:3000.
+#     Clone over https with an access token (User settings > Applications). SSH is off.
+#     Nightly dumps go to /var/lib/forgejo/dump (a week kept): copy them off the machine
+#     or add push mirrors to GitHub in the Forgejo UI.
 #
 #   STEP 10 — Jellyfin (after the rebuild):
 #     Open http://<lanIp>:8096/, make the admin account, then add libraries:
@@ -162,12 +148,8 @@ let
   domain = "adambeattie.dev";
   cloudHost = "cloud.${domain}";
 
-  # GitLab is heavy and needs its secrets first (STEP 9): flip this to true
-  # once they exist.
-  enableGitlab = false;
-  gitlabHost = "gitlab.${domain}";
-  gitlabSecrets = "/var/lib/gitlab-secrets";
-  gitlabBackupDir = "${dataDir}/GitLab-backups";
+  # Forgejo is a light git forge, only reachable through the tunnel (STEP 9)
+  gitHost = "git.${domain}";
 
   # qBittorrent rewrites its own config, so instead of owning the whole file
   # (which would wipe your web UI password) this only pins the few settings
@@ -256,10 +238,6 @@ in {
       "d /var/lib/radicale           0750 radicale radicale -"
       "d /var/lib/radicale/collections 0750 radicale radicale -"
       "f /var/lib/radicale/users     0640 radicale radicale -"
-    ] ++ lib.optionals enableGitlab [
-      # GitLab reads its secrets as the gitlab user: hand STEP 9's files over to it
-      "d ${gitlabSecrets}            0700 gitlab gitlab -"
-      "Z ${gitlabSecrets}            -    gitlab gitlab -"
     ];
 
     services = {
@@ -407,51 +385,27 @@ in {
       # from any origin not listed here (CSRF error). Setting any option here
       # makes sunshine.conf read-only, so the web UI's Configuration tab can no
       # longer save changes: edit this list instead. Pairing and logins still work.
-      sunshine.settings.csrf_allowed_origins = "https://sunshine.${domain},https://${lanIp}:47990";
+      sunshine.settings.csrf_allowed_origins = "https://sunshine.${domain},https://${lanIp}:47990,https://127.0.0.1:47990";
 
-      # ─── GitLab (off until STEP 9) ───────────────────────────────────────────
-      # Behind the tunnel at gitlab.<domain>; GitLab has its own login (turn off
-      # public sign-ups in its admin settings). Backed up nightly; mirror the
-      # important projects to GitHub with push mirrors in the GitLab UI.
-      gitlab = lib.mkIf enableGitlab {
+      # ─── Forgejo (git forge) ─────────────────────────────────────────────────
+      # Listens on localhost only: the tunnel reaches it at git.<domain>. Uses a
+      # SQLite database, so it does not touch Nextcloud's PostgreSQL.
+      forgejo = {
         enable = true;
-        host = gitlabHost;
-        port = 443;   # only used for the URLs GitLab prints; Cloudflare serves the https
-        https = true;
-        databasePasswordFile = "${gitlabSecrets}/db-password";
-        initialRootPasswordFile = "${gitlabSecrets}/root-password";
-        secrets = {
-          secretFile = "${gitlabSecrets}/secret";
-          otpFile = "${gitlabSecrets}/otp";
-          dbFile = "${gitlabSecrets}/db";
-          jwsFile = "${gitlabSecrets}/jws";
-          activeRecordPrimaryKeyFile = "${gitlabSecrets}/activerecord-primary";
-          activeRecordDeterministicKeyFile = "${gitlabSecrets}/activerecord-deterministic";
-          activeRecordSaltFile = "${gitlabSecrets}/activerecord-salt";
+        dump = {
+          enable = true;
+          interval = "03:00";   # nightly
+          age = "1w";           # keep a week
         };
-        backup = {
-          startAt = "03:00";   # nightly: at most a day of work lost
-          path = gitlabBackupDir;
-          keepTime = 7 * 24;   # hours: keep a week of backups
-        };
-      };
-
-      # GitLab 19 needs PostgreSQL 17+, but with stateVersion 25.05 the shared
-      # database (Nextcloud's too) is still PostgreSQL 16. Switching is a one-time
-      # dump + restore, see STEP 9: do it BEFORE flipping enableGitlab.
-      postgresql.package = lib.mkIf enableGitlab pkgs-stable.postgresql_17;
-
-      # GitLab only speaks to a local socket; nginx hands it the tunnel's traffic.
-      nginx.virtualHosts.${gitlabHost} = lib.mkIf enableGitlab {
-        extraConfig = "client_max_body_size 1g;";   # big pushes
-        locations."/" = {
-          proxyPass = "http://unix:/run/gitlab/gitlab-workhorse.socket";
-          proxyWebsockets = true;
-          extraConfig = ''
-            proxy_set_header Host $host;
-            proxy_set_header X-Forwarded-Proto https;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          '';
+        settings = {
+          server = {
+            DOMAIN = gitHost;
+            ROOT_URL = "https://${gitHost}/";
+            HTTP_ADDR = "127.0.0.1";
+            DISABLE_SSH = true;     # the tunnel only carries http
+          };
+          service.DISABLE_REGISTRATION = true;
+          session.COOKIE_SECURE = true;
         };
       };
 
@@ -481,8 +435,6 @@ in {
       # Nextcloud (php-fpm runs as `nextcloud`) joins `users` so it can reach Music, the
       # downloads and the TV/Movies folders, which are group-writable for that group.
       nextcloud.extraGroups = [ "users" ];
-      # nginx must be able to open GitLab's socket
-      nginx.extraGroups = lib.mkIf enableGitlab [ "gitlab" ];
     };
 
     # ─── Mount / file guards ─────────────────────────────────────────────────
@@ -545,8 +497,9 @@ in {
       serviceConfig.UMask = lib.mkForce "0002";
     });
 
-    # smartctl for checking drives by hand, and the `smartd-ntfy` test command
-    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify ];
+    # smartctl for checking drives by hand, the `smartd-ntfy` test command, and
+    # the `forgejo` command for admin tasks (STEP 9)
+    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify config.services.forgejo.package ];
 
     # ─── Firewall ────────────────────────────────────────────────────────────
     # Nextcloud (nginx), the slskd web UI and Radicale; Kiwix, the *arr apps,
