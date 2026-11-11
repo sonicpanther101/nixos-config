@@ -17,6 +17,7 @@
 #   Sonarr       http://<lanIp>:8989/
 #   Radarr       http://<lanIp>:7878/
 #   Lidarr       http://<lanIp>:8686/
+#   Readarr      http://<lanIp>:8787/
 #   GitLab       https://gitlab.<domain> only (tunnel; off until STEP 9)
 #
 # From outside the house everything goes through the Cloudflare Tunnel, and the
@@ -25,7 +26,7 @@
 #
 # All the media folders live directly in /srv/data and share group `users`, so
 # the same files are visible to qBittorrent, the *arr apps, slskd, Nextcloud
-# and you:  Downloads/  TV/  Movies/  Music/  slskd/  kiwix/
+# and you:  Downloads/  TV/  Movies/  Music/  Books/  slskd/  kiwix/
 #
 # ONE-TIME SETUP — do this on the server BEFORE the first rebuild:
 #
@@ -245,6 +246,7 @@ in {
       "d ${dataDir}/Downloads        2775 ${username} users -"
       "d ${dataDir}/TV               2775 ${username} users -"
       "d ${dataDir}/Movies           2775 ${username} users -"
+      "d ${dataDir}/Books            2775 ${username} users -"
       "d ${dataDir}/kiwix            0755 ${username} users -"
       "d ${dataDir}/slskd            0755 slskd       users -"
       "d ${dataDir}/slskd/downloads  0775 slskd       users -"
@@ -345,7 +347,7 @@ in {
       };
 
       # ─── *arr suite ──────────────────────────────────────────────────────────
-      # Prowlarr finds, Sonarr (TV) / Radarr (movies) / Lidarr (music) decide and
+      # Prowlarr finds, Sonarr (TV) / Radarr (movies) / Lidarr (music) / Readarr (books) decide and
       # qBittorrent downloads. Their web UIs are LAN-only here; the tunnel exposes
       # them through the tunnel. Each asks you to create a login on first visit
       # (Settings > General > Authentication): use long unique passwords.
@@ -369,6 +371,14 @@ in {
         enable = true;
         group = "users";
         openFirewall = true;    # 8686
+      };
+      # Readarr is retired upstream (no more releases) but is still packaged in
+      # nixpkgs. Its default metadata server no longer works, so it needs a
+      # community mirror: see the Readarr setup notes.
+      readarr = {
+        enable = true;
+        group = "users";
+        openFirewall = true;    # 8787
       };
       qbittorrent = {
         enable = true;
@@ -505,7 +515,7 @@ in {
           ExecStartPre = "-${qbConfigure}";   # leading "-": a failure here never blocks the start
         };
       };
-    } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
+    } // lib.genAttrs [ "sonarr" "radarr" "lidarr" "readarr" ] (_: {
       unitConfig.RequiresMountsFor = dataDir;
       # The modules default to 0022; 0002 keeps imported files group-writable for `users`
       serviceConfig.UMask = lib.mkForce "0002";
