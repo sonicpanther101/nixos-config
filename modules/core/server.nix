@@ -17,7 +17,7 @@
 #   Sonarr       http://<lanIp>:8989/
 #   Radarr       http://<lanIp>:7878/
 #   Lidarr       http://<lanIp>:8686/
-#   Readarr      http://<lanIp>:8787/
+#   Shelfmark    http://<lanIp>:8084/   (books + audiobooks, searches through Prowlarr)
 #   GitLab       https://gitlab.<domain> only (tunnel; off until STEP 9)
 #
 # From outside the house everything goes through the Cloudflare Tunnel, and the
@@ -347,7 +347,7 @@ in {
       };
 
       # ─── *arr suite ──────────────────────────────────────────────────────────
-      # Prowlarr finds, Sonarr (TV) / Radarr (movies) / Lidarr (music) / Readarr (books) decide and
+      # Prowlarr finds, Sonarr (TV) / Radarr (movies) / Lidarr (music) decide and
       # qBittorrent downloads. Their web UIs are LAN-only here; the tunnel exposes
       # them through the tunnel. Each asks you to create a login on first visit
       # (Settings > General > Authentication): use long unique passwords.
@@ -372,14 +372,6 @@ in {
         group = "users";
         openFirewall = true;    # 8686
       };
-      # Readarr is retired upstream (no more releases) but is still packaged in
-      # nixpkgs. Its default metadata server no longer works, so it needs a
-      # community mirror: see the Readarr setup notes.
-      readarr = {
-        enable = true;
-        group = "users";
-        openFirewall = true;    # 8787
-      };
       qbittorrent = {
         enable = true;
         group = "users";
@@ -395,6 +387,27 @@ in {
         enable = true;
         # openFirewall = false;   # default; Prowlarr reaches it via localhost
       };
+
+      # ─── Shelfmark (books + audiobooks) ──────────────────────────────────────
+      # Readarr is dead, so this takes its place: it searches through Prowlarr,
+      # hands torrents to qBittorrent and moves the finished files into
+      # ${dataDir}/Books. Prowlarr / qBittorrent logins are entered in its web UI
+      # (not here: anything in this file ends up readable in the nix store).
+      shelfmark = {
+        enable = true;
+        openFirewall = true;    # 8084
+        environment = {
+          FLASK_HOST = "0.0.0.0";           # the module default is localhost only
+          INGEST_DIR = "${dataDir}/Books";  # where finished books land
+        };
+      };
+
+      # ─── Sunshine web UI through the tunnel ──────────────────────────────────
+      # Sunshine itself is enabled in services.nix. Its web UI refuses requests
+      # from any origin not listed here (CSRF error). Setting any option here
+      # makes sunshine.conf read-only, so the web UI's Configuration tab can no
+      # longer save changes: edit this list instead. Pairing and logins still work.
+      sunshine.settings.csrf_allowed_origins = "https://sunshine.${domain},https://${lanIp}:47990";
 
       # ─── GitLab (off until STEP 9) ───────────────────────────────────────────
       # Behind the tunnel at gitlab.<domain>; GitLab has its own login (turn off
@@ -515,7 +528,18 @@ in {
           ExecStartPre = "-${qbConfigure}";   # leading "-": a failure here never blocks the start
         };
       };
-    } // lib.genAttrs [ "sonarr" "radarr" "lidarr" "readarr" ] (_: {
+      shelfmark = {
+        unitConfig.RequiresMountsFor = dataDir;
+        serviceConfig = {
+          # The module runs it as a throwaway user in a private user namespace, which
+          # can't write to the shared folders. Join `users` like the *arr apps do.
+          SupplementaryGroups = [ "users" ];
+          ReadWritePaths = [ "${dataDir}/Books" ];
+          UMask = lib.mkForce "0002";
+          PrivateUsers = lib.mkForce false;
+        };
+      };
+    } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
       unitConfig.RequiresMountsFor = dataDir;
       # The modules default to 0022; 0002 keeps imported files group-writable for `users`
       serviceConfig.UMask = lib.mkForce "0002";
