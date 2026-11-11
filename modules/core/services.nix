@@ -146,6 +146,12 @@
       autoStart = true;
       capSysAdmin = true;   # needed for virtual display/input capture
       openFirewall = true;
+      settings = {
+        # Tailscale's 100.x addresses count as "wan" to Sunshine, so without these
+        # the web UI and PIN pairing are refused from devices connecting over Tailscale
+        origin_web_ui_allowed = "wan";
+        origin_pin_allowed = "wan";
+      };
     };
 
     ollama = {
