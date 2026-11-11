@@ -30,6 +30,9 @@ let
 
   toLua = lib.generators.toLua { };
 
+  gapsIn = 3;
+  gapsOut = 6;
+
   # Everything that maps cleanly onto hl.config({ ... })
   configTable = {
     binds = {
@@ -59,8 +62,8 @@ let
 
     general = {
       layout = "dwindle";
-      gaps_in = 3;
-      gaps_out = 6;
+      gaps_in = gapsIn;
+      gaps_out = gapsOut;
       gaps_workspaces = 10;
       border_size = 2;
       "col.active_border" = "rgb(89b4fa)";
@@ -84,10 +87,6 @@ let
       use_active_for_splits = true;
       preserve_split = true;
       smart_resizing = false;
-    };
-
-    master = {
-      special_scale_factor = 1;
     };
 
     decoration = {
@@ -159,10 +158,21 @@ let
     ];
 
   # workspace-to-monitor assignments -> one hl.workspace_rule({ ... }) per entry
-  workspaceRules = lib.optionals (host == "desktop") (
-    (map (i: { workspace = toString i; monitor = dp1Desc; }) (lib.range 1 10)) ++
-    (map (i: { workspace = toString i; monitor = hdmi1Desc; }) (lib.range 11 20))
-  );
+  workspaceRules =
+    lib.optionals (host == "desktop") (
+      (map (i: { workspace = toString i; monitor = dp1Desc; }) (lib.range 1 10)) ++
+      (map (i: { workspace = toString i; monitor = hdmi1Desc; }) (lib.range 11 20))
+    )
+    # Replaces dwindle/master `special_scale_factor` (removed in Hyprland
+    # 0.55+): special workspaces get the same gaps as normal ones, i.e. no
+    # extra shrinking. Raise gaps_out here for the old "overlay" look.
+    ++ [
+      {
+        workspace = "s[true]";
+        gaps_in = gapsIn;
+        gaps_out = gapsOut;
+      }
+    ];
 
   # ---- Animations ----
   # Kept in the original hyprlang comma-separated form here so the
