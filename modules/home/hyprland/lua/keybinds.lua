@@ -92,11 +92,13 @@ hl.bind("SUPER+M", hl.dsp.submap("monitor"))
 
 -- Define the "monitor" submap and its keybinds
 hl.define_submap("monitor", function()
-  -- Toggle DPMS on the focused monitor, then exit the submap
+  -- Toggle DPMS on the focused monitor, then exit the submap.
+  -- Dispatched from a deferred hl.timer, never directly: a direct dpms dispatch
+  -- can crash Hyprland (see scripts/my-dpms.sh).
   hl.bind("SUPER+D", function()
     hl.dispatch(hl.dsp.exec_cmd([[sh -c '
       mon=$(hyprctl monitors -j | jq -r ".[] | select(.focused) | .name")
-      hyprctl dispatch "hl.dsp.dpms({ action = \"toggle\", monitor = \"$mon\" })" 
+      hyprctl eval "hl.timer(function() hl.dispatch(hl.dsp.dpms({ action = \"toggle\", monitor = \"$mon\" })) end, { timeout = 300, type = "oneshot" })"
     ']]))
     hl.dispatch(hl.dsp.submap("reset"))
   end)
