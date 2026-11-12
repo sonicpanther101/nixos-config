@@ -278,6 +278,7 @@ in {
       "d ${dataDir}/TV               2775 ${username} users -"
       "d ${dataDir}/Movies           2775 ${username} users -"
       "d ${dataDir}/Books            2775 ${username} users -"
+      "d ${dataDir}/Photos           2775 ${username} users -"
       "d ${dataDir}/kiwix            0755 ${username} users -"
       "d ${dataDir}/slskd            0755 slskd       users -"
       "d ${dataDir}/slskd/downloads  0775 slskd       users -"
