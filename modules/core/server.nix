@@ -199,6 +199,17 @@ let
     ${pkgs-stable.findutils}/bin/find ${forgejoBackupDir} -maxdepth 1 -type f -mtime +30 -delete
   '';
 
+  # Lidarr runs as group `users` and must be able to create album folders inside
+  # artist folders that were made by you, Syncthing or Nextcloud (often 0755, owner
+  # only). This gives the group read+write on everything in Music and makes folders
+  # setgid so new ones keep the group. `X` adds execute to folders only, not files.
+  fixMusicPerms = pkgs-stable.writeShellScript "music-permissions" ''
+    set -eu
+    ${pkgs-stable.coreutils}/bin/chgrp -R users ${dataDir}/Music
+    ${pkgs-stable.coreutils}/bin/chmod -R g+rwX ${dataDir}/Music
+    ${pkgs-stable.findutils}/bin/find ${dataDir}/Music -type d -exec ${pkgs-stable.coreutils}/bin/chmod g+s {} +
+  '';
+
   # qBittorrent rewrites its own config, so instead of owning the whole file
   # (which would wipe your web UI password) this only pins the few settings
   # needed to sit safely behind the tunnel, before every start.
@@ -524,6 +535,20 @@ in {
         serviceConfig = {
           StateDirectory = "kiwix";            # writable home for library.xml
           ExecStartPre = refreshKiwixLibrary;  # rebuild it from the folder
+        };
+      };
+
+      # Runs as root before every Lidarr start and on boot/rebuild (see fixMusicPerms).
+      # Skipped if the big drive isn't mounted. Not a `lidarr` key here, because the
+      # genAttrs at the end of this set replaces that whole entry.
+      music-permissions = {
+        description = "Make the Music folder group-writable for Lidarr";
+        before = [ "lidarr.service" ];
+        wantedBy = [ "multi-user.target" "lidarr.service" ];
+        unitConfig.RequiresMountsFor = dataDir;
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = fixMusicPerms;
         };
       };
       

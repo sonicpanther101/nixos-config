@@ -1,4 +1,4 @@
-{ username, host, isServer, config, ... } : {
+{ username, host, isServer, config, lib, ... } : {
   services.syncthing = {
     enable = true;
     # Force Syncthing to listen on a port likely to be open
@@ -38,6 +38,9 @@
           id = "csoaz-zgdyy";
           path = "${basePath}/Music/";
           devices = sharedDevices;
+          # On the server Lidarr also writes into this library, so don't let the
+          # other devices' 0755 folders overwrite the group-writable ones here
+          ignorePerms = isServer;
         };
 
         "Research Papers" = {
@@ -54,4 +57,7 @@
       };
     };
   };
+  # Server only: files and folders Syncthing creates come out group-writable, so
+  # Lidarr (group `users`) can add albums to artist folders that arrived by sync
+  systemd.user.services.syncthing.Service.UMask = lib.mkIf isServer "0002";
 }
