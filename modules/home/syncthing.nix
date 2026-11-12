@@ -17,7 +17,7 @@
         deviceNames = builtins.attrNames config.services.syncthing.settings.devices;
         sharedDevices = builtins.filter (d: d != host) deviceNames;
 
-        basePath = if host == "desktop" || isServer then
+        basePath = if host == "desktop" || host == "laptop-1" || isServer then
           "/home/${username}/driveBig"
         else
           "/home/${username}";
