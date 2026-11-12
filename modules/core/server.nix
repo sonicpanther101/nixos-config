@@ -163,6 +163,24 @@
 #        Mirror settings) that pushes to GitHub on every commit and every 8 hours.
 #     The mirror token is stored inside Forgejo, so it is also in the STEP 9 dumps.
 #
+#   STEP 14 — Lidarr post-import hook (lyrics, ReplayGain, cover + artist images, and
+#     no more "twenty one pilots" folders next to "Twenty One Pilots"). One-time, in the
+#     Lidarr web UI (http://<lanIp>:8686/), after the rebuild:
+#     a. Settings > Connect > + > Custom Script. Name: Pipeline hook. Path:
+#          /run/current-system/sw/bin/lidarr-hook
+#        Tick: On Import, On Upgrade, On Artist Add. Leave the rest off, press Test, Save.
+#     b. Settings > Media Management > Tag Audio Files with Metadata: switch it off (or
+#        "new downloads only"). The hook already adopts your library's spelling of the
+#        artist tags, but then Lidarr isn't fighting your own tagging either.
+#     Then, once, for the library you already have (run as the lidarr user so the state
+#     and log files end up where the hook expects them):
+#        sudo -u lidarr lidarr-hook --fix-case /srv/data/Music            # shows split folders
+#        sudo -u lidarr lidarr-hook --fix-case /srv/data/Music --apply    # merges them
+#        sudo -u lidarr lidarr-hook --sweep /srv/data/Music --dry-run     # what is missing
+#        sudo -u lidarr lidarr-hook --sweep /srv/data/Music               # fill it in
+#     Log: /var/lib/lidarr/.config/Lidarr/hook/hook.log. Tracks that need a person (lyrics
+#     only unsynced, or not found anywhere) are listed in hook/needs_attention.tsv.
+#
 # The cloudflared unit is skipped until its token file exists, so the first
 # rebuild is safe without STEP 7.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -263,6 +281,18 @@ let
       [ -e "$zim" ] || continue
       ${lib.getExe' config.services.kiwix-serve.package "kiwix-manage"} ${kiwixLibrary} add "$zim"
     done
+  '';
+
+  # Lidarr post-import hook (STEP 14). The Python files live in packages/music-pipeline;
+  # this gives them a Python with the libraries they need and ffmpeg for ReplayGain.
+  # The state dir (queue, log, needs_attention.tsv) sits next to Lidarr's own data.
+  lidarrHookState = "${config.services.lidarr.dataDir}/hook";
+  lidarrHook = pkgs-stable.writeShellScriptBin "lidarr-hook" ''
+    export PATH=${lib.makeBinPath [ pkgs-stable.ffmpeg-headless ]}:$PATH
+    export MUSIC_PIPELINE_STATE=${lidarrHookState}
+    export LIDARR_CONFIG_XML=${config.services.lidarr.dataDir}/config.xml
+    exec ${pkgs-stable.python3.withPackages (ps: [ ps.mutagen ps.requests ps.pillow ])}/bin/python \
+      ${../../packages/music-pipeline}/lidarr_hook.py "$@"
   '';
 in {
   imports = [ inputs.forgesync.nixosModules.default ];
@@ -605,6 +635,27 @@ in {
         wants = [ "network-online.target" ];
         unitConfig.ConditionPathExists = "${secretsDir}/forgesync.env";
       };
+
+      # The hook queues each import and a detached worker does the slow part. If Lidarr
+      # restarts mid-job (a rebuild, say) the job file is still in the queue; this picks
+      # any such leftovers up every 15 minutes, and is skipped when the queue is empty.
+      lidarr-hook-drain = {
+        description = "Finish queued Lidarr hook jobs";
+        startAt = "*:0/15";
+        unitConfig = {
+          RequiresMountsFor = dataDir;
+          ConditionDirectoryNotEmpty = "${lidarrHookState}/queue";
+        };
+        serviceConfig = {
+          Type = "oneshot";
+          User = config.services.lidarr.user;
+          Group = "users";
+          UMask = "0002";
+          Nice = 10;
+          IOSchedulingClass = "idle";
+          ExecStart = "${lidarrHook}/bin/lidarr-hook --worker";
+        };
+      };
     } // lib.genAttrs [ "sonarr" "radarr" "lidarr" ] (_: {
       unitConfig.RequiresMountsFor = dataDir;
       # The modules default to 0022; 0002 keeps imported files group-writable for `users`
@@ -612,8 +663,8 @@ in {
     });
 
     # smartctl for checking drives by hand, the `smartd-ntfy` test command, and
-    # the `forgejo` command for admin tasks (STEP 9)
-    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify config.services.forgejo.package ];
+    # the `forgejo` command for admin tasks (STEP 9), and `lidarr-hook` (STEP 14)
+    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify config.services.forgejo.package lidarrHook ];
 
     # ─── Firewall ────────────────────────────────────────────────────────────
     # Nextcloud (nginx), the slskd web UI and Radicale; Kiwix, the *arr apps,
