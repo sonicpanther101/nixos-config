@@ -181,6 +181,30 @@
 #     Log: /var/lib/lidarr/.config/Lidarr/hook/hook.log. Tracks that need a person (lyrics
 #     only unsynced, or not found anywhere) are listed in hook/needs_attention.tsv.
 #
+#   STEP 15 — Phone music (about 100 GB: the albums you play most + the newest ones):
+#     Every hour phone-music-sync picks whole albums by Last.fm play count and by date
+#     added, and mirrors them as hard links (no extra disk space, same Artist/Year - Album
+#     layout as the library) into ${dataDir}/PhoneMusic. Syncthing sends that folder to the
+#     phone, so albums that fall out of the set are removed from the phone too. Lidarr
+#     only ever sees Music/, which this never changes.
+#     a. Last.fm: create a free API key at https://www.last.fm/api/account/create (any
+#        name), make sure your Last.fm profile's listening activity is public, then:
+#          sudo tee /var/lib/server-secrets/lastfm.env <<'EOF'
+#          LASTFM_API_KEY=paste-the-key
+#          LASTFM_USER=your-lastfm-username
+#          EOF
+#          sudo chmod 600 /var/lib/server-secrets/lastfm.env
+#     b. Preview, then run it for real (it also runs on its own every hour):
+#          sudo phone-music-sync --dry-run
+#          sudo systemctl start phone-music-sync ; journalctl -u phone-music-sync -n 40
+#     c. Phone (Syncthing): remove the old full "Music" folder (it is no longer shared
+#        with the phone), accept the "Phone Music" share and set its type to Receive Only.
+#     Size and mix are the PHONE_SYNC_* lines in phoneMusicSync below (100 GB, 60% most
+#     played, the rest newest). Last.fm albums are matched to folders by artist and album
+#     name (case, accents, punctuation, the year prefix and "(Deluxe)" tails are ignored);
+#     the dry run lists your most played Last.fm albums that found no folder, so you can
+#     see if any need renaming. Plays only count if the phone player scrobbles to Last.fm.
+#
 # The cloudflared unit is skipped until its token file exists, so the first
 # rebuild is safe without STEP 7.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -294,6 +318,20 @@ let
     exec ${pkgs-stable.python3.withPackages (ps: [ ps.mutagen ps.requests ps.pillow ])}/bin/python \
       ${../../packages/music-pipeline}/lidarr_hook.py "$@"
   '';
+
+  # Phone music selection (STEP 15). The Python lives in packages/phone-music-sync.
+  # BUDGET_GB is the size of the phone copy, TOP_SHARE how much of it goes to the most
+  # played albums first (the rest, and anything left over, goes to the newest albums).
+  phoneMusicSync = pkgs-stable.writeShellScriptBin "phone-music-sync" ''
+    export PATH=${lib.makeBinPath [ pkgs-stable.findutils ]}:$PATH
+    export PHONE_SYNC_MUSIC=${dataDir}/Music
+    export PHONE_SYNC_OUT=${dataDir}/PhoneMusic
+    export PHONE_SYNC_BUDGET_GB=100
+    export PHONE_SYNC_TOP_SHARE=0.6
+    export PHONE_SYNC_ENV_FILE=''${PHONE_SYNC_ENV_FILE:-${secretsDir}/lastfm.env}
+    exec ${pkgs-stable.python3}/bin/python \
+      ${../../packages/phone-music-sync}/phone_music_sync.py "$@"
+  '';
 in {
   imports = [ inputs.forgesync.nixosModules.default ];
   config = lib.mkIf config.my.isServer {
@@ -315,6 +353,7 @@ in {
 
     systemd.tmpfiles.rules = [
       "d ${dataDir}/Music            2775 ${username} users -"
+      "d ${dataDir}/PhoneMusic       2775 ${username} users -"
       "d ${dataDir}/Downloads        2775 ${username} users -"
       "d ${dataDir}/TV               2775 ${username} users -"
       "d ${dataDir}/Movies           2775 ${username} users -"
@@ -636,6 +675,30 @@ in {
         unitConfig.ConditionPathExists = "${secretsDir}/forgesync.env";
       };
 
+      # Rebuilds the phone-sized copy of the library every hour (STEP 15). Runs as you
+      # so Syncthing, which also runs as you, owns what it makes. Skipped quietly until
+      # the Last.fm key file exists, and never prunes if Last.fm can't be reached.
+      phone-music-sync = {
+        description = "Pick the albums to sync to the phone";
+        startAt = "hourly";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+        unitConfig = {
+          RequiresMountsFor = dataDir;
+          ConditionPathExists = "${secretsDir}/lastfm.env";
+        };
+        serviceConfig = {
+          Type = "oneshot";
+          User = username;
+          Group = "users";
+          UMask = "0002";
+          Nice = 10;
+          IOSchedulingClass = "idle";
+          LoadCredential = "lastfm.env:${secretsDir}/lastfm.env";   # root reads it, the service gets a copy
+          ExecStart = "${phoneMusicSync}/bin/phone-music-sync";
+        };
+      };
+
       # The hook queues each import and a detached worker does the slow part. If Lidarr
       # restarts mid-job (a rebuild, say) the job file is still in the queue; this picks
       # any such leftovers up every 15 minutes, and is skipped when the queue is empty.
@@ -663,8 +726,9 @@ in {
     });
 
     # smartctl for checking drives by hand, the `smartd-ntfy` test command, and
-    # the `forgejo` command for admin tasks (STEP 9), and `lidarr-hook` (STEP 14)
-    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify config.services.forgejo.package lidarrHook ];
+    # the `forgejo` command for admin tasks (STEP 9), `lidarr-hook` (STEP 14) and
+    # `phone-music-sync` (STEP 15)
+    environment.systemPackages = [ pkgs-stable.smartmontools smartdNotify config.services.forgejo.package lidarrHook phoneMusicSync ];
 
     # ─── Firewall ────────────────────────────────────────────────────────────
     # Nextcloud (nginx), the slskd web UI and Radicale; Kiwix, the *arr apps,

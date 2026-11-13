@@ -37,7 +37,8 @@
         "Music" = {
           id = "csoaz-zgdyy";
           path = "${basePath}/Music/";
-          devices = sharedDevices;
+          # The phone gets the ~100 GB "Phone Music" selection below, not the whole library
+          devices = builtins.filter (d: d != "Phone") sharedDevices;
           # On the server Lidarr also writes into this library, so don't let the
           # other devices' 0755 folders overwrite the group-writable ones here
           ignorePerms = isServer;
@@ -53,6 +54,15 @@
           id = "aenix-pe2ge";
           path = "${basePath}/Uni Notes/";
           devices = sharedDevices;
+        };
+      } // lib.optionalAttrs isServer {
+        # Server only: the hard-linked, phone-sized copy of Music made by phone-music-sync
+        # (see STEP 15 in modules/core/server.nix). Send-only, so the phone can't change it.
+        "Phone Music" = {
+          id = "phone-music-k3x9q";
+          path = "${basePath}/PhoneMusic/";
+          type = "sendonly";
+          devices = [ "Phone" ];
         };
       };
     };
