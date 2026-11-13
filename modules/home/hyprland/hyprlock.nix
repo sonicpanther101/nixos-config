@@ -182,11 +182,10 @@ in {
       Description = "Hyprlock screen locker";
       PartOf = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
-      # systemd documents these under [Unit]; they used to sit in [Service],
-      # where the interval is ignored and the 10 s default window applied. A few
-      # quick crashes while outputs re-initialise after resume then left the
-      # unit permanently failed, and Hyprland stuck on its "lockscreen app
-      # died" screen. Retry for longer instead.
+      # These belong in [Unit] (in [Service] the interval is ignored and the 10 s
+      # default window applies). A few quick crashes while outputs re-initialise
+      # after resume would otherwise leave the unit permanently failed, and
+      # Hyprland stuck on its "lockscreen app died" screen. Retry for longer.
       StartLimitIntervalSec = 120;
       StartLimitBurst = 10;
     };

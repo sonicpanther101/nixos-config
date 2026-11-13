@@ -1,4 +1,4 @@
--- Autostart commands migrated from modules/home/hyprland/autostart.nix
+-- Autostart commands
 -- Symlinked to ~/.config/hypr/autostart.lua at activation
 -- Changes trigger hyprctl reload only (no Nix rebuild needed)
 

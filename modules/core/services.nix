@@ -5,7 +5,7 @@
     # Bluetooth UI
     blueman.enable = true;
 
-    # Getting sleep to work
+    # Lid switch and power button behaviour
     logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
       HandlePowerKey = "ignore";
@@ -45,10 +45,10 @@
     # For nemo trash
     gvfs.enable = true;
 
-    # Enables mounting removable drives (needed for udiskie automount below)
+    # Enables mounting removable drives (needed for udiskie automount, see modules/home/services.nix)
     udisks2.enable = true;
 
-    # For build machine setup not needed permanently on weak machines
+    # SSH, so other machines can offload builds to this one (see build-machine.nix)
     openssh = {
       enable = true;
       settings.PubkeyAuthentication = true;
@@ -116,10 +116,9 @@
     xserver.videoDrivers = ["nvidia"];  
   }) // (lib.optionalAttrs config.my.isHighPower {
 
-    # Stop keypresses and mouse movement turning on from sleep.
-    # CRITICAL FIXES:
-    # 1. Use DRIVER=="usb" instead of DRIVERS=="usb" - matches only actual USB devices, not interfaces
-    # 2. This prevents the ":1.0", ":1.1" interface errors you were seeing
+    # Stop keypresses and mouse movement waking the machine from sleep.
+    # The rules match DRIVER=="usb" (not DRIVERS=="usb"), which only matches actual
+    # USB devices and not their interfaces (":1.0", ":1.1"), so no interface errors.
     udev = {
       extraRules = ''
         # Razer mouse (1532:00c5) - disable wake

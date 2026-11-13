@@ -1,7 +1,6 @@
 { inputs, lib, pkgs-unstable, pkgs-stable, isHighPower, isServer, username, ... } : {
 
-  home.packages = [                                       # From inputs
-  ] ++ (with pkgs-unstable; [                             # Unstable packages (frequently updated packages)
+  home.packages = (with pkgs-unstable; [                  # Unstable packages (frequently updated packages)
 
     vsce                                                  # VS Code Extension Manager
     awww                                                  # Efficient animated wallpaper daemon for wayland, controlled at runtime
@@ -23,7 +22,7 @@
     kdePackages.qt6ct                                     # Qt6 configuration tool
     kdePackages.qtstyleplugin-kvantum                     # Kvantum theming engine (Qt6)
 
-                                                          # Gaming tools (some may be unecessary)
+                                                          # Gaming tools (some may be unnecessary)
     mangohud                                              # FPS/performance overlay
     protonplus                                            # Simple Wine and Proton-based compatibility tools manager
     heroic                                                # Epic/GOG games

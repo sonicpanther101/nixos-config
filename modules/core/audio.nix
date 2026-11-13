@@ -55,9 +55,9 @@
   # service, and `systemctl --user start foobar-mpris` (what the walker
   # desktop entry runs) brings it back.
   #
-  # Previously it was launched through Hyprland's exec_cmd, which wraps it in
-  # an unmanaged run-pNNN.scope. At shutdown that scope sat there for the full
-  # 90s default stop timeout before being killed, stalling the whole reboot.
+  # It is a unit rather than a Hyprland exec_cmd because exec_cmd wraps the process
+  # in an unmanaged run-pNNN.scope, which at shutdown sat there for the full 90s
+  # default stop timeout before being killed, stalling the whole reboot.
   systemd.user.services.foobar-mpris = lib.mkIf (!config.my.isServer) {
     description = "Foobar2000 MPRIS bridge";
     # Started from Hyprland's autostart and from the walker entry, not

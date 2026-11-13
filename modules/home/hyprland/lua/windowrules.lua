@@ -1,4 +1,4 @@
--- Window rules migrated from modules/home/hyprland/windowrules.nix
+-- Window rules
 -- Symlinked to ~/.config/hypr/windowrules.lua at activation
 -- Changes trigger hyprctl reload only (no Nix rebuild needed)
 --

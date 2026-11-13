@@ -9,22 +9,10 @@
   audioMenuFile = "${config.home.homeDirectory}/.cache/waybar/audio-menu.xml";
   maxAudioSinks = 12;
 
+  # Rotate the focused monitor (see rotate-monitor.sh).
   rotateMonitor = pkgs-stable.writeShellScript "rotate-monitor" ''
-    # usage: rotate-monitor <0|1|2|3|cw|ccw|flip>
-    read -r mon cur scale x y < <(
-      hyprctl -j monitors | ${pkgs-stable.jq}/bin/jq -r \
-        '.[] | select(.focused) | "\(.name) \(.transform) \((.scale*100|round)/100) \(.x) \(.y)"'
-    )
-
-    case "$1" in
-      cw)   t=$(( (cur + 1) % 4 )) ;;
-      ccw)  t=$(( (cur + 3) % 4 )) ;;
-      flip) t=$(( (cur + 2) % 4 )) ;;
-      *)    t="$1" ;;
-    esac
-
-    pos="$x"x"$y"
-    hyprctl eval "hl.monitor({ output = '$mon', mode = 'preferred', position = '$pos', scale = $scale, transform = $t })"
+    export PATH=${lib.makeBinPath [ pkgs-stable.jq ]}:$PATH
+    ${builtins.readFile ./rotate-monitor.sh}
   '';
 in {
   home.packages = [ audioMenu ];
@@ -280,125 +268,6 @@ in {
         };
       };
     };
-    style = ''
-    * {
-        border:        none;
-        border-radius: 0;
-        font-family:   "JetBrainsMono Nerd Font", "Symbols Nerd Font", Sans;
-        font-size:     15px;
-        box-shadow:    none;
-        text-shadow:   none;
-        transition-duration: 0s;
-    }
-
-    window {
-        color:      #cdd6f4;
-        background: #1e1e2e;
-    }
-
-    window#waybar.solo {
-        color:      #cdd6f4;
-        background: rgba(35, 31, 32, 0.85);
-    }
-
-    #workspaces {
-        margin: 0 5px;
-    }
-
-    #workspaces button {
-        padding:    0 5px;
-        color:      #cdd6f4;
-    }
-
-    #workspaces button.empty {
-        color:      #45475a;
-    }
-
-    #workspaces button.visible {
-        color:      #89b4fa;
-    }
-
-    #workspaces button.urgent {
-        color:      #f38ba8;
-    }
-
-    #mode, #battery, #cpu, #memory, #network, #pulseaudio, #custom-storage, #custom-weather, #custom-mail {
-        margin:     0px 6px 0px 10px;
-        min-width:  25px;
-    }
-
-    #clock {
-        margin:     0px 16px 0px 10px;
-        min-width:  140px;
-    }
-
-    #battery.warning {
-      color:       #f9e2af;
-    }
-
-    #battery.critical {
-        color:      #f38ba8;
-    }
-
-    #battery.charging {
-        color:      #a6e3a1;
-    }
-
-    #battery.charged {
-        color:      #a6e3a1;
-    }
-
-    #custom-storage.warning {
-        color:      #f9e2af;
-    }
-
-    #custom-storage.critical {
-        color:      #f38ba8;
-    }
-
-    #idle_inhibitor {
-        margin-right: 3px;
-    }
-
-    #image {
-        margin: 0px 7px 0px 5px;
-    }
-
-    #image.empty {
-        padding: 0px;
-        margin: 0px;
-    }
-
-    #custom-keyboard {
-        margin: 3px 2px 0px 3px;
-        min-width: 25px;
-    }
-
-    #custom-pomodoro {
-        min-width: 90px;
-        margin: 0 10px;
-    }
-
-    #custom-mpris {
-        margin: 3px 4px 0 0;
-    }
-    
-    #custom-menu {
-        padding: 0 3px 0 7px;
-    }
-
-    menu {
-        border-radius: 15px;
-        background: #1e1e2e;
-        color: #cdd6f4;
-    }
-    menuitem {
-        border-radius: 15px;
-    }
-
-    #tray {
-      margin: 5px 5px 0;
-    }
-    '';
+    style = builtins.readFile ./style.css;
   };
 }

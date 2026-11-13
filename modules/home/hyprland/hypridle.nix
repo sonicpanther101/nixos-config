@@ -1,14 +1,14 @@
 { host, lib, isLaptop, isServer, ... } :
 let
-  # Screen blanking (DPMS) is what used to crash Hyprland, so it goes through
-  # `my-dpms` (deferred, staggered, circuit-breakered; see my-dpms.sh) and by
-  # default only touches internal laptop panels. External DP/HDMI monitors that
-  # deep-sleep when blanked trigger Hyprland 0.56/0.57 connector-reappear bugs.
-  # Set this to true to also blank external monitors (e.g. on the desktop) -
+  # Screen blanking (DPMS) goes through `my-dpms` (deferred, staggered,
+  # circuit-breakered; see my-dpms.sh) because blanking directly can crash
+  # Hyprland. Internal laptop panels are always blanked. External DP/HDMI monitors
+  # that deep-sleep when blanked trigger Hyprland 0.56/0.57 connector-reappear
+  # bugs, so they are only blanked when this is true (e.g. on the desktop).
   # my-dpms' breaker turns itself off if Hyprland ever dies while blanked.
   dpmsExternalOutputs = true;
 
-  # laptop-2 has never had screen-off (see git history); left that way.
+  # laptop-2 never blanks its screen.
   hasDpms      = host != "laptop-2" && !isServer && (isLaptop || dpmsExternalOutputs);
   hasIdleLock  = host != "desktop";
   hasIdleSleep = host != "desktop" && !isServer;

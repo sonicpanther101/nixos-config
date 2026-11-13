@@ -1,4 +1,4 @@
--- Hyprgrass gestures migrated from hyprland.nix extraConfig (touch_gestures block)
+-- Hyprgrass touch gestures
 -- Symlinked to ~/.config/hypr/hyprgrass-gestures.lua at activation
 -- Changes trigger hyprctl reload only (no Nix rebuild needed)
 

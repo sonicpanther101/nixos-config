@@ -12,7 +12,7 @@
     ./gaming.nix
     ./wayland.nix
     ./nix-ld.nix
-    ./server.nix
+    ./server
     ./vm
     
     # ─── Remote builds ───────────────────────────────────────────────────────
@@ -21,7 +21,7 @@
     #
     # To make a machine OFFLOAD builds to the server:
     #   1. Follow the steps in weak-machine.nix
-    #   3. Comment out the imports above if it is first build for a laptop
+    #   2. Comment out the imports above if it is first build for a laptop
     # ─────────────────────────────────────────────────────────────────────────
     # Uncomment to enable
     ./build-machine.nix

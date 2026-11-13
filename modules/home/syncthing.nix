@@ -57,7 +57,7 @@
         };
       } // lib.optionalAttrs isServer {
         # Server only: the hard-linked, phone-sized copy of Music made by phone-music-sync
-        # (see STEP 15 in modules/core/server.nix). Send-only, so the phone can't change it.
+        # (see STEP 15 in modules/core/server/music-pipeline.nix). Send-only, so the phone can't change it.
         "Phone Music" = {
           id = "phone-music-k3x9q";
           path = "${basePath}/PhoneMusic/";

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# nix-gen-diff.sh — show the git diff (or just changed files) between two
+# my-nix-gen-diff — show the git diff (or just changed files) between two
 # NixOS generations, by finding the commits my-install.sh made for them.
 #
 # my-install.sh commits with a message like:
@@ -8,7 +8,7 @@
 # so we just grep the log for "Generation <N>" to find the matching commit.
 #
 # Usage:
-#   nix-gen-diff.sh [-s] [-r repo] <from_gen> <to_gen>
+#   my-nix-gen-diff [-s] [-r repo] <from_gen> <to_gen>
 #
 # Note: generation numbers are per-host, so the same number can exist on
 # multiple machines (e.g. "desktop" and "laptop-2"). This script always
@@ -28,10 +28,10 @@
 #   -h          Show this help
 #
 # Example:
-#   nix-gen-diff.sh 841 855
-#   nix-gen-diff.sh -s 841 855
-#   nix-gen-diff.sh -i 841 855
-#   nix-gen-diff.sh -H laptop-2 100 129
+#   my-nix-gen-diff 841 855
+#   my-nix-gen-diff -s 841 855
+#   my-nix-gen-diff -i 841 855
+#   my-nix-gen-diff -H laptop-2 100 129
 
 set -euo pipefail
 

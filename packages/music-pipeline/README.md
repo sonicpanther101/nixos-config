@@ -1,7 +1,7 @@
 # music-pipeline (Lidarr hook)
 
 Copies of the files from the standalone `music_pipeline` folder that
-`lidarr-hook` needs. `modules/core/server.nix` wraps `lidarr_hook.py` with a
+`lidarr-hook` needs. `packages/lidarr-hook.nix` wraps `lidarr_hook.py` with a
 Python that has mutagen, requests and Pillow, and ffmpeg on PATH.
 
 | file | what it is |

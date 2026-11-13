@@ -63,7 +63,7 @@
     };
 
     nixpkgs.config = {
-      # Allow unfree packages for the 4th time! Scrap that, they will soon depricate home manager allowing unfree
+      # Allow unfree packages
       allowUnfree = true;
     };
 

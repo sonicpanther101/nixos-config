@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build and run a QEMU VM of this host's NixOS config (see modules/core/vm.nix).
+# Build and run a QEMU VM of this host's NixOS config (see modules/core/vm/default.nix).
 # Only installed on high-power hosts.
 #
 # With -t/-f it becomes an AI sandbox: goose CLI works on the goal INSIDE the VM
