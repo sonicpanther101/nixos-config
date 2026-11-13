@@ -27,7 +27,7 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-    hyprland.url = "github:hyprwm/Hyprland/v0.57.1";
+    hyprland.url = "github:hyprwm/Hyprland/v0.57.2";
 
     waybar-git = {
       url = "github:Alexays/Waybar/16843896794a9c595139318420f81f40e84f8c78";
@@ -35,12 +35,12 @@
     };
 
     split-monitor-workspaces = {
-      url = "github:zjeffer/split-monitor-workspaces/v0.57.1";
+      url = "github:zjeffer/split-monitor-workspaces/v0.57.2";
       inputs.hyprland.follows = "hyprland";
     };
 
     hyprgrass = {
-      url = "github:horriblename/hyprgrass/hl-0.57.1";
+      url = "github:horriblename/hyprgrass/hl-0.57.2";
       inputs.hyprland.follows = "hyprland";
     };
     
