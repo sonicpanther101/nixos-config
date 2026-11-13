@@ -64,6 +64,12 @@
           type = "sendonly";
           devices = [ "Phone" ];
         };
+      } // lib.optionalAttrs (isServer || host == "desktop") {
+        "Photos" = {
+          id = "hgswm-3egyz";
+          path = "${basePath}/Photos/";
+          devices = builtins.filter (d: d == "desktop" || d == "server") sharedDevices;
+        };
       };
     };
   };
