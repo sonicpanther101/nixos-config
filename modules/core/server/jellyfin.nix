@@ -4,7 +4,7 @@
 #
 # STEP 10 — Jellyfin (after the rebuild):
 #   Open http://<lanIp>:8096/, make the admin account, then add libraries:
-#     Movies -> /srv/data/Movies   TV Shows -> /srv/data/TV   Music -> /srv/data/Music
+#     Movies -> /srv/data/Movies   TV Shows -> /srv/data/TV   Music -> "/srv/data/Music/My Playlist"
 #   Away from home, install Tailscale on the phone/TV/laptop and point the Jellyfin
 #   app at http://<server's tailscale name or 100.x address>:8096. Video goes over
 #   Tailscale, NOT the Cloudflare tunnel (Cloudflare restricts serving video on its CDN).

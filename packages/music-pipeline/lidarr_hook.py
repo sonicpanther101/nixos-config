@@ -18,6 +18,8 @@ ArtistAdd      Lidarr has just picked a folder name for the artist from
 
 AlbumDownload  Queue a job and return straight away, so Lidarr's import queue
                is never held up by network lookups. A detached worker then:
+                 0. fake-lossless check (flac_check.py): if the "FLAC"s are really
+                    transcoded lossy audio, delete them through Lidarr and search again
                  1. safety net: if a capitalisation-variant folder exists after
                     all (artist or album level) merge into the established one
                     and tell Lidarr to rescan
@@ -32,6 +34,7 @@ Run by hand
     lidarr_hook.py --fix-case ROOT [--apply]   find/merge existing case-split folders
     lidarr_hook.py --sweep ROOT [--dry-run]    fill lyrics/ReplayGain/images gaps in
                                                a library that already exists
+    lidarr_hook.py --check-fake PATH...        report suspicious FLACs; never deletes
 
 Tracks that still need a human (lyrics only unsynced, or not found) are listed
 in  <state dir>/needs_attention.tsv  for lyrics_checker.py to chew through.
@@ -40,7 +43,8 @@ Environment (all optional)
     MUSIC_PIPELINE_STATE   state/log/queue dir          (default ~/.music_pipeline/lidarr)
     LIDARR_CONFIG_XML      Lidarr's config.xml          (default: found next to its data dir)
     LIDARR_URL / LIDARR_API_KEY   override what config.xml says
-    LIDARR_HOOK_SKIP       comma list of: lyrics,replaygain,images,tags
+    LIDARR_HOOK_SKIP       comma list of: lyrics,replaygain,images,tags,fakecheck
+    LIDARR_HOOK_FAKE_ACTION  delete (default) or report: what to do with fake FLACs
 """
 
 import fcntl
@@ -68,6 +72,8 @@ LOCK = STATE / "worker.lock"
 LOGFILE = STATE / "hook.log"
 ATTENTION = STATE / "needs_attention.tsv"
 NOT_FOUND = STATE / "lyrics_not_found.json"
+FAKE_COUNT = STATE / "fake_flac_count.json"
+FAKE_MAX_DELETES = 2   # after this many deletions of one album, only report (stops endless loops)
 NOT_FOUND_RETRY_DAYS = 30
 
 SKIP = {s.strip() for s in os.environ.get("LIDARR_HOOK_SKIP", "").split(",") if s.strip()}
@@ -123,6 +129,9 @@ class Lidarr:
 
     def put(self, path, body, **params):
         return self._req("PUT", path, json=body, params=params)
+
+    def delete(self, path, **params):
+        return self._req("DELETE", path, params=params)
 
     def command(self, name, **body):
         return self._req("POST", "/command", json={"name": name, **body})
@@ -365,6 +374,51 @@ def do_replaygain(album_files):
         audio.save()
     log(f"  replaygain: {len(album_files)} track(s), album {album_gain:+.2f} dB")
 
+def reject_fake(job, tracks, api):
+    """Step 0. True when the album was judged fake and removed, so nothing else
+    should run on those files. Never raises: a broken check must not block imports."""
+    import flac_check
+    verdict, results = flac_check.check_album(tracks)
+    label = f"{job.get('artist_name') or '?'} - {job.get('album_title') or '?'}"
+    if verdict != "fake":
+        log(f"  fake-lossless check: {verdict}")
+        return False
+    for path, r in results:
+        if r["verdict"] == "fake":
+            log(f"  FAKE FLAC: {path.name}: {r['reason']}")
+    album_id = str(job.get("album_id") or "")
+    counts = {}
+    if FAKE_COUNT.exists():
+        try:
+            counts = json.loads(FAKE_COUNT.read_text())
+        except ValueError:
+            pass
+    action = os.environ.get("LIDARR_HOOK_FAKE_ACTION", "delete").strip().lower()
+    reason = None
+    if action != "delete":
+        reason = "action is 'report'"
+    elif not (api and album_id):
+        reason = "no Lidarr API/album id, can't delete through Lidarr"
+    elif counts.get(album_id, 0) >= FAKE_MAX_DELETES:
+        reason = f"already deleted {counts[album_id]}x, giving up so it can't loop"
+    if reason:
+        log(f"  fake FLACs kept ({reason}); listed in needs_attention.tsv")
+        ATTENTION.parent.mkdir(parents=True, exist_ok=True)
+        with open(ATTENTION, "a") as f:
+            f.write(f"fake_flac\t{label}\t{results[0][1]['reason']}\n")
+        return False
+    wanted = {str(t) for t in tracks}
+    gone = 0
+    for tf in api.get("/trackfile", albumId=int(album_id)):
+        if tf.get("path") in wanted:
+            api.delete(f"/trackfile/{tf['id']}")
+            gone += 1
+    counts[album_id] = counts.get(album_id, 0) + 1
+    STATE.mkdir(parents=True, exist_ok=True)
+    FAKE_COUNT.write_text(json.dumps(counts))
+    api.command("AlbumSearch", albumIds=[int(album_id)])
+    log(f"  deleted {gone} fake file(s) via Lidarr and asked it to search again ({label})")
+    return True
 
 def first_tag(path, tag):
     from mutagen.flac import FLAC
@@ -424,6 +478,14 @@ def process_job(job, reconcile=True, api=None, not_found_cache=None, steps=None)
                 log(f"  couldn't update Lidarr: {e}")
 
     skip = SKIP | (steps or set())
+
+    # ---- 0. fake lossless (real imports only; --sweep passes `steps` and must never delete)
+    if steps is None and "fakecheck" not in skip:
+        try:
+            if reject_fake(job, tracks, api):
+                return
+        except Exception as e:
+            log(f"  fake-lossless check failed: {e}")
 
     # ---- 2. tags
     if "tags" not in skip:
@@ -630,6 +692,9 @@ def main():
         return fix_case(argv[argv.index("--fix-case") + 1], "--apply" in argv)
     if "--sweep" in argv:
         return sweep(argv[argv.index("--sweep") + 1], "--dry-run" in argv)
+    if "--check-fake" in argv:
+        import flac_check
+        return flac_check.main(argv[argv.index("--check-fake") + 1:])
 
     event = env("lidarr_eventtype")
     if event in ("", "Test"):
@@ -646,4 +711,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

@@ -32,6 +32,7 @@
 # belong to a single service live at the top of that service's file:
 #   STEP 4 kiwix.nix | 5 nextcloud.nix | 6 radicale.nix | 7, 8, 12 remote-access.nix
 #   STEP 9, 13 forgejo.nix | 10 jellyfin.nix | 11 disk-health.nix | 14, 15 music-pipeline.nix
+#   STEP 16 soularr.nix
 #
 # STEP 1 — Create the secrets directory and the files the services read:
 #   sudo mkdir -p -m 700 /var/lib/server-secrets
@@ -66,6 +67,7 @@ in {
     ./jellyfin.nix
     ./arr.nix
     ./music-pipeline.nix
+    ./soularr.nix
     ./forgejo.nix
     ./disk-health.nix
     ./remote-access.nix

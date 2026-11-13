@@ -11,6 +11,10 @@
   # Root-only files holding passwords. Never put these in the nix store.
   secretsDir = "/var/lib/server-secrets";
 
+  # API key Soularr uses to talk to slskd. slskd only accepts it from this machine
+  # (127.0.0.1), but slskd's settings end up in the nix store, so don't reuse it anywhere.
+  slskdApiKey = "nixb7BCvCQk1k5bYkeI4jRCGauyLE84af7uZ_VYDMiw";
+
   # Your Cloudflare domain. Nextcloud gets cloud.<domain>, Forgejo git.<domain>;
   # every other hostname (dav, sonarr, ...) is added in the Cloudflare dashboard.
   domain = "adambeattie.dev";

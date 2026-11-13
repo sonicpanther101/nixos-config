@@ -10,6 +10,8 @@ Python that has mutagen, requests and Pillow, and ffmpeg on PATH.
 | `lidarr_images.py` | non-interactive cover + artist image step |
 | `lyrics_fetcher.py` | unchanged copy from music_pipeline |
 | `replaygain.py` | unchanged copy from music_pipeline |
+| `flac_check.py` | spots FLACs that are really transcoded MP3/AAC (spectral cutoff check) |
+| `soularr_gate.py` | runs Soularr, but checks each finished download with `flac_check.py` first (used by `packages/soularr.nix`) |
 
 Keep `lyrics_fetcher.py` and `replaygain.py` in step with the originals if you
 change them there.

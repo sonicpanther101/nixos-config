@@ -14,10 +14,10 @@
 #      artist tags, but then Lidarr isn't fighting your own tagging either.
 #   Then, once, for the library you already have (run as the lidarr user so the state
 #   and log files end up where the hook expects them):
-#      sudo -u lidarr lidarr-hook --fix-case /srv/data/Music            # shows split folders
-#      sudo -u lidarr lidarr-hook --fix-case /srv/data/Music --apply    # merges them
-#      sudo -u lidarr lidarr-hook --sweep /srv/data/Music --dry-run     # what is missing
-#      sudo -u lidarr lidarr-hook --sweep /srv/data/Music               # fill it in
+#      sudo -u lidarr lidarr-hook --fix-case "/srv/data/Music/My Playlist"            # shows split folders
+#      sudo -u lidarr lidarr-hook --fix-case "/srv/data/Music/My Playlist" --apply    # merges them
+#      sudo -u lidarr lidarr-hook --sweep "/srv/data/Music/My Playlist" --dry-run     # what is missing
+#      sudo -u lidarr lidarr-hook --sweep "/srv/data/Music/My Playlist"               # fill it in
 #   Log: /var/lib/lidarr/.config/Lidarr/hook/hook.log. Tracks that need a person (lyrics
 #   only unsynced, or not found anywhere) are listed in hook/needs_attention.tsv.
 #
