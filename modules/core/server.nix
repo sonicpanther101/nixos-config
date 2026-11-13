@@ -324,7 +324,8 @@ let
   # played albums first (the rest, and anything left over, goes to the newest albums).
   phoneMusicSync = pkgs-stable.writeShellScriptBin "phone-music-sync" ''
     export PATH=${lib.makeBinPath [ pkgs-stable.findutils ]}:$PATH
-    export PHONE_SYNC_MUSIC=${dataDir}/Music
+    # The artist folders sit one level down, in Music/My Playlist/ (the Lidarr root folder)
+    export PHONE_SYNC_MUSIC="${dataDir}/Music/My Playlist"
     export PHONE_SYNC_OUT=${dataDir}/PhoneMusic
     export PHONE_SYNC_BUDGET_GB=100
     export PHONE_SYNC_TOP_SHARE=0.6

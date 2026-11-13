@@ -114,7 +114,7 @@ def lastfm(params):
 
 
 def fetch_plays(albums):
-    """-> ({(artist, album): scrobbles}, [(artist, album, scrobbles) with no local match]).
+    """-> ({(artist, album): scrobbles}, [(artist, album, scrobbles) with no local match], albums Last.fm sent).
 
     Last.fm names albums "Artist" / "Album", the library says "Artist" / "2002 - Album",
     so both sides are normalised (case, accents, punctuation, a leading year, "The ").
@@ -127,13 +127,14 @@ def fetch_plays(albums):
         for name in (b, strip_paren(b)):           # "(Deluxe Edition)" etc. match either way
             index.setdefault((a, norm(name)), set()).add(k)
 
-    plays, unmatched = {}, []
+    plays, unmatched, fetched = {}, [], 0
     page, pages = 1, 1
     while page <= min(pages, 30):                  # 30 pages x 1000 albums is plenty
         top = lastfm({"method": "user.gettopalbums", "user": user, "period": "overall",
                       "limit": 1000, "page": page})["topalbums"]
         pages = int(top.get("@attr", {}).get("totalPages", 1))
         for al in top.get("album", []):
+            fetched += 1
             name, artist = al["name"], al["artist"]["name"]
             n = int(al.get("playcount") or 0)
             a = norm_artist(artist)
@@ -144,7 +145,7 @@ def fetch_plays(albums):
             for k in hits:
                 plays[k] = plays.get(k, 0) + n
         page += 1
-    return plays, unmatched
+    return plays, unmatched, fetched
 
 
 def current_set(out_root):
@@ -257,12 +258,22 @@ def main():
         log("No albums found in the library (drive not mounted?). Leaving the phone folder alone.")
         return 1
     try:
-        plays, unmatched = fetch_plays(albums)
+        plays, unmatched, fetched = fetch_plays(albums)
     except Exception as e:                            # never prune on a failed lookup
         log(f"Could not read play counts from Last.fm ({e!r}). Leaving the phone folder alone.")
         return 1
     if not plays:
-        log("Last.fm returned no albums that match the library. Leaving the phone folder alone.")
+        if fetched == 0:
+            log("Last.fm sent no albums at all: your listening activity is private, or your "
+                "scrobbles carry no album name. Leaving the phone folder alone.")
+        else:
+            log(f"Last.fm sent {fetched} albums but none match a folder in the library. "
+                "Most played ones, and some library folders to compare against:")
+            for artist, name, n in unmatched[:8]:
+                log(f"    last.fm: {n:>5} plays  {artist} / {name}")
+            for artist, album in sorted(albums)[:8]:
+                log(f"    library: {artist} / {album}")
+            log("Leaving the phone folder alone.")
         return 1
 
     current = current_set(out_root)
