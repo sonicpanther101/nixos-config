@@ -37,6 +37,10 @@
 #   b. Preview, then run it for real (it also runs on its own every hour):
 #        sudo phone-music-sync --dry-run
 #        sudo systemctl start phone-music-sync ; journalctl -u phone-music-sync -n 40
+#      Runs that fail with "Permission denied" mean something in PhoneMusic isn't yours
+#      (a folder made by a run with sudo, say). Before every run the service now resets
+#      the owner of the folders there (never the files, they are links to the library),
+#      and a folder it still can't write is reported without stopping the rest.
 #   c. Phone (Syncthing): remove the old full "Music" folder (it is no longer shared
 #      with the phone), accept the "Phone Music" share and set its type to Receive Only.
 #   Size and mix are budgetGb and topShare in the phoneMusicSync call below (100 GB, 60% most
@@ -57,6 +61,14 @@ let
     stateDir = lidarrHookState;
     lidarrDataDir = config.services.lidarr.dataDir;
   };
+
+  # Directories only, never files: the files in PhoneMusic are hard links to the library,
+  # so a recursive chown would change the library's files too.
+  fixPhoneMusicDirs = pkgs-stable.writeShellScript "fix-phone-music-dirs" ''
+    ${pkgs-stable.findutils}/bin/find ${dataDir}/PhoneMusic -type d \
+      -exec ${pkgs-stable.coreutils}/bin/chown ${username}:users {} + \
+      -exec ${pkgs-stable.coreutils}/bin/chmod u+rwx,g+rwxs {} +
+  '';
 
   phoneMusicSync = pkgs-stable.callPackage ../../../packages/phone-music-sync.nix {
     musicDir = "${dataDir}/Music";
@@ -122,6 +134,9 @@ in {
           Nice = 10;
           IOSchedulingClass = "idle";
           LoadCredential = "lastfm.env:${secretsDir}/lastfm.env";   # root reads it, the service gets a copy
+          # "+" = runs as root even though the service runs as you: repairs folders
+          # something else (a run with sudo, say) left unwritable for you
+          ExecStartPre = "+${fixPhoneMusicDirs}";
           ExecStart = "${phoneMusicSync}/bin/phone-music-sync";
         };
       };

@@ -192,7 +192,7 @@ def mirror(albums, artist_files, chosen, src_root, out_root, dry):
     for artist in {k[0] for k in chosen}:
         wanted.update(rel for rel, _ in artist_files.get(artist, []))
 
-    linked = copied = removed = 0
+    linked = copied = removed = failed = 0
     for rel in sorted(wanted):
         src, dst = os.path.join(src_root, rel), os.path.join(out_root, rel)
         try:
@@ -210,15 +210,22 @@ def mirror(albums, artist_files, chosen, src_root, out_root, dry):
         if dry:
             linked += 1
             continue
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        if ds:
-            os.remove(dst)
         try:
-            os.link(src, dst)
-            linked += 1
-        except OSError:
-            shutil.copy2(src, dst)
-            copied += 1
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            if ds:
+                os.remove(dst)
+            try:
+                os.link(src, dst)
+                linked += 1
+            except OSError:
+                shutil.copy2(src, dst)
+                copied += 1
+        except OSError as e:
+            # one bad folder (wrong owner, say) must not stop the rest of the sync
+            failed += 1
+            if failed <= 5:
+                log(f"  could not write {rel}: {e}")
+            continue
 
     if os.path.isdir(out_root):
         for dirpath, _dirs, files in os.walk(out_root, topdown=False):
@@ -238,7 +245,7 @@ def mirror(albums, artist_files, chosen, src_root, out_root, dry):
                     os.rmdir(dirpath)                 # only succeeds when empty
                 except OSError:
                     pass
-    return linked, copied, removed
+    return linked, copied, removed, failed
 
 
 def main():
@@ -297,9 +304,13 @@ def main():
         if len(keys) > 40:
             log(f"  {sign} ... and {len(keys) - 40} more")
 
-    linked, copied, removed = mirror(albums, artist_files, chosen, music, out_root, args.dry_run)
+    linked, copied, removed, failed = mirror(albums, artist_files, chosen, music, out_root, args.dry_run)
     verb = "would be" if args.dry_run else "were"
     log(f"Files {verb}: {linked} linked, {copied} copied, {removed} removed.")
+    if failed:
+        log(f"{failed} file(s) could not be written (first ones listed above); "
+            f"check the owner of those folders in {out_root}.")
+        return 1
     return 0
 
 
