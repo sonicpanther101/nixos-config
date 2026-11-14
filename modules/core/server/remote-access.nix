@@ -64,9 +64,24 @@ in {
 
     # ─── Headless remote desktop ─────────────────────────────────────────────
     # With no monitor attached the GPU reports "nothing connected" and there is
-    # nothing to capture, so force the connector on at 1080p. A real monitor
-    # plugged in later still works (it just runs at 1080p60). A cheap HDMI
-    # "dummy plug" does the same job in hardware if this is not enough.
-    boot.kernelParams = [ "video=${headlessConnector}:1920x1080@60e" ];
+    # nothing to capture. Forcing the connector on (`e`) isn't enough on its own: with
+    # no EDID the driver only offers generic fallback modes, and Hyprland's "preferred"
+    # mode then picked something low and blurry. So the connector is also given a
+    # made-up monitor identity (an EDID generated from the standard 1080p60 timing,
+    # loaded by the kernel at boot): it reports exactly one mode, 1920x1080 at 60 Hz.
+    # Hyprland uses it through the monitor rule in modules/home/hyprland/settings.nix
+    # (it names the same connector, keep the two in step). A real monitor plugged into
+    # this connector later is limited to 1080p60 too; on another connector it works
+    # normally. A cheap HDMI "dummy plug" does the same job in hardware.
+    # Check after a reboot:
+    #   hyprctl monitors | head -5                  (1920x1080@60.000, scale 1)
+    #   cat /sys/class/drm/card*-${headlessConnector}/modes     (only 1920x1080)
+    hardware.display = {
+      edid.modelines."Dummy1080p60" = "148.50   1920 2008 2052 2200   1080 1084 1089 1125   +hsync +vsync";
+      outputs.${headlessConnector} = {
+        edid = "Dummy1080p60.bin";
+        mode = "1920x1080@60e";
+      };
+    };
   };
 }

@@ -22,6 +22,12 @@ Exit status 0 = nothing flagged, 1 = something looks fake.
 Environment (all optional)
     FLAC_CHECK_MAX_CUTOFF_KHZ   a cliff below this is suspicious     (default 19.5)
     FLAC_CHECK_MIN_DROP_DB      how deep the cliff must be           (default 30)
+    FLAC_CHECK_STRONG_CUTOFF_KHZ  below this a "fake" is rated strong,
+                                at or above it weak (borderline)     (default 19.0)
+
+A "weak" verdict (cliff between 19.0 and 19.5 kHz and under 50 dB deep) is the grey zone: a 224-256 kbps
+transcode looks like that, but so does a real master that was low-passed on purpose.
+Callers use the rating to be gentler with those.
 """
 
 import os
@@ -33,6 +39,8 @@ import numpy as np
 
 MAX_CUTOFF_HZ = float(os.environ.get("FLAC_CHECK_MAX_CUTOFF_KHZ", "19.5")) * 1000
 MIN_DROP_DB = float(os.environ.get("FLAC_CHECK_MIN_DROP_DB", "30"))
+STRONG_CUTOFF_HZ = float(os.environ.get("FLAC_CHECK_STRONG_CUTOFF_KHZ", "19.0")) * 1000
+STRONG_DROP_DB = 50   # a cliff this deep is rated strong whatever the frequency
 SLICE_SECONDS = 60
 FFT = 4096
 
@@ -82,7 +90,8 @@ def find_cliff(db, rate):
 
 
 def check(path):
-    """dict(verdict, cutoff_hz, drop_db, reason). verdict: fake | ok | unknown."""
+    """dict(verdict, cutoff_hz, drop_db, reason, strength). verdict: fake | ok | unknown;
+    strength (only for "fake"): strong | weak."""
     try:
         samples, rate = _decode(path)
     except Exception as e:
@@ -94,8 +103,10 @@ def check(path):
         return {"verdict": "unknown", "cutoff_hz": None, "drop_db": 0, "reason": "too short or silent"}
     cutoff, drop = find_cliff(db, rate)
     if cutoff and drop >= MIN_DROP_DB and cutoff < MAX_CUTOFF_HZ:
-        return {"verdict": "fake", "cutoff_hz": cutoff, "drop_db": drop,
-                "reason": f"hard cutoff at {cutoff / 1000:.1f} kHz ({drop:.0f} dB drop), typical of lossy audio"}
+        strength = "strong" if cutoff < STRONG_CUTOFF_HZ or drop >= STRONG_DROP_DB else "weak"
+        return {"verdict": "fake", "cutoff_hz": cutoff, "drop_db": drop, "strength": strength,
+                "reason": f"hard cutoff at {cutoff / 1000:.1f} kHz ({drop:.0f} dB drop), typical of lossy audio"
+                          + (" (borderline)" if strength == "weak" else "")}
     where = f"{cutoff / 1000:.1f} kHz, {drop:.0f} dB" if cutoff else "none"
     return {"verdict": "ok", "cutoff_hz": cutoff, "drop_db": drop, "reason": f"no lossy cliff (steepest drop: {where})"}
 

@@ -58,10 +58,10 @@
         # Terminal detection - use Ctrl+Shift+V, else Ctrl+V
         case "$focused" in
           kitty|Kitty|ghostty|Ghostty|alacritty|Alacritty|foot|Foot|wezterm|WezTerm|xterm|XTerm)
-            ${pkgs-stable.wtype}/bin/wtype -M ctrl -M shift v -m shift -m ctrl
+            ${pkgs-stable.wtype}/bin/wtype -M ctrl -M shift v
             ;;
           *)
-            ${pkgs-stable.wtype}/bin/wtype -M ctrl v -m ctrl
+            ${pkgs-stable.wtype}/bin/wtype -M ctrl v
             ;;
         esac
       '';

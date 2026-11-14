@@ -141,6 +141,15 @@ let
         position = "1921x0";
         scale = 1;
       }
+    ] else if host == "server" then [
+      # The headless output (EDID in modules/core/server/remote-access.nix). Explicit,
+      # because "preferred" on a connector with no real monitor was a low resolution.
+      {
+        output = hdmi1Desc;
+        mode = "1920x1080@60";
+        position = "0x0";
+        scale = 1;
+      }
     ] else if isLaptop then [
       {
         output = "";

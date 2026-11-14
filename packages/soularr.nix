@@ -13,6 +13,7 @@ let
     pname = "slskd-api";
     version = "0.1.5";
     pyproject = true;
+    # its setup.py asks for setuptools-git-versioning (it takes the version from PKG-INFO)
     build-system = [ python3.pkgs.setuptools python3.pkgs.setuptools-git-versioning ];
     dependencies = [ python3.pkgs.requests ];
     src = fetchPypi {

@@ -18,8 +18,10 @@ ArtistAdd      Lidarr has just picked a folder name for the artist from
 
 AlbumDownload  Queue a job and return straight away, so Lidarr's import queue
                is never held up by network lookups. A detached worker then:
-                 0. fake-lossless check (flac_check.py): if the "FLAC"s are really
+                 0. fake-lossless check (flac_check.py): if the "FLAC"s are clearly
                     transcoded lossy audio, delete them through Lidarr and search again
+                    (borderline cases are only logged). Soulseek downloads already
+                    went through the same check before import (soularr_gate.py)
                  1. safety net: if a capitalisation-variant folder exists after
                     all (artist or album level) merge into the established one
                     and tell Lidarr to rescan
@@ -374,6 +376,7 @@ def do_replaygain(album_files):
         audio.save()
     log(f"  replaygain: {len(album_files)} track(s), album {album_gain:+.2f} dB")
 
+
 def reject_fake(job, tracks, api):
     """Step 0. True when the album was judged fake and removed, so nothing else
     should run on those files. Never raises: a broken check must not block imports."""
@@ -397,6 +400,8 @@ def reject_fake(job, tracks, api):
     reason = None
     if action != "delete":
         reason = "action is 'report'"
+    elif not any(r.get("strength") == "strong" for _, r in results if r["verdict"] == "fake"):
+        reason = "only a borderline cutoff, which genuinely band-limited masters also have"
     elif not (api and album_id):
         reason = "no Lidarr API/album id, can't delete through Lidarr"
     elif counts.get(album_id, 0) >= FAKE_MAX_DELETES:
@@ -419,6 +424,7 @@ def reject_fake(job, tracks, api):
     api.command("AlbumSearch", albumIds=[int(album_id)])
     log(f"  deleted {gone} fake file(s) via Lidarr and asked it to search again ({label})")
     return True
+
 
 def first_tag(path, tag):
     from mutagen.flac import FLAC

@@ -1,27 +1,42 @@
 # ─── Soularr: Lidarr <-> Soulseek ────────────────────────────────────────
 # Prowlarr can't search Soulseek (it only speaks torrent / Usenet indexers). Soularr is
 # the bridge: every 10 minutes it reads Lidarr's wanted list, searches slskd, downloads
-# the best match and tells Lidarr to import it. Before that import, each finished
-# download goes through the fake-FLAC check (packages/music-pipeline/flac_check.py):
-# transcoded MP3/AAC is deleted, the uploader is skipped from then on and the album
-# stays wanted, so the next run picks someone else.
+# the best match and tells Lidarr to import it. Quality, all automatic:
+#   * FLAC is tried first (every release of the album), MP3 only if no FLAC turns up.
+#   * Every finished FLAC goes through the fake-FLAC check (packages/music-pipeline/
+#     flac_check.py) before Lidarr sees it. Transcoded MP3/AAC is deleted and the album
+#     stays wanted. The uploader is skipped for 3 days (14, then 60 if it keeps
+#     happening); a borderline cutoff only costs them a day, and if a second uploader
+#     shows the same cutoff the album is taken as genuinely band-limited and imported.
+#     Two uploaders with clearly fake FLACs: FLAC is dropped for that album for a week
+#     and the MP3 fallback is used.
+#   * Albums that already have files (an MP3 from the fallback) are searched for FLAC
+#     only, so a real FLAC replaces the MP3 as soon as one shows up. A failed import is
+#     retried after a week instead of never.
 #
 # STEP 16 — Soularr (after the rebuild):
 #   a. Lidarr web UI (http://<lanIp>:8686/):
-#      Settings > Profiles > Quality Profiles: make (or edit) a profile that only allows
-#      FLAC, and use it for the artists you want from Soulseek. That is what makes
-#      Lidarr itself refuse anything lossy.
+#      Settings > Profiles > Quality Profiles: in the profile your artists use, allow
+#      FLAC, MP3-320 and MP3-VBR-V0 (tick more below that only if you accept them),
+#      set the cutoff to FLAC and tick "Upgrades Allowed". Allowed = Lidarr takes the
+#      MP3 fallback; cutoff FLAC = an MP3 album counts as "wanted" and gets upgraded.
+#      A quality that is not ticked is refused at import (and retried after a week).
 #      Also check Settings > Media Management > Root Folders: it should be
 #      "/srv/data/Music/My Playlist" (that is where imported albums end up).
 #   b. Nothing to configure for Soularr or slskd: the Lidarr key is read from Lidarr's
 #      config.xml at start, and slskd's key lives in vars.nix.
-#   c. Try it without waiting: sudo systemctl start soularr ; journalctl -u soularr -f
-#      Its own log: /var/lib/soularr/soularr.log
+#   c. Run it now instead of waiting for the timer (a run takes a while, since it searches,
+#      downloads and waits for the transfers; `start` without --no-block would sit there
+#      until it finishes):
+#        sudo systemctl start --no-block soularr ; journalctl -u soularr -f
+#      Its own log: /var/lib/soularr/soularr.log. Downloads show up in slskd's web UI.
 #   Files that Lidarr refused go to ${dataDir}/slskd/downloads/failed_imports/.
-#   Uploaders caught with fake FLACs: /var/lib/soularr/fake_users.json (delete an entry
-#   if you think it was a false alarm). Check files by hand:
+#   Uploaders caught with fake FLACs: /var/lib/soularr/fake_users.json (set or delete
+#   the "until" date to let one off early). Check files by hand:
 #      lidarr-hook --check-fake "/srv/data/Music/My Playlist/SomeArtist"
-#   Quality list: allowed_filetypes below, best first. There is no mp3 in it on purpose.
+#   Quality list: allowed_filetypes below, best first. MP3 files from the fallback get
+#   no lyrics/ReplayGain/images from the Lidarr hook (it is FLAC-only); they do when
+#   the album is upgraded to FLAC.
 { lib, config, pkgs-stable, ... }:
 let
   inherit (import ./vars.nix) dataDir slskdApiKey;
@@ -61,14 +76,20 @@ let
     minimum_peer_upload_speed = 0
     minimum_filename_match_ratio = 0.8
     minimum_search_interval = 5
-    # Lossless only, best first. "flac" alone accepts any bit depth / sample rate.
-    allowed_filetypes = flac 16/44.1,flac
+    # Best first: FLAC (CD quality, then any), then MP3 only if no FLAC exists.
+    # "flac" alone accepts any bit depth / sample rate; "mp3 320" needs exactly 320 kbps,
+    # plain "mp3" takes anything (VBR files report odd bitrates), Lidarr's quality
+    # profile decides what it will actually import.
+    allowed_filetypes = flac 16/44.1,flac,mp3 320,mp3
     ignored_users =
     album_prepend_artist = False
     search_type = incrementing_page
     number_of_albums_to_grab = 10
     # "all" = missing albums, plus ones Lidarr wants to upgrade to your quality cutoff
     search_source = all
+    # don't search an album again for 3 days after nothing was found (for MP3 albums
+    # this is how often the upgrade search for a real FLAC repeats)
+    search_retry_wait_hours = 72
     failed_import_denylist = True
     ignore_failed_users = True
     failed_user_ignore_hours = 168

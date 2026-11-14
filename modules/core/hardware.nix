@@ -1,4 +1,4 @@
-{ host, pkgs-unstable, config, lib, ... } : {
+{ host, pkgs-stable, pkgs-unstable, config, lib, ... } : {
 
   hardware = lib.mkMerge [{
     # Common settings
@@ -13,7 +13,11 @@
           libva-vdpau-driver
           libvdpau-va-gl
         ]
-      ) ++ (with pkgs-unstable; lib.optionals (host == "laptop-1") [
+      ) ++ (with pkgs-stable; lib.optionals config.my.isServer [
+        # Intel's VA-API driver: without it Sunshine can't use the iGPU's video encoder
+        # and falls back to encoding on the CPU (choppy, blocky stream)
+        intel-media-driver
+      ]) ++ (with pkgs-unstable; lib.optionals (host == "laptop-1") [
         # intel-media-driver (iHD) and intel-vaapi-driver (i965) are already added
         # by nixos-hardware's microsoft-surface-pro-intel module (from stable).
         # Adding them again from unstable makes buildEnv fail on a version clash.
