@@ -498,7 +498,7 @@ def process_job(job, reconcile=True, api=None, not_found_cache=None, steps=None)
                 artist = api.get(f"/artist/{job['artist_id']}")
                 if Path(artist["path"]) != artist_dir:
                     api.set_artist_path(artist, artist_dir)
-                api.command("RescanArtist", artistId=int(job["artist_id"]))
+                api.command("RefreshArtist", artistId=int(job["artist_id"]))
                 log("  told Lidarr the artist's folder and asked it to rescan")
             except Exception as e:
                 log(f"  couldn't update Lidarr: {e}")
@@ -632,13 +632,13 @@ def fix_case(root, apply):
             if new:
                 try:
                     api.set_artist_path(a, new)
-                    api.command("RescanArtist", artistId=a["id"])
+                    api.command("RefreshArtist", artistId=a["id"])
                     print(f"Lidarr: '{a['artistName']}' now points at {new.name}")
                 except Exception as e:
                     print(f"Lidarr: couldn't update '{a.get('artistName')}': {e}")
             elif Path(a.get("path", "")) in rescan_dirs:
                 try:
-                    api.command("RescanArtist", artistId=a["id"])
+                    api.command("RefreshArtist", artistId=a["id"])
                     print(f"Lidarr: asked it to rescan '{a['artistName']}'")
                 except Exception as e:
                     print(f"Lidarr: couldn't rescan '{a.get('artistName')}': {e}")
