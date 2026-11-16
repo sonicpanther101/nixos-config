@@ -25,6 +25,17 @@ This wraps three of its steps (no patching of Soularr's source), everything else
 
 3. A failed Lidarr import no longer blocks an album for good: it is retried after a week.
 
+4. Which wanted albums a run searches, and in what order. Stock Soularr either walks the
+   wanted list a page at a time (so an album marked today can wait for the whole rotation)
+   or, with every album in one run, a run that is cut short records nothing and starts
+   from the top again. Here each run takes at most RUN_ALBUMS albums:
+     * albums with nothing in the library first, then albums waiting for a FLAC upgrade
+     * inside each group never-searched albums first (so an album you just marked is
+       searched on the next 10-minute run), then the ones searched longest ago
+     * an album that already has files (an MP3) is not searched again for
+       UPGRADE_RETRY_HOURS after a miss; an album with nothing is retried after
+       search_retry_wait_hours from config.ini
+
 State (next to Soularr's own files, in the --var-dir):
     fake_users.json   who was caught, how often, and until when they are skipped
     fake_albums.json  recent rejected downloads per album (forgotten after a week)
@@ -49,11 +60,14 @@ SAME_CUTOFF_KHZ = 0.5           # two borderline cutoffs this close = the same s
 HISTORY_DAYS = 7                # how long an album remembers rejected downloads
 FLAC_GIVE_UP = 2                # this many uploaders with clearly fake FLACs -> MP3 fallback
 DENYLIST_DAYS = 7               # a failed Lidarr import is retried after this long
+RUN_ALBUMS = 40                 # albums searched per run (a run is every 10 minutes)
+UPGRADE_RETRY_HOURS = 72        # albums that already have files: wait this long after a miss
 
 _find_download = soularr.find_download
 _process_completed_album = soularr.process_completed_album
 _is_skipped_user = soularr.is_skipped_user
 _load_failed_import_denylist = soularr.load_failed_import_denylist
+_filter_list = soularr.filter_list
 _configured_filetypes = None
 
 
@@ -182,6 +196,35 @@ def load_failed_import_denylist(file_path):
             if (_parse(v.get("failed_at")) or _now()) > cutoff}
 
 
+# ---- 4. which albums a run searches ------------------------------------------------
+
+def filter_list(albums):
+    kept = _filter_list(albums)   # Soularr's own filtering: denylist, blacklist, retry wait
+    if not kept:
+        return kept
+    attempts = soularr.load_search_attempts(soularr.search_attempts_file_path)
+    never = datetime.min
+
+    def last_miss(album):
+        return _parse(attempts.get(str(album["id"]), {}).get("last_failed")) or never
+
+    seen, todo, held = set(), [], 0
+    for album in kept:
+        if album["id"] in seen:   # on both the missing and the cutoff-unmet list
+            continue
+        seen.add(album["id"])
+        upgrade = _has_files(album)
+        if upgrade and last_miss(album) > _now() - timedelta(hours=UPGRADE_RETRY_HOURS):
+            held += 1
+            continue
+        todo.append((upgrade, last_miss(album), album))
+    todo.sort(key=lambda t: t[:2])   # stable: ties stay in Lidarr's (title) order
+    chosen = [album for _, _, album in todo[:RUN_ALBUMS]]
+    soularr.logger.info(f"Searching {len(chosen)} of {len(todo)} wanted album(s) this run"
+                        + (f"; {held} upgrade search(es) waiting {UPGRADE_RETRY_HOURS}h after a miss" if held else ""))
+    return chosen or None
+
+
 # ---- the check itself --------------------------------------------------------------
 
 def process_completed_album(album_data, failed_grab):
@@ -238,6 +281,7 @@ def main():
     soularr.process_completed_album = process_completed_album
     soularr.is_skipped_user = is_skipped_user
     soularr.load_failed_import_denylist = load_failed_import_denylist
+    soularr.filter_list = filter_list
     soularr.main()
 
 

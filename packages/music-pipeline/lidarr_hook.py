@@ -12,8 +12,10 @@ What it does per event
 ----------------------
 ArtistAdd      Lidarr has just picked a folder name for the artist from
                MusicBrainz ("twenty one pilots"). If a folder that differs only
-               in capitalisation already exists ("Twenty One Pilots"), point the
-               artist at that one instead, before Lidarr creates anything.
+               in capitalisation ("Twenty One Pilots") or uses a Unicode dash
+               instead of "-" already exists, point the artist at that one instead,
+               before Lidarr creates anything. A name with a Unicode dash is
+               pointed at the keyboard "-" spelling.
                This is synchronous and takes milliseconds.
 
 AlbumDownload  Queue a job and return straight away, so Lidarr's import queue
@@ -22,9 +24,12 @@ AlbumDownload  Queue a job and return straight away, so Lidarr's import queue
                     transcoded lossy audio, delete them through Lidarr and search again
                     (borderline cases are only logged). Soulseek downloads already
                     went through the same check before import (soularr_gate.py)
-                 1. safety net: if a capitalisation-variant folder exists after
-                    all (artist or album level) merge into the established one
-                    and tell Lidarr to rescan
+                 1. safety net: if a look-alike folder exists after all (artist or
+                    album level; same name apart from capitalisation or a Unicode
+                    dash instead of "-") merge into the established one, and a lone
+                    folder with a Unicode dash is renamed to the keyboard "-". Then
+                    tell Lidarr to rescan. This step runs for MP3 imports too; the
+                    steps below it are FLAC-only
                  2. adopt the library's spelling of ARTIST/ALBUMARTIST tags, so
                     Lidarr's "twenty one pilots" tag doesn't split the artist
                  3. lyrics: LRCLIB then NetEase (lyrics_fetcher.py)
@@ -33,7 +38,8 @@ AlbumDownload  Queue a job and return straight away, so Lidarr's import queue
 
 Run by hand
 -----------
-    lidarr_hook.py --fix-case ROOT [--apply]   find/merge existing case-split folders
+    lidarr_hook.py --fix-case ROOT [--apply]   find/merge existing case-split and
+                                               dash-split folders, rename Unicode-dash ones
     lidarr_hook.py --sweep ROOT [--dry-run]    fill lyrics/ReplayGain/images gaps in
                                                a library that already exists
     lidarr_hook.py --check-fake PATH...        report suspicious FLACs; never deletes
@@ -91,8 +97,19 @@ def env(name, default=""):
     return os.environ.get(name) or os.environ.get(name.upper()) or default
 
 
+# Every dash-like character MusicBrainz and uploaders use in place of the keyboard "-":
+# hyphen, non-breaking hyphen, figure/en/em dash, horizontal bar, minus sign and the
+# small / fullwidth forms. Written as escapes so this file stays plain ASCII.
+ODD_DASHES = re.compile("[\u2010\u2011\u2012\u2013\u2014\u2015\u2212\ufe58\ufe63\uff0d]")
+
+
+def ascii_dashes(s):
+    return ODD_DASHES.sub("-", s)
+
+
 def fold(s):
-    return unicodedata.normalize("NFC", s).casefold()
+    """Key for 'same name': ignores case and which kind of dash is used."""
+    return ascii_dashes(unicodedata.normalize("NFC", s)).casefold()
 
 
 # ==========================================================================
@@ -170,29 +187,30 @@ def variants(path):
 
 
 def pick_canonical(dirs):
-    """The established folder wins: most music in it, then a name that isn't
-    all-lowercase/all-caps (those are what metadata providers hand back), then
-    alphabetical so the choice is stable."""
+    """A name with only the keyboard "-" wins, then the established folder: most
+    music in it, then a name that isn't all-lowercase/all-caps (those are what
+    metadata providers hand back), then alphabetical so the choice is stable."""
     def key(d):
         n = d.name
-        return (-music_count(d), n == n.lower() or n == n.upper(), n)
+        return (n != ascii_dashes(n), -music_count(d), n == n.lower() or n == n.upper(), n)
     return sorted(dirs, key=key)[0]
 
 
 def canonical(path):
+    """The folder `path` should be: an existing look-alike (other case, other kind
+    of dash) if there is one, always spelled with the keyboard "-". The result may
+    not exist yet (a lone Unicode-dash folder is renamed by merge_dir)."""
     path = Path(path)
     vs = variants(path)
-    if not vs:
-        return path
-    if len(vs) == 1:
-        return vs[0]
-    return pick_canonical(vs)
+    best = pick_canonical(vs) if vs else path
+    return best.with_name(ascii_dashes(best.name))
 
 
 def merge_dir(src, dst):
     """Move everything in src into dst, matching sub-folders ignoring case.
     Never overwrites: a name clash leaves the file where it is."""
     src, dst = Path(src), Path(dst)
+    dst.mkdir(parents=True, exist_ok=True)
     existing = {fold(e.name): e for e in dst.iterdir()}
     for child in sorted(src.iterdir()):
         target = existing.get(fold(child.name))
@@ -438,10 +456,12 @@ def process_job(job, reconcile=True, api=None, not_found_cache=None, steps=None)
     """Everything for one album. `job` is what enqueue() stored (or what
     --sweep builds)."""
     api = api if api is not None else lidarr_or_none()
-    tracks = [Path(t) for t in job["tracks"] if t.lower().endswith(".flac") and Path(t).exists()]
+    # every audio file goes through the folder step (MP3 fallbacks too); lyrics,
+    # ReplayGain and images further down are FLAC-only
+    tracks = [Path(t) for t in job["tracks"] if Path(t).suffix.lower() in AUDIO_EXT and Path(t).exists()]
     label = f"{job.get('artist_name') or '?'} - {job.get('album_title') or '?'}"
     if not tracks:
-        log(f"{label}: no FLAC files to work on (non-FLAC imports aren't handled)")
+        log(f"{label}: no audio files to work on")
         return
     log(f"{label}: {len(tracks)} track(s)")
 
@@ -482,6 +502,13 @@ def process_job(job, reconcile=True, api=None, not_found_cache=None, steps=None)
                 log("  told Lidarr the artist's folder and asked it to rescan")
             except Exception as e:
                 log(f"  couldn't update Lidarr: {e}")
+
+    flacs = [t for t in tracks if t.suffix.lower() == ".flac"]
+    if not flacs:
+        log("  no FLAC files (MP3 fallback): folders tidied, the FLAC-only steps are skipped")
+        return
+    tracks = flacs
+    album_dir = album_root(tracks[0])
 
     skip = SKIP | (steps or set())
 
@@ -545,48 +572,61 @@ def process_job(job, reconcile=True, api=None, not_found_cache=None, steps=None)
 # ==========================================================================
 
 def fix_case(root, apply):
+    """Merge folders that differ only in case or kind of dash, and rename folders
+    that use a Unicode dash to the keyboard "-". Lidarr is told afterwards."""
     root = Path(root)
     api = lidarr_or_none() if apply else None
     artists = api.get("/artist") if api else []
-    merged_artist_paths = {}
+    merged_artist_paths = {}   # old artist folder -> folder it became
+    rescan_dirs = set()        # artist folders whose album folders changed
 
     def groups_in(parent):
         g = defaultdict(list)
         for d in sorted(parent.iterdir()):
             if d.is_dir():
                 g[fold(d.name)].append(d)
-        return [v for v in g.values() if len(v) > 1]
+        return list(g.values())
+
+    def tidy(group, label, parent_note=""):
+        """Returns how many folders of the group move. The target is the one
+        pick_canonical() prefers, spelled with the keyboard "-"."""
+        keep = pick_canonical(group)
+        target = keep.with_name(ascii_dashes(keep.name))
+        moved = 0
+        for other in group:
+            if other == target:
+                continue
+            moved += 1
+            if other == keep and len(group) == 1:
+                print(f"{label}{parent_note} rename '{other.name}'  ->  '{target.name}'")
+            else:
+                print(f"{label}{parent_note} keep '{target.name}' ({music_count(keep)} files)  <-  '{other.name}' ({music_count(other)} files)")
+            if apply:
+                merge_dir(other, target)
+                if label == "ARTIST":
+                    merged_artist_paths[str(other)] = target
+        return moved
 
     found = 0
     for group in groups_in(root):
-        canon = pick_canonical(group)
-        for other in group:
-            if other == canon:
-                continue
-            found += 1
-            print(f"ARTIST  keep '{canon.name}' ({music_count(canon)} files)  <-  '{other.name}' ({music_count(other)} files)")
-            if apply:
-                merge_dir(other, canon)
-                merged_artist_paths[str(other)] = canon
+        found += tidy(group, "ARTIST")
 
     for artist_dir in sorted(d for d in root.iterdir() if d.is_dir()):
+        if not artist_dir.exists():   # merged away above (apply mode)
+            continue
         for group in groups_in(artist_dir):
-            canon = pick_canonical(group)
-            for other in group:
-                if other == canon:
-                    continue
-                found += 1
-                print(f"ALBUM   {artist_dir.name}/ keep '{canon.name}'  <-  '{other.name}'")
-                if apply:
-                    merge_dir(other, canon)
+            n = tidy(group, "ALBUM ", f"  {artist_dir.name}/")
+            if n and apply:
+                rescan_dirs.add(artist_dir)
+            found += n
 
     if not found:
-        print("No case-split folders found.")
+        print("No case-split or dash-split folders found.")
         return
     if not apply:
-        print(f"\n{found} split folder(s). Nothing changed - re-run with --apply to merge them.")
+        print(f"\n{found} folder(s) to merge or rename. Nothing changed - re-run with --apply.")
         return
-    if api and merged_artist_paths:
+    if api:
         for a in artists:
             new = merged_artist_paths.get(a.get("path"))
             if new:
@@ -596,7 +636,13 @@ def fix_case(root, apply):
                     print(f"Lidarr: '{a['artistName']}' now points at {new.name}")
                 except Exception as e:
                     print(f"Lidarr: couldn't update '{a.get('artistName')}': {e}")
-    print(f"\nMerged {found} folder(s).")
+            elif Path(a.get("path", "")) in rescan_dirs:
+                try:
+                    api.command("RescanArtist", artistId=a["id"])
+                    print(f"Lidarr: asked it to rescan '{a['artistName']}'")
+                except Exception as e:
+                    print(f"Lidarr: couldn't rescan '{a.get('artistName')}': {e}")
+    print(f"\nMerged or renamed {found} folder(s).")
 
 
 # ==========================================================================

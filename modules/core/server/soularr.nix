@@ -13,16 +13,31 @@
 #   * Albums that already have files (an MP3 from the fallback) are searched for FLAC
 #     only, so a real FLAC replaces the MP3 as soon as one shows up. A failed import is
 #     retried after a week instead of never.
+#   * Every run (10 minutes) searches up to 40 albums: ones you just marked wanted first,
+#     then ones nothing was found for (longest ago first), then MP3 albums waiting for a
+#     FLAC. A wanted album with nothing is searched again after 6 hours, an MP3 album
+#     after 3 days. So an album you mark is searched within about 10 minutes, and again
+#     several times a day until it turns up (soularr_gate.py, item 4).
 #
 # STEP 16 — Soularr (after the rebuild):
-#   a. Lidarr web UI (http://<lanIp>:8686/):
-#      Settings > Profiles > Quality Profiles: in the profile your artists use, allow
-#      FLAC, MP3-320 and MP3-VBR-V0 (tick more below that only if you accept them),
-#      set the cutoff to FLAC and tick "Upgrades Allowed". Allowed = Lidarr takes the
-#      MP3 fallback; cutoff FLAC = an MP3 album counts as "wanted" and gets upgraded.
-#      A quality that is not ticked is refused at import (and retried after a week).
-#      Also check Settings > Media Management > Root Folders: it should be
-#      "/srv/data/Music/My Playlist" (that is where imported albums end up).
+#   a. Lidarr web UI (http://<lanIp>:8686/). Turn on Show Advanced (top bar) first.
+#      Settings > Profiles > Quality Profiles, in the profile your artists use:
+#        - tick FLAC, MP3-320 and MP3-VBR-V0 (tick more below that only if you accept them)
+#        - drag FLAC to the top of the list, then set "Upgrade Until" to FLAC
+#        - tick "Upgrades Allowed"
+#      Allowed = Lidarr takes the MP3 fallback; Upgrade Until FLAC = an MP3 album stays on
+#      Wanted > Cutoff Unmet and gets replaced by a FLAC. A quality that is not ticked is
+#      refused at import (and retried after a week). Existing artists keep their old
+#      profile until you change it: Library > Artists > Select (tick all) > Edit > Quality
+#      Profile > Save.
+#      Settings > Profiles > Delay Profiles: the default profile should have 0 minutes for
+#      torrents (anything higher makes a torrent MP3 wait that long before it is grabbed).
+#      Settings > Media Management: leave "Unmonitor Deleted Tracks" off (otherwise
+#      the hook's folder renames in STEP 14 can unmonitor albums) and check Root Folders
+#      has "/srv/data/Music/My Playlist" (that is where imported albums end up).
+#      Settings > Indexers: every Prowlarr indexer should be listed (Prowlarr > Settings >
+#      Apps > Lidarr > Sync App Indexers); in each one's settings "Enable Automatic Search"
+#      must be on, or Lidarr never uses it for wanted albums (arr.nix, lidarr-search).
 #   b. Nothing to configure for Soularr or slskd: the Lidarr key is read from Lidarr's
 #      config.xml at start, and slskd's key lives in vars.nix.
 #   c. Run it now instead of waiting for the timer (a run takes a while, since it searches,
@@ -83,13 +98,17 @@ let
     allowed_filetypes = flac 16/44.1,flac,mp3 320,mp3
     ignored_users =
     album_prepend_artist = False
-    search_type = incrementing_page
-    number_of_albums_to_grab = 10
+    # "all" = read the whole wanted list every run; soularr_gate.py then picks the 40 albums
+    # to search (new ones first), which stock Soularr's page-by-page walk can't do
+    search_type = all
+    # only the page size for reading the wanted list from Lidarr
+    number_of_albums_to_grab = 100
     # "all" = missing albums, plus ones Lidarr wants to upgrade to your quality cutoff
     search_source = all
-    # don't search an album again for 3 days after nothing was found (for MP3 albums
-    # this is how often the upgrade search for a real FLAC repeats)
-    search_retry_wait_hours = 72
+    # don't search an album again for 6 hours after nothing was found. Albums that already
+    # have files (an MP3 waiting for a FLAC) wait 3 days instead (UPGRADE_RETRY_HOURS in
+    # soularr_gate.py)
+    search_retry_wait_hours = 6
     failed_import_denylist = True
     ignore_failed_users = True
     failed_user_ignore_hours = 168
