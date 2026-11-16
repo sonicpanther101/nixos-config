@@ -15,7 +15,7 @@ in {
     "my-sha256"
     "my-add-vscode-ext"
     "my-rwall"
-    "my-nixdump"
+    "my-dump"
     "my-screenrecording"
     "my-budgeting"
     "my-backup"

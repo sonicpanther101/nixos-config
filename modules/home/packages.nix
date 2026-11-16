@@ -135,6 +135,7 @@
     python314                                             # Latest release of python
     gcc                                                   # C / C++ compiler
     nixd                                                  # Feature-rich Nix language server interoperating with C++ nix
+    gnumake                                               # Tool to control the generation of non-source files from sources
     qmk                                                   # Program to help users work with QMK Firmware
     libreoffice                                           # Comprehensive, professional-quality productivity suite, a variant of openoffice.org
     anki-bin                                              # Flashcards app
