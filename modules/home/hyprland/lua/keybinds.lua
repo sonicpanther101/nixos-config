@@ -98,7 +98,7 @@ hl.define_submap("monitor", function()
   hl.bind("SUPER+D", function()
     hl.dispatch(hl.dsp.exec_cmd([[sh -c '
       mon=$(hyprctl monitors -j | jq -r ".[] | select(.focused) | .name")
-      hyprctl eval "hl.timer(function() hl.dispatch(hl.dsp.dpms({ action = \"toggle\", monitor = \"$mon\" })) end, { timeout = 300, type = "oneshot" })"
+      hyprctl eval "hl.timer(function() hl.dispatch(hl.dsp.dpms({ action = \"toggle\", monitor = \"$mon\" })) end, { timeout = 300, type = \"oneshot\" })"
     ']]))
     hl.dispatch(hl.dsp.submap("reset"))
   end)
