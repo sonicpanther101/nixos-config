@@ -38,6 +38,7 @@
     };
 
     # for cura: flatpak run com.ultimaker.cura
+    # for jdownloader: flatpak run org.jdownloader.JDownloader
     flatpak = {
       enable = true;
     };

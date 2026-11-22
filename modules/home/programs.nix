@@ -1,4 +1,4 @@
-{ lib, pkgs-unstable, pkgs-stable, username, inputs, hasNvidia, isServer, ... } : let
+{ lib, host, pkgs-stable, username, inputs, hasNvidia, isServer, ... } : let
 
   catppuccin-qt5ct = pkgs-stable.fetchFromGitHub {
     owner = "catppuccin";
@@ -34,6 +34,9 @@ in {
     btop = {
       enable = true;
       package = if hasNvidia then pkgs-stable.btop-cuda else pkgs-stable.btop;
+      settings = {
+        net_iface = if (host == "desktop") then "enp6s0" else "";
+      };
     };
 
     # Audio visualiser
