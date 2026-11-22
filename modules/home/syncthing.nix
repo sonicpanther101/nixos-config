@@ -55,6 +55,12 @@
           path = "${basePath}/Uni Notes/";
           devices = sharedDevices;
         };
+
+        "3D Printing" = {
+          id = "styyq-wvf7b";
+          path = "${basePath}/3D Printing/";
+          devices = sharedDevices;
+        };
       } // lib.optionalAttrs isServer {
         # Server only: the hard-linked, phone-sized copy of Music made by phone-music-sync
         # (see STEP 15 in modules/core/server/music-pipeline.nix). Send-only, so the phone can't change it.
