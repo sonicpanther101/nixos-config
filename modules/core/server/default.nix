@@ -1,7 +1,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # SERVER SERVICES — Nextcloud, Radicale, the *arr suite + qBittorrent, Forgejo (+ GitHub mirrors),
 # slskd (Soulseek), Kiwix and Jellyfin, disk health alerts (smartd -> phone push),
-# plus remote access (Cloudflare Tunnel, Tailscale, headless Sunshine)
+# plus remote access (Cloudflare Tunnel, Tailscale, headless Sunshine) and a bandwidth
+# limit that keeps qBittorrent and slskd from slowing down everyone else (bandwidth.nix)
 #
 # Only active when `my.isServer = true` (see hosts/server/default.nix), so it is
 # safe for every host to import it.
@@ -71,6 +72,7 @@ in {
     ./forgejo.nix
     ./disk-health.nix
     ./remote-access.nix
+    ./bandwidth.nix
   ];
 
   config = lib.mkIf config.my.isServer {

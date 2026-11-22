@@ -4,6 +4,10 @@
   # This machine's LAN address. Check it matches this machine (STEP 2 in default.nix)
   lanIp = "192.168.1.247";
 
+  # The network card this machine's internet comes in on (see `ip -br link`). The speed
+  # limits for qBittorrent and slskd in bandwidth.nix are applied to it.
+  wanInterface = "enp0s31f6";
+
   # Bulk storage. This is a bind mount of ~/driveBig (see default.nix), so the
   # services can reach it without needing access to your home directory.
   dataDir = "/srv/data";
