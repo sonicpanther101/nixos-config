@@ -11,6 +11,7 @@
     ./services.nix
     ./git.nix
     ./defaultapps.nix
+    ./nemo-7z-integration.nix
     ./variables.nix
     ./vivaldi
     ./vscodium
